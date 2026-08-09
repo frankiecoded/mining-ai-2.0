@@ -1,0 +1,93 @@
+{
+  "title": "Soil Sample Geochemistry Dataset",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Actual soil and stream sediment sample geochemistry results for gold and gemstone exploration.",
+  "sample_sets": [
+    {
+      "project_id": "EXP-2026-LV01",
+      "location": "Lake Victoria Gold Belt, Geita Region",
+      "method": "Ridge soil sampling",
+      "grid_spacing": "100m x 25m",
+      "samples": [
+        {"sample_id": "LV01-S001", "easting": 385400, "northing": 9452000, "elevation_m": 1250, "Au_ppb": 3.2, "As_ppm": 8.5, "Sb_ppm": 1.2, "Bi_ppm": 0.3, "Ag_ppm": 0.05, "Cu_ppm": 15, "Zn_ppm": 45, "Pb_ppm": 12, "classification": "background"},
+        {"sample_id": "LV01-S002", "easting": 385500, "northing": 9452000, "elevation_m": 1245, "Au_ppb": 5.8, "As_ppm": 12.0, "Sb_ppm": 1.8, "Bi_ppm": 0.5, "Ag_ppm": 0.08, "Cu_ppm": 18, "Zn_ppm": 52, "Pb_ppm": 15, "classification": "background"},
+        {"sample_id": "LV01-S003", "easting": 385600, "northing": 9452000, "elevation_m": 1240, "Au_ppb": 18.5, "As_ppm": 45.0, "Sb_ppm": 4.2, "Bi_ppm": 1.8, "Ag_ppm": 0.15, "Cu_ppm": 28, "Zn_ppm": 68, "Pb_ppm": 22, "classification": "weak_anomaly"},
+        {"sample_id": "LV01-S004", "easting": 385700, "northing": 9452000, "elevation_m": 1235, "Au_ppb": 52.0, "As_ppm": 125.0, "Sb_ppm": 12.5, "Bi_ppm": 4.2, "Ag_ppm": 0.35, "Cu_ppm": 45, "Zn_ppm": 85, "Pb_ppm": 35, "classification": "strong_anomaly"},
+        {"sample_id": "LV01-S005", "easting": 385800, "northing": 9452000, "elevation_m": 1230, "Au_ppb": 125.0, "As_ppm": 320.0, "Sb_ppm": 28.0, "Bi_ppm": 8.5, "Ag_ppm": 0.85, "Cu_ppm": 72, "Zn_ppm": 120, "Pb_ppm": 55, "classification": "bullseye"},
+        {"sample_id": "LV01-S006", "easting": 385900, "northing": 9452000, "elevation_m": 1228, "Au_ppb": 85.0, "As_ppm": 210.0, "Sb_ppm": 18.5, "Bi_ppm": 6.2, "Ag_ppm": 0.55, "Cu_ppm": 58, "Zn_ppm": 98, "Pb_ppm": 42, "classification": "strong_anomaly"},
+        {"sample_id": "LV01-S007", "easting": 386000, "northing": 9452000, "elevation_m": 1225, "Au_ppb": 35.0, "As_ppm": 88.0, "Sb_ppm": 8.2, "Bi_ppm": 2.8, "Ag_ppm": 0.22, "Cu_ppm": 35, "Zn_ppm": 72, "Pb_ppm": 28, "classification": "moderate_anomaly"},
+        {"sample_id": "LV01-S008", "easting": 386100, "northing": 9452000, "elevation_m": 1220, "Au_ppb": 12.0, "As_ppm": 28.0, "Sb_ppm": 2.8, "Bi_ppm": 0.8, "Ag_ppm": 0.10, "Cu_ppm": 22, "Zn_ppm": 55, "Pb_ppm": 18, "classification": "weak_anomaly"},
+        {"sample_id": "LV01-S009", "easting": 386200, "northing": 9452000, "elevation_m": 1218, "Au_ppb": 4.5, "As_ppm": 10.0, "Sb_ppm": 1.5, "Bi_ppm": 0.4, "Ag_ppm": 0.06, "Cu_ppm": 16, "Zn_ppm": 48, "Pb_ppm": 13, "classification": "background"},
+        {"sample_id": "LV01-S010", "easting": 386300, "northing": 9452000, "elevation_m": 1215, "Au_ppb": 2.8, "As_ppm": 7.2, "Sb_ppm": 1.0, "Bi_ppm": 0.2, "Ag_ppm": 0.04, "Cu_ppm": 14, "Zn_ppm": 42, "Pb_ppm": 11, "classification": "background"}
+      ],
+      "anomaly_interpretation": "Strong NW-trending gold anomaly centered on LV01-S005 (125 ppb Au). Arsenic and antimony highly correlated (r=0.98). Recommend diamond drilling at LV01-S005 and LV01-S006.",
+      "anomaly_correlations": {"Au_As": 0.98, "Au_Sb": 0.95, "Au_Bi": 0.92, "As_Sb": 0.99}
+    },
+    {
+      "project_id": "EXP-2026-TZ01",
+      "location": "Merelani Hills, Arusha Region",
+      "method": "Soil auger sampling",
+      "grid_spacing": "50m x 50m",
+      "samples": [
+        {"sample_id": "TZ01-S001", "easting": 395200, "northing": 9520000, "elevation_m": 1850, "Ba_ppm": 850, "Sr_ppm": 320, "Zr_ppm": 420, "Nb_ppm": 85, "V_ppm": 280, "Ti_percent": 4.2, "magnetic_susceptibility": "low", "classification": "background"},
+        {"sample_id": "TZ01-S002", "easting": 395250, "northing": 9520000, "elevation_m": 1848, "Ba_ppm": 1200, "Sr_ppm": 450, "Zr_ppm": 580, "Nb_ppm": 120, "V_ppm": 350, "Ti_percent": 5.1, "magnetic_susceptibility": "moderate", "classification": "weak_anomaly"},
+        {"sample_id": "TZ01-S003", "easting": 395300, "northing": 9520000, "elevation_m": 1845, "Ba_ppm": 2800, "Sr_ppm": 680, "Zr_ppm": 920, "Nb_ppm": 210, "V_ppm": 520, "Ti_percent": 6.8, "magnetic_susceptibility": "high", "classification": "moderate_anomaly"},
+        {"sample_id": "TZ01-S004", "easting": 395350, "northing": 9520000, "elevation_m": 1842, "Ba_ppm": 4500, "Sr_ppm": 950, "Zr_ppm": 1400, "Nb_ppm": 380, "V_ppm": 780, "Ti_percent": 8.2, "magnetic_susceptibility": "very_high", "classification": "strong_anomaly"},
+        {"sample_id": "TZ01-S005", "easting": 395400, "northing": 9520000, "elevation_m": 1840, "Ba_ppm": 6200, "Sr_ppm": 1200, "Zr_ppm": 1850, "Nb_ppm": 520, "V_ppm": 1050, "Ti_percent": 9.5, "magnetic_susceptibility": "very_high", "classification": "bullseye"},
+        {"sample_id": "TZ01-S006", "easting": 395450, "northing": 9520000, "elevation_m": 1838, "Ba_ppm": 3800, "Sr_ppm": 820, "Zr_ppm": 1200, "Nb_ppm": 310, "V_ppm": 680, "Ti_percent": 7.5, "magnetic_susceptibility": "high", "classification": "moderate_anomaly"},
+        {"sample_id": "TZ01-S007", "easting": 395500, "northing": 9520000, "elevation_m": 1835, "Ba_ppm": 1800, "Sr_ppm": 520, "Zr_ppm": 720, "Nb_ppm": 150, "V_ppm": 380, "Ti_percent": 5.5, "magnetic_susceptibility": "moderate", "classification": "weak_anomaly"},
+        {"sample_id": "TZ01-S008", "easting": 395550, "northing": 9520000, "elevation_m": 1832, "Ba_ppm": 920, "Sr_ppm": 350, "Zr_ppm": 480, "Nb_ppm": 95, "V_ppm": 290, "Ti_percent": 4.5, "magnetic_susceptibility": "low", "classification": "background"}
+      ],
+      "anomaly_interpretation": "Strong anomaly at TZ01-S005 (Ba 6200 ppm, Nb 520 ppm) indicates pegmatite intrusion. Recommend IP/resistivity survey and trenching to test for tanzanite-bearing pegmatites.",
+      "anomaly_correlations": {"Ba_Nb": 0.96, "Ba_Zr": 0.94, "Nb_V": 0.92, "Sr_Ba": 0.88}
+    },
+    {
+      "project_id": "EXP-2026-VOI01",
+      "location": "Voi Area, Taita-Taveta County",
+      "method": "Stream sediment sampling",
+      "catchment_area_km2": 3.5,
+      "samples": [
+        {"sample_id": "VOI01-SS001", "easting": 605200, "northing": 9520000, "catchment": "Voi River Tributary A", "Au_ppb": 2.5, "Cr_ppm": 1850, "V_ppm": 420, "Ti_ppm": 3200, "Zr_ppm": 680, "weight_kg": 3.2, "classification": "background"},
+        {"sample_id": "VOI01-SS002", "easting": 605400, "northing": 9520000, "catchment": "Voi River Tributary B", "Au_ppb": 8.2, "Cr_ppm": 2800, "V_ppm": 680, "Ti_ppm": 4500, "Zr_ppm": 920, "weight_kg": 3.5, "classification": "weak_anomaly"},
+        {"sample_id": "VOI01-SS003", "easting": 605600, "northing": 9520000, "catchment": "Voi River Tributary C", "Au_ppb": 22.0, "Cr_ppm": 4500, "V_ppm": 980, "Ti_ppm": 6200, "Zr_ppm": 1250, "weight_kg": 3.8, "classification": "moderate_anomaly"},
+        {"sample_id": "VOI01-SS004", "easting": 605800, "northing": 9520000, "catchment": "Voi River Main", "Au_ppb": 45.0, "Cr_ppm": 6200, "V_ppm": 1350, "Ti_ppm": 8500, "Zr_ppm": 1680, "weight_kg": 4.0, "classification": "strong_anomaly"},
+        {"sample_id": "VOI01-SS005", "easting": 606000, "northing": 9520000, "catchment": "Voi River Main", "Au_ppb": 18.0, "Cr_ppm": 3800, "V_ppm": 820, "Ti_ppm": 5200, "Zr_ppm": 1100, "weight_kg": 3.5, "classification": "weak_anomaly"},
+        {"sample_id": "VOI01-SS006", "easting": 606200, "northing": 9520000, "catchment": "Voi River Tributary D", "Au_ppb": 3.8, "Cr_ppm": 2100, "V_ppm": 480, "Ti_ppm": 3500, "Zr_ppm": 720, "weight_kg": 3.2, "classification": "background"}
+      ],
+      "anomaly_interpretation": "Strong Cr-V anomaly at VOI01-SS004 indicates upstream tsavorite-bearing schists. Gold anomaly correlates with Cr and V, suggesting alluvial gold in chromite-rich placer. Recommend heavy mineral panning upstream.",
+      "anomaly_correlations": {"Au_Cr": 0.88, "Au_V": 0.85, "Cr_V": 0.95, "Ti_Zr": 0.82}
+    },
+    {
+      "project_id": "EXP-2026-REE01",
+      "location": "Karako-Kayah Basin, Kenya",
+      "method": "Stream sediment sampling",
+      "catchment_area_km2": 2.0,
+      "samples": [
+        {"sample_id": "REE01-SS001", "easting": 485200, "northing": 9520000, "La_ppm": 45, "Ce_ppm": 85, "Nd_ppm": 22, "Y_ppm": 18, "Nb_ppm": 35, "Zr_ppm": 120, "Th_ppm": 12, "U_ppm": 4, "classification": "background"},
+        {"sample_id": "REE01-SS002", "easting": 485400, "northing": 9520000, "La_ppm": 120, "Ce_ppm": 220, "Nd_ppm": 58, "Y_ppm": 45, "Nb_ppm": 85, "Zr_ppm": 280, "Th_ppm": 32, "U_ppm": 12, "classification": "weak_anomaly"},
+        {"sample_id": "REE01-SS003", "easting": 485600, "northing": 9520000, "La_ppm": 280, "Ce_ppm": 520, "Nd_ppm": 135, "Y_ppm": 98, "Nb_ppm": 180, "Zr_ppm": 580, "Th_ppm": 68, "U_ppm": 28, "classification": "moderate_anomaly"},
+        {"sample_id": "REE01-SS004", "easting": 485800, "northing": 9520000, "La_ppm": 450, "Ce_ppm": 850, "Nd_ppm": 220, "Y_ppm": 165, "Nb_ppm": 320, "Zr_ppm": 920, "Th_ppm": 115, "U_ppm": 45, "classification": "strong_anomaly"},
+        {"sample_id": "REE01-SS005", "easting": 486000, "northing": 9520000, "La_ppm": 680, "Ce_ppm": 1250, "Nd_ppm": 340, "Y_ppm": 245, "Nb_ppm": 480, "Zr_ppm": 1350, "Th_ppm": 180, "U_ppm": 65, "classification": "bullseye"},
+        {"sample_id": "REE01-SS006", "easting": 486200, "northing": 9520000, "La_ppm": 350, "Ce_ppm": 650, "Nd_ppm": 175, "Y_ppm": 128, "Nb_ppm": 250, "Zr_ppm": 780, "Th_ppm": 85, "U_ppm": 35, "classification": "moderate_anomaly"},
+        {"sample_id": "REE01-SS007", "easting": 486400, "northing": 9520000, "La_ppm": 150, "Ce_ppm": 280, "Nd_ppm": 72, "Y_ppm": 55, "Nb_ppm": 95, "Zr_ppm": 320, "Th_ppm": 38, "U_ppm": 15, "classification": "weak_anomaly"},
+        {"sample_id": "REE01-SS008", "easting": 486600, "northing": 9520000, "La_ppm": 52, "Ce_ppm": 98, "Nd_ppm": 28, "Y_ppm": 22, "Nb_ppm": 42, "Zr_ppm": 145, "Th_ppm": 15, "U_ppm": 5, "classification": "background"}
+      ],
+      "anomaly_interpretation": "Strong REE anomaly at REE01-SS005 (La 680 ppm, Ce 1250 ppm, Th 180 ppm). High Th/U ratio (2.77) suggests monazite-bearing source. Recommend rock chip sampling and IP survey.",
+      "anomaly_correlations": {"La_Ce": 0.99, "La_Nd": 0.98, "La_Y": 0.97, "La_Nb": 0.95, "La_Th": 0.96, "Th_U": 0.94}
+    }
+  ],
+  "quality_assurance": {
+    "duplicate_samples": "1 in 20 samples (5%)",
+    "certified_reference_materials": ["ARM 027 (Au 24.89 ppm)", "ARM 028 (Au 8.12 ppm)", "MA-1a (Au 20.1 ppm)"],
+    "blank_samples": "1 in 20 samples (5%)",
+    "acceptable_duplicate_RPD": "<25% for Au, <15% for other elements",
+    "detection_limits": {
+      "Au_ppb": 0.5,
+      "As_ppm": 0.5,
+      "Sb_ppm": 0.1,
+      "Bi_ppm": 0.05,
+      "REE_ppm": 0.1
+    }
+  }
+}

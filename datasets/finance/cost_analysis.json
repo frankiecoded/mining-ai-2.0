@@ -1,0 +1,1398 @@
+{
+  "metadata": {
+    "version": "2.1.0",
+    "last_updated": "2026-01-15",
+    "currency_base": "USD",
+    "currency_reference_date": "2025-12-31",
+    "data_sources": [
+      "World Gold Council",
+      "Benchmark Minerals Intelligence",
+      "S&P Global Market Intelligence",
+      "Mining Intelligence Data",
+      "CRU Group",
+      "Internal benchmarking"
+    ],
+    "notes": "All costs are estimates based on industry benchmarks and may vary significantly by jurisdiction, commodity prices, and operational factors. Costs exclude one-time exceptional items unless noted."
+  },
+  "cost_categories": {
+    "capital_expenditure": {
+      "exploration": {
+        "cost_per_meter_drill": {
+          "diamond_drilling": {
+            "shallow_0_to_200m": {"min": 45, "max": 120, "average": 85, "currency": "USD", "unit": "per_meter"},
+            "medium_200m_to_500m": {"min": 80, "max": 200, "average": 140, "currency": "USD", "unit": "per_meter"},
+            "deep_500m_to_1000m": {"min": 150, "max": 350, "average": 250, "currency": "USD", "unit": "per_meter"},
+            "ultra_deep_1000m_plus": {"min": 300, "max": 600, "average": 450, "currency": "USD", "unit": "per_meter"}
+          },
+          "reverse_circulation": {
+            "shallow_0_to_150m": {"min": 20, "max": 55, "average": 38, "currency": "USD", "unit": "per_meter"},
+            "medium_150m_to_300m": {"min": 40, "max": 90, "average": 65, "currency": "USD", "unit": "per_meter"}
+          },
+          "air_core": {
+            "0_to_100m": {"min": 12, "max": 35, "average": 22, "currency": "USD", "unit": "per_meter"}
+          },
+          "auger": {
+            "0_to_30m": {"min": 5, "max": 15, "average": 9, "currency": "USD", "unit": "per_meter"}
+          }
+        },
+        "feasibility_study_costs": {
+          "scoping_study": {
+            "budget_range": {"min": 150000, "max": 500000, "currency": "USD"},
+            "duration_months": {"min": 2, "max": 4},
+            "percentage_of_total_exploration": 3
+          },
+          "pre_feasibility_study": {
+            "budget_range": {"min": 1000000, "max": 5000000, "currency": "USD"},
+            "duration_months": {"min": 6, "max": 12},
+            "percentage_of_total_exploration": 12
+          },
+          "bankable_feasibility_study": {
+            "budget_range": {"min": 5000000, "max": 25000000, "currency": "USD"},
+            "duration_months": {"min": 12, "max": 24},
+            "percentage_of_total_exploration": 35
+          },
+          "definitive_feasibility_study": {
+            "budget_range": {"min": 15000000, "max": 50000000, "currency": "USD"},
+            "duration_months": {"min": 18, "max": 36}
+          }
+        },
+        "geological_mapping": {
+          "surface_mapping_per_km2": {"min": 8000, "max": 25000, "average": 15000, "currency": "USD"},
+          "underground_mapping_per_km": {"min": 15000, "max": 50000, "average": 30000, "currency": "USD"},
+          "geochemical_sampling_per_sample": {"min": 25, "max": 150, "average": 60, "currency": "USD"},
+          "geophysical_survey_per_km2": {"min": 5000, "max": 40000, "average": 18000, "currency": "USD"}
+        },
+        "environmental_baseline": {
+          "environmental_impact_assessment": {"min": 500000, "max": 3000000, "average": 1500000, "currency": "USD"},
+          "social_impact_assessment": {"min": 300000, "max": 1500000, "average": 800000, "currency": "USD"},
+          "water_quality_baseline_annual": {"min": 200000, "max": 800000, "average": 450000, "currency": "USD"},
+          "air_quality_baseline_annual": {"min": 100000, "max": 400000, "average": 250000, "currency": "USD"}
+        }
+      },
+      "mine_development": {
+        "shaft_sinking": {
+          "concrete_shaft": {
+            "0_to_300m": {"min": 8000, "max": 18000, "average": 12000, "currency": "USD", "unit": "per_meter"},
+            "300m_to_600m": {"min": 15000, "max": 35000, "average": 24000, "currency": "USD", "unit": "per_meter"},
+            "600m_to_1000m": {"min": 25000, "max": 60000, "average": 42000, "currency": "USD", "unit": "per_meter"},
+            "1000m_to_1500m": {"min": 40000, "max": 90000, "average": 65000, "currency": "USD", "unit": "per_meter"}
+          },
+          "raise_boring": {
+            "diameter_1m_to_2m": {"min": 3000, "max": 8000, "average": 5500, "currency": "USD", "unit": "per_meter"},
+            "diameter_2m_to_4m": {"min": 6000, "max": 15000, "average": 10000, "currency": "USD", "unit": "per_meter"},
+            "diameter_4m_to_6m": {"min": 12000, "max": 30000, "average": 20000, "currency": "USD", "unit": "per_meter"}
+          }
+        },
+        "tunnel_driving": {
+          "conventional_drill_and_blast": {
+            "small_profile_3m_to_5m2": {"min": 2000, "max": 6000, "average": 3800, "currency": "USD", "unit": "per_meter"},
+            "medium_profile_5m_to_12m2": {"min": 4000, "max": 12000, "average": 7500, "currency": "USD", "unit": "per_meter"},
+            "large_profile_12m_to_25m2": {"min": 8000, "max": 25000, "average": 15000, "currency": "USD", "unit": "per_meter"}
+          },
+          "tunnel_boring_machine": {
+            "diameter_3m_to_5m": {"min": 5000, "max": 15000, "average": 9000, "currency": "USD", "unit": "per_meter"},
+            "diameter_5m_to_10m": {"min": 10000, "max": 35000, "average": 22000, "currency": "USD", "unit": "per_meter"},
+            "diameter_10m_plus": {"min": 25000, "max": 80000, "average": 50000, "currency": "USD", "unit": "per_meter"}
+          },
+          "development_mining_rate": {
+            "conventional": {"min": 2, "max": 8, "average": 4, "unit": "meters_per_day"},
+            "tbm": {"min": 10, "max": 30, "average": 18, "unit": "meters_per_day"}
+          }
+        },
+        "underground_infrastructure": {
+          "ventilation_system": {"min": 5000000, "max": 50000000, "average": 20000000, "currency": "USD"},
+          "dewatering_system": {"min": 3000000, "max": 30000000, "average": 12000000, "currency": "USD"},
+          "underground_electrical": {"min": 2000000, "max": 20000000, "average": 8000000, "currency": "USD"},
+          "ore_handling_system": {"min": 5000000, "max": 40000000, "average": 18000000, "currency": "USD"}
+        }
+      },
+      "processing_plant": {
+        "CIL_plant": {
+          "gold_ore": {
+            "1000_tpd_capacity": {"min": 30000000, "max": 60000000, "average": 45000000, "currency": "USD"},
+            "2500_tpd_capacity": {"min": 60000000, "max": 120000000, "average": 90000000, "currency": "USD"},
+            "5000_tpd_capacity": {"min": 100000000, "max": 200000000, "average": 150000000, "currency": "USD"},
+            "10000_tpd_capacity": {"min": 180000000, "max": 350000000, "average": 260000000, "currency": "USD"}
+          },
+          "cost_per_tpd_installed": {"min": 35000, "max": 75000, "average": 55000, "currency": "USD"}
+        },
+        "heap_leach": {
+          "gold_ore": {
+            "5000_tpd_capacity": {"min": 15000000, "max": 30000000, "average": 22000000, "currency": "USD"},
+            "10000_tpd_capacity": {"min": 25000000, "max": 50000000, "average": 38000000, "currency": "USD"},
+            "25000_tpd_capacity": {"min": 50000000, "max": 100000000, "average": 75000000, "currency": "USD"}
+          },
+          "cost_per_tpd_installed": {"min": 2500, "max": 6000, "average": 4000, "currency": "USD"},
+          "liner_cost_per_m2": {"min": 8, "max": 25, "average": 15, "currency": "USD"}
+        },
+        "DMS_plant": {
+          "diamond_processing": {
+            "50_tph_capacity": {"min": 5000000, "max": 12000000, "average": 8000000, "currency": "USD"},
+            "100_tph_capacity": {"min": 10000000, "max": 25000000, "average": 16000000, "currency": "USD"},
+            "200_tph_capacity": {"min": 20000000, "max": 50000000, "average": 32000000, "currency": "USD"}
+          }
+        },
+        "flotation_plant": {
+          "base_metals": {
+            "1000_tpd_capacity": {"min": 20000000, "max": 45000000, "average": 32000000, "currency": "USD"},
+            "5000_tpd_capacity": {"min": 80000000, "max": 180000000, "average": 130000000, "currency": "USD"}
+          },
+          "rare_earth_processing": {
+            "500_tpd_capacity": {"min": 40000000, "max": 100000000, "average": 70000000, "currency": "USD"},
+            "specialized_separation": {"min": 100000000, "max": 500000000, "average": 250000000, "currency": "USD"}
+          }
+        },
+        "crushing_circuit": {
+          "primary_crusher": {"min": 2000000, "max": 15000000, "average": 7000000, "currency": "USD"},
+          "secondary_crusher": {"min": 1500000, "max": 10000000, "average": 5000000, "currency": "USD"},
+          "tertiary_crusher": {"min": 1000000, "max": 8000000, "average": 4000000, "currency": "USD"},
+          "sag_mill": {"min": 5000000, "max": 50000000, "average": 25000000, "currency": "USD"},
+          "ball_mill": {"min": 3000000, "max": 30000000, "average": 15000000, "currency": "USD"}
+        }
+      },
+      "infrastructure": {
+        "roads": {
+          "haul_road_paved": {"min": 1500000, "max": 4000000, "average": 2500000, "currency": "USD", "unit": "per_km"},
+          "haul_road_compacted_gravel": {"min": 300000, "max": 1200000, "average": 700000, "currency": "USD", "unit": "per_km"},
+          "access_road_to_national_highway": {"min": 500000, "max": 2500000, "average": 1200000, "currency": "USD", "unit": "per_km"},
+          "bridge_and_culvert": {"min": 500000, "max": 10000000, "average": 3000000, "currency": "USD", "unit": "per_structure"}
+        },
+        "power_supply": {
+          "diesel_generator": {
+            "capex_per_kw": {"min": 800, "max": 1500, "average": 1100, "currency": "USD"},
+            "fuel_cost_per_litre": {"min": 0.8, "max": 2.5, "average": 1.4, "currency": "USD"},
+            "maintenance_per_kwh": {"min": 0.02, "max": 0.06, "average": 0.035, "currency": "USD"}
+          },
+          "solar_pv": {
+            "utility_scale_capex_per_kw": {"min": 600, "max": 1200, "average": 850, "currency": "USD"},
+            "battery_storage_per_kwh": {"min": 200, "max": 500, "average": 350, "currency": "USD"},
+            "annual_om_cost_per_kw": {"min": 8, "max": 20, "average": 12, "currency": "USD"}
+          },
+          "grid_connection": {
+            "transmission_line_per_km": {"min": 200000, "max": 1000000, "average": 500000, "currency": "USD"},
+            "substation": {"min": 2000000, "max": 15000000, "average": 7000000, "currency": "USD"}
+          },
+          "wind_power": {
+            "capex_per_kw": {"min": 1200, "max": 2200, "average": 1700, "currency": "USD"},
+            "lcoe_per_kwh": {"min": 0.03, "max": 0.08, "average": 0.055, "currency": "USD"}
+          }
+        },
+        "water_supply": {
+          "borehole_drilling": {"min": 50000, "max": 300000, "average": 150000, "currency": "USD", "unit": "per_borehole"},
+          "pipeline_per_km": {"min": 100000, "max": 500000, "average": 250000, "currency": "USD"},
+          "water_treatment_plant": {"min": 2000000, "max": 20000000, "average": 8000000, "currency": "USD"},
+          "tailings_dam": {"min": 10000000, "max": 200000000, "average": 60000000, "currency": "USD"},
+          "water_cost_per_m3": {"min": 0.5, "max": 4.0, "average": 1.8, "currency": "USD"}
+        },
+        "accommodation_and_camps": {
+          "permanent_camp_per_bed": {"min": 15000, "max": 50000, "average": 30000, "currency": "USD"},
+          "construction_camp_per_bed": {"min": 8000, "max": 25000, "average": 15000, "currency": "USD"},
+          "recreational_facilities_per_person": {"min": 3000, "max": 10000, "average": 6000, "currency": "USD"},
+          "medical_facility": {"min": 500000, "max": 5000000, "average": 2000000, "currency": "USD"}
+        },
+        "communications": {
+          "radio_system": {"min": 200000, "max": 2000000, "average": 800000, "currency": "USD"},
+          "fiber_optic_per_km": {"min": 10000, "max": 50000, "average": 30000, "currency": "USD"},
+          "satellite_comm_system": {"min": 100000, "max": 500000, "average": 250000, "currency": "USD"}
+        }
+      }
+    },
+    "operating_expenditure": {
+      "mining_costs": {
+        "open_pit": {
+          "drilling_and_blasting": {
+            "min": 1.5,
+            "max": 5.0,
+            "average": 2.8,
+            "currency": "USD",
+            "unit": "per_tonne_mined"
+          },
+          "loading": {
+            "min": 0.8,
+            "max": 3.0,
+            "average": 1.6,
+            "currency": "USD",
+            "unit": "per_tonne_mined"
+          },
+          "hauling": {
+            "min": 1.2,
+            "max": 5.0,
+            "average": 2.5,
+            "currency": "USD",
+            "unit": "per_tonne_mined"
+          },
+          "total_mining_cost": {
+            "min": 3.5,
+            "max": 12.0,
+            "average": 6.9,
+            "currency": "USD",
+            "unit": "per_tonne_mined"
+          },
+          "stripping_ratio_cost_impact": {
+            "low_strip_1_to_1": {"min": 2.0, "max": 4.0, "average": 3.0, "currency": "USD", "unit": "per_tonne_ore"},
+            "medium_strip_3_to_1": {"min": 5.0, "max": 12.0, "average": 8.5, "currency": "USD", "unit": "per_tonne_ore"},
+            "high_strip_5_to_1": {"min": 10.0, "max": 25.0, "average": 16.0, "currency": "USD", "unit": "per_tonne_ore"},
+            "very_high_strip_10_to_1_plus": {"min": 20.0, "max": 50.0, "average": 32.0, "currency": "USD", "unit": "per_tonne_ore"}
+          }
+        },
+        "underground": {
+          "drilling_and_blasting": {
+            "min": 8.0,
+            "max": 30.0,
+            "average": 18.0,
+            "currency": "USD",
+            "unit": "per_tonne_mined"
+          },
+          "mucking_and_haulage": {
+            "min": 6.0,
+            "max": 25.0,
+            "average": 14.0,
+            "currency": "USD",
+            "unit": "per_tonne_mined"
+          },
+          "ground_support": {
+            "min": 3.0,
+            "max": 15.0,
+            "average": 8.0,
+            "currency": "USD",
+            "unit": "per_tonne_mined"
+          },
+          "ventilation_and_dewatering": {
+            "min": 2.0,
+            "max": 12.0,
+            "average": 6.5,
+            "currency": "USD",
+            "unit": "per_tonne_mined"
+          },
+          "total_underground_mining_cost": {
+            "min": 25.0,
+            "max": 120.0,
+            "average": 55.0,
+            "currency": "USD",
+            "unit": "per_tonne_mined"
+          },
+          "cost_per_meter_developed": {
+            "conventional": {"min": 500, "max": 3000, "average": 1500, "currency": "USD"},
+            "mechanized": {"min": 1000, "max": 5000, "average": 2500, "currency": "USD"}
+          }
+        }
+      },
+      "processing_costs": {
+        "per_tonne": {
+          "crushing": {
+            "primary": {"min": 0.5, "max": 2.5, "average": 1.2, "currency": "USD", "unit": "per_tonne"},
+            "secondary": {"min": 0.3, "max": 1.5, "average": 0.8, "currency": "USD", "unit": "per_tonne"},
+            "tertiary": {"min": 0.2, "max": 1.0, "average": 0.5, "currency": "USD", "unit": "per_tonne"}
+          },
+          "milling": {
+            "min": 2.0,
+            "max": 10.0,
+            "average": 5.0,
+            "currency": "USD",
+            "unit": "per_tonne"
+          },
+          "CIL_processing": {
+            "reagents": {"min": 1.5, "max": 6.0, "average": 3.2, "currency": "USD", "unit": "per_tonne"},
+            "activated_carbon": {"min": 0.5, "max": 2.5, "average": 1.2, "currency": "USD", "unit": "per_tonne"},
+            "total_CIL": {"min": 5.0, "max": 20.0, "average": 10.0, "currency": "USD", "unit": "per_tonne"}
+          },
+          "heap_leach": {
+            "min": 1.5,
+            "max": 6.0,
+            "average": 3.5,
+            "currency": "USD",
+            "unit": "per_tonne"
+          },
+          "flotation": {
+            "min": 3.0,
+            "max": 12.0,
+            "average": 6.5,
+            "currency": "USD",
+            "unit": "per_tonne"
+          },
+          "refractory_ore_processing": {
+            "autoclave": {"min": 15.0, "max": 40.0, "average": 25.0, "currency": "USD", "unit": "per_tonne"},
+            "roasting": {"min": 12.0, "max": 35.0, "average": 22.0, "currency": "USD", "unit": "per_tonne"},
+            "bio_oxidation": {"min": 10.0, "max": 30.0, "average": 18.0, "currency": "USD", "unit": "per_tonne"}
+          },
+          "tailings_disposal": {
+            "min": 0.5,
+            "max": 4.0,
+            "average": 1.8,
+            "currency": "USD",
+            "unit": "per_tonne"
+          }
+        },
+        "per_ounce": {
+          "gold_CIL": {"min": 100, "max": 400, "average": 200, "currency": "USD", "unit": "per_ounce"},
+          "gold_heap_leach": {"min": 50, "max": 200, "average": 120, "currency": "USD", "unit": "per_ounce"},
+          "gold_refractory": {"min": 300, "max": 800, "average": 500, "currency": "USD", "unit": "per_ounce"},
+          "diamond_recovery": {"min": 20, "max": 150, "average": 60, "currency": "USD", "unit": "per_carat"}
+        },
+        "recovery_rates_benchmark": {
+          "gold_CIL": {"min": 85, "max": 95, "average": 90, "unit": "percent"},
+          "gold_heap_leach": {"min": 50, "max": 80, "average": 65, "unit": "percent"},
+          "gold_refractory": {"min": 80, "max": 92, "average": 86, "unit": "percent"},
+          "diamond_recovery": {"min": 90, "max": 99, "average": 96, "unit": "percent"},
+          "tanzanite_recovery": {"min": 60, "max": 85, "average": 72, "unit": "percent"},
+          "ruby_recovery": {"min": 30, "max": 70, "average": 45, "unit": "percent"},
+          "REE_recovery": {"min": 40, "max": 75, "average": 55, "unit": "percent"}
+        }
+      },
+      "general_admin": {
+        "per_ounce_gold": {"min": 50, "max": 200, "average": 100, "currency": "USD"},
+        "per_tonne_ore": {"min": 3, "max": 15, "average": 7, "currency": "USD"},
+        "insurance_premium": {
+          "property_damages_percentage_of_capex": {"min": 0.3, "max": 1.0, "average": 0.6, "unit": "percent"},
+          "business_interruption": {"min": 0.5, "max": 2.0, "average": 1.0, "unit": "percent"}
+        },
+        "land_and_tenement_costs_annual": {"min": 50000, "max": 500000, "average": 200000, "currency": "USD"},
+        "community_relations_annual": {"min": 200000, "max": 2000000, "average": 800000, "currency": "USD"},
+        "security_costs_annual": {"min": 300000, "max": 3000000, "average": 1200000, "currency": "USD"}
+      },
+      "royalties": {
+        "gold": {
+          "Tanzania": {
+            "net_smelter_return": 6.0,
+            "windfall_tax_on_excess_profits": 10.0,
+            "notes": "Minister has discretion to adjust within 2.5% to 7% range for NSW royalty"
+          },
+          "Kenya": {
+            "percentage_of_revenue": 5.0,
+            "notes": "Mining Act 2016"
+          },
+          "DRC": {
+            "mining_profit_percentage": 3.5,
+            "metals_percentage": 2.0,
+            "notes": "Code Minier 2018"
+          },
+          "Uganda": {
+            "mineral_export_duty": 5.0,
+            "notes": "Mining and Minerals Act 2003"
+          },
+          "South_Sudan": {
+            "royalty_rate": 5.0,
+            "notes": "Mining Royalty Regulations 2013"
+          },
+          "Ghana": {
+            "gross_income_percentage": 5.0,
+            "notes": "Minerals and Mining Act 2006"
+          },
+          "South_Africa": {
+            "gold_royalty_percentage": {"min": 3.0, "max": 7.0, "average": 5.0},
+            "notes": "Mineral and Petroleum Resources Royalty Act 2008 - sliding scale based on EBITDA margin"
+          },
+          "Australia": {
+            "state_based": {"min": 2.5, "max": 5.0, "average": 3.5, "unit": "percent"},
+            "notes": "Varies by state and mineral type"
+          },
+          "Canada": {
+            "federal_mineral_royalty": 0,
+            "provincial_varies": {"min": 0, "max": 17, "average": 10, "unit": "percent"},
+            "notes": "Varies by province and commodity"
+          },
+          "United_States": {
+            "federal_lsra": 8.0,
+            "BLM_minimum_rental": 3.0,
+            "notes": "Leasing and Surface Resources Act"
+          }
+        },
+        "diamonds": {
+          "Botswana": {
+            "rough_diamond_royalty": 10.0,
+            "notes": "Debswana agreement - 50/50 joint venture with government"
+          },
+          "Russia": {
+            "mineral_extraction_tax": 6.0,
+            "notes": "Applies to diamonds under new tax code"
+          },
+          "Canada": {
+            "territorial_royalty": {"min": 5, "max": 12, "average": 8, "unit": "percent"}
+          }
+        },
+        "rare_earths": {
+          "China": {
+            "resource_tax": {"min": 3, "max": 12, "average": 7, "unit": "percent"},
+            "notes": "Export controls and quotas apply"
+          },
+          "Australia": {
+            "state_royalty": {"min": 2.5, "max": 5.0, "average": 3.5, "unit": "percent"}
+          }
+        }
+      },
+      "transport_logistics": {
+        "road_freight_per_tonne_km": {
+          "paved_road": {"min": 0.03, "max": 0.08, "average": 0.05, "currency": "USD"},
+          "gravel_road": {"min": 0.06, "max": 0.15, "average": 0.10, "currency": "USD"},
+          "off_road": {"min": 0.10, "max": 0.25, "average": 0.16, "currency": "USD"}
+        },
+        "rail_freight_per_tonne_km": {
+          "min": 0.01,
+          "max": 0.04,
+          "average": 0.025,
+          "currency": "USD"
+        },
+        "sea_freight_per_tonne": {
+          "bulk_carrier": {"min": 10, "max": 50, "average": 25, "currency": "USD"},
+          "container": {"min": 50, "max": 200, "average": 100, "currency": "USD"},
+          "specialized_concentrate": {"min": 30, "max": 120, "average": 60, "currency": "USD"}
+        },
+        "air_freight_per_kg": {
+          "gold_bullion": {"min": 5, "max": 20, "average": 10, "currency": "USD"},
+          "concentrate": {"min": 2, "max": 8, "average": 4, "currency": "USD"},
+          "diamonds": {"min": 10, "max": 40, "average": 20, "currency": "USD"}
+        },
+        "refining_costs": {
+          "gold": {
+            "london_good_delivery": {"min": 0.5, "max": 2.0, "average": 1.0, "currency": "USD", "unit": "per_ounce"},
+            "dore_bars": {"min": 1.0, "max": 5.0, "average": 2.5, "currency": "USD", "unit": "per_ounce"},
+            "refinery_charge_percentage": {"min": 0.5, "max": 3.0, "average": 1.5, "unit": "percent"}
+          },
+          "diamonds": {
+            "sorting_and_valuation": {"min": 2, "max": 10, "average": 5, "currency": "USD", "unit": "per_carat"},
+            "cutting_and_polishing": {"min": 50, "max": 500, "average": 200, "currency": "USD", "unit": "per_carat"}
+          },
+          "rare_earths": {
+            "separation_cost_per_kg": {"min": 20, "max": 150, "average": 70, "currency": "USD"},
+            "to_oxide_conversion_per_kg": {"min": 10, "max": 80, "average": 40, "currency": "USD"}
+          }
+        },
+        "customs_and_brokerage": {
+          "export_clearance_per_shipment": {"min": 500, "max": 5000, "average": 2000, "currency": "USD"},
+          "import_clearance_per_shipment": {"min": 300, "max": 3000, "average": 1200, "currency": "USD"},
+          "documentation_percentage_of_value": {"min": 0.1, "max": 1.0, "average": 0.4, "unit": "percent"}
+        }
+      }
+    }
+  },
+  "cost_benchmarks": {
+    "gold_mining": {
+      "AISC_ranges": {
+        "excellent": {"max": 800, "description": "Top quartile global producers", "examples": ["Nevada low-strip oxide", "West Africa laterite"]},
+        "good": {"min": 800, "max": 1000, "description": "Second quartile operators", "examples": ["Carlin trend underground", "Kalgoorlie operations"]},
+        "average": {"min": 1000, "max": 1200, "description": "Global median producer", "examples": ["Typical underground primary", "Mid-tier open pit"]},
+        "marginal": {"min": 1200, "max": 1400, "description": "Third quartile - vulnerable to price drops", "examples": ["Deep underground", "Complex metallurgy"]},
+        "high_cost": {"min": 1400, "max": 1800, "description": "Top quartile costs - at risk", "examples": ["Remote locations", "Small scale operations"]}
+      },
+      "open_pit_cost_per_ounce": {
+        "low_grade_0_to_0_5g_t": {
+          "mining": {"min": 350, "max": 700, "average": 500, "currency": "USD"},
+          "processing": {"min": 200, "max": 500, "average": 350, "currency": "USD"},
+          "GNA": {"min": 80, "max": 200, "average": 130, "currency": "USD"},
+          "total_AISC": {"min": 630, "max": 1400, "average": 980, "currency": "USD"}
+        },
+        "medium_grade_0_5_to_1_5g_t": {
+          "mining": {"min": 200, "max": 450, "average": 320, "currency": "USD"},
+          "processing": {"min": 150, "max": 350, "average": 240, "currency": "USD"},
+          "GNA": {"min": 60, "max": 150, "average": 100, "currency": "USD"},
+          "total_AISC": {"min": 410, "max": 950, "average": 660, "currency": "USD"}
+        },
+        "high_grade_1_5_to_3_0g_t": {
+          "mining": {"min": 150, "max": 350, "average": 240, "currency": "USD"},
+          "processing": {"min": 100, "max": 250, "average": 170, "currency": "USD"},
+          "GNA": {"min": 50, "max": 120, "average": 80, "currency": "USD"},
+          "total_AISC": {"min": 300, "max": 720, "average": 490, "currency": "USD"}
+        }
+      },
+      "underground_cost_per_ounce": {
+        "conventional_drill_blast": {
+          "mining": {"min": 400, "max": 1000, "average": 650, "currency": "USD"},
+          "processing": {"min": 150, "max": 400, "average": 250, "currency": "USD"},
+          "GNA": {"min": 100, "max": 300, "average": 180, "currency": "USD"},
+          "total_AISC": {"min": 650, "max": 1700, "average": 1080, "currency": "USD"}
+        },
+        "mechanized_cut_and_fill": {
+          "mining": {"min": 500, "max": 1200, "average": 800, "currency": "USD"},
+          "processing": {"min": 150, "max": 400, "average": 250, "currency": "USD"},
+          "GNA": {"min": 100, "max": 300, "average": 180, "currency": "USD"},
+          "total_AISC": {"min": 750, "max": 1900, "average": 1230, "currency": "USD"}
+        },
+        "sublevel_caving": {
+          "mining": {"min": 300, "max": 700, "average": 480, "currency": "USD"},
+          "processing": {"min": 150, "max": 400, "average": 250, "currency": "USD"},
+          "GNA": {"min": 80, "max": 250, "average": 150, "currency": "USD"},
+          "total_AISC": {"min": 530, "max": 1350, "average": 880, "currency": "USD"}
+        },
+        "longhole_open_stoping": {
+          "mining": {"min": 350, "max": 800, "average": 550, "currency": "USD"},
+          "processing": {"min": 150, "max": 400, "average": 250, "currency": "USD"},
+          "GNA": {"min": 80, "max": 250, "average": 150, "currency": "USD"},
+          "total_AISC": {"min": 580, "max": 1450, "average": 950, "currency": "USD"}
+        }
+      },
+      "heap_leach_cost_per_ounce": {
+        "oxide_ore": {
+          "mining": {"min": 100, "max": 300, "average": 180, "currency": "USD"},
+          "leaching": {"min": 50, "max": 180, "average": 100, "currency": "USD"},
+          "recovery": {"min": 30, "max": 100, "average": 60, "currency": "USD"},
+          "GNA": {"min": 40, "max": 120, "average": 70, "currency": "USD"},
+          "total_AISC": {"min": 220, "max": 700, "average": 410, "currency": "USD"}
+        },
+        "mixed_oxide_sulfide": {
+          "mining": {"min": 120, "max": 350, "average": 200, "currency": "USD"},
+          "leaching": {"min": 80, "max": 250, "average": 150, "currency": "USD"},
+          "recovery": {"min": 40, "max": 120, "average": 75, "currency": "USD"},
+          "GNA": {"min": 50, "max": 140, "average": 85, "currency": "USD"},
+          "total_AISC": {"min": 290, "max": 860, "average": 510, "currency": "USD"}
+        }
+      }
+    },
+    "diamond_mining": {
+      "open_pit": {
+        "production_cost_per_carat": {"min": 30, "max": 250, "average": 80, "currency": "USD"},
+        "AISC_per_carat": {"min": 60, "max": 400, "average": 160, "currency": "USD"},
+        "processing_cost_per_tonne": {"min": 5, "max": 25, "average": 12, "currency": "USD"},
+        "recovery_rate": {"min": 90, "max": 99, "average": 96, "unit": "percent"}
+      },
+      "underground": {
+        "production_cost_per_carat": {"min": 100, "max": 600, "average": 250, "currency": "USD"},
+        "AISC_per_carat": {"min": 180, "max": 900, "average": 420, "currency": "USD"},
+        "mining_cost_per_tonne": {"min": 40, "max": 150, "average": 85, "currency": "USD"}
+      },
+      "alluvial": {
+        "production_cost_per_carat": {"min": 20, "max": 200, "average": 60, "currency": "USD"},
+        "AISC_per_carat": {"min": 40, "max": 350, "average": 120, "currency": "USD"},
+        "recovery_rate": {"min": 70, "max": 95, "average": 82, "unit": "percent"}
+      },
+      "value_distribution": {
+        "gem_quality_percentage_of_production": {"min": 5, "max": 30, "average": 15, "unit": "percent"},
+        "average_gem_value_usd": {"min": 100, "max": 15000, "average": 2000, "currency": "USD", "unit": "per_carat"},
+        "average_industrial_value_usd": {"min": 5, "max": 80, "average": 25, "currency": "USD", "unit": "per_carat"}
+      }
+    },
+    "tanzanite_mining": {
+      "artisanal_mining": {
+        "production_cost_per_carat": {"min": 15, "max": 100, "average": 40, "currency": "USD"},
+        "typical_yield": {"min": 1, "max": 50, "average": 10, "unit": "carats_per_tonne"},
+        "recovery_rate": {"min": 40, "max": 75, "average": 55, "unit": "percent"}
+      },
+      "small_scale_mechanized": {
+        "production_cost_per_carat": {"min": 30, "max": 200, "average": 80, "currency": "USD"},
+        "capital_cost_per_project": {"min": 100000, "max": 2000000, "average": 500000, "currency": "USD"},
+        "recovery_rate": {"min": 55, "max": 85, "average": 70, "unit": "percent"}
+      },
+      "large_scale_underground": {
+        "production_cost_per_carat": {"min": 80, "max": 400, "average": 180, "currency": "USD"},
+        "AISC_per_carat": {"min": 150, "max": 600, "average": 320, "currency": "USD"},
+        "mining_cost_per_tonne": {"min": 30, "max": 120, "average": 65, "currency": "USD"}
+      },
+      "quality_pricing": {
+        "AAA_vivid_blue": {"min": 1000, "max": 10000, "average": 3500, "currency": "USD", "unit": "per_carat"},
+        "AA_blue_purple": {"min": 400, "max": 4000, "average": 1200, "currency": "USD", "unit": "per_carat"},
+        "A_blue": {"min": 150, "max": 1500, "average": 500, "currency": "USD", "unit": "per_carat"},
+        "brownish_or_purple": {"min": 30, "max": 200, "average": 80, "currency": "USD", "unit": "per_carat"}
+      }
+    },
+    "ruby_mining": {
+      "artisanal_mining": {
+        "production_cost_per_carat": {"min": 20, "max": 200, "average": 60, "currency": "USD"},
+        "typical_yield": {"min": 0.5, "max": 5, "average": 1.5, "unit": "carats_per_tonne"},
+        "gemma_percentage": {"min": 5, "max": 25, "average": 10, "unit": "percent"}
+      },
+      "commercial_mining": {
+        "production_cost_per_carat": {"min": 100, "max": 800, "average": 300, "currency": "USD"},
+        "AISC_per_carat": {"min": 200, "max": 1500, "average": 550, "currency": "USD"},
+        "recovery_rate": {"min": 30, "max": 60, "average": 42, "unit": "percent"}
+      },
+      "quality_pricing": {
+        "pigeon_blood_pigeon": {"min": 5000, "max": 100000, "average": 25000, "currency": "USD", "unit": "per_carat"},
+        "vivid_red": {"min": 2000, "max": 50000, "average": 10000, "currency": "USD", "unit": "per_carat"},
+        "medium_red": {"min": 500, "max": 10000, "average": 2500, "currency": "USD", "unit": "per_carat"},
+        "pinkish_or_brownish": {"min": 50, "max": 2000, "average": 400, "currency": "USD", "unit": "per_carat"}
+      },
+      "major_deposits": {
+        "Myanmar_Mogok": {"avg_cost_per_carat": 250, "quality_premium": 3.0, "notes": "Highest quality globally"},
+        "Madagascar_Vatomandry": {"avg_cost_per_carat": 180, "quality_premium": 1.8, "notes": "Good quality, political risk"},
+        "Mozambique_Montepuez": {"avg_cost_per_carat": 350, "quality_premium": 2.2, "notes": "Large scale mechanized"}
+      }
+    },
+    "REE_mining": {
+      "mining_costs": {
+        "open_pit": {
+          "mining_cost_per_tonne": {"min": 4, "max": 15, "average": 8, "currency": "USD"},
+          "strip_ratio": {"min": 2, "max": 8, "average": 4.5, "unit": "waste_to_ore"}
+        },
+        "underground": {
+          "mining_cost_per_tonne": {"min": 30, "max": 100, "average": 55, "currency": "USD"}
+        }
+      },
+      "processing_costs": {
+        "crushing_and_grinding": {"min": 5, "max": 15, "average": 9, "currency": "USD", "unit": "per_tonne"},
+        "flotation": {"min": 8, "max": 25, "average": 15, "currency": "USD", "unit": "per_tonne"},
+        "acid_leaching": {"min": 20, "max": 80, "average": 45, "currency": "USD", "unit": "per_tonne"},
+        "solvent_extraction": {"min": 50, "max": 200, "average": 100, "currency": "USD", "unit": "per_tonne"},
+        "separation_individual_elements": {"min": 100, "max": 500, "average": 250, "currency": "USD", "unit": "per_tonne"},
+        "total_processing": {"min": 80, "max": 350, "average": 180, "currency": "USD", "unit": "per_tonne"}
+      },
+      "oxide_pricing_per_kg": {
+        "cerium_oxide": {"min": 1.5, "max": 6, "average": 3, "currency": "USD"},
+        "lanthanum_oxide": {"min": 1, "max": 4, "average": 2, "currency": "USD"},
+        "neodymium_oxide": {"min": 60, "max": 200, "average": 110, "currency": "USD"},
+        "praseodymium_oxide": {"min": 55, "max": 180, "average": 100, "currency": "USD"},
+        "dysprosium_oxide": {"min": 200, "max": 600, "average": 350, "currency": "USD"},
+        "terbium_oxide": {"min": 500, "max": 2000, "average": 900, "currency": "USD"}
+      },
+      "AISC_per_kg": {
+        "light_REE_dominant": {"min": 10, "max": 50, "average": 25, "currency": "USD"},
+        "heavy_REE_dominant": {"min": 100, "max": 500, "average": 250, "currency": "USD"},
+        "mixed_REE": {"min": 30, "max": 150, "average": 75, "currency": "USD"}
+      },
+      "capital_intensity": {
+        "greenfield_project_per_tpa_capacity": {"min": 50000, "max": 200000, "average": 100000, "currency": "USD"},
+        "brownfield_expansion": {"min": 20000, "max": 100000, "average": 50000, "currency": "USD"}
+      }
+    }
+  },
+  "financial_models": {
+    "NPV_calculation": {
+      "discount_rates": {
+        "gold_mining": {"risk_free": 4.5, "country_premium": {"low": 2, "high": 8, "average": 4.5}, "project_risk": {"low": 3, "high": 10, "average": 6}, "total_WACC": {"min": 8, "max": 18, "average": 12, "unit": "percent"}},
+        "diamond_mining": {"total_WACC": {"min": 10, "max": 22, "average": 15, "unit": "percent"}},
+        "REE_mining": {"total_WACC": {"min": 12, "max": 25, "average": 18, "unit": "percent"}},
+        "critical_minerals": {"total_WACC": {"min": 10, "max": 22, "average": 16, "unit": "percent"}}
+      },
+      "base_case_assumptions": {
+        "gold_price": {"conservative": 1800, "base": 2200, "optimistic": 2600, "currency": "USD", "unit": "per_ounce"},
+        "diamond_price_inflation": {"min": 2, "max": 5, "average": 3.5, "unit": "percent_annual"},
+        "REE_price_volatility": {"min": 15, "max": 40, "average": 25, "unit": "percent_std_dev"}
+      },
+      "mine_life_considerations": {
+        "open_pit_gold": {"min": 5, "max": 25, "average": 12, "unit": "years"},
+        "underground_gold": {"min": 5, "max": 20, "average": 10, "unit": "years"},
+        "heap_leach_gold": {"min": 3, "max": 15, "average": 8, "unit": "years"},
+        "diamond_open_pit": {"min": 10, "max": 30, "average": 18, "unit": "years"},
+        "tanzanite": {"min": 3, "max": 15, "average": 7, "unit": "years"}
+      },
+      "NPV_sensitivity": {
+        "metal_price_sensitivity": {"min": -50, "max": 50, "impact_multiplier": 2.5, "unit": "percent_price_change"},
+        "capex_sensitivity": {"min": -30, "max": 30, "impact_multiplier": 1.8, "unit": "percent_capex_change"},
+        "opex_sensitivity": {"min": -25, "max": 25, "impact_multiplier": 1.5, "unit": "percent_opex_change"},
+        "discount_rate_sensitivity": {"min": -3, "max": 3, "impact_multiplier": 0.4, "unit": "percent_wacc_change"}
+      }
+    },
+    "IRR_benchmarks": {
+      "greenfield_projects": {
+        "gold_mining": {"min": 15, "max": 40, "average": 25, "unit": "percent"},
+        "diamond_mining": {"min": 20, "max": 50, "average": 30, "unit": "percent"},
+        "tanzanite_mining": {"min": 25, "max": 60, "average": 35, "unit": "percent"},
+        "ruby_mining": {"min": 25, "max": 70, "average": 40, "unit": "percent"},
+        "REE_mining": {"min": 18, "max": 45, "average": 28, "unit": "percent"},
+        "minimum_acceptable_IRR": {"gold": 15, "diamonds": 18, "REE": 20, "precious_stones": 22, "unit": "percent"}
+      },
+      "brownfield_expansions": {
+        "gold_mining": {"min": 12, "max": 30, "average": 20, "unit": "percent"},
+        "diamond_mining": {"min": 15, "max": 35, "average": 22, "unit": "percent"}
+      },
+      "acquisition_IRR_benchmarks": {
+        "producing_mines": {"min": 10, "max": 25, "average": 15, "unit": "percent"},
+        "development_projects": {"min": 15, "max": 40, "average": 22, "unit": "percent"}
+      }
+    },
+    "payback_period": {
+      "gold_mining": {
+        "open_pit": {"min": 2, "max": 6, "average": 3.5, "unit": "years"},
+        "underground": {"min": 3, "max": 8, "average": 5, "unit": "years"},
+        "heap_leach": {"min": 1.5, "max": 4, "average": 2.5, "unit": "years"}
+      },
+      "diamond_mining": {
+        "open_pit": {"min": 3, "max": 7, "average": 4.5, "unit": "years"},
+        "underground": {"min": 4, "max": 10, "average": 6, "unit": "years"}
+      },
+      "tanzanite_mining": {
+        "artisanal": {"min": 0.5, "max": 2, "average": 1, "unit": "years"},
+        "small_scale": {"min": 1.5, "max": 4, "average": 2.5, "unit": "years"},
+        "large_scale": {"min": 3, "max": 7, "average": 4.5, "unit": "years"}
+      },
+      "REE_mining": {
+        "greenfield": {"min": 5, "max": 12, "average": 7.5, "unit": "years"},
+        "brownfield": {"min": 3, "max": 8, "average": 5, "unit": "years"}
+      },
+      "maximum_acceptable_payback": {
+        "gold": 6,
+        "diamonds": 7,
+        "tanzanite": 5,
+        "ruby": 5,
+        "REE": 8,
+        "unit": "years"
+      }
+    },
+    "sensitivity_analysis_parameters": {
+      "variables_to_test": [
+        "metal_price",
+        "exchange_rate",
+        "production_rate",
+        "recovery_rate",
+        "operating_cost",
+        "capital_cost",
+        "discount_rate",
+        "inflation_rate",
+        "royalty_rate",
+        "tax_rate",
+        "mine_life",
+        "strip_ratio",
+        "grade_variability"
+      ],
+      "scenario_modeling": {
+        "bull_case": {
+          "gold_price_premium": 20,
+          "production_premium": 10,
+          "cost_reduction": 10,
+          "unit": "percent"
+        },
+        "base_case": {
+          "gold_price_change": 0,
+          "production_change": 0,
+          "cost_change": 0,
+          "unit": "percent"
+        },
+        "bear_case": {
+          "gold_price_discount": 25,
+          "production_discount": 15,
+          "cost_increase": 15,
+          "unit": "percent"
+        },
+        "extreme_case": {
+          "gold_price_discount": 40,
+          "production_discount": 30,
+          "cost_increase": 30,
+          "unit": "percent"
+        }
+      },
+      "monte_carlo_simulation": {
+        "iterations": 10000,
+        "probability_distribution": "triangular",
+        "confidence_intervals": [5, 25, 50, 75, 95],
+        "unit": "percent"
+      }
+    }
+  },
+  "budget_templates": {
+    "exploration_budget": {
+      "greenfield_exploration": {
+        "year_1": {
+          "desktop_study": {"min": 50000, "max": 200000, "currency": "USD"},
+          "field_mapping": {"min": 100000, "max": 400000, "currency": "USD"},
+          "geochemistry": {"min": 80000, "max": 300000, "currency": "USD"},
+          "geophysics": {"min": 150000, "max": 600000, "currency": "USD"},
+          "initial_drilling": {"min": 500000, "max": 2000000, "currency": "USD"},
+          "total_year_1": {"min": 880000, "max": 3500000, "average": 2000000, "currency": "USD"}
+        },
+        "year_2": {
+          "expanded_drilling": {"min": 1000000, "max": 5000000, "currency": "USD"},
+          "metallurgical_testing": {"min": 200000, "max": 1000000, "currency": "USD"},
+          "environmental_baseline": {"min": 300000, "max": 1500000, "currency": "USD"},
+          "total_year_2": {"min": 1500000, "max": 7500000, "average": 4000000, "currency": "USD"}
+        },
+        "year_3": {
+          "resource_definition": {"min": 2000000, "max": 8000000, "currency": "USD"},
+          "feasibility_study": {"min": 3000000, "max": 15000000, "currency": "USD"},
+          "total_year_3": {"min": 5000000, "max": 23000000, "average": 12000000, "currency": "USD"}
+        }
+      },
+      "near_mine_exploration": {
+        "annual_budget_per_project": {"min": 200000, "max": 1500000, "average": 600000, "currency": "USD"},
+        "drilling_metres_per_year": {"min": 2000, "max": 15000, "average": 6000, "unit": "metres"},
+        "discovery_cost_per_ounce": {"min": 20, "max": 200, "average": 80, "currency": "USD"}
+      }
+    },
+    "operations_budget": {
+      "gold_mine_operations_annual": {
+        "small_mine_10000_oz": {
+          "mining": {"min": 8000000, "max": 25000000, "average": 15000000, "currency": "USD"},
+          "processing": {"min": 4000000, "max": 12000000, "average": 7000000, "currency": "USD"},
+          "GNA": {"min": 2000000, "max": 6000000, "average": 3500000, "currency": "USD"},
+          "sustaining_capex": {"min": 3000000, "max": 10000000, "average": 6000000, "currency": "USD"},
+          "total_OPEX": {"min": 14000000, "max": 43000000, "average": 25500000, "currency": "USD"},
+          "AISC_per_ounce": {"min": 800, "max": 1800, "average": 1200, "currency": "USD"}
+        },
+        "medium_mine_100000_oz": {
+          "mining": {"min": 50000000, "max": 180000000, "average": 100000000, "currency": "USD"},
+          "processing": {"min": 30000000, "max": 100000000, "average": 60000000, "currency": "USD"},
+          "GNA": {"min": 10000000, "max": 40000000, "average": 22000000, "currency": "USD"},
+          "sustaining_capex": {"min": 20000000, "max": 80000000, "average": 45000000, "currency": "USD"},
+          "total_OPEX": {"min": 110000000, "max": 400000000, "average": 227000000, "currency": "USD"},
+          "AISC_per_ounce": {"min": 700, "max": 1400, "average": 950, "currency": "USD"}
+        },
+        "large_mine_500000_oz": {
+          "mining": {"min": 200000000, "max": 800000000, "average": 450000000, "currency": "USD"},
+          "processing": {"min": 100000000, "max": 400000000, "average": 220000000, "currency": "USD"},
+          "GNA": {"min": 30000000, "max": 120000000, "average": 65000000, "currency": "USD"},
+          "sustaining_capex": {"min": 80000000, "max": 300000000, "average": 160000000, "currency": "USD"},
+          "total_OPEX": {"min": 410000000, "max": 1620000000, "average": 895000000, "currency": "USD"},
+          "AISC_per_ounce": {"min": 600, "max": 1100, "average": 800, "currency": "USD"}
+        }
+      }
+    },
+    "capital_budget": {
+      "sustaining_capex": {
+        "open_pit_gold": {
+          "per_ounce_produced": {"min": 80, "max": 250, "average": 150, "currency": "USD"},
+          "as_percentage_of_revenue": {"min": 8, "max": 20, "average": 12, "unit": "percent"}
+        },
+        "underground_gold": {
+          "per_ounce_produced": {"min": 150, "max": 500, "average": 280, "currency": "USD"},
+          "as_percentage_of_revenue": {"min": 12, "max": 30, "average": 18, "unit": "percent"}
+        }
+      },
+      "growth_capex": {
+        "plant_expansion": {
+          "50_percent_expansion": {"min": 0.3, "max": 0.6, "average": 0.45, "unit": "times_original_capex"},
+          "100_percent_expansion": {"min": 0.5, "max": 0.9, "average": 0.7, "unit": "times_original_capex"}
+        },
+        "new_mine_development": {
+          "open_pit": {"min": 500, "max": 2000, "average": 1000, "currency": "USD", "unit": "per_oz_initial_capacity"},
+          "underground": {"min": 800, "max": 3000, "average": 1500, "currency": "USD", "unit": "per_oz_initial_capacity"}
+        }
+      },
+      "closure_and_rehabilitation": {
+        "bond_or_provision": {
+          "as_percentage_of_capex": {"min": 5, "max": 15, "average": 8, "unit": "percent"},
+          "per_hectare_rehabilitated": {"min": 5000, "max": 30000, "average": 15000, "currency": "USD"},
+          "total_mine_closure": {"min": 10000000, "max": 200000000, "average": 50000000, "currency": "USD"}
+        },
+        "water_treatment_post_closure": {
+          "annual_cost": {"min": 200000, "max": 5000000, "average": 1000000, "currency": "USD"},
+          "duration_years": {"min": 5, "max": 30, "average": 15, "unit": "years"}
+        }
+      }
+    }
+  },
+  "cost_reduction_strategies": [
+    {
+      "strategy": "Autonomous_Haulage_Systems",
+      "description": "Deploy autonomous trucks and drilling systems",
+      "potential_savings_percentage": {"min": 10, "max": 30, "average": 20},
+      "capex_requirement": {"min": 5000000, "max": 50000000, "currency": "USD"},
+      "payback_period_years": {"min": 2, "max": 5, "average": 3},
+      "applicable_mining_methods": ["open_pit"],
+      "implementation_complexity": "high",
+      "time_to_implement_months": {"min": 12, "max": 36}
+    },
+    {
+      "strategy": "Solar_Diesel_Hybrid",
+      "description": "Replace diesel generation with solar PV plus battery storage hybrid systems",
+      "potential_savings_percentage": {"min": 20, "max": 50, "average": 35},
+      "capex_requirement": {"min": 10000000, "max": 100000000, "currency": "USD"},
+      "payback_period_years": {"min": 3, "max": 7, "average": 5},
+      "applicable_locations": ["high_solar_irradiance", "remote_off_grid"],
+      "implementation_complexity": "medium",
+      "time_to_implement_months": {"min": 6, "max": 18}
+    },
+    {
+      "strategy": "Process_Automation",
+      "description": "Implement advanced process control and real-time optimization in processing plants",
+      "potential_savings_percentage": {"min": 5, "max": 15, "average": 10},
+      "capex_requirement": {"min": 1000000, "max": 10000000, "currency": "USD"},
+      "payback_period_years": {"min": 1, "max": 3, "average": 1.5},
+      "applicable_mining_methods": ["open_pit", "underground"],
+      "implementation_complexity": "medium",
+      "time_to_implement_months": {"min": 6, "max": 12}
+    },
+    {
+      "strategy": "Grade_Optimization",
+      "description": "Use geostatistics and machine learning to optimize blast patterns and selective mining",
+      "potential_savings_percentage": {"min": 5, "max": 20, "average": 12},
+      "capex_requirement": {"min": 500000, "max": 5000000, "currency": "USD"},
+      "payback_period_years": {"min": 0.5, "max": 2, "average": 1},
+      "applicable_mining_methods": ["open_pit", "underground"],
+      "implementation_complexity": "low",
+      "time_to_implement_months": {"min": 3, "max": 9}
+    },
+    {
+      "strategy": "Fleet_Optimization",
+      "description": "Optimize truck fleet size and dispatch using mine-to-mill integration",
+      "potential_savings_percentage": {"min": 8, "max": 25, "average": 15},
+      "capex_requirement": {"min": 2000000, "max": 20000000, "currency": "USD"},
+      "payback_period_years": {"min": 1, "max": 3, "average": 2},
+      "applicable_mining_methods": ["open_pit"],
+      "implementation_complexity": "medium",
+      "time_to_implement_months": {"min": 6, "max": 12}
+    },
+    {
+      "strategy": "Water_Recycling",
+      "description": "Implement closed-loop water systems to reduce freshwater intake and costs",
+      "potential_savings_percentage": {"min": 30, "max": 70, "average": 50},
+      "capex_requirement": {"min": 3000000, "max": 30000000, "currency": "USD"},
+      "payback_period_years": {"min": 2, "max": 5, "average": 3.5},
+      "applicable_locations": ["water_scarce", "arid_regions"],
+      "implementation_complexity": "medium",
+      "time_to_implement_months": {"min": 6, "max": 18}
+    },
+    {
+      "strategy": "Energy_Efficiency_Upgrades",
+      "description": "Upgrade to high-efficiency motors, VFDs, and optimize compressed air systems",
+      "potential_savings_percentage": {"min": 10, "max": 30, "average": 18},
+      "capex_requirement": {"min": 1000000, "max": 15000000, "currency": "USD"},
+      "payback_period_years": {"min": 1, "max": 4, "average": 2},
+      "applicable_mining_methods": ["open_pit", "underground"],
+      "implementation_complexity": "low",
+      "time_to_implement_months": {"min": 3, "max": 12}
+    },
+    {
+      "strategy": "Predictive_Maintenance",
+      "description": "Deploy IoT sensors and AI-based predictive maintenance to reduce unplanned downtime",
+      "potential_savings_percentage": {"min": 15, "max": 40, "average": 25},
+      "capex_requirement": {"min": 2000000, "max": 15000000, "currency": "USD"},
+      "payback_period_years": {"min": 1, "max": 3, "average": 2},
+      "applicable_mining_methods": ["open_pit", "underground"],
+      "implementation_complexity": "medium",
+      "time_to_implement_months": {"min": 6, "max": 12}
+    },
+    {
+      "strategy": "In_Situ_Leaching",
+      "description": "Replace conventional mining with in-situ leaching where geology permits",
+      "potential_savings_percentage": {"min": 40, "max": 70, "average": 55},
+      "capex_requirement": {"min": 20000000, "max": 200000000, "currency": "USD"},
+      "payback_period_years": {"min": 3, "max": 8, "average": 5},
+      "applicable_commodities": ["uranium", "copper", "gold_oxide"],
+      "applicable_geology": ["permeable", "confined_aquifer"],
+      "implementation_complexity": "high",
+      "time_to_implement_months": {"min": 24, "max": 60}
+    },
+    {
+      "strategy": "Tailings_Reprocessing",
+      "description": "Reprocess historical tailings dumps with modern extraction technology",
+      "potential_savings_percentage": {"min": 30, "max": 60, "average": 45},
+      "capex_requirement": {"min": 5000000, "max": 50000000, "currency": "USD"},
+      "payback_period_years": {"min": 2, "max": 6, "average": 3.5},
+      "applicable_mining_methods": ["open_pit", "heap_leach"],
+      "implementation_complexity": "low_to_medium",
+      "time_to_implement_months": {"min": 6, "max": 18},
+      "additional_benefits": ["environmental_remediation", "extended_mine_life"]
+    },
+    {
+      "strategy": "Mine_to_Mill_Optimization",
+      "description": "Integrate blasting, crushing, and grinding to maximize mill throughput",
+      "potential_savings_percentage": {"min": 10, "max": 25, "average": 15},
+      "capex_requirement": {"min": 1000000, "max": 8000000, "currency": "USD"},
+      "payback_period_years": {"min": 0.5, "max": 2, "average": 1},
+      "applicable_mining_methods": ["open_pit", "underground"],
+      "implementation_complexity": "medium",
+      "time_to_implement_months": {"min": 6, "max": 12}
+    },
+    {
+      "strategy": "Renewable_Energy_PPA",
+      "description": "Long-term power purchase agreements with renewable energy providers",
+      "potential_savings_percentage": {"min": 15, "max": 35, "average": 25},
+      "capex_requirement": {"min": 0, "max": 5000000, "currency": "USD"},
+      "payback_period_years": {"min": 0, "max": 1, "average": 0.5},
+      "applicable_locations": ["regions_with_renewable_infrastructure"],
+      "implementation_complexity": "low",
+      "time_to_implement_months": {"min": 3, "max": 12}
+    }
+  ],
+  "inflation_factors": {
+    "general_mining_cost_inflation": {
+      "2020": 2.0,
+      "2021": 3.5,
+      "2022": 6.0,
+      "2023": 5.5,
+      "2024": 4.0,
+      "2025": 3.5,
+      "2026_forecast": 3.2,
+      "2027_forecast": 3.0,
+      "long_term_assumption": 2.5,
+      "unit": "percent_annual"
+    },
+    "category_specific_inflation": {
+      "labour": {
+        "mining_supervisors": {"min": 3, "max": 6, "average": 4, "unit": "percent_annual"},
+        "skilled_trades": {"min": 4, "max": 8, "average": 5.5, "unit": "percent_annual"},
+        "unskilled_labour": {"min": 2, "max": 5, "average": 3.5, "unit": "percent_annual"},
+        "management": {"min": 3, "max": 7, "average": 4.5, "unit": "percent_annual"}
+      },
+      "equipment": {
+        "new_equipment": {"min": 3, "max": 8, "average": 5, "unit": "percent_annual"},
+        "spare_parts": {"min": 4, "max": 10, "average": 6, "unit": "percent_annual"},
+        "tyres": {"min": 5, "max": 12, "average": 7.5, "unit": "percent_annual"},
+        "diesel_fuel": {"min": -5, "max": 20, "average": 8, "unit": "percent_annual", "notes": "Highly volatile"},
+        "explosives": {"min": 3, "max": 8, "average": 5, "unit": "percent_annual"}
+      },
+      "reagents": {
+        "cyanide": {"min": 2, "max": 7, "average": 4, "unit": "percent_annual"},
+        "lime": {"min": 2, "max": 6, "average": 3.5, "unit": "percent_annual"},
+        "flocculants": {"min": 3, "max": 8, "average": 5, "unit": "percent_annual"},
+        "specialty_chemicals": {"min": 4, "max": 10, "average": 6, "unit": "percent_annual"}
+      },
+      "construction_materials": {
+        "steel": {"min": -3, "max": 15, "average": 6, "unit": "percent_annual"},
+        "cement": {"min": 2, "max": 8, "average": 4.5, "unit": "percent_annual"},
+        "electrical_equipment": {"min": 2, "max": 6, "average": 4, "unit": "percent_annual"}
+      }
+    },
+    "regional_inflation_differentials": {
+      "Sub_Saharan_Africa": {"min": 4, "max": 12, "average": 7, "unit": "percent_annual"},
+      "Southeast_Asia": {"min": 2, "max": 6, "average": 3.5, "unit": "percent_annual"},
+      "Latin_America": {"min": 3, "max": 10, "average": 6, "unit": "percent_annual"},
+      "Australia": {"min": 2, "max": 5, "average": 3, "unit": "percent_annual"},
+      "Canada": {"min": 1.5, "max": 4, "average": 2.5, "unit": "percent_annual"},
+      "Central_Asia": {"min": 3, "max": 8, "average": 5, "unit": "percent_annual"}
+    }
+  },
+  "currency_exchange_considerations": {
+    "base_currency": "USD",
+    "major_currencies_against_USD": {
+      "ZAR": {
+        "current_rate": 18.5,
+        "12_month_forecast": {"min": 17.0, "max": 20.0, "average": 18.5},
+        "volatility_annual": 12.5,
+        "unit": "ZAR_per_USD"
+      },
+      "AUD": {
+        "current_rate": 1.55,
+        "12_month_forecast": {"min": 1.45, "max": 1.70, "average": 1.58},
+        "volatility_annual": 8.5,
+        "unit": "AUD_per_USD"
+      },
+      "CAD": {
+        "current_rate": 1.36,
+        "12_month_forecast": {"min": 1.30, "max": 1.45, "average": 1.38},
+        "volatility_annual": 6.5,
+        "unit": "CAD_per_USD"
+      },
+      "BRL": {
+        "current_rate": 4.95,
+        "12_month_forecast": {"min": 4.50, "max": 5.80, "average": 5.10},
+        "volatility_annual": 15.0,
+        "unit": "BRL_per_USD"
+      },
+      "KES": {
+        "current_rate": 153.0,
+        "12_month_forecast": {"min": 145, "max": 165, "average": 155},
+        "volatility_annual": 10.0,
+        "unit": "KES_per_USD"
+      },
+      "TZS": {
+        "current_rate": 2500.0,
+        "12_month_forecast": {"min": 2400, "max": 2650, "average": 2530},
+        "volatility_annual": 8.0,
+        "unit": "TZS_per_USD"
+      },
+      "UGX": {
+        "current_rate": 3750.0,
+        "12_month_forecast": {"min": 3600, "max": 3950, "average": 3800},
+        "volatility_annual": 9.0,
+        "unit": "UGX_per_USD"
+      },
+      "SSP": {
+        "current_rate": 1350.0,
+        "12_month_forecast": {"min": 1200, "max": 1600, "average": 1400},
+        "volatility_annual": 25.0,
+        "unit": "SSP_per_USD",
+        "notes": "High volatility - multiple exchange rates may exist"
+      },
+      "CDF": {
+        "current_rate": 2800.0,
+        "12_month_forecast": {"min": 2600, "max": 3200, "average": 2900},
+        "volatility_annual": 15.0,
+        "unit": "CDF_per_USD"
+      }
+    },
+    "hedge_strategies": {
+      "forward_contracts": {"typical_hedge_ratio": 30, "hedge_horizon_months": 12, "cost_basis_points": 50},
+      "options": {"typical_hedge_ratio": 20, "hedge_horizon_months": 12, "premium_percentage": 2},
+      "natural_hedge": {"description": "Match revenue and cost currencies where possible"}
+    },
+    "local_content_requirements": {
+      "Tanzania": {"minimum_local_employment": 80, "minimum_local_procurement": 40, "unit": "percent"},
+      "Kenya": {"minimum_local_employment": 70, "minimum_local_procurement": 30, "unit": "percent"},
+      "DRC": {"minimum_local_employment": 60, "minimum_local_procurement": 25, "unit": "percent"},
+      "South_Africa": {"minimum_BEE_ownership": 26, "minimum_local_procurement": 40, "unit": "percent"},
+      "Australia": {"minimum_indigenous_employment": 5, "minimum_local_procurement": 60, "unit": "percent"},
+      "Canada": {"minimum_indigenous_employment": 10, "minimum_local_procurement": 50, "unit": "percent"}
+    }
+  },
+  "tax_implications": {
+    "royalty_regimes": {
+      "Tanzania": {
+        "gold": {
+          "net_smelter_return_royalty": 6.0,
+          "metal_export_duty": 0,
+          "windfall_profit_tax": 10.0,
+          "effective_total_royalty": {"min": 6.0, "max": 16.0, "average": 8.0, "unit": "percent"},
+          "notes": "Minister may adjust royalty within 2.5%-7% range. Windfall tax applies when gold price exceeds reference price."
+        },
+        "diamonds": {
+          "royalty_rate": 6.0,
+          "notes": "Same as gold royalty structure"
+        },
+        "tanzanite": {
+          "royalty_rate": 6.0,
+          "export_tax": 0,
+          "notes": "Special considerations for tanzanite - value addition requirements"
+        },
+        "other_minerals": {
+          "royalty_range": {"min": 2.5, "max": 7.0, "average": 5.0, "unit": "percent"}
+        },
+        "corporate_tax_rate": 30.0,
+        "mining_income_tax": 25.0,
+        "withholding_tax_dividends": 10.0,
+        "VAT_rate": 18.0,
+        "capital_gains_tax": "not_applicable",
+        "customs_duty_on_mining_equipment": 0,
+        "notes": "Mining Act 2010 and Finance Act amendments. Zero-rated customs on mining equipment."
+      },
+      "Kenya": {
+        "gold": {
+          "royalty_rate": 5.0,
+          "notes": "Mining Act 2016"
+        },
+        "mining_income_tax": 30.0,
+        "withholding_tax_dividends": 10.0,
+        "VAT_rate": 16.0,
+        "capital_gains_tax": 15.0,
+        "customs_duty_mining_equipment": 0,
+        "development_agreement_tax_stability": true,
+        "notes": "Mining Act 2016 allows for Development Agreements with fiscal stability provisions."
+      },
+      "DRC": {
+        "minerals": {
+          "mining_profit_tax": 30.0,
+          "royalty_on_metals": 2.0,
+          "royalty_on_industrial_minerals": 1.0,
+          "royalty_on_gemstones": 6.0,
+          "surface_area_tax_per_km2": {"min": 500, "max": 5000, "average": 2000, "currency": "USD"},
+          "cadastre_fees_annual": {"min": 10000, "max": 100000, "average": 50000, "currency": "USD"}
+        },
+        "corporate_tax_rate": 30.0,
+        "mining_code": "Code Minier 2018",
+        "notes": "New Mining Code significantly increased royalties. Stability clauses in older contracts may apply. Withholding tax on dividends 10%."
+      },
+      "Uganda": {
+        "minerals": {
+          "mineral_export_duty": 5.0,
+          "royalty_rate": {"min": 3, "max": 10, "average": 5, "unit": "percent"},
+          "surface_rent_per_km2": {"min": 200, "max": 2000, "average": 800, "currency": "USD"}
+        },
+        "corporate_tax_rate": 30.0,
+        "VAT_rate": 18.0,
+        "withholding_tax_dividends": 15.0,
+        "notes": "Mining and Minerals Act 2003, with proposed updates."
+      },
+      "South_Sudan": {
+        "minerals": {
+          "royalty_rate": 5.0,
+          "mining_fee_structure": "negotiated_per_agreement",
+          "notes": "Mining sector still developing regulatory framework"
+        },
+        "corporate_tax_rate": 30.0,
+        "withholding_tax_dividends": 10.0,
+        "VAT_rate": 15.0,
+        "notes": "Mining Regulations 2013. Limited fiscal stability provisions. High political and operational risk."
+      },
+      "Botswana": {
+        "diamonds": {
+          "royalty_rate": 10.0,
+          "corporate_tax_rate": 22.0,
+          "debswana_split": "50_percent-government_50_percent_De_Beers",
+          "notes": "One of the most successful mining fiscal regimes globally"
+        },
+        "other_minerals": {
+          "royalty_rate": {"min": 3, "max": 5, "average": 4, "unit": "percent"},
+          "corporate_tax_rate": 22.0
+        }
+      },
+      "Ghana": {
+        "gold": {
+          "royalty_rate": 5.0,
+          "corporate_tax_rate": 35.0,
+          "mineral_income_tax": "included_in_corporate_tax",
+          "VAT_rate": 15.0,
+          "notes": "Minerals and Mining Act 2006. Royalty is tax deductible."
+        }
+      },
+      "South_Africa": {
+        "gold": {
+          "royalty_sliding_scale": {
+            "EBITDA_margin_below_20_percent": 2.5,
+            "EBITDA_margin_20_to_30_percent": 4.0,
+            "EBITDA_margin_30_to_40_percent": 5.0,
+            "EBITDA_margin_40_to_50_percent": 6.0,
+            "EBITDA_margin_above_50_percent": 7.0
+          },
+          "notes": "Mineral and Petroleum Resources Royalty Act 2008"
+        },
+        "corporate_tax_rate": 28.0,
+        "VAT_rate": 15.0,
+        "dividend_withholding_tax": 20.0,
+        "skills_development_levy": 1.0,
+        "notes": "Complex tax regime with BEE requirements"
+      },
+      "Australia": {
+        "gold": {
+          "federal_company_tax_rate": 30.0,
+          "state_royalty": {"min": 2.5, "max": 5.0, "average": 3.5, "unit": "percent"},
+          "PRRT_petroleum_resource_rent_tax": "not_applicable_to_gold",
+          "notes": "Varies by state. WA gold royalty 5%."
+        },
+        "corporate_tax_rate": 30.0,
+        "VAT_GST_rate": 10.0,
+        "withholding_tax_non_residents": 30.0
+      },
+      "Canada": {
+        "federal": {
+          "corporate_tax_rate": 15.0,
+          "mineral_tax": "provincial",
+          "CITRT_corporate_income_tax": "federal_plus_provincial"
+        },
+        "provincial_ranges": {
+          "Ontario": {"mineral_tax": 10.0, "total_federal_provincial": 26.5},
+          "Quebec": {"mineral_tax": 12.0, "total_federal_provincial": 26.9},
+          "British_Columbia": {"mineral_tax": 13.0, "total_federal_provincial": 27.0},
+          "Alberta": {"mineral_tax": 8.0, "total_federal_provincial": 23.0},
+          "Saskatchewan": {"mineral_tax": 12.0, "total_federal_provincial": 27.0}
+        },
+        "notes": "Flow-through shares common for exploration companies. Mining-specific deductions available."
+      },
+      "United_States": {
+        "federal": {
+          "corporate_tax_rate": 21.0,
+          "LSRA_royalty": 8.0,
+          "BLM_rental_and_fee": 2.0,
+          "mining_law_1872_patent_fee": "nominal"
+        },
+        "state_varies": {
+          "Nevada": {"net_mines_tax": 5.0, "total_effective": 26.0},
+          "Alaska": {"mining_tax": 7.0, "corporate_tax": "no_state_corporate_tax"},
+          "Colorado": {"mining_tax": 2.0, "total_effective": 23.0}
+        },
+        "depletion_allowance": 14.0,
+        "notes": "Mineral Exploration Tax Credit available for qualifying expenditures."
+      }
+    },
+    "corporate_tax_rates": {
+      "global_comparison": {
+        "Tanzania": 30.0,
+        "Kenya": 30.0,
+        "DRC": 30.0,
+        "Uganda": 30.0,
+        "South_Sudan": 30.0,
+        "Ghana": 35.0,
+        "South_Africa": 28.0,
+        "Botswana": 22.0,
+        "Australia": 30.0,
+        "Canada": 26.5,
+        "United_States": 21.0,
+        "Chile": 27.0,
+        "Peru": 29.8,
+        "Indonesia": 22.0,
+        "Brazil": 34.0,
+        "Russia": 20.0,
+        "China": 25.0,
+        "Mongolia": 25.0,
+        "Papua_New_Guinea": 30.0,
+        "unit": "percent"
+      },
+      "mining_specific_tax_deductions": {
+        "exploration_deductions": {
+          "immediate_write_off": true,
+          "percentage_of_expenditure": 100,
+          "notes": "Most jurisdictions allow immediate deduction of exploration expenditure"
+        },
+        "capital_cost_deductions": {
+          "depreciation_methods": {
+            "straight_line": {"useful_life_years": {"min": 10, "max": 25, "average": 15}},
+            "declining_balance": {"rate": {"min": 10, "max": 30, "average": 20, "unit": "percent"}},
+            "unit_of_production": {"basis": "proportional_to_ore_extracted"}
+          },
+          "accelerated_depreciation": {
+            "first_year_bonus": {"min": 30, "max": 100, "average": 50, "unit": "percent"},
+            "applicable_in": ["Australia", "Canada", "United_States"]
+          }
+        },
+        "ring_fencing": {
+          "countries_with_ring_fencing": ["Australia", "Canada", "South_Africa", "Ghana"],
+          "notes": "Prevents offsetting losses from one mining operation against profits from another"
+        },
+        "stability_clauses": {
+          "grandfathering_available_in": ["Tanzania", "DRC", "Mozambique", "Mali"],
+          "typical_duration": {"min": 10, "max": 30, "average": 15, "unit": "years"},
+          "notes": "Stability clauses protect against adverse fiscal changes for specified period"
+        }
+      },
+      "tax_incentives": {
+        "investment_allowance": {
+          "percentage": {"min": 10, "max": 30, "average": 20, "unit": "percent_of_capex"},
+          "applicable_countries": ["South_Africa", "Australia", "Canada"]
+        },
+        "mining_development_allowance": {
+          "percentage": {"min": 15, "max": 40, "average": 25, "unit": "percent"},
+          "applicable_countries": ["Tanzania", "DRC", "Ghana"]
+        },
+        "VAT_refund_timeline": {
+          "fast": {"min": 15, "max": 30, "average": 20, "unit": "days"},
+          "typical": {"min": 60, "max": 180, "average": 90, "unit": "days"},
+          "slow": {"min": 180, "max": 365, "average": 270, "unit": "days"},
+          "notes": "VAT refund timelines significantly impact working capital requirements"
+        }
+      }
+    }
+  },
+  "working_capital_metrics": {
+    "days_sales_outstanding": {"min": 15, "max": 60, "average": 30, "unit": "days"},
+    "days_inventory_outstanding": {
+      "cyanide": {"min": 30, "max": 90, "average": 45, "unit": "days"},
+      "fuel": {"min": 7, "max": 30, "average": 14, "unit": "days"},
+      "spare_parts": {"min": 30, "max": 120, "average": 60, "unit": "days"},
+      "explosives": {"min": 14, "max": 60, "average": 30, "unit": "days"}
+    },
+    "days_payable_outstanding": {"min": 30, "max": 90, "average": 45, "unit": "days"},
+    "working_capital_as_percentage_of_revenue": {"min": 5, "max": 15, "average": 8, "unit": "percent"},
+    "cash_buffer_months": {"min": 3, "max": 12, "average": 6, "unit": "months"},
+    "gold_revenue_recognition": {
+      "London_bullion_market_settlement": {"days": 2, "notes": "Prompt settlement for London Good Delivery"},
+      "refinery_turnaround": {"min": 3, "max": 14, "average": 7, "unit": "days"}
+    }
+  },
+  "risk_premiums": {
+    "country_risk_premium": {
+      "low_risk": {"min": 0, "max": 3, "average": 1.5, "unit": "percent", "countries": ["Australia", "Canada", "United_States"]},
+      "moderate_risk": {"min": 3, "max": 8, "average": 5, "unit": "percent", "countries": ["South_Africa", "Botswana", "Ghana", "Tanzania"]},
+      "high_risk": {"min": 8, "max": 15, "average": 10, "unit": "percent", "countries": ["DRC", "South_Sudan", "Mali", "Sudan"]},
+      "very_high_risk": {"min": 15, "max": 25, "average": 18, "unit": "percent", "countries": ["Zimbabwe", "Venezuela", "Central_African_Republic"]}
+    },
+    "technical_risk_premium": {
+      "well_known_geology": {"min": 1, "max": 3, "average": 2, "unit": "percent"},
+      "complex_geology": {"min": 3, "max": 8, "average": 5, "unit": "percent"},
+      "refractory_ore": {"min": 5, "max": 12, "average": 7, "unit": "percent"},
+      "deep_underground": {"min": 5, "max": 10, "average": 7, "unit": "percent"}
+    },
+    "commodity_price_risk": {
+      "gold": {"annual_volatility": 15, "beta_to_market": 0.3},
+      "diamonds": {"annual_volatility": 20, "beta_to_market": 0.5},
+      "tanzanite": {"annual_volatility": 30, "beta_to_market": 0.7},
+      "ruby": {"annual_volatility": 35, "beta_to_market": 0.8},
+      "REE": {"annual_volatility": 40, "beta_to_market": 0.6},
+      "unit": "percent"
+    }
+  },
+  "ESG_cost_considerations": {
+    "environmental": {
+      "carbon_tax": {"min": 5, "max": 50, "average": 25, "currency": "USD", "unit": "per_tonne_CO2"},
+      "water_levy": {"min": 0.1, "max": 2.0, "average": 0.5, "currency": "USD", "unit": "per_m3"},
+      "tailings_management_annual": {"min": 0.5, "max": 3.0, "average": 1.2, "currency": "USD", "unit": "per_tonne_ore"},
+      "biodiversity_offset_per_hectare": {"min": 5000, "max": 50000, "average": 15000, "currency": "USD"},
+      "decommissioning_reserve": {"min": 5, "max": 15, "average": 8, "unit": "percent_of_total_capex"}
+    },
+    "social": {
+      "community_development_percentage_of_revenue": {"min": 0.5, "max": 3.0, "average": 1.0, "unit": "percent"},
+      "local_employment_cost_premium": {"min": 5, "max": 20, "average": 10, "unit": "percent"},
+      "training_and_development_per_employee": {"min": 500, "max": 3000, "average": 1500, "currency": "USD", "unit": "annual"},
+      "health_safety_programs_per_employee": {"min": 200, "max": 1500, "average": 600, "currency": "USD", "unit": "annual"},
+      "lost_time_injury_frequency_target": {"min": 0.3, "max": 2.0, "average": 0.8, "unit": "per_million_hours"},
+      "fatality_elimination_target": 0
+    },
+    "governance": {
+      "compliance_program_cost": {"min": 500000, "max": 5000000, "average": 1500000, "currency": "USD", "unit": "annual"},
+      "third_party_audits": {"min": 100000, "max": 1000000, "average": 350000, "currency": "USD", "unit": "annual"},
+      "anti_corruption_program": {"min": 200000, "max": 2000000, "average": 500000, "currency": "USD", "unit": "annual"},
+      "conflict_minerals_due_diligence": {"min": 100000, "max": 1000000, "average": 300000, "currency": "USD", "unit": "annual"}
+    },
+    "certification_costs": {
+      "ICMM_membership": {"annual_fee": {"min": 50000, "max": 500000, "average": 200000, "currency": "USD"}},
+      "responsible_jewellery_council": {"annual_fee": {"min": 20000, "max": 200000, "average": 80000, "currency": "USD"}},
+      "kimberley_process_compliance": {"annual_cost": {"min": 50000, "max": 300000, "average": 150000, "currency": "USD"}},
+      "ISO_14001_certification": {"initial": {"min": 50000, "max": 200000, "average": 100000, "currency": "USD"}, "annual_maintenance": {"min": 20000, "max": 80000, "average": 40000, "currency": "USD"}}
+    }
+  }
+}

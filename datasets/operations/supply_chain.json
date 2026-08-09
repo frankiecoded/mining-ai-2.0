@@ -1,0 +1,230 @@
+{
+  "title": "Supply Chain & Logistics Dataset",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Transport routes, customs procedures, import/export logistics, and supply chain management.",
+  "transport_routes": {
+    "lake_victoria_operations": {
+      "port_of_export": "Dar es Salaam",
+      "port_alternative": "Mombasa",
+      "routes": [
+        {
+          "route_id": "RT-001",
+          "name": "Geita to Dar es Salaam (Road)",
+          "distance_km": 1450,
+          "travel_time_hours": 18,
+          "road_condition": "Good (tarmac)",
+          "mode": "Road (25t trucks)",
+          "cost_per_tonne_usd": 85,
+          "capacity_tonnes": 25,
+          "frequency": "Daily"
+        },
+        {
+          "route_id": "RT-002",
+          "name": "Geita to Mombasa (Road)",
+          "distance_km": 1850,
+          "travel_time_hours": 24,
+          "road_condition": "Good to Fair (tarmac)",
+          "mode": "Road (25t trucks)",
+          "cost_per_tonne_usd": 95,
+          "capacity_tonnes": 25,
+          "frequency": "As needed"
+        },
+        {
+          "route_id": "RT-003",
+          "name": "Lake Victoria to Dar es Salaam (Rail + Road)",
+          "distance_km": 1600,
+          "travel_time_hours": 72,
+          "road_condition": "Rail + road",
+          "mode": "Rail (TAZARA) + Road",
+          "cost_per_tonne_usd": 45,
+          "capacity_tonnes": 500,
+          "frequency": "Weekly"
+        }
+      ]
+    },
+    "bulawayo_operations": {
+      "port_of_export": "Durban (South Africa)",
+      "routes": [
+        {
+          "route_id": "RT-004",
+          "name": "Bulawayo to Durban (Road)",
+          "distance_km": 850,
+          "travel_time_hours": 12,
+          "road_condition": "Good (tarmac, A1 highway)",
+          "mode": "Road (30t trucks)",
+          "cost_per_tonne_usd": 55,
+          "capacity_tonnes": 30,
+          "frequency": "Daily"
+        }
+      ]
+    },
+    "merelani_operations": {
+      "port_of_export": "Dar es Salaam",
+      "routes": [
+        {
+          "route_id": "RT-005",
+          "name": "Merelani to Dar es Salaam (Road)",
+          "distance_km": 550,
+          "travel_time_hours": 8,
+          "road_condition": "Good (tarmac)",
+          "mode": "Road (armored vehicle for gems)",
+          "cost_per_carat_usd": 15,
+          "frequency": "Weekly"
+        }
+      ]
+    }
+  },
+  "customs_procedures": {
+    "tanzania": {
+      "export_permit": "Mining Export Permit (Ministry of Minerals)",
+      "processing_time_days": 3,
+      "requirements": [
+        "Mine production return",
+        "Assay certificate",
+        "Export license",
+        "Customs declaration (ASYCUDA)",
+        "Environmental compliance certificate"
+      ],
+      "duty": "0% on minerals (export)",
+      "vat_refund": "Available on inputs",
+      "special_requirements": {
+        "gold": "Refined to doré bar; assay by government chemist",
+        "diamonds": "Kimberley Process certificate; government valuer",
+        "gemstones": "Government valuer; export permit per shipment"
+      }
+    },
+    "kenya": {
+      "export_permit": "Mining Export License (State Department for Mining)",
+      "processing_time_days": 5,
+      "requirements": [
+        "Mining license copy",
+        "Production records",
+        "Environmental compliance",
+        "Assay certificate",
+        "Export declaration form"
+      ],
+      "duty": "0% on minerals",
+      "special_requirements": {
+        "gemstones": "Government valuer appointment"
+      }
+    },
+    "uganda": {
+      "export_permit": "Mineral Export Permit (Ministry of Energy)",
+      "processing_time_days": 5,
+      "requirements": [
+        "Mining license",
+        "Environmental permit",
+        "Assay certificate",
+        "Customs declaration"
+      ],
+      "duty": "0% on minerals"
+    },
+    "drc": {
+      "export_permit": "Direction des Mines export license",
+      "processing_time_days": 14,
+      "requirements": [
+        "Exploitation permit",
+        "Production report",
+        "Environmental permit",
+        "DGC (Dotation en Genie Civil) payment receipt",
+        "SISCOMINES certificate",
+        "Customs declaration"
+      ],
+      "duty": "2% on minerals",
+      "special_requirements": {
+        "coltan": "NDC (National Disarmament Commission) certificate",
+        "diamonds": "CSO (Centre de Suivi) certificate",
+        "gold": "CEEC (Centre de Promotion du Secteur Prive) certificate"
+      },
+      "challenges": ["Complex bureaucracy", "Multiple agencies", "Delays common"]
+    },
+    "south_sudan": {
+      "export_permit": "Ministry of Mining export license",
+      "processing_time_days": 7,
+      "requirements": [
+        "Mining license",
+        "Environmental assessment",
+        "Customs declaration"
+      ],
+      "challenges": ["Limited infrastructure", "Banking system challenges", "Security considerations"]
+    }
+  },
+  "import_requirements": {
+    "mining_equipment": {
+      "duty_exemption": "Available for registered mining companies",
+      "vat_exemption": "Available on capital equipment",
+      "requirements": [
+        "Mining license",
+        "Equipment specification",
+        "Customs duty exemption application",
+        "Bonded warehouse arrangement"
+      ],
+      "processing_time_days": 14
+    },
+    "explosives": {
+      "license": "Explosives import permit (Police/Ministry of Home Affairs)",
+      "requirements": [
+        "End-user certificate",
+        "Storage facility approval",
+        "Transport permit",
+        "Security clearance"
+      ],
+      "processing_time_days": 30,
+      "special_conditions": ["Armed escort required for transport"]
+    },
+    "chemicals": {
+      "cyanide": {
+        "import_permit": "Chemical Weapons Convention compliance",
+        "requirements": [
+          "Mining license",
+          "Environmental permit",
+          "Storage facility approval",
+          "Security arrangements"
+        ],
+        "processing_time_days": 21
+      },
+      "other_reagents": {
+        "standard_import": true,
+        "requirements": ["Mining license", "Environmental compliance"]
+      }
+    }
+  },
+  "product_marketing": {
+    "gold": {
+      "target_buyers": ["LBMA refinery", "Regional refineries"],
+      "marketing_strategy": "Spot sales + forward contracts",
+      "price_discovery": "LBMA AM/PM fix",
+      "payment_terms": "Cash settlement (T+2)"
+    },
+    "tanzanite": {
+      "target_buyers": ["TanzaniteOne", "International gem dealers", "Auction houses"],
+      "marketing_strategy": "Exclusive partnerships + auctions",
+      "certification": "TanzaniteOne grading; GIA optional",
+      "sales_channels": ["Direct sales", "Hong Kong shows", "Tucson gem show"]
+    },
+    "ruby": {
+      "target_buyers": ["Gemfields", "International dealers", "Auction houses"],
+      "marketing_strategy": "Tenders and auctions",
+      "certification": "GIA/Gübelin certificates for high-value stones"
+    },
+    "diamonds": {
+      "target_buyers": ["De Beers sightholders", "IDC", "Local dealers"],
+      "marketing_strategy": "CKC tender system",
+      "certification": "Kimberley Process; GIA for gem quality"
+    }
+  },
+  "logistics_infrastructure": {
+    "warehouses": [
+      {"location": "Geita", "capacity_tonnes": 500, "type": "Gold doré storage"},
+      {"location": "Dar es Salaam", "capacity_tonnes": 1000, "type": "Transit warehouse"},
+      {"location": "Arusha", "capacity_sqm": 200, "type": "Gemstone vault"}
+    ],
+    "fleet": [
+      {"type": "Haul trucks", "count": 18, "capacity_tonnes": 25, "status": "Operational"},
+      {"type": "Fuel tankers", "count": 3, "capacity_litres": 30000, "status": "Operational"},
+      {"type": "Water trucks", "count": 4, "capacity_litres": 20000, "status": "Operational"},
+      {"type": "Armored vehicles", "count": 2, "capacity_kg": 500, "status": "For gemstone transport"}
+    ]
+  }
+}

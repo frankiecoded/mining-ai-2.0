@@ -1,0 +1,1091 @@
+{
+  "title": "Gold Geology - Exploration, Sampling & Assaying",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Comprehensive gold exploration, drilling, sampling, and assaying knowledge.",
+  "exploration_methods": {
+    "geochemical_prospecting": {
+      "description": "Analysis of chemical signatures in soil, rock, and water to detect gold mineralization",
+      "methods": {
+        "soil_sampling": {
+          "grid_spacing_m": "50-200",
+          "sample_depth_cm": "15-30",
+          "sample_mass_g": 500,
+          "analytes": ["Au", "As", "Sb", "Ag", "Cu", "Pb", "Zn", "Bi"],
+          "anomaly_thresholds": {
+            "gold_ppb": ">50 (anomaly), >200 (strong anomaly)",
+            "arsenic_ppm": ">100",
+            "antimony_ppm": ">10"
+          }
+        },
+        "rock_chipping": {
+          "description": "Collection of chip samples across outcrops",
+          "sample_interval_m": "1-2",
+          "sample_mass_g": 1000,
+          "channels_vs_chips": "Channels are more representative"
+        },
+        "stream_sediment": {
+          "description": "Pan samples or sieved sediment from stream beds",
+          "catchment_area_km2": "10-100",
+          "indicators": ["Gold grains", "Heavy mineral concentrates", "Chemical anomalies"]
+        },
+        "till_geochemistry": {
+          "description": "Chemical analysis of glacial till for gold pathfinder elements",
+          "applicable_regions": ["Canada", "Scandinavia", "Northern Russia"]
+        }
+      }
+    },
+    "geophysical_prospecting": {
+      "description": "Physical property measurements to map subsurface geology",
+      "methods": {
+        "magnetics": {
+          "description": "Measures magnetic susceptibility of rocks",
+          "resolution": "1-10m",
+          "applications": ["Mapping rock types", "Detecting alteration", "Fault/structure mapping"],
+          "equipment": ["Aeromagnetic survey", "Ground magnetometer", "Drone-mounted magnetometer"]
+        },
+        "induced_polarization": {
+          "abbreviation": "IP",
+          "description": "Measures chargeability of rocks (sulfide detection)",
+          "parameters": ["Chargeability (mV/V)", "Resistivity (ohm-m)"],
+          "depth_of_investigation_m": "100-500",
+          "applications": ["Sulfide mineralization", "Disseminated gold", "Conductive bodies"]
+        },
+        "resistivity": {
+          "description": "Electrical resistance of subsurface materials",
+          "arrays": ["Wenner", "Schlumberger", "Dipole-dipole"],
+          "applications": ["Groundwater", "Fault zones", " alteration zones"]
+        },
+        "ground_penetrating_radar": {
+          "abbreviation": "GPR",
+          "description": "Radar pulses to image shallow subsurface",
+          "depth_range_m": "0-30",
+          "frequency_mhz": "50-1500",
+          "applications": ["Shallow deposits", "Karst", "Structural mapping"]
+        },
+        "radiometrics": {
+          "description": "Gamma-ray measurements of K, U, Th",
+          "applications": ["Lithological mapping", "Alteration detection", "Regolith studies"]
+        },
+        "airborne_electromagnetics": {
+          "abbreviation": "AEM",
+          "description": "Electromagnetic survey from aircraft",
+          "depth_range_m": "0-500",
+          "systems": ["SkyTEM", "VTEM", "FALCON"],
+          "applications": ["Large-scale reconnaissance", "Conductivity mapping"]
+        }
+      }
+    },
+    "drilling": {
+      "description": "Penetrating the earth to collect core samples for grade determination",
+      "methods": {
+        "diamond_drilling": {
+          "description": "Uses diamond-impregnated bits to cut core",
+          "core_sizes": [
+            {"size": "HQ", "diameter_mm": 63.5, "usage": "Exploration"},
+            {"size": "NQ", "diameter_mm": 47.6, "usage": "Definition"},
+            {"size": "BQ", "diameter_mm": 36.5, "usage": "Deep/water holes"}
+          ],
+          "drill_rate_m_per_hour": "2-8",
+          "depth_capability_m": "3000+",
+          "cost_per_meter_usd": "80-200",
+          "advantages": ["Continuous core", "Geological detail", "Grade control"],
+          "disadvantages": ["Slow", "Expensive", "Lost core risk"]
+        },
+        "reverse_circulation": {
+          "abbreviation": "RC",
+          "description": "Air-powered hammer drilling; chips returned through outer tube",
+          "bit_diameter_mm": "133-152",
+          "drill_rate_m_per_hour": "15-30",
+          "depth_capability_m": "500",
+          "cost_per_meter_usd": "30-80",
+          "advantages": ["Fast", "Cheaper than diamond", "Good for grade control"],
+          "disadvantages": ["No continuous core", "Sample contamination risk", "Dust"]
+        },
+        "air_core": {
+          "abbreviation": "AC",
+          "description": "Air-powered drilling for shallow exploration",
+          "bit_diameter_mm": "113-140",
+          "drill_rate_m_per_hour": "20-50",
+          "depth_capability_m": "200",
+          "cost_per_meter_usd": "15-40",
+          "applications": ["Soil/bedrock interface", "Geochemical anomaly testing"]
+        },
+        "rotary_air_blast": {
+          "abbreviation": "RAB",
+          "description": "Simple air-powered percussion drilling",
+          "depth_capability_m": "50",
+          "cost_per_meter_usd": "10-25",
+          "applications": ["Reconnaissance", "Geochemical sampling"]
+        }
+      },
+      "drill_program_design": {
+        "spacing": {
+          "reconnaissance": "200-500m lines, 50-100m spacing",
+          "infill": "50-100m lines, 25-50m spacing",
+          "definition": "25-50m lines, 10-25m spacing",
+          "grade_control": "10-20m lines, 5-10m spacing"
+        },
+        "depth_rules": {
+          "reconnaissance": "50-150m below surface",
+          "infill": "100-300m below known mineralization",
+          "definition": "50-200m below planned mine"
+        },
+        "core_handling": {
+          "orientation": "Core orientation tool (preferred) or structural markings",
+          "logging": "Geologist logs every meter; photos at 1m intervals",
+          "sampling": "Quarter-core or half-core sawn; 1m composite samples",
+          "storage": "Core trays in secure shed; catalogued by hole ID"
+        }
+      }
+    }
+  },
+  "assaying": {
+    "description": "Laboratory analysis to determine gold grade",
+    "methods": {
+      "fire_assay": {
+        "description": "The standard method for gold determination",
+        "process": [
+          "Sample pulverized to -200 mesh",
+          "20-50g charge mixed with flux (PbO, Na2CO3, SiO2, flour)",
+          "Heated in furnace at 1050-1100°C for 45-60 minutes",
+          "Lead button collects gold (40-50g Pb)",
+          "Cupellation: Pb oxidized and absorbed by cupel at 950°C",
+          "Gold bead remains; weighed (gravimetric) or dissolved for AAS"
+        ],
+        "detection_limit_ppb": 5,
+        "precision_relative_standard_deviation_percent": "2-5",
+        "turnaround_time_hours": "4-8",
+        "cost_per_sample_usd": "15-30"
+      },
+      "icp_ms": {
+        "description": "Inductively Coupled Plasma Mass Spectrometry",
+        "detection_limit_ppb": 0.01,
+        "analytes": "40+ elements simultaneously",
+        "precision_percent": "1-3",
+        "applications": ["Multi-element analysis", "Geochemical surveys", "Environmental"]
+      },
+      "icp_oes": {
+        "description": "Inductively Coupled Plasma Optical Emission Spectrometry",
+        "detection_limit_ppb": 1,
+        "analytes": "30+ elements",
+        "precision_percent": "2-5",
+        "applications": ["Base metals", "Process solutions", "Grade control"]
+      },
+      "atomic_absorption": {
+        "abbreviation": "AAS",
+        "description": "Measures gold absorption of light at specific wavelength",
+        "detection_limit_ppb": 5,
+        "wavelength_nm": 242.8,
+        "applications": ["Gold analysis", "Mercury analysis"],
+        "throughput_samples_per_hour": 30
+      },
+      "screen_fire_assay": {
+        "description": "Fire assay on screened sample to detect coarse gold",
+        "screen_size_mesh": 150,
+        "applications": ["Nuggety gold ores", "Coarse gold deposits"],
+        "advantage": "More representative for coarse gold",
+        "disadvantage": "Lower precision for fine gold"
+      }
+    },
+    "quality_control": {
+      "standards": ["Certified Reference Materials (CRMs)", "Blank samples", "Duplicate samples"],
+      "control_chart": "Shewhart chart with 2-sigma warning, 3-sigma action limits",
+      "frequency": "1 CRM + 1 blank + 1 duplicate per 20 samples",
+      "acceptable_bias_percent": "±5% of certified value",
+      "acceptable_precision_percent": "Relative duplicate difference <10%"
+    },
+    "mineralogy": {
+      "description": "Identification and quantification of minerals in ore",
+      "methods": {
+        "xrd": {
+          "full_name": "X-Ray Diffraction",
+          "applications": ["Mineral identification", "Clay mineralogy", "Process mineralogy"]
+        },
+        "sem_eds": {
+          "full_name": "Scanning Electron Microscopy with Energy Dispersive Spectroscopy",
+          "applications": ["Gold particle size and shape", "Mineral associations", "Elemental composition"]
+        },
+        "qemscan": {
+          "full_name": "Quantitative Evaluation of Minerals by SCANning electron microscopy",
+          "applications": ["Modal mineralogy", "Texture analysis", "Liberation studies"]
+        },
+        "automated_mineralogy": {
+          "systems": ["QEMSCAN", "MLA", "TIMA"],
+          "throughput_samples_per_day": "5-10",
+          "data_output": ["Mineral abundance", "Grain size distribution", " liberation spectra"]
+        }
+      }
+    }
+  },
+  "resource_estimation": {
+    "description": "Estimation of gold grade and tonnage in a deposit",
+    "classification": {
+      "measured": {
+        "confidence": "High",
+        "drill_spacing": "25-50m",
+        "geological_confidence": "Well understood",
+        "economic_context": "Proven reserves"
+      },
+      "indicated": {
+        "confidence": "Reasonable",
+        "drill_spacing": "50-100m",
+        "geological_confidence": "Reasonably understood",
+        "economic_context": "Probable reserves"
+      },
+      "inferred": {
+        "confidence": "Low",
+        "drill_spacing": "100-500m",
+        "geological_confidence": "Limited understanding",
+        "economic_context": "Cannot be converted to reserves"
+      }
+    },
+    "methods": {
+      "ordinary_kriging": {
+        "description": "Weighted average based on spatial correlation (variogram)",
+        "advantages": "Unbiased estimator; accounts for spatial continuity",
+        "assumptions": "Stationarity; known variogram model"
+      },
+      "inverse_distance_weighting": {
+        "abbreviation": "IDW",
+        "description": "Weighted average where weight = 1/distance^power",
+        "power": "1-3",
+        "advantages": "Simple; intuitive",
+        "disadvantages": "Can produce smooth estimates; no geological insight"
+      },
+      "nearest_neighbor": {
+        "description": "Each block assigned value of nearest sample",
+        "advantages": "Simple; preserves sample values",
+        "disadvantages": "Blocky estimates; ignores spatial continuity"
+      },
+      "simulation": {
+        "description": "Stochastic simulation of multiple equally probable grade models",
+        "methods": ["Sequential Gaussian Simulation", "Sequential Indicator Simulation"],
+        "advantages": "Quantifies uncertainty; risk assessment"
+      }
+    },
+    "variography": {
+      "description": "Statistical method to quantify spatial continuity of grades",
+      "parameters": {
+        "nugget": "Random variation; short-range variability",
+        "sill": "Total variance; plateau of variogram",
+        "range": "Distance beyond which samples are uncorrelated",
+        "anisotropy_ratio": "Ratio of major to minor range"
+      },
+      "models": ["Spherical", "Exponential", "Gaussian", "Linear"]
+    }
+  },
+  "geotechnical_engineering": {
+    "description": "Rock mechanics and ground engineering for gold mining",
+    "rock_classification": {
+      "rock_quality_designation": {
+        "abbreviation": "RQD",
+        "description": "Percentage of core sticks >10cm in length",
+        "classification": {
+          "poor": "<25%",
+          "fair": "25-50%",
+          "good": "50-75%",
+          "excellent": ">75%"
+        }
+      },
+      "rock_mass_rating": {
+        "abbreviation": "RMR",
+        "description": "Quantitative rock mass classification",
+        "parameters": ["UCS", "RQD", "Joint spacing", "Joint conditions", "Groundwater"],
+        "range": "0-100"
+      },
+      "q_system": {
+        "description": "Barton's rock mass quality index",
+        "formula": "Q = (RQD/Jn) × (Jr/Ja) × (Jw/SRF)",
+        "range": "0.001-1000"
+      }
+    },
+    "stope_design": {
+      "factors": ["Rock mass strength", "Stress field", "Stope dimensions", "Exposure time"],
+      "methods": ["Empirical (Mathews stability graph)", "Numerical modeling (FLAC, Phase2)"],
+      "stability_graph": {
+        "stability_number": "Modified N' = N × (Q × σc/σ1)",
+        "hydraulic_radius_m": "Area / Perimeter",
+        "domains": ["Stable", "Unstable", "Caved"]
+      }
+    }
+  },
+  "pathfinder_elements": {
+    "description": "Geochemical indicator elements that accompany gold mineralization and assist in vectoring toward ore zones",
+    "orogenic_gold": {
+      "deposit_type": "Orogenic gold (mesothermal, greenstone-hosted)",
+      "pathfinders": [
+        {
+          "element": "As",
+          "full_name": "Arsenic",
+          "threshold_ppm": 50,
+          "strong_anomaly_ppm": 200,
+          "spatial_relationship": "Typically halo extends 50-200m beyond gold mineralization",
+          "mineral_forms": ["Arsenopyrite", "Pyrite", "Löllingite"],
+          "exploration_use": "Primary pathfinder; widest dispersion halo"
+        },
+        {
+          "element": "Sb",
+          "full_name": "Antimony",
+          "threshold_ppm": 10,
+          "strong_anomaly_ppm": 50,
+          "spatial_relationship": "Concentrated in upper portions of vein systems; distal to ore",
+          "mineral_forms": ["Stibnite", "Gudmundite", "Antimony-bearing pyrite"],
+          "exploration_use": "Vectors toward upper levels of orogenic systems"
+        },
+        {
+          "element": "Bi",
+          "full_name": "Bismuth",
+          "threshold_ppm": 5,
+          "strong_anomaly_ppm": 20,
+          "spatial_relationship": "Proximal to gold; often within ore zone",
+          "mineral_forms": ["Bismuthinite", "Native bismuth", "Bismuth tellurides"],
+          "exploration_use": "Indicates high-temperature fluid pathways near intrusive centers"
+        },
+        {
+          "element": "Te",
+          "full_name": "Tellurium",
+          "threshold_ppm": 1,
+          "strong_anomaly_ppm": 5,
+          "spatial_relationship": "Very proximal to ore; may be within gold-bearing vein",
+          "mineral_forms": ["Calaverite", "Kostovite", "Coloradoite"],
+          "exploration_use": "Strong indicator of proximal gold; often missed in routine analysis"
+        },
+        {
+          "element": "W",
+          "full_name": "Tungsten",
+          "threshold_ppm": 10,
+          "strong_anomaly_ppm": 50,
+          "spatial_relationship": "Associated with deeper parts of systems near intrusions",
+          "mineral_forms": ["Scheelite", "Wolframite"],
+          "exploration_use": "Vectors toward magmatic fluid input; deeper structural levels"
+        },
+        {
+          "element": "Mo",
+          "full_name": "Molybdenum",
+          "threshold_ppm": 5,
+          "strong_anomaly_ppm": 20,
+          "spatial_relationship": "Proximal; associated with porphyritic intrusions",
+          "mineral_forms": ["Molybdenite"],
+          "exploration_use": "Indicates magmatic contribution to hydrothermal system"
+        }
+      ]
+    },
+    "carlin_type": {
+      "deposit_type": "Carlin-type (sediment-hosted disseminated gold)",
+      "pathfinders": [
+        {
+          "element": "As",
+          "full_name": "Arsenic",
+          "threshold_ppm": 100,
+          "strong_anomaly_ppm": 500,
+          "spatial_relationship": "Forms broad halo; peaks with gold in jasperoid zones",
+          "mineral_forms": ["Realgar", "Orpiment", "Arsenian pyrite"],
+          "exploration_use": "Primary pathfinder; most widely used for Carlin targeting"
+        },
+        {
+          "element": "Sb",
+          "full_name": "Antimony",
+          "threshold_ppm": 20,
+          "strong_anomaly_ppm": 100,
+          "spatial_relationship": "Rim halo around main ore zones; structural controls",
+          "mineral_forms": ["Stibnite", "Metastibnite"],
+          "exploration_use": "Defines outer alteration halo; maps structural permeability"
+        },
+        {
+          "element": "Hg",
+          "full_name": "Mercury",
+          "threshold_ppm": 1,
+          "strong_anomaly_ppm": 10,
+          "spatial_relationship": "Very distal; vapor phase extends well beyond ore",
+          "mineral_forms": ["Cinnabar", "Native mercury"],
+          "exploration_use": "Broadest dispersion; surface anomaly can be kilometers from ore"
+        },
+        {
+          "element": "Tl",
+          "full_name": "Thallium",
+          "threshold_ppm": 2,
+          "strong_anomaly_ppm": 10,
+          "spatial_relationship": "Distal halo; often associated with antimony",
+          "mineral_forms": ["Tl-bearing pyrite", "Lorandite"],
+          "exploration_use": "Highly sensitive pathfinder; detects deeply buried Carlin systems"
+        }
+      ]
+    },
+    "epithermal": {
+      "deposit_type": "Epithermal gold (high and low sulfidation)",
+      "pathfinders": [
+        {
+          "element": "As",
+          "full_name": "Arsenic",
+          "threshold_ppm": 30,
+          "strong_anomaly_ppm": 150,
+          "spatial_relationship": "Present in both high and low sulfidation; broader in high sulfidation",
+          "mineral_forms": ["Enargite", "Arsenopyrite", "Arsenian pyrite"],
+          "exploration_use": "Primary vectoring tool in epithermal systems"
+        },
+        {
+          "element": "Sb",
+          "full_name": "Antimony",
+          "threshold_ppm": 15,
+          "strong_anomaly_ppm": 75,
+          "spatial_relationship": "Concentrated at epithermal quartz-adularia vein margins",
+          "mineral_forms": ["Stibnite", "Bournonite"],
+          "exploration_use": "Maps hydrothermal breccia zones and veining"
+        },
+        {
+          "element": "Hg",
+          "full_name": "Mercury",
+          "threshold_ppm": 5,
+          "strong_anomaly_ppm": 50,
+          "spatial_relationship": "Capping anomaly above boiling zone; surface expression",
+          "mineral_forms": ["Cinnabar", "Native mercury"],
+          "exploration_use": "Shallow-level indicator; vector to boiling level from surface"
+        },
+        {
+          "element": "Ag",
+          "full_name": "Silver",
+          "threshold_ppm": 2,
+          "strong_anomaly_ppm": 15,
+          "spatial_relationship": "Often inversely correlated with gold in bonanza veins (Au/Ag ratio)",
+          "mineral_forms": ["Native silver", "Acanthite", "Polybasite"],
+          "exploration_use": "Au:Ag ratio vectors toward boiling zone (ratio increases)"
+        },
+        {
+          "element": "Te",
+          "full_name": "Tellurium",
+          "threshold_ppm": 2,
+          "strong_anomaly_ppm": 10,
+          "spatial_relationship": "Proximal to high-grade gold veins",
+          "mineral_forms": ["Calaverite", "Tellurides"],
+          "exploration_use": "Indicates high-grade zones; often enriched in bonanza ore"
+        }
+      ]
+    },
+    "porphyry": {
+      "deposit_type": "Porphyry gold-copper",
+      "pathfinders": [
+        {
+          "element": "Cu",
+          "full_name": "Copper",
+          "threshold_ppm": 500,
+          "strong_anomaly_ppm": 2000,
+          "spatial_relationship": "Defines potassic core and phyllic shell",
+          "mineral_forms": ["Chalcopyrite", "Bornite", "Chalcocite"],
+          "exploration_use": "Primary commodity; maps alteration shells"
+        },
+        {
+          "element": "Mo",
+          "full_name": "Molybdenum",
+          "threshold_ppm": 10,
+          "strong_anomaly_ppm": 100,
+          "spatial_relationship": "Concentrated in potassic core; decreases outward",
+          "mineral_forms": ["Molybdenite"],
+          "exploration_use": "Defines center of system; Mo:Cu ratio vectors inward"
+        },
+        {
+          "element": "Re",
+          "full_name": "Rhenium",
+          "threshold_ppm": 0.5,
+          "strong_anomaly_ppm": 5,
+          "spatial_relationship": "Co-located with molybdenite in potassic zone",
+          "mineral_forms": ["Rhenium-bearing molybdenite"],
+          "exploration_use": "By-product value indicator; pathfinder for deep porphyry centers"
+        },
+        {
+          "element": "Ag",
+          "full_name": "Silver",
+          "threshold_ppm": 1,
+          "strong_anomaly_ppm": 10,
+          "spatial_relationship": "Enriched in phyllic and argillic shells",
+          "mineral_forms": ["Native silver", "Silver sulfosalts"],
+          "exploration_use": "Maps outer alteration; Ag:Cu ratio increases outward"
+        }
+      ]
+    },
+    "placer": {
+      "deposit_type": "Placer gold (alluvial, eluvial, paleoplacer)",
+      "pathfinders": [
+        {
+          "parameter": "Au_grain_morphology",
+          "description": "Shape and surface texture of gold grains indicates distance from source",
+          "categories": [
+            {
+              "morphology": "Angular, rough",
+              "distance_from_source_m": "0-500",
+              "interpretation": "Proximal source; fresh liberation from lode"
+            },
+            {
+              "morphology": "Sub-angular, moderately worn",
+              "distance_from_source_m": "500-5000",
+              "interpretation": "Moderate transport; reworked from eluvial zone"
+            },
+            {
+              "morphology": "Rounded, smooth, flattened",
+              "distance_from_source_m": "5000-50000",
+              "interpretation": "Distal source; extensive fluvial transport"
+            }
+          ]
+        },
+        {
+          "parameter": "grain_size_distribution",
+          "description": "Gold grain size decreases downstream in fluvial systems",
+          "application": "Upstream vectoring toward primary source"
+        },
+        {
+          "parameter": "fineness",
+          "description": "Au:Ag ratio of placer gold reflects source rock type",
+          "ranges": [
+            {"fineness": "900-990", "source": "Quartz-vein lode deposits"},
+            {"fineness": "700-900", "source": "Volcanogenic massive sulfide sources"},
+            {"fineness": "500-700", "source": "Intrusion-related sources"}
+          ]
+        },
+        {
+          "parameter": "heavy_mineral_associates",
+          "description": "Co-existing heavy minerals indicate source geology",
+          "minerals": [
+            {"mineral": "Magnetite", "source_indicator": "Mafic/ultramafic source rocks"},
+            {"mineral": "Garnet", "source_indicator": "Metamorphic source rocks"},
+            {"mineral": "Chromite", "source_indicator": "Ultramafic/ophiolitic source"},
+            {"mineral": "Zircon", "source_indicator": "Felsic/intermediate igneous source"}
+          ]
+        }
+      ]
+    }
+  },
+  "alteration_systems": {
+    "description": "Hydrothermal alteration mineral assemblages used to vector toward gold ore zones",
+    "sericitization": {
+      "minerals": ["Sericite", "Quartz", "Pyrite"],
+      "indicator": "Green-white color change in hand specimen",
+      "spatial_extent_m": "100-500m from ore",
+      "associated_deposit_types": ["Orogenic gold", "Intrusion-related gold", "Porphyry Cu-Au"],
+      "spatial_relationship_to_ore": "Form phyllic/sericitic alteration shell immediately surrounding ore zones; replaces feldspars and mafic minerals",
+      "exploration_significance": "Primary vectoring tool; presence indicates proximity to hydrothermal center. Maps the phyllic alteration zone that typically encloses higher-grade mineralization.",
+      "key_mineral_ratios": "Sericite:quartz ratio increases toward ore",
+      "field_identification": "Soft, pale green to white rock; feldspars completely replaced; feels greasy"
+    },
+    "silicification": {
+      "minerals": ["Quartz", "Chalcedony"],
+      "indicator": "Hard, resistant outcrops; stands positive in relief",
+      "spatial_extent_m": "0-200m from ore",
+      "associated_deposit_types": ["Epithermal gold", "Carlin-type", "Orogenic gold"],
+      "spatial_relationship_to_ore": "May be directly coincident with ore (jasperoid replacement in Carlin systems) or proximal to vein systems in epithermal deposits",
+      "exploration_significance": "Silica flooding indicates intense hydrothermal activity. In epithermal systems, chalcedony textures record boiling events critical for gold precipitation.",
+      "key_mineral_ratios": "Quartz polymorph (chalcedony vs. crystalline) indicates temperature of formation",
+      "field_identification": "Very hard, rings when struck; may be white, grey, or red (jasperoid); resistant to weathering"
+    },
+    "carbonatization": {
+      "minerals": ["Ankerite", "Siderite", "Calcite"],
+      "indicator": "Brown weathering; rusty staining on outcrop surfaces",
+      "spatial_extent_m": "100-1000m from ore",
+      "associated_deposit_types": ["Orogenic gold", "Carlin-type", "Sediment-hosted gold"],
+      "spatial_relationship_to_ore": "Forms distal halo around gold-bearing shear zones; ankerite preferentially associated with higher-grade zones in orogenic systems",
+      "exploration_significance": "Widest alteration halo of most orogenic systems; detectable in soil geochemistry as elevated CO2. Siderite-ankerite ratio may vector toward ore.",
+      "key_mineral_ratios": "Ankerite:calcite ratio increases toward higher temperature conditions near ore",
+      "field_identification": "Calcite fizzes with HCl (cold); ankerite fizzes weakly with warm HCl; siderite does not fizz and has brown color"
+    },
+    "chloritization": {
+      "minerals": ["Chlorite", "Epidote"],
+      "indicator": "Dark green color; soft, planar cleavage",
+      "spatial_extent_m": "200-1000m from ore",
+      "associated_deposit_types": ["Orogenic gold", "Porphyry Cu-Au", "Volcanogenic"],
+      "spatial_relationship_to_ore": "Distal propylitic alteration halo; forms broad zone surrounding more intense alteration",
+      "exploration_significance": "Maps the outermost expression of hydrothermal system; useful for identifying large-scale fluid pathways and structural controls on mineralization.",
+      "key_mineral_ratios": "Chlorite composition (Mg/Fe ratio) changes systematically with temperature toward ore",
+      "field_identification": "Very soft, dark green; easily scratched with fingernail; platy cleavage"
+    },
+    "argillic": {
+      "minerals": ["Kaolinite", "Montmorillonite", "Dawsonite"],
+      "indicator": "Pale, soft zones; clay-rich; swelling when wet",
+      "spatial_extent_m": "50-300m from ore",
+      "associated_deposit_types": ["Epithermal gold", "Carlin-type", "Porphyry Cu-Au"],
+      "spatial_relationship_to_ore": "Intermediate argillic zone between phyllic and propylitic; advanced argillic forms above high-sulfidation ore bodies",
+      "exploration_significance": "Advanced argillic (pyrophyllite, alunite, dickite) caps high-sulfidation deposits. In Carlin systems, clay alteration maps permeable host rocks.",
+      "key_mineral_ratios": "Kaolinite:smectite ratio indicates acid intensity; advanced argillic minerals indicate pH <3",
+      "field_identification": "Sticky when wet; white to pale grey; powdery when dry; swells noticeably"
+    },
+    "potassic": {
+      "minerals": ["K-feldspar", "Biotite", "Magnetite"],
+      "indicator": "Pink-brown color; high magnetic response",
+      "spatial_extent_m": "0-300m from ore",
+      "associated_deposit_types": ["Porphyry Cu-Au", "Porphyry Cu-Mo", "Intrusion-related gold"],
+      "spatial_relationship_to_ore": "Deepest alteration zone; directly associated with highest-grade copper-gold mineralization in porphyry systems",
+      "exploration_significance": "Core of porphyry systems; presence indicates deep erosion level. Magnetite content aids magnetic survey targeting. K-feldspar veining (A/B veins) marks productive zones.",
+      "key_mineral_ratios": "Secondary biotite:magnetite ratio indicates redox conditions and ore potential",
+      "field_identification": "Pink to dark brown; K-feldspar has distinctive pink color; secondary biotite is black, platy, and associated with magnetite"
+    }
+  },
+  "structural_geology": {
+    "description": "Structural controls on gold mineralization — the geometric and kinematic framework that localizes ore bodies",
+    "shear_zones": {
+      "characteristics": {
+        "width_m": "1-500",
+        "length_km": "1-100+",
+        "kinematics": "Ductile to brittle-ductile; sinistral or dextral reverse",
+        "formation_depth_km": "3-15",
+        "temperature_range_c": "300-500"
+      },
+      "orientation": "Typically NW-SE or NE-SW trending; subparallel to regional fabric",
+      "dilation_zones": {
+        "description": "Areas of extension within transpressional shear zones where gold precipitates",
+        "geometries": ["Bends/offsets in fault strike", "Step-overs between en echelon segments", "Intersection with cross-cutting structures", "Dilational jogs at fault termination"],
+        "ore_body_shape": "Lenticular, pod-like; elongated parallel to shear; may have significant down-plunge extent"
+      },
+      "fault_valley_systems": {
+        "description": "Topographic depressions along major shear zones due to preferential weathering of altered rock",
+        "exploration_significance": "Easily mappable from satellite imagery; provides first-order targeting for orogenic gold",
+        "typical_expression": "Linear valleys with stream drainage, alluvial gold anomalies, and weathered bedrock exposures"
+      },
+      "exploration_targets": ["Saddle reefs at fold hinges within shears", "Fault-fracture arrays at damage zones", "Lithological contacts offset by shears", "Pressure shadows around competent boudins"]
+    },
+    "fold_hinges": {
+      "saddle_reefs": {
+        "description": "Gold-bearing quartz veins that form in low-pressure zones at fold hinges",
+        "geometry": "Lensoidal veins thickening at hinge, thinning along limbs",
+        "host_structures": "Antiform hinges in interbedded competent/incompetent sequences",
+        "ore_body_thickness_m": "1-30 at hinge; <1 on limbs",
+        "examples": ["Kalgoorlie Golden Mile, Australia", "Jiangxi Gold, China", "Various Greenstone belts, Tanzania"]
+      },
+      "limb_deposits": {
+        "description": "Gold mineralization along fold limbs where bedding-parallel faults serve as fluid conduits",
+        "geometries": ["Bedding-parallel shear zones", "Boudin neck fillings", "Stacked vein arrays along limbs"],
+        "ore_body_shape": "Tabular, following bedding; may be repeated by folding"
+      },
+      "anticline_traps": {
+        "description": "Anticlinal crests trap gold-bearing fluids due to pressure gradients and structural permeability",
+        "trapping_mechanisms": ["Dilation at hinge zone", "Low-pressure zone above competent layers", "Convergence of fluid pathways from limbs"],
+        "exploration_significance": "Highly predictable geometry; drill targets at fold crest projections"
+      }
+    },
+    "fault_intersections": {
+      "cross_structure_targets": {
+        "description": "Where two fault sets intersect, enhanced permeability creates fluid focusing and gold precipitation",
+        "typical_angles": "30-60 degrees between intersecting structures",
+        "ore_body_shape": "Pipe-like or stockwork zones at intersection point",
+        "exploration_significance": "Prioritize drilling at mapped fault intersections; often overlooked in early-stage exploration"
+      },
+      "jog_zones": {
+        "description": "En echelon step-over zones between fault segments where extension creates dilation",
+        "kinematics": "Extensional jogs in transtension; compressional in transpression",
+        "ore_body_geometry": "Rhombohedral or lensoidal pods at jog",
+        "exploration_significance": "High-grade pods; may be discrete and require tight drill spacing"
+      }
+    },
+    "banded_iron_formation": {
+      "description": "BIF-hosted gold deposits where iron-rich sediments provide a chemical trap for gold",
+      "host_rock": "Banded iron formation (hematite, magnetite, jasper, chert)",
+      "chemical_trapping_mechanism": "Sulfidation of iron-rich layers by H2S-bearing fluids precipitates gold with pyrite and pyrrhotite",
+      "alteration_style": "Silica flooding, carbonate alteration, sulfidation of magnetite to pyrrhotite",
+      "ore_body_shape": "Tabular, conformable with BIF; may extend along strike for kilometers",
+      "grade_range_g_t": "3-15",
+      "examples": ["Yilgarn Craton, Australia", "Hamersley Basin, Australia", "Superior Province, Canada"]
+    },
+    "conglomerate_hosted": {
+      "description": "Witwatersrand-style paleoplacer deposits where gold is concentrated in conglomeratic horizons",
+      "deposition_type": "Paleoplacer (detrital gold in ancient fluvial sediments)",
+      "host_rock": "Quartz-pebble conglomerate with carbonaceous matrix",
+      "ore_body_shape": "Tabular, following paleochannel geometry; multi-kilometer strike",
+      "gold_association": "Detrital gold grains in carbon seams; secondary enrichment by diagenesis and metamorphism",
+      "grade_range_g_t": "5-20",
+      "exploration_significance": "Identify paleochannel systems from sedimentology; follow carbonaceous horizons. Resistant conglomerate bands form ridges useful for mapping.",
+      "examples": ["Witwatersrand Basin, South Africa", "Tarkwaian System, Ghana", "Manjiri Greenstone Belt, Tanzania"]
+    }
+  },
+  "exploration_case_studies": {
+    "description": "Real East African gold exploration case studies demonstrating discovery history, methods, and geological factors",
+    "geita_gold_mine": {
+      "name": "Geita Gold Mine",
+      "location": {"country": "Tanzania", "region": "Lake Victoria Goldfield", "coordinates": "-2.87, 32.23"},
+      "year_discovered": 1996,
+      "discovery_method": "Regional soil geochemistry followed by ground IP/resistivity surveys",
+      "operator": "AngloGold Ashanti",
+      "deposit_type": "BIF-hosted and shear-zone orogenic gold",
+      "initial_resource_tonnes": "12.5 Mt at 3.5 g/t Au (initial feasibility estimate 1998)",
+      "current_resource_tonnes": ">200 Mt at >1.5 g/t Au",
+      "key_geological_factor": "Multiple stacked quartz veins along NW-trending shear zones within Archean greenstone belt; BIF acts as chemical trap",
+      "exploration_methods_used": ["Soil geochemistry (As, Sb pathfinders)", "Ground magnetics", "IP surveys", "Diamond drilling", "RC drilling"],
+      "milestones": [
+        {"year": 1996, "event": "Soil anomaly identified over 8km strike"},
+        {"year": 1998, "event": "Feasibility study completed; orebody confirmed by 45,000m of drilling"},
+        {"year": 2000, "event": "First gold pour from open pit operations"},
+        {"year": 2005, "event": "Resource expanded through underground drilling"},
+        {"year": 2020, "event": "Mine life extended to 2030+ with new resource blocks"}
+      ],
+      "total_metres_drilled_to_date": "500,000+"
+    },
+    "kibali_gold_mine": {
+      "name": "Kibali Gold Mine",
+      "location": {"country": "DRC", "region": "Ituri Province", "coordinates": "3.25, 30.22"},
+      "year_discovered": 2008,
+      "discovery_method": "Reinterpretation of historical artisanal mining zones combined with modern airborne magnetics and soil geochemistry",
+      "operator": "AngloGold Ashanti / Barrick Gold",
+      "deposit_type": "Orogenic gold in sheared volcano-sedimentary sequence",
+      "initial_resource_tonnes": "8.2 Mt at 4.8 g/t Au",
+      "current_resource_tonnes": ">80 Mt at 2.5 g/t Au",
+      "key_geological_factor": "Structural intersection of NE-trending shear zone and N-trending faults creates high-grade shoots; multiple parallel ore bodies",
+      "exploration_methods_used": ["Airborne magnetic survey", "Soil/rock geochemistry", "Ground IP", "Diamond core drilling", "Underground exploration drives"],
+      "milestones": [
+        {"year": 2008, "event": "Systematic exploration commenced; soil anomalies confirmed"},
+        {"year": 2010, "event": "JORC resource declared at 5 Moz"},
+        {"year": 2013, "event": "First gold produced; open pit and underground development"},
+        {"year": 2018, "event": "Resource surpassed 10 Moz through brownfields drilling"},
+        {"year": 2023, "event": "Expanded underground mine life with sub-level caving development"}
+      ],
+      "total_metres_drilled_to_date": "300,000+"
+    },
+    "north_mara": {
+      "name": "North Mara Gold Mine",
+      "location": {"country": "Tanzania", "region": "Lake Victoria Goldfield", "coordinates": "-1.75, 33.57"},
+      "year_discovered": 1997,
+      "discovery_method": "Regional stream sediment sampling followed by ground geochemistry and drilling",
+      "operator": "Barrick Gold (via Acacia Mining)",
+      "deposit_type": "Orogenic gold in banded iron formation and sheared volcaniclastics",
+      "initial_resource_tonnes": "28 Mt at 3.4 g/t Au (initial 2000 feasibility)",
+      "current_resource_tonnes": ">150 Mt at 2.0 g/t Au",
+      "key_geological_factor": "Gold hosted in BIF and sheared basalts along major shear zone; multiple stacked ore lenses at different structural levels",
+      "exploration_methods_used": ["Stream sediment sampling", "Soil geochemistry", "Ground magnetics", "IP surveys", "Diamond and RC drilling"],
+      "milestones": [
+        {"year": 1997, "event": "Stream sediment anomalies identified in Mara River catchment"},
+        {"year": 2000, "event": "JORC resource established; open pit mine initiated"},
+        {"year": 2003, "event": "First gold production"},
+        {"year": 2010, "event": "Underground mine commissioned; resource expanded by 3 Moz"},
+        {"year": 2019, "event": "Resource base of >15 Moz confirmed through systematic infill and extensional drilling"}
+      ],
+      "total_metres_drilled_to_date": "400,000+"
+    },
+    "bulyanhulu": {
+      "name": "Bulyanhulu Gold Mine",
+      "location": {"country": "Tanzania", "region": "Lake Victoria Goldfield", "coordinates": "-3.32, 32.72"},
+      "year_discovered": 1995,
+      "discovery_method": "Artisanal mining discovery followed by systematic geological mapping and drilling",
+      "operator": "Barrick Gold (via Acacia Mining)",
+      "deposit_type": "Shear-hosted orogenic gold with base metal sulfides",
+      "initial_resource_tonnes": "16 Mt at 6.7 g/t Au (1998 feasibility)",
+      "current_resource_tonnes": ">50 Mt at 5.0 g/t Au",
+      "key_geological_factor": "High-grade gold along steeply dipping shear zones within banded iron formation; extensive sulfide mineralization (pyrrhotite, pyrite, chalcopyrite)",
+      "exploration_methods_used": ["Mapping of artisanal workings", "Soil geochemistry", "Ground IP/resistivity", "Diamond drilling", "Underground channel sampling"],
+      "milestones": [
+        {"year": 1995, "event": "Artisanal workings discovered along Bulya stream"},
+        {"year": 1998, "event": "Feasibility study confirmed high-grade underground resource"},
+        {"year": 2001, "event": "First gold production; underground mine developed"},
+        {"year": 2008, "event": "Resource expanded through deep drilling (>1km below surface)"},
+        {"year": 2022, "event": "Mine life extended with new satellite orebody discovery"}
+      ],
+      "total_metres_drilled_to_date": "250,000+"
+    },
+    "buzwagi": {
+      "name": "Buzwagi Gold Mine",
+      "location": {"country": "Tanzania", "region": "Lake Victoria Goldfield", "coordinates": "-3.15, 33.15"},
+      "year_discovered": 1998,
+      "discovery_method": "Soil geochemistry anomaly with As pathfinder, confirmed by ground geophysics and drilling",
+      "operator": "Acacia Mining (now Barrick)",
+      "deposit_type": "Porphyry-related gold in felsic intrusive",
+      "initial_resource_tonnes": "35 Mt at 3.5 g/t Au",
+      "current_resource_tonnes": ">80 Mt at 1.8 g/t Au",
+      "key_geological_factor": "Gold disseminated in quartz veined granodiorite porphyry; structural controls on high-grade shoot development",
+      "exploration_methods_used": ["Soil geochemistry", "Airborne magnetics", "Ground IP", "Diamond drilling", "RC drilling", "Open pit optimization drilling"],
+      "milestones": [
+        {"year": 1998, "event": "Soil anomaly identified with >200ppb Au over 2km"},
+        {"year": 2003, "event": "JORC resource declared; open pit feasibility completed"},
+        {"year": 2009, "event": "First gold production"},
+        {"year": 2014, "event": "Open pit optimization with pushback and deeper drilling"},
+        {"year": 2021, "event": "Underground study initiated for high-grade zones beneath open pit"}
+      ],
+      "total_metres_drilled_to_date": "200,000+"
+    },
+    "new_luika": {
+      "name": "New Luika Gold Mine",
+      "location": {"country": "Tanzania", "region": "Lupa Goldfield", "coordinates": "-7.88, 33.45"},
+      "year_discovered": 2004,
+      "discovery_method": "Historical workings re-evaluation with modern geochemistry and drilling",
+      "operator": "Shanta Gold",
+      "deposit_type": "Shear-zone hosted orogenic gold",
+      "initial_resource_tonnes": "4.5 Mt at 5.2 g/t Au (2006)",
+      "current_resource_tonnes": ">20 Mt at 3.5 g/t Au",
+      "key_geological_factor": "High-grade shoots along NW-trending shear zone cutting mafic volcanics; carbonate-quartz veining with arsenopyrite and pyrite",
+      "exploration_methods_used": ["Historical workings review", "Soil and rock geochemistry", "Ground magnetics", "Diamond drilling"],
+      "milestones": [
+        {"year": 2004, "event": "Historical workings investigated; new geochemical anomalies defined"},
+        {"year": 2007, "event": "JORC resource established; feasibility study underway"},
+        {"year": 2012, "event": "First gold production from open pit"},
+        {"year": 2015, "event": "Underground development commenced"},
+        {"year": 2022, "event": "Resource expansion drilling extends mine life"}
+      ],
+      "total_metres_drilled_to_date": "80,000+"
+    },
+    "kilimapesa": {
+      "name": "Kilimapesa Gold Mine",
+      "location": {"country": "Kenya", "region": "Migori County", "coordinates": "-1.05, 34.52"},
+      "year_discovered": 2001,
+      "discovery_method": "Grassroots exploration using soil geochemistry and artisanal workings mapping",
+      "operator": "Goldplat",
+      "deposit_type": "Orogenic gold in greenstone belt",
+      "initial_resource_tonnes": "1.5 Mt at 3.0 g/t Au (2009)",
+      "current_resource_tonnes": ">5 Mt at 2.5 g/t Au",
+      "key_geological_factor": "Shear-zone hosted gold in Archean greenstone belt; shallow, oxidized mineralization amenable to open pit; adjacent to Tanzanian border in same Lake Victoria Goldfield structure",
+      "exploration_methods_used": ["Grassroots soil geochemistry", "Mapping of artisanal workings", "RC drilling", "Diamond drilling"],
+      "milestones": [
+        {"year": 2001, "event": "Grassroots exploration initiated; soil anomalies identified"},
+        {"year": 2009, "event": "First resource declared; small-scale mining commenced"},
+        {"year": 2013, "event": "Open pit mine established"},
+        {"year": 2017, "event": "Resource expanded through infill drilling"},
+        {"year": 2023, "event": "Underground exploration targeting deeper extensions"}
+      ],
+      "total_metres_drilled_to_date": "30,000+"
+    },
+    "busia": {
+      "name": "Busia Gold Project",
+      "location": {"country": "Uganda", "region": "Busia District", "coordinates": "0.47, 34.07"},
+      "year_discovered": 1930,
+      "discovery_method": "Colonial-era alluvial gold discovery; artisanal mining predates formal exploration",
+      "operator": "Various (historical) / Current exploration licenses",
+      "deposit_type": "Alluvial (placer) gold in river systems",
+      "initial_resource_tonnes": "Small-scale artisanal production; no formal resource initially",
+      "current_resource_tonnes": "Alluvial operations ongoing; hard-rock potential under investigation",
+      "key_geological_factor": "Gold-bearing alluvial gravels in river terraces; potential for Witwatersrand-style conglomerate or orogenic lode source; proximity to Lake Victoria Goldfield",
+      "exploration_methods_used": ["Pitting and trenching of alluvial gravels", "Bulk sampling", "Heavy mineral analysis", "Geological mapping"],
+      "milestones": [
+        {"year": 1930, "event": "Alluvial gold discovered; artisanal mining commenced"},
+        {"year": 1950, "event": "Colonial-era exploration with limited systematic work"},
+        {"year": 2000, "event": "Modern exploration licenses granted"},
+        {"year": 2010, "event": "Bulk sampling confirms economic alluvial grades"},
+        {"year": 2022, "event": "Hard-rock source exploration drilling initiated"}
+      ],
+      "total_metres_drilled_to_date": "10,000+"
+    },
+    "kobold": {
+      "name": "Kobold Project",
+      "location": {"country": "DRC", "region": "Kivu Province", "coordinates": "-2.50, 28.85"},
+      "year_discovered": 2005,
+      "discovery_method": "Artisanal mining observation followed by geological mapping and geochemical sampling",
+      "operator": "Various exploration companies",
+      "deposit_type": "Orogenic gold in greenstone belt shear zone",
+      "initial_resource_tonnes": "Artisanal production estimated at 5,000 oz/year; formal resource undeclared",
+      "current_resource_tonnes": "Under exploration; early-stage estimates suggest multi-ounce potential",
+      "key_geological_factor": "High-grade gold along NE-trending shear zone in greenstone belt; artisanal miners following visible gold in quartz veins; complex structural geology with multiple mineralizing events",
+      "exploration_methods_used": ["Artisanal workings mapping", "Soil geochemistry", "Rock chip sampling", "RC and diamond drilling"],
+      "milestones": [
+        {"year": 2005, "event": "Artisanal mining activity observed; initial geological mapping"},
+        {"year": 2010, "event": "Geochemical anomalies confirmed; exploration drilling commenced"},
+        {"year": 2015, "event": "High-grade intercepts returned; resource drilling program initiated"},
+        {"year": 2020, "event": "Formal resource study underway; community engagement program established"},
+        {"year": 2024, "event": "Advanced exploration with metallurgical testing"}
+      ],
+      "total_metres_drilled_to_date": "15,000+"
+    },
+    "lfp": {
+      "name": "LFP Gold Project",
+      "location": {"country": "Tanzania", "region": "Lake Victoria Goldfield", "coordinates": "-2.95, 32.10"},
+      "year_discovered": 2018,
+      "discovery_method": "Systematic soil geochemistry across greenstone belt; identified underexplored structural corridor",
+      "operator": "Barrick Gold / Midnite exploration",
+      "deposit_type": "Orogenic gold in shear zone within greenstone belt",
+      "initial_resource_tonnes": "Early-stage; intercepts of 15m @ 5.2 g/t Au in initial drilling",
+      "current_resource_tonnes": "Resource estimation in progress; multiple parallel zones identified",
+      "key_geological_factor": "Recently identified NW-trending structural corridor with multiple stacked quartz vein zones; arsenopyrite-pyrite-gold association; greenstone belt lithologies with BIF units providing chemical traps",
+      "exploration_methods_used": ["Soil geochemistry", "Airborne magnetic survey", "Ground IP", "Diamond drilling", "RC drilling"],
+      "milestones": [
+        {"year": 2018, "event": "Soil geochemistry identified 12km anomalous trend"},
+        {"year": 2020, "event": "First diamond drilling program; high-grade intercepts confirmed"},
+        {"year": 2022, "event": "Infill drilling delineates multiple ore zones"},
+        {"year": 2024, "event": "Scoping study initiated; resource estimate expected 2025"},
+        {"year": 2025, "event": "Feasibility study level drilling underway"}
+      ],
+      "total_metres_drilled_to_date": "40,000+"
+    }
+  },
+  "geological_database": {
+    "description": "Standard data fields required for a gold exploration geological database",
+    "drill_hole_collar_table": {
+      "required_fields": [
+        {"field": "hole_id", "type": "VARCHAR(20)", "description": "Unique drill hole identifier (e.g., GD-001)"},
+        {"field": "east", "type": "DOUBLE", "description": "Easting coordinate (m); projection specified"},
+        {"field": "north", "type": "DOUBLE", "description": "Northing coordinate (m)"},
+        {"field": "rl", "type": "DOUBLE", "description": "Reduced level / elevation of collar (m AMSL)"},
+        {"field": "azimuth", "type": "DOUBLE", "description": "Drill hole azimuth (degrees from north)"},
+        {"field": "dip", "type": "DOUBLE", "description": "Drill hole dip (degrees from horizontal; negative = downhole)"},
+        {"field": "hole_type", "type": "VARCHAR(5)", "description": "HQ, NQ, BQ, RC, AC, RAB"},
+        {"field": "depth_m", "type": "DOUBLE", "description": "Total hole depth (m)"},
+        {"field": "start_date", "type": "DATE", "description": "Drilling commencement date"},
+        {"field": "end_date", "type": "DATE", "description": "Drilling completion date"},
+        {"field": "drill_company", "type": "VARCHAR(50)", "description": "Name of drilling contractor"},
+        {"field": "project", "type": "VARCHAR(30)", "description": "Project or tenement identifier"},
+        {"field": "comments", "type": "TEXT", "description": "Free text notes on hole conditions, losses, etc."}
+      ]
+    },
+    "assay_table": {
+      "required_fields": [
+        {"field": "hole_id", "type": "VARCHAR(20)", "description": "Foreign key to collar table"},
+        {"field": "from_m", "type": "DOUBLE", "description": "Sample start depth (m)"},
+        {"field": "to_m", "type": "DOUBLE", "description": "Sample end depth (m)"},
+        {"field": "length_m", "type": "DOUBLE", "description": "Sample length (m); to_m - from_m"},
+        {"field": "au_g_t", "type": "DOUBLE", "description": "Gold grade (g/t); fire assay"},
+        {"field": "ag_g_t", "type": "DOUBLE", "description": "Silver grade (g/t); ICP-OES or ICP-MS"},
+        {"field": "cu_ppm", "type": "DOUBLE", "description": "Copper (ppm or %)"},
+        {"field": "as_ppm", "type": "DOUBLE", "description": "Arsenic (ppm)"},
+        {"field": "sb_ppm", "type": "DOUBLE", "description": "Antimony (ppm)"},
+        {"field": "bi_ppm", "type": "DOUBLE", "description": "Bismuth (ppm)"},
+        {"field": "te_ppm", "type": "DOUBLE", "description": "Tellurium (ppm)"},
+        {"field": "hg_ppm", "type": "DOUBLE", "description": "Mercury (ppm)"},
+        {"field": "method", "type": "VARCHAR(20)", "description": "Analytical method used (FA, ICP-MS, etc.)"},
+        {"field": "lab_sample_id", "type": "VARCHAR(30)", "description": "Laboratory sample identification"},
+        {"field": "analysis_date", "type": "DATE", "description": "Date of laboratory analysis"},
+        {"field": "certified", "type": "BOOLEAN", "description": "Is this a certified reference material? (true/false)"},
+        {"field": "duplicate_of", "type": "VARCHAR(30)", "description": "If duplicate, parent sample ID"}
+      ]
+    },
+    "lithology_table": {
+      "required_fields": [
+        {"field": "hole_id", "type": "VARCHAR(20)", "description": "Foreign key to collar table"},
+        {"field": "from_m", "type": "DOUBLE", "description": "Lithology interval start depth"},
+        {"field": "to_m", "type": "DOUBLE", "description": "Lithology interval end depth"},
+        {"field": "rock_type", "type": "VARCHAR(50)", "description": "Major rock type (e.g., Basalt, Greywacke, BIF)"},
+        {"field": "lithology", "type": "VARCHAR(50)", "description": "Detailed lithology (e.g., Quartz sericite pyrite schist)"},
+        {"field": "color", "type": "VARCHAR(20)", "description": "Hand specimen color"},
+        {"field": "texture", "type": "VARCHAR(30)", "description": "Fine, medium, coarse-grained; porphyritic, etc."},
+        {"field": "alteration", "type": "VARCHAR(50)", "description": "Alteration type(s) present"},
+        {"field": "alteration_intensity", "type": "VARCHAR(10)", "description": "None, weak, moderate, strong, pervasive"},
+        {"field": "mineralization", "type": "VARCHAR(50)", "description": "Sulfide minerals and estimated abundance (%)"},
+        {"field": "structure", "type": "VARCHAR(50)", "description": "Structural features (foliation, veining, shear fabric)"},
+        {"field": "weathering", "type": "VARCHAR(20)", "description": "Fresh, oxidized, mixed"},
+        {"field": "rqd_percent", "type": "DOUBLE", "description": "Rock Quality Designation for the interval"},
+        {"field": "core_recovery_percent", "type": "DOUBLE", "description": "Percentage of core recovered"}
+      ]
+    },
+    "structural_measurements": {
+      "required_fields": [
+        {"field": "hole_id", "type": "VARCHAR(20)", "description": "Foreign key to collar table"},
+        {"field": "from_m", "type": "DOUBLE", "description": "Measurement depth start"},
+        {"field": "to_m", "type": "DOUBLE", "description": "Measurement depth end"},
+        {"field": "feature_type", "type": "VARCHAR(30)", "description": "Vein, fault, foliation, bedding, shear zone"},
+        {"field": "dip_dir", "type": "DOUBLE", "description": "Dip direction (degrees clockwise from north)"},
+        {"field": "dip_angle", "type": "DOUBLE", "description": "Dip angle (degrees from horizontal)"},
+        {"field": "strike", "type": "DOUBLE", "description": "Strike orientation (degrees)"},
+        {"field": "kinematics", "type": "VARCHAR(20)", "description": "Sense of movement (sinistral, dextral, reverse, normal)"},
+        {"field": "vein_width_cm", "type": "DOUBLE", "description": "Width of vein or structure (cm)"},
+        {"field": "vein_fill", "type": "VARCHAR(30)", "description": "Quartz, carbonate, sulfide, etc."},
+        {"field": "orientation_quality", "type": "VARCHAR(10)", "description": "Reliable, approximate, unreliable"},
+        {"field": "orientation_method", "type": "VARCHAR(30)", "description": "Core orientation tool, clay mark, geological estimate"}
+      ]
+    },
+    "geophysical_data_fields": {
+      "required_fields": [
+        {"field": "survey_id", "type": "VARCHAR(20)", "description": "Unique survey identifier"},
+        {"field": "survey_type", "type": "VARCHAR(20)", "description": "Magnetics, IP, resistivity, AEM, radiometrics"},
+        {"field": "line_spacing_m", "type": "DOUBLE", "description": "Line spacing (m)"},
+        {"field": "station_spacing_m", "type": "DOUBLE", "description": "Station spacing along line (m)"},
+        {"field": "x_east", "type": "DOUBLE", "description": "Station Easting coordinate"},
+        {"field": "y_north", "type": "DOUBLE", "description": "Station Northing coordinate"},
+        {"field": "z_elev", "type": "DOUBLE", "description": "Station elevation (m AMSL)"},
+        {"field": "measurement_value", "type": "DOUBLE", "description": "Measured geophysical response (nT, mV/V, ohm-m)"},
+        {"field": "flight_height_m", "type": "DOUBLE", "description": "Aircraft survey height (for airborne)"},
+        {"field": "datetime", "type": "DATETIME", "description": "Date/time of measurement"}
+      ]
+    },
+    "qa_qc_data_requirements": {
+      "description": "Quality Assurance / Quality Control data fields and requirements",
+      "required_qaqc_fields": [
+        {"field": "qc_type", "type": "VARCHAR(10)", "description": "CRM, Blank, Duplicate, Pulse"},
+        {"field": "qc_sample_id", "type": "VARCHAR(30)", "description": "QC sample identifier"},
+        {"field": "certified_value_ppm", "type": "DOUBLE", "description": "Certified reference value for CRMs"},
+        {"field": "certified_std_dev_ppm", "type": "DOUBLE", "description": "Certified standard deviation"},
+        {"field": "measured_value_ppm", "type": "DOUBLE", "description": "Laboratory measured result"},
+        {"field": "deviation_percent", "type": "DOUBLE", "description": "Percent deviation from certified value"},
+        {"field": "within_tolerance", "type": "BOOLEAN", "description": "Meets acceptance criteria (true/false)"},
+        {"field": "control_chart_date", "type": "DATE", "description": "Date of control chart plotting"},
+        {"field": "outlier_flag", "type": "BOOLEAN", "description": "Flag if sample is statistical outlier"}
+      ],
+      "minimum_requirements": {
+        "crm_frequency": "1 per 20 samples (5%)",
+        "blank_frequency": "1 per 20 samples (5%)",
+        "duplicate_frequency": "1 per 20 samples (5%)",
+        "acceptable_bias": "Within ±5% of certified value for gold",
+        "acceptable_precision": "Duplicate relative difference <10%",
+        "outlier_investigation": "Any result >3-sigma from mean triggers re-analysis",
+        "reporting_standard": "NI 43-101 / JORC / SAMREC compliant"
+      }
+    }
+  },
+  "exploration_budgets": {
+    "description": "Typical exploration spending by stage, cost, and success rate",
+    "by_stage": {
+      "grassroots": {
+        "description": "Regional target generation to first drill intercept",
+        "typical_budget_usd": "500,000 - 2,000,000",
+        "duration_months": "12-36",
+        "activities": ["Regional mapping", "Soil/rock geochemistry", "Airborne geophysics", "First pass drilling"],
+        "cost_per_hectare_usd": "50 - 200",
+        "success_rate_percent": "0.1 - 1"
+      },
+      "advanced_exploration": {
+        "description": "From first intercept to resource estimation",
+        "typical_budget_usd": "5,000,000 - 30,000,000",
+        "duration_months": "24-60",
+        "activities": ["Infill drilling", "Resource estimation", "Metallurgical testing", "Environmental baseline", "Preliminary economic assessment"],
+        "cost_per_hectare_usd": "500 - 2,000",
+        "success_rate_percent": "5 - 15"
+      },
+      "feasibility_study": {
+        "description": "From resource estimation to mine development decision",
+        "typical_budget_usd": "20,000,000 - 100,000,000",
+        "duration_months": "36-72",
+        "activities": ["Definition drilling", "Feasibility study", "Mine design", "Environmental impact assessment", "Permitting", "Community agreements"],
+        "cost_per_hectare_usd": "2,000 - 10,000",
+        "success_rate_percent": "25 - 50"
+      }
+    },
+    "drilling_costs_by_method": {
+      "diamond_drilling": {
+        "shallow_0_100m": {"cost_per_meter_usd": "80-120", "typical_mobilisation_usd": "15,000-30,000"},
+        "medium_100_300m": {"cost_per_meter_usd": "100-150", "typical_mobilisation_usd": "20,000-40,000"},
+        "deep_300_1000m": {"cost_per_meter_usd": "130-200", "typical_mobilisation_usd": "30,000-60,000"},
+        "ultra_deep_1000m_plus": {"cost_per_meter_usd": "180-300", "typical_mobilisation_usd": "50,000-100,000"}
+      },
+      "reverse_circulation": {
+        "shallow_0_200m": {"cost_per_meter_usd": "30-50", "typical_mobilisation_usd": "8,000-15,000"},
+        "medium_200_500m": {"cost_per_meter_usd": "45-70", "typical_mobilisation_usd": "12,000-25,000"}
+      },
+      "air_core": {
+        "shallow_0_100m": {"cost_per_meter_usd": "15-30", "typical_mobilisation_usd": "3,000-8,000"}
+      }
+    },
+    "total_project_cost_discovery_to_production": {
+      "description": "Total cumulative expenditure from grassroots to gold production",
+      "small_deposit_under_1_moz": {
+        "total_cost_usd": "50,000,000 - 200,000,000",
+        "timeline_years": "5-8",
+        "capital_cost_mine_usd": "30,000,000 - 100,000,000"
+      },
+      "medium_deposit_1_5_moz": {
+        "total_cost_usd": "200,000,000 - 1,000,000,000",
+        "timeline_years": "7-12",
+        "capital_cost_mine_usd": "200,000,000 - 500,000,000"
+      },
+      "large_deposit_over_5_moz": {
+        "total_cost_usd": "500,000,000 - 5,000,000,000",
+        "timeline_years": "10-15",
+        "capital_cost_mine_usd": "500,000,000 - 3,000,000,000"
+      }
+    },
+    "success_rates_by_stage": {
+      "grassroots_to_advanced": {
+        "probability_percent": "1-5",
+        "key_failures": ["No mineralization at depth", "Grade too low", "Unfavorable metallurgy"]
+      },
+      "advanced_to_feasibility": {
+        "probability_percent": "10-25",
+        "key_failures": ["Resource too small", "Metallurgical complexity", "Community opposition", "Environmental constraints"]
+      },
+      "feasibility_to_production": {
+        "probability_percent": "30-60",
+        "key_failures": ["Capital cost overruns", "Commodity price decline", "Permitting delays", "Geotechnical issues"]
+      },
+      "overall_discovery_to_production": {
+        "probability_percent": "0.05 - 0.5",
+        "commentary": "Of 1,000 grassroots projects, typically 1-5 reach production"
+      }
+    }
+  }
+}

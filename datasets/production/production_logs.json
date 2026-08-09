@@ -1,0 +1,39 @@
+{
+  "title": "Daily Production Log Data",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Daily production records for gold and precious stones mining operations.",
+  "gold_production_logs": [
+    {"date": "2026-07-01", "operation": "Lake Victoria", "ore_tonnage": 4250, "head_grade_gpt": 3.18, "recovery_percent": 94.3, "gold_recovered_oz": 478.5, "mill_availability_percent": 92.5, "energy_kwh_ton": 32.1, "water_m3_ton": 2.8},
+    {"date": "2026-07-02", "operation": "Lake Victoria", "ore_tonnage": 4300, "head_grade_gpt": 3.25, "recovery_percent": 94.5, "gold_recovered_oz": 492.0, "mill_availability_percent": 94.0, "energy_kwh_ton": 31.8, "water_m3_ton": 2.7},
+    {"date": "2026-07-03", "operation": "Lake Victoria", "ore_tonnage": 4180, "head_grade_gpt": 3.10, "recovery_percent": 93.8, "gold_recovered_oz": 455.0, "mill_availability_percent": 91.5, "energy_kwh_ton": 32.5, "water_m3_ton": 2.9},
+    {"date": "2026-07-04", "operation": "Lake Victoria", "ore_tonnage": 4400, "head_grade_gpt": 3.35, "recovery_percent": 94.8, "gold_recovered_oz": 518.5, "mill_availability_percent": 95.0, "energy_kwh_ton": 31.2, "water_m3_ton": 2.6},
+    {"date": "2026-07-05", "operation": "Lake Victoria", "ore_tonnage": 4350, "head_grade_gpt": 3.28, "recovery_percent": 94.6, "gold_recovered_oz": 502.0, "mill_availability_percent": 93.5, "energy_kwh_ton": 31.5, "water_m3_ton": 2.7},
+    {"date": "2026-07-06", "operation": "Lake Victoria", "ore_tonnage": 4100, "head_grade_gpt": 3.05, "recovery_percent": 93.5, "gold_recovered_oz": 432.0, "mill_availability_percent": 90.0, "energy_kwh_ton": 33.0, "water_m3_ton": 3.0},
+    {"date": "2026-07-07", "operation": "Lake Victoria", "ore_tonnage": 4450, "head_grade_gpt": 3.40, "recovery_percent": 95.0, "gold_recovered_oz": 530.0, "mill_availability_percent": 95.5, "energy_kwh_ton": 31.0, "water_m3_ton": 2.5},
+    {"date": "2026-07-01", "operation": "Bulawayo", "ore_tonnage": 2150, "head_grade_gpt": 5.85, "recovery_percent": 96.2, "gold_recovered_oz": 400.5, "mill_availability_percent": 93.0, "energy_kwh_ton": 28.5, "water_m3_ton": 2.2},
+    {"date": "2026-07-02", "operation": "Bulawayo", "ore_tonnage": 2200, "head_grade_gpt": 5.92, "recovery_percent": 96.4, "gold_recovered_oz": 418.0, "mill_availability_percent": 94.5, "energy_kwh_ton": 28.2, "water_m3_ton": 2.1},
+    {"date": "2026-07-03", "operation": "Bulawayo", "ore_tonnage": 2100, "head_grade_gpt": 5.70, "recovery_percent": 96.0, "gold_recovered_oz": 382.0, "mill_availability_percent": 92.0, "energy_kwh_ton": 29.0, "water_m3_ton": 2.3},
+    {"date": "2026-07-04", "operation": "Bulawayo", "ore_tonnage": 2250, "head_grade_gpt": 6.00, "recovery_percent": 96.5, "gold_recovered_oz": 435.0, "mill_availability_percent": 95.0, "energy_kwh_ton": 27.8, "water_m3_ton": 2.0},
+    {"date": "2026-07-05", "operation": "Bulawayo", "ore_tonnage": 2180, "head_grade_gpt": 5.88, "recovery_percent": 96.3, "gold_recovered_oz": 410.0, "mill_availability_percent": 93.5, "energy_kwh_ton": 28.4, "water_m3_ton": 2.2}
+  ],
+  "gemstone_production_logs": [
+    {"date": "2026-07-01", "operation": "Merelani Hills", "mineral": "Tanzanite", "carats_recovered": 2200, "aaa_carats": 176, "aa_carats": 330, "a_carats": 550, "commercial_carats": 1144, "avg_price_per_carat_usd": 385, "total_value_usd": 847000},
+    {"date": "2026-07-02", "operation": "Merelani Hills", "mineral": "Tanzanite", "carats_recovered": 2350, "aaa_carats": 188, "aa_carats": 353, "a_carats": 588, "commercial_carats": 1221, "avg_price_per_carat_usd": 392, "total_value_usd": 921200},
+    {"date": "2026-07-03", "operation": "Merelani Hills", "mineral": "Tanzanite", "carats_recovered": 2100, "aaa_carats": 168, "aa_carats": 315, "a_carats": 525, "commercial_carats": 1092, "avg_price_per_carat_usd": 378, "total_value_usd": 793800},
+    {"date": "2026-07-04", "operation": "Merelani Hills", "mineral": "Tanzanite", "carats_recovered": 2400, "aaa_carats": 192, "aa_carats": 360, "a_carats": 600, "commercial_carats": 1248, "avg_price_per_carat_usd": 398, "total_value_usd": 955200},
+    {"date": "2026-07-01", "operation": "Winza", "mineral": "Ruby", "carats_recovered": 85, "gem_quality_carats": 17, "commercial_carats": 68, "avg_price_per_carat_usd": 3200, "total_value_usd": 272000},
+    {"date": "2026-07-02", "operation": "Winza", "mineral": "Ruby", "carats_recovered": 92, "gem_quality_carats": 18, "commercial_carats": 74, "avg_price_per_carat_usd": 3350, "total_value_usd": 308200},
+    {"date": "2026-07-03", "operation": "Winza", "mineral": "Ruby", "carats_recovered": 78, "gem_quality_carats": 16, "commercial_carats": 62, "avg_price_per_carat_usd": 3100, "total_value_usd": 241800},
+    {"date": "2026-07-01", "operation": "Voi", "mineral": "Tsavorite", "carats_recovered": 42, "vivid_green_carats": 4, "fine_green_carats": 13, "commercial_carats": 25, "avg_price_per_carat_usd": 1850, "total_value_usd": 77700},
+    {"date": "2026-07-02", "operation": "Voi", "mineral": "Tsavorite", "carats_recovered": 38, "vivid_green_carats": 4, "fine_green_carats": 11, "commercial_carats": 23, "avg_price_per_carat_usd": 1920, "total_value_usd": 72960},
+    {"date": "2026-07-01", "operation": "Mwadui", "mineral": "Diamond", "carats_recovered": 5200, "gem_quality_carats": 1560, "near_gem_carats": 780, "industrial_carats": 2860, "avg_price_per_carat_usd": 185, "total_value_usd": 962000},
+    {"date": "2026-07-02", "operation": "Mwadui", "mineral": "Diamond", "carats_recovered": 5500, "gem_quality_carats": 1650, "near_gem_carats": 825, "industrial_carats": 3025, "avg_price_per_carat_usd": 192, "total_value_usd": 1056000}
+  ],
+  "shift_summaries": [
+    {"date": "2026-07-01", "shift": "Day", "operation": "Lake Victoria", "crew": "A", "ore_loaded_tons": 4250, "ore_hauled_tons": 4250, "drill_metres": 180, "blast_events": 2, "safety_incidents": 0, "near_misses": 1, "environmental_events": 0},
+    {"date": "2026-07-01", "shift": "Night", "operation": "Lake Victoria", "crew": "B", "ore_loaded_tons": 3800, "ore_hauled_tons": 3800, "drill_metres": 120, "blast_events": 0, "safety_incidents": 0, "near_misses": 0, "environmental_events": 0},
+    {"date": "2026-07-01", "shift": "Day", "operation": "Bulawayo", "crew": "A", "ore_loaded_tons": 2150, "ore_hauled_tons": 2150, "drill_metres": 150, "blast_events": 1, "safety_incidents": 0, "near_misses": 0, "environmental_events": 0},
+    {"date": "2026-07-01", "shift": "Swing", "operation": "Merelani Hills", "crew": "C", "tanzanite_carats": 2200, "sorters_active": 8, "heating_batches": 3, "safety_incidents": 0, "near_misses": 0, "environmental_events": 0}
+  ]
+}

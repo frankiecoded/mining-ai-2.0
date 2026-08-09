@@ -1,0 +1,641 @@
+{
+  "title": "Gold & Precious Metals Production Data",
+  "version": "2.0",
+  "last_updated": "2026-07-19",
+  "description": "Operational production data for gold mining operations in East Africa and expanded regional coverage.",
+  "operations": [
+    {
+      "operation_id": "GOLD-OPS-001",
+      "name": "Lake Victoria Gold Project",
+      "location": "Geita Region, Tanzania",
+      "deposit_type": "Archean greenstone belt lode gold",
+      "mining_method": "Open pit + underground",
+      "processing": "CIL (Carbon-in-Leach)",
+      "daily_throughput_tons": 5000,
+      "head_grade_g_per_t": 3.2,
+      "recovery_rate_percent": 94.5,
+      "production": {
+        "daily_ounces": 485,
+        "monthly_ounces": 14550,
+        "ytd_ounces": 101850,
+        "target_annual_ounces": 165000
+      },
+      "reserves": {
+        "proven_tons": 12500000,
+        "probable_tons": 8500000,
+        "grade_g_per_t": 2.8,
+        "life_of_mine_years": 12
+      },
+      "costs": {
+        "aic_usd_per_oz": 890,
+        "aic_usd_per_t": 27.50,
+        "opex_usd_per_oz": 680,
+        "capex_usd": 450000000
+      },
+      "equipment": {
+        "haul_trucks": 12,
+        "excavators": 4,
+        "drill_rigs": 6,
+        "loaders": 3
+      },
+      "workforce": {
+        "permanent": 850,
+        "contract": 400,
+        "total": 1250
+      }
+    },
+    {
+      "operation_id": "GOLD-OPS-002",
+      "name": "Bulawayo Gold Mine",
+      "location": "Matabeleland, Zimbabwe",
+      "deposit_type": "Archean greenstone belt",
+      "mining_method": "Underground (sublevel open stoping)",
+      "processing": "CIL + Gravity",
+      "daily_throughput_tons": 2000,
+      "head_grade_g_per_t": 5.8,
+      "recovery_rate_percent": 96.2,
+      "production": {
+        "daily_ounces": 360,
+        "monthly_ounces": 10800,
+        "ytd_ounces": 75600,
+        "target_annual_ounces": 120000
+      },
+      "reserves": {
+        "proven_tons": 3500000,
+        "probable_tons": 2200000,
+        "grade_g_per_t": 5.2,
+        "life_of_mine_years": 8
+      },
+      "costs": {
+        "aic_usd_per_oz": 720,
+        "aic_usd_per_t": 40.75,
+        "opex_usd_per_oz": 540,
+        "capex_usd": 180000000
+      }
+    },
+    {
+      "operation_id": "GOLD-OPS-003",
+      "name": "Karamoja Artisanal Gold Project",
+      "location": "Karamoja, Uganda",
+      "deposit_type": "Alluvial/placer gold",
+      "mining_method": "Artisanal and small-scale",
+      "processing": "Shaker tables + mercury amalgamation (being replaced with gravimetric)",
+      "daily_throughput_tons": 500,
+      "head_grade_g_per_t": 1.5,
+      "recovery_rate_percent": 75.0,
+      "production": {
+        "daily_ounces": 18,
+        "monthly_ounces": 540,
+        "ytd_ounces": 3780,
+        "target_annual_ounces": 6000
+      },
+      "reserves": {
+        "proven_tons": 2000000,
+        "probable_tons": 1500000,
+        "grade_g_per_t": 1.2,
+        "life_of_mine_years": 15
+      },
+      "costs": {
+        "aic_usd_per_oz": 450,
+        "opex_usd_per_oz": 350
+      },
+      "community_impact": {
+        "jobs_created": 2500,
+        "mercury_elimination_target": "2027",
+        "schools_built": 3,
+        "health_clinics": 1
+      }
+    }
+  ],
+  "production_metrics": {
+    "key_performance_indicators": [
+      {"metric": "Ounces produced", "target": ">95% of plan", "frequency": "Daily"},
+      {"metric": "Head grade", "target": "Within 10% of reserve grade", "frequency": "Daily"},
+      {"metric": "Recovery rate", "target": ">93%", "frequency": "Daily"},
+      {"metric": "Mill availability", "target": ">92%", "frequency": "Monthly"},
+      {"metric": "Haul truck availability", "target": ">85%", "frequency": "Weekly"},
+      {"metric": "AIC (All-In Sustaining Cost)", "target": "<$1000/oz", "frequency": "Quarterly"},
+      {"metric": "Lost Time Injury Frequency (LTIF)", "target": "<0.5 per 200,000 hours", "frequency": "Monthly"},
+      {"metric": "Water consumption", "target": "<3 m³/t ore", "frequency": "Monthly"},
+      {"metric": "Energy consumption", "target": "<35 kWh/t ore", "frequency": "Monthly"}
+    ],
+    "reporting_categories": [
+      "Daily production report (gold recovered, head grade, recovery, throughput)",
+      "Weekly equipment utilization report",
+      "Monthly financial performance report",
+      "Quarterly reserve/resource reconciliation",
+      "Annual sustainability report"
+    ]
+  },
+  "quality_control": {
+    "sampling_methods": {
+      "grade_control": "Reverse circulation drilling; 10m x 10m grid; assay by fire assay",
+      "reconciliation": "Monthly comparison: planned vs actual vs predicted",
+      "block_model_update": "Quarterly geostatistical update (ordinary kriging)"
+    },
+    "laboratory_certifications": ["ISO 17025", "NATA (Australia)", "SANAS (South Africa)"],
+    "reference_standards": [
+      {"standard": "ARM 027", "element": "Au", "certified_value_ppm": 24.89},
+      {"standard": "ARM 028", "element": "Au", "certified_value_ppm": 8.12},
+      {"standard": "MA-1a", "element": "Au", "certified_value_ppm": 20.1}
+    ]
+  },
+  "regional_production_summary": [
+    {
+      "country": "Tanzania",
+      "annual_production_oz": 2000000,
+      "mine_count": 60,
+      "top_3_mines": [
+        {"name": "Geita Gold Mine", "operator": "AngloGold Ashanti", "annual_oz": 550000},
+        {"name": "North Mara Gold Mine", "operator": "Barrick Gold", "annual_oz": 420000},
+        {"name": "Bulyanhulu Gold Mine", "operator": "Barrick Gold", "annual_oz": 380000}
+      ],
+      "additional_mines": ["Buzwagi", "New Luika", "Gold Ridge", "Stato", "Lulu"],
+      "production_trend": "increasing",
+      "reserves_remaining_years": 18,
+      "key_companies": ["Barrick Gold", "AngloGold Ashanti", "Acacia Mining", "Shanta Gold", "Resolute Mining"]
+    },
+    {
+      "country": "Kenya",
+      "annual_production_oz": 50000,
+      "mine_count": 15,
+      "top_3_mines": [
+        {"name": "Kakamega Project", "operator": "Kakamega Mining", "annual_oz": 18000},
+        {"name": "Migori Gold Mine", "operator": "Abyssinian Gold", "annual_oz": 15000},
+        {"name": "Nandi Hills Project", "operator": "Globe Gold", "annual_oz": 8000}
+      ],
+      "additional_mines": ["Kilimapesa", "Tarabeta", "Ronga", "Kakamega South"],
+      "production_trend": "emerging",
+      "reserves_remaining_years": 10,
+      "key_companies": ["Kakamega Mining", "Abyssinian Gold", "Globe Gold", "Goldplat"]
+    },
+    {
+      "country": "Uganda",
+      "annual_production_oz": 30000,
+      "mine_count": 5,
+      "top_3_mines": [
+        {"name": "Busia Gold Mine", "operator": "Victoria Gold", "annual_oz": 12000},
+        {"name": "Karamoja Project", "operator": "East African Mining", "annual_oz": 6000},
+        {"name": "Bulisa Project", "operator": "Tullow Gold", "annual_oz": 4000}
+      ],
+      "additional_mines": ["Mubende", "Kigezi"],
+      "production_trend": "stable",
+      "reserves_remaining_years": 12,
+      "key_companies": ["Victoria Gold", "East African Mining", "Tullow Gold", "Simba Gold"]
+    },
+    {
+      "country": "DRC",
+      "annual_production_oz": 1500000,
+      "mine_count": 20,
+      "top_3_mines": [
+        {"name": "Kibali Gold Mine", "operator": "Barrick Gold", "annual_oz": 700000},
+        {"name": "Kilo-Moto Project", "operator": "Moku Gold", "annual_oz": 250000},
+        {"name": "Mongbwalu Gold Mine", "operator": "Ituri Gold", "annual_oz": 180000}
+      ],
+      "additional_mines": ["Shabara", "Paku", "Kisenge", "Lukaya"],
+      "production_trend": "increasing",
+      "reserves_remaining_years": 22,
+      "key_companies": ["Barrick Gold", "Moku Gold", "Ituri Gold", "Banro Corporation"]
+    },
+    {
+      "country": "Ghana",
+      "annual_production_oz": 4500000,
+      "mine_count": 30,
+      "top_3_mines": [
+        {"name": "Obuasi Gold Mine", "operator": "AngloGold Ashanti", "annual_oz": 900000},
+        {"name": "Tarkwa Gold Mine", "operator": "Gold Fields", "annual_oz": 750000},
+        {"name": "Ahafo Gold Mine", "operator": "Newmont", "annual_oz": 650000}
+      ],
+      "additional_mines": ["Prestea", "Iduapriem", "Bibiani", "Chirano", "Wassa"],
+      "production_trend": "stable",
+      "reserves_remaining_years": 16,
+      "key_companies": ["AngloGold Ashanti", "Gold Fields", "Newmont", "Kinross Gold", "Asanko Gold"]
+    },
+    {
+      "country": "Mali",
+      "annual_production_oz": 2000000,
+      "mine_count": 15,
+      "top_3_mines": [
+        {"name": "Loulo-Gounkoto", "operator": "Barrick Gold", "annual_oz": 600000},
+        {"name": "Fekola Gold Mine", "operator": "B2Gold", "annual_oz": 450000},
+        {"name": "Morila Gold Mine", "operator": "Randgold Resources", "annual_oz": 350000}
+      ],
+      "additional_mines": ["Sadiola", "Yatela", "Tabakoto", "Siguiri"],
+      "production_trend": "increasing",
+      "reserves_remaining_years": 20,
+      "key_companies": ["Barrick Gold", "B2Gold", "Randgold Resources", "Hummingbird Resources"]
+    },
+    {
+      "country": "Burkina Faso",
+      "annual_production_oz": 1500000,
+      "mine_count": 12,
+      "top_3_mines": [
+        {"name": "Essakane Gold Mine", "operator": "IAMGOLD", "annual_oz": 420000},
+        {"name": "Sabodala Gold Mine", "operator": "Teranga Gold", "annual_oz": 350000},
+        {"name": "Inata Gold Mine", "operator": "Avocet Mining", "annual_oz": 220000}
+      ],
+      "additional_mines": ["Bissa", "Kiéré", "Poura", "Tpora"],
+      "production_trend": "increasing",
+      "reserves_remaining_years": 14,
+      "key_companies": ["IAMGOLD", "Teranga Gold", "Endeavour Mining", "West African Resources"]
+    },
+    {
+      "country": "Guinea",
+      "annual_production_oz": 800000,
+      "mine_count": 8,
+      "top_3_mines": [
+        {"name": "Siguiri Gold Mine", "operator": "AngloGold Ashanti", "annual_oz": 350000},
+        {"name": "Dinguila Project", "operator": "Amara Mining", "annual_oz": 120000},
+        {"name": "Doyen Project", "operator": "Avocet Mining", "annual_oz": 90000}
+      ],
+      "additional_mines": ["Morila East", "Lero", "Kouroussa"],
+      "production_trend": "emerging",
+      "reserves_remaining_years": 12,
+      "key_companies": ["AngloGold Ashanti", "Amara Mining", "Avocet Mining", "Rusal Gold"]
+    },
+    {
+      "country": "Côte d'Ivoire",
+      "annual_production_oz": 1200000,
+      "mine_count": 10,
+      "top_3_mines": [
+        {"name": "Tongon Gold Mine", "operator": "Barrick Gold", "annual_oz": 380000},
+        {"name": "Ity Gold Mine", "operator": "Endeavour Mining", "annual_oz": 320000},
+        {"name": "Bonikro Gold Mine", "operator": "LGL Group", "annual_oz": 180000}
+      ],
+      "additional_mines": ["Agbaou", "Daoukro", "Ferké", "Bouna"],
+      "production_trend": "increasing",
+      "reserves_remaining_years": 15,
+      "key_companies": ["Barrick Gold", "Endeavour Mining", "LGL Group", "Perseus Mining"]
+    },
+    {
+      "country": "South Sudan",
+      "annual_production_oz": 20000,
+      "mine_count": 5,
+      "top_3_mines": [
+        {"name": "Kapoeta Project", "operator": "Kapoeta Mining", "annual_oz": 8000},
+        {"name": "Kidepo Project", "operator": "Nile Gold", "annual_oz": 5000},
+        {"name": "Boma Project", "operator": "South Sudan Mining", "annual_oz": 3000}
+      ],
+      "additional_mines": ["Budi", "Ikwoto"],
+      "production_trend": "nascent",
+      "reserves_remaining_years": 8,
+      "key_companies": ["Kapoeta Mining", "Nile Gold", "South Sudan Mining"]
+    }
+  ],
+  "monthly_production_breakdown": {
+    "period": "January 2026 - June 2026",
+    "currency": "USD",
+    "units": "troy ounces unless stated",
+    "months": [
+      {
+        "month": "January 2026",
+        "tonnes_mined": 185000,
+        "tonnes_milled": 152000,
+        "head_grade_g_t": 3.15,
+        "recovery_pct": 94.2,
+        "ounces_produced": 14200,
+        "ounces_sold": 13800,
+        "realized_price_usd_oz": 2680,
+        "aisc_usd_oz": 875,
+        "revenue_usd": 36984000,
+        "profit_usd": 24899000
+      },
+      {
+        "month": "February 2026",
+        "tonnes_mined": 178000,
+        "tonnes_milled": 148000,
+        "head_grade_g_t": 3.22,
+        "recovery_pct": 94.5,
+        "ounces_produced": 14350,
+        "ounces_sold": 14100,
+        "realized_price_usd_oz": 2710,
+        "aisc_usd_oz": 868,
+        "revenue_usd": 38211000,
+        "profit_usd": 25993200
+      },
+      {
+        "month": "March 2026",
+        "tonnes_mined": 192000,
+        "tonnes_milled": 158000,
+        "head_grade_g_t": 3.18,
+        "recovery_pct": 94.8,
+        "ounces_produced": 15100,
+        "ounces_sold": 14700,
+        "realized_price_usd_oz": 2735,
+        "aisc_usd_oz": 862,
+        "revenue_usd": 40204500,
+        "profit_usd": 27493500
+      },
+      {
+        "month": "April 2026",
+        "tonnes_mined": 188000,
+        "tonnes_milled": 155000,
+        "head_grade_g_t": 3.10,
+        "recovery_pct": 94.0,
+        "ounces_produced": 14050,
+        "ounces_sold": 13900,
+        "realized_price_usd_oz": 2750,
+        "aisc_usd_oz": 870,
+        "revenue_usd": 38225000,
+        "profit_usd": 26040000
+      },
+      {
+        "month": "May 2026",
+        "tonnes_mined": 195000,
+        "tonnes_milled": 160000,
+        "head_grade_g_t": 3.25,
+        "recovery_pct": 95.0,
+        "ounces_produced": 15600,
+        "ounces_sold": 15200,
+        "realized_price_usd_oz": 2780,
+        "aisc_usd_oz": 855,
+        "revenue_usd": 42256000,
+        "profit_usd": 29259600
+      },
+      {
+        "month": "June 2026",
+        "tonnes_mined": 190000,
+        "tonnes_milled": 156000,
+        "head_grade_g_t": 3.20,
+        "recovery_pct": 94.6,
+        "ounces_produced": 14800,
+        "ounces_sold": 14500,
+        "realized_price_usd_oz": 2800,
+        "aisc_usd_oz": 860,
+        "revenue_usd": 40600000,
+        "profit_usd": 28030000
+      }
+    ],
+    "cumulative_totals": {
+      "period": "Jan-Jun 2026",
+      "total_tonnes_mined": 1128000,
+      "total_tonnes_milled": 929000,
+      "avg_head_grade_g_t": 3.18,
+      "avg_recovery_pct": 94.52,
+      "total_ounces_produced": 88100,
+      "total_ounces_sold": 86200,
+      "avg_realized_price_usd_oz": 2742,
+      "avg_aisc_usd_oz": 865,
+      "total_revenue_usd": 236480500,
+      "total_profit_usd": 161715300
+    }
+  },
+  "production_optimization": {
+    "recovery_optimization": {
+      "gravity_recovery_pct": 35.2,
+      "cil_recovery_pct": 59.3,
+      "total_recovery_pct": 94.5,
+      "bottlenecks": [
+        "Carbon loading capacity at circuit 2",
+        "Fines loss in gravity circuit during high clay ore",
+        "Cyanide dosing variability during rainfall season"
+      ],
+      "improvement_plan": {
+        "target_total_recovery_pct": 96.0,
+        "actions": [
+          {"action": "Install additional centrifugal concentrator (Knelson CVD-20)", "cost_usd": 850000, "timeline": "Q3 2026", "expected_gain_pct": 0.8},
+          {"action": "Upgrade carbon regeneration kiln", "cost_usd": 1200000, "timeline": "Q4 2026", "expected_gain_pct": 0.4},
+          {"action": "Implement real-time cyanide optimization (ORP-based)", "cost_usd": 350000, "timeline": "Q3 2026", "expected_gain_pct": 0.3}
+        ]
+      }
+    },
+    "throughput_optimization": {
+      "design_capacity_tpd": 5000,
+      "actual_capacity_tpd": 4650,
+      "utilization_pct": 93.0,
+      "bottleneck_analysis": {
+        "primary_bottleneck": "SAG mill discharge pump capacity",
+        "secondary_bottleneck": "Crusher feed conveyor belt rating",
+        "tertiary_bottleneck": "Leach tank residence time during peak throughput"
+      },
+      "improvement_plan": {
+        "actions": [
+          {"action": "Install variable speed drive on SAG mill discharge pump", "cost_usd": 420000, "timeline": "Q3 2026"},
+          {"action": "Replace conveyor belt with 1500tph rated belt", "cost_usd": 280000, "timeline": "Q4 2026"},
+          {"action": "Add 2 additional leach tanks", "cost_usd": 1500000, "timeline": "Q1 2027"}
+        ]
+      }
+    },
+    "grade_control_program": {
+      "drill_spacing_m": 10,
+      "sampling_method": "Reverse circulation with fire assay and AA finish",
+      "reconciliation_accuracy_pct": 91.5,
+      "block_model_update_frequency": "Quarterly (ordinary kriging)",
+      "drill_meters_per_month": 3500,
+      "cost_per_meter_usd": 45,
+      "number_of_control_points": 2850
+    },
+    "blending_strategy": {
+      "source_ores": [
+        {"source": "Geita Open Pit - Upper zone", "grade_g_t": 2.8, "tonnes_available_monthly": 60000},
+        {"source": "Geita Open Pit - Lower zone", "grade_g_t": 3.5, "tonnes_available_monthly": 45000},
+        {"source": "Underground - Main reef", "grade_g_t": 5.8, "tonnes_available_monthly": 25000},
+        {"source": "Stockpile rehandle", "grade_g_t": 1.9, "tonnes_available_monthly": 22000}
+      ],
+      "blend_ratios": {
+        "upper_zone_pct": 38,
+        "lower_zone_pct": 30,
+        "underground_pct": 18,
+        "stockpile_rehandle_pct": 14
+      },
+      "grade_targets": {
+        "target_head_grade_g_t": 3.2,
+        "minimum_head_grade_g_t": 2.8,
+        "maximum_head_grade_g_t": 3.8
+      },
+      "stockpile_management": {
+        "high_grade_stockpile_tonnes": 85000,
+        "low_grade_stockpile_tonnes": 210000,
+        "marginal_stockpile_tonnes": 125000,
+        "stockpile_reclaim_rate_tpd": 800
+      }
+    }
+  },
+  "ore_processing_schedule": {
+    "year": 2026,
+    "quarters": [
+      {
+        "quarter": "Q1 2026",
+        "ore_tonnes": 458000,
+        "waste_tonnes": 685000,
+        "strip_ratio": 1.49,
+        "head_grade_g_t": 3.18,
+        "recovery_pct": 94.5,
+        "gold_produced_oz": 43650,
+        "primary_ore_source": "Geita Open Pit - Upper zone",
+        "planned_shutdowns": ["Crusher liner change (3 days)", "Mill reline (5 days)"],
+        "actual_vs_planned_pct": 102.3
+      },
+      {
+        "quarter": "Q2 2026",
+        "ore_tonnes": 471000,
+        "waste_tonnes": 705000,
+        "strip_ratio": 1.50,
+        "head_grade_g_t": 3.22,
+        "recovery_pct": 94.6,
+        "gold_produced_oz": 45450,
+        "primary_ore_source": "Geita Open Pit - Lower zone",
+        "planned_shutdowns": ["Mill gearbox inspection (2 days)", "Leach tank cleanout (1 day)"],
+        "actual_vs_planned_pct": 103.1
+      },
+      {
+        "quarter": "Q3 2026",
+        "ore_tonnes": 465000,
+        "waste_tonnes": 720000,
+        "strip_ratio": 1.55,
+        "head_grade_g_t": 3.25,
+        "recovery_pct": 94.8,
+        "gold_produced_oz": 46200,
+        "primary_ore_source": "Blend - Upper zone + Underground",
+        "planned_shutdowns": ["SAG mill motor service (4 days)", "Conveyor belt replacement (2 days)"],
+        "actual_vs_planned_pct": 101.8
+      },
+      {
+        "quarter": "Q4 2026",
+        "ore_tonnes": 460000,
+        "waste_tonnes": 690000,
+        "strip_ratio": 1.50,
+        "head_grade_g_t": 3.30,
+        "recovery_pct": 95.0,
+        "gold_produced_oz": 47800,
+        "primary_ore_source": "Blend - Lower zone + Underground",
+        "planned_shutdowns": ["Annual mill overhaul (7 days)", "Crusher bowl replacement (2 days)"],
+        "actual_vs_planned_pct": 100.5
+      }
+    ],
+    "annual_summary": {
+      "total_ore_tonnes": 1854000,
+      "total_waste_tonnes": 2800000,
+      "average_strip_ratio": 1.51,
+      "average_head_grade_g_t": 3.24,
+      "average_recovery_pct": 94.7,
+      "total_gold_produced_oz": 183100
+    }
+  },
+  "equipment_performance": {
+    "haul_trucks": [
+      {"model": "Caterpillar 793F", "quantity": 8, "availability_pct": 88.5, "cycle_time_minutes": 12.4, "payload_tonnes": 226, "fuel_consumption_litres_per_hour": 285, "tyre_hours_remaining": 3200, "next_service_hours": 250},
+      {"model": "Caterpillar 789D", "quantity": 4, "availability_pct": 91.2, "cycle_time_minutes": 10.8, "payload_tonnes": 181, "fuel_consumption_litres_per_hour": 245, "tyre_hours_remaining": 4100, "next_service_hours": 180}
+    ],
+    "excavators": [
+      {"model": "Caterpillar 6060", "quantity": 2, "availability_pct": 90.0, "bucket_fill_factor_pct": 95, "bucket_capacity_m3": 6.0, "swing_cycle_time_seconds": 28, "engine_hours_total": 32000, "next_overhaul_hours": 5000},
+      {"model": "Komatsu PC5500", "quantity": 2, "availability_pct": 87.5, "bucket_fill_factor_pct": 92, "bucket_capacity_m3": 3.6, "swing_cycle_time_seconds": 22, "engine_hours_total": 28000, "next_overhaul_hours": 4500}
+    ],
+    "drills": [
+      {"model": "Atlas Copco FlexiROC D65", "quantity": 4, "availability_pct": 85.0, "penetration_rate_m_per_hour": 28.5, "hole_diameter_mm": 152, "drill_string_length_m": 15.2, "bit_hours_remaining": 120, "next_service_hours": 100},
+      {"model": "Sandvik DP1100i", "quantity": 2, "availability_pct": 82.0, "penetration_rate_m_per_hour": 32.0, "hole_diameter_mm": 127, "drill_string_length_m": 15.2, "bit_hours_remaining": 85, "next_service_hours": 75}
+    ],
+    "crushers": [
+      {"model": "Metso MP1250 Cone Crusher", "quantity": 1, "availability_pct": 92.5, "throughput_tph": 850, "closed_side_setting_mm": 18, "power_draw_kw": 630, "liner_remaining_pct": 65, "next_reline_hours": 1200},
+      {"model": "Metso C160 Jaw Crusher", "quantity": 1, "availability_pct": 94.0, "throughput_tph": 1200, "closed_side_setting_mm": 150, "power_draw_kw": 400, "liner_remaining_pct": 72, "next_reline_hours": 900}
+    ],
+    "mills": [
+      {"model": "Metso MH1250 SAG Mill", "quantity": 1, "availability_pct": 93.5, "power_draw_kw": 2200, "throughput_tph": 320, "charge_pct": 35, "ball_charge_tonnes": 120, "mill_speed_rpm": 12.8, "next_reline_hours": 800},
+      {"model": "Metso MH1250 Ball Mill", "quantity": 1, "availability_pct": 91.0, "power_draw_kw": 2000, "throughput_tph": 280, "charge_pct": 40, "ball_charge_tonnes": 145, "mill_speed_rpm": 13.2, "next_reline_hours": 650}
+    ],
+    "fleet_summary": {
+      "total_assets": 28,
+      "average_availability_pct": 89.5,
+      "total_fuel_consumption_litres_per_day": 12500,
+      "total_maintenance_cost_usd_monthly": 2800000,
+      "scheduled_downtime_days_monthly": 18,
+      "unscheduled_downtime_days_monthly": 8
+    }
+  },
+  "workforce_details": {
+    "total_headcount": 1250,
+    "departments": [
+      {
+        "department": "Mining",
+        "headcount": 420,
+        "permanent": 280,
+        "contract": 140,
+        "supervisory_ratio": "1:15",
+        "avg_annual_salary_usd": 28000,
+        "skills_shortages": ["Drill operators", "Blast crew leaders"],
+        "training_hours_per_quarter": 3200,
+        "ltif_record": 0.42,
+        "turnover_rate_pct": 8.5
+      },
+      {
+        "department": "Processing",
+        "headcount": 310,
+        "permanent": 240,
+        "contract": 70,
+        "supervisory_ratio": "1:12",
+        "avg_annual_salary_usd": 35000,
+        "skills_shortages": ["CIL plant operators", "Metallurgists"],
+        "training_hours_per_quarter": 2800,
+        "ltif_record": 0.28,
+        "turnover_rate_pct": 6.2
+      },
+      {
+        "department": "Maintenance",
+        "headcount": 215,
+        "permanent": 190,
+        "contract": 25,
+        "supervisory_ratio": "1:10",
+        "avg_annual_salary_usd": 38000,
+        "skills_shortages": ["Heavy diesel fitters", "Electricians", "Instrumentation technicians"],
+        "training_hours_per_quarter": 2400,
+        "ltif_record": 0.65,
+        "turnover_rate_pct": 10.1
+      },
+      {
+        "department": "Administration",
+        "headcount": 180,
+        "permanent": 175,
+        "contract": 5,
+        "supervisory_ratio": "1:8",
+        "avg_annual_salary_usd": 42000,
+        "skills_shortages": ["Environmental engineers", "Geologists"],
+        "training_hours_per_quarter": 1800,
+        "ltif_record": 0.10,
+        "turnover_rate_pct": 4.5
+      },
+      {
+        "department": "Security",
+        "headcount": 125,
+        "permanent": 95,
+        "contract": 30,
+        "supervisory_ratio": "1:20",
+        "avg_annual_salary_usd": 12000,
+        "skills_shortages": [],
+        "training_hours_per_quarter": 1200,
+        "ltif_record": 0.15,
+        "turnover_rate_pct": 12.0
+      }
+    ],
+    "quarterly_summary": {
+      "Q1_2026": {
+        "headcount": 1240,
+        "new_hires": 45,
+        "terminations": 30,
+        "training_hours_total": 5800,
+        "ltif": 0.38,
+        "lost_time_injuries": 2,
+        "first_aid_incidents": 14,
+        "near_misses": 67
+      },
+      "Q2_2026": {
+        "headcount": 1250,
+        "new_hires": 52,
+        "terminations": 35,
+        "training_hours_total": 6200,
+        "ltif": 0.35,
+        "lost_time_injuries": 2,
+        "first_aid_incidents": 12,
+        "near_misses": 73
+      }
+    },
+    "cumulative_metrics": {
+      "total_employees": 1250,
+      "average_training_hours_per_employee": 10.5,
+      "total_spend_on_training_usd": 580000,
+      "workforce_productivity_oz_per_employee": 146.5,
+      "safety_award_recognitions": 3,
+      "gender_diversity_pct": 12.8,
+      "local_employment_pct": 82.0
+    }
+  }
+}

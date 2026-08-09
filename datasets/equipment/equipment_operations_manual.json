@@ -1,0 +1,340 @@
+{
+  "title": "Equipment Operations & Maintenance Manual",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Detailed operational procedures, maintenance schedules, and troubleshooting guides for all mining equipment.",
+  "haul_trucks": {
+    "CAT_797F": {
+      "specifications": {
+        "payload_tons": 400,
+        "engine_hp": 4000,
+        "engine_model": "Cat C175-20 V20",
+        "displacement_litres": 95,
+        "fuel_capacity_litres": 3800,
+        "top_speed_kmh": 64,
+        "tyre_size": "59/80R63",
+        "turning_radius_m": 14.5,
+        "body_capacity_m3": 177
+      },
+      "operating_parameters": {
+        "engine_temp_normal_C": "82-93",
+        "engine_temp_alarm_C": 99,
+        "oil_pressure_normal_psi": "55-75",
+        "oil_pressure_alarm_psi": 45,
+        "tire_pressure_psi": "88-96",
+        "coolant_level_min_percent": 80,
+        "transmission_temp_normal_C": "75-95",
+        "transmission_temp_alarm_C": 110
+      },
+      "pre_shift_inspection": {
+        "duration_minutes": 15,
+        "items": [
+          "Walk-around inspection - body, tyres, frame",
+          "Check all fluid levels (engine oil, coolant, hydraulic, transmission)",
+          "Inspect tyres for cuts, bulges, tread depth",
+          "Test all lights and indicators",
+          "Test horn, backup alarm",
+          "Check fire suppression system pressure",
+          "Inspect seatbelt and cabin safety systems",
+          "Check mirrors and camera systems",
+          "Verify no debris or loose items under truck",
+          "Check dump body and tailgate operation"
+        ],
+        "documentation": "Complete pre-shift checklist; report any defects to supervisor"
+      },
+      "maintenance_schedule": {
+        "250_hour": ["Engine oil and filter change", "Grease all fittings", "Check brake adjustment", "Inspect air filters", "Check drive train"],
+        "500_hour": ["Transmission fluid check", "Hydraulic filter change", "Coolant check and top-up", "Battery inspection", "Belt inspection"],
+        "1000_hour": ["Transmission service", "Hydraulic system service", "Coolant replacement", "Wheel bearing inspection", "Brake inspection"],
+        "2000_hour": ["Engine tune-up", "Final drive inspection", "Structural NDT inspection", "Electrical system check"],
+        "4000_hour": ["Major engine service", "Transmission overhaul inspection", "Frame and body inspection", "Complete system calibration"]
+      },
+      "troubleshooting": {
+        "high_engine_temp": ["Check coolant level", "Inspect radiator fins", "Check fan belt tension", "Verify water pump operation", "Check for coolant leaks"],
+        "low_oil_pressure": ["Check oil level immediately", "Inspect for oil leaks", "Check oil pump", "Do NOT continue operating - shut down"],
+        "excessive_vibration": ["Check tyre pressure and condition", "Inspect wheel nuts", "Check drive shaft", "Inspect engine mounts"],
+        "poor_fuel_economy": ["Check air filters", "Inspect fuel injectors", "Check tyre pressure", "Review operator driving habits"]
+      },
+      "safety_systems": {
+        "fire_suppression": "Automatic engine bay suppression (FPE Minimax); manual override in cabin",
+        "retarder": "Electric retarding system; 4 retarding grids",
+        "parking_brake": "Spring-applied, hydraulic-released",
+        "backup_camera": "360-degree camera system with recording",
+        "collision_avoidance": "CAT Detect system with radar and camera"
+      }
+    },
+    "Komatsu_980E": {
+      "specifications": {
+        "payload_tons": 360,
+        "engine_hp": 3500,
+        "engine_model": "Komatsu SSDA16V160E-3",
+        "fuel_capacity_litres": 3400,
+        "top_speed_kmh": 60,
+        "tyre_size": "55/80R63",
+        "turning_radius_m": 13.5
+      },
+      "operating_parameters": {
+        "engine_temp_normal_C": "80-90",
+        "engine_temp_alarm_C": 96,
+        "oil_pressure_normal_psi": "50-70",
+        "oil_pressure_alarm_psi": 40,
+        "tire_pressure_psi": "85-92"
+      }
+    }
+  },
+  "drill_rigs": {
+    "Sandvik_DD421iJ": {
+      "specifications": {
+        "type": "Underground jumbo drill",
+        "hole_diameter_mm": "42-76",
+        "drill_depth_m": "4200 (max rod length 3.7m)",
+        "engine_hp": 260,
+        "tramming_speed_kmh": 15,
+        "boom_coverage_m2": "130",
+        "control_system": "Sandvik AutoDrill"
+      },
+      "operating_procedures": {
+        "collar_setup": [
+          "Position rig at drill face using guidance system",
+          "Set boom to design collar position (±100mm accuracy)",
+          "Level rig using hydraulic jacks",
+          "Verify ventilation is operational",
+          "Confirm all personnel clear of drill area"
+        ],
+        "drilling_operation": [
+          "Initiate auto-drill sequence",
+          "Monitor penetration rate and feed pressure",
+          "Check water flush flow (15-25 L/min)",
+          "Monitor drill steel wear",
+          "Record final hole depth and deviation"
+        ],
+        "rod_handling": [
+          "Use auto rod handler only",
+          "Verify rod thread condition before adding",
+          "Maintain minimum 2 rods in string during drilling",
+          "Store rods in designated rack when not in use"
+        ]
+      },
+      "maintenance_schedule": {
+        "daily": ["Check hydraulic oil level", "Grease all fittings", "Inspect drill steel", "Check water system", "Test safety systems"],
+        "weekly": ["Inspect boom and arm pins", "Check electrical connections", "Clean air filters", "Test fire suppression"],
+        "monthly": ["Hydraulic system service", "Engine oil and filter change", "Inspect drill feed and chain"],
+        "quarterly": ["Complete structural inspection", "Boom alignment check", "Electrical system test"]
+      },
+      "troubleshooting": {
+        "low_penetration_rate": ["Check bit condition", "Verify water pressure", "Check feed pressure setting", "Inspect drill steel alignment"],
+        "excessive_vibration": ["Check drill steel straightness", "Inspect bit wear", "Check boom pin clearance", "Verify rig leveling"],
+        "hydraulic_leaks": ["Inspect all hose connections", "Check cylinder seals", "Verify hydraulic oil level and temperature"]
+      }
+    },
+    "Sandvik_Leopard_Di650i": {
+      "specifications": {
+        "type": "Surface reverse circulation drill",
+        "hole_diameter_mm": "89-216",
+        "drill_depth_m": "200 (6-inch hole)",
+        "engine_hp": 440,
+        "compressor_m3_min": 16,
+        "feed_length_m": 12,
+        "rod_capacity": 6
+      },
+      "operating_procedures": {
+        "rig_setup": [
+          "Position over drill collar using GPS",
+          "Level rig using stabilizers",
+          "Connect cyclone and sample collection system",
+          "Start compressor and verify air pressure",
+          "Conduct safety briefing with crew"
+        ],
+        "drilling": [
+          "Begin rotation at 50-80 RPM",
+          "Apply feed pressure based on rock type (15-40 kN)",
+          "Monitor cuttings return at cyclone",
+          "Sample collection at 1m intervals",
+          "Record geological observations every 3m"
+        ]
+      }
+    }
+  },
+  "crushers": {
+    "Metso_HP500": {
+      "specifications": {
+        "type": "Secondary cone crusher",
+        "feed_opening_mm": 300,
+        "max_feed_size_mm": 220,
+        "product_size_mm": "10-50 (CSS adjustable)",
+        "capacity_tph": "250-500",
+        "motor_hp": 500,
+        "css_range_mm": "10-50"
+      },
+      "operating_parameters": {
+        "eccentric_speed_rpm": 250,
+        "stroke_mm": 32,
+        "clamping_pressure_bar": "150-200",
+        "lubrication_oil_temp_C": "40-60",
+        "css_measurement": "Between-liners measurement at three points"
+      },
+      "liner_management": {
+        "mantle_life_hours": "8000-12000",
+        "bowl_liner_life_hours": "6000-10000",
+        "css_adjustment": "Hydraulic adjustment; compensate for liner wear",
+        "monitoring": "Track CSS daily; maintain target P80"
+      },
+      "troubleshooting": {
+        "high_vibration": ["Check feed distribution", "Inspect toggle plate", "Check main frame pins", "Verify css setting"],
+        "low_capacity": ["Increase css if product allows", "Check feed gradation", "Verify motor power draw", "Inspect liners for packing"],
+        "product_too_coarse": ["Decrease css", "Check mantle wear pattern", "Verify css measurement technique"]
+      }
+    },
+    "Sandvik_CJ613": {
+      "specifications": {
+        "type": "Primary jaw crusher",
+        "feed_opening_mm": "1060x760",
+        "max_feed_size_mm": 680,
+        "product_size_mm": "75-200",
+        "capacity_tph": "160-800",
+        "motor_hp": 200,
+        "css_range_mm": "75-200"
+      }
+    }
+  },
+  "mills": {
+    "Metso_DM5600_Ball_Mill": {
+      "specifications": {
+        "type": "Overflow ball mill",
+        "diameter_m": 5.8,
+        "length_m": 9.75,
+        "motor_hp": 4500,
+        "rpm": 14.5,
+        "charge_volume_percent": "30-40",
+        "ball_charge_tons": 180,
+        "ball_size_mm": "25-75 (graded charge)",
+        "feed_size_mm": "<12",
+        "product_size_p80_microns": "75"
+      },
+      "operating_parameters": {
+        "pulp_density_percent": "65-75",
+        "srl_pump_speed": "Variable",
+        "mill_vibration_mm_s": "<4.5",
+        "bearing_pressure_bar": "30-40",
+        "motor_amps_percent": "<85 of rated"
+      },
+      "charge_management": {
+        "ball_addition_rate": "50-100 kg/day",
+        "ball_size_monitoring": "Screen ball charge quarterly",
+        "wear_measurement": "Shell liner thickness measurement monthly",
+        "optimization": "Use DEM simulation for charge trajectory"
+      },
+      "troubleshooting": {
+        "high_vibration": ["Check liner bolts", "Inspect trunnion bearing", "Verify charge level", "Check foundation bolts"],
+        "low_throughput": ["Increase feed rate gradually", "Check slurry density", "Verify classifier operation", "Check ball charge level"],
+        "high_noise": ["Check for liner wear-through", "Inspect ball charge", "Verify mill speed"]
+      }
+    },
+    "Metso_VTM1500_Vertimill": {
+      "specifications": {
+        "type": "Vertical stirred mill",
+        "motor_hp": 1500,
+        "media_charge_tons": 65,
+        "media_size_mm": "16-25",
+        "feed_size_microns": "<100",
+        "product_size_p80_microns": "20",
+        "throughput_tph": 45,
+        "energy_kwh_ton": "15-25"
+      },
+      "applications": ["Regrind for flotation", "Ultra-fine grinding", "Liberation improvement"]
+    }
+  },
+  "conveyors": {
+    "Overland_Conveyor_1200mm": {
+      "specifications": {
+        "belt_width_mm": 1200,
+        "belt_speed_ms": 3.5,
+        "design_capacity_tph": 2500,
+        "length_m": 2800,
+        "lift_m": 120,
+        "motor_kw": 800,
+        "belt_rating": "N1250"
+      },
+      "monitoring_parameters": {
+        "belt_tracking": "Alignment tolerance ±25mm",
+        "tension": "Monitor belt tension at take-up",
+        "splice_condition": "Visual inspection daily",
+        "idler_temperature": "Infrared scan weekly; >15°C above ambient indicates failure",
+        "belt_speed": "Radar measurement; ±2% of design speed",
+        "tonnage": "Belt scale; calibrated quarterly"
+      },
+      "maintenance": {
+        "daily": ["Visual inspection of belt and idlers", "Check take-up tension", "Inspect splices"],
+        "weekly": ["Grease all idler bearings", "Check belt tracking", "Inspect cleaners"],
+        "monthly": ["Measure belt thickness", "Check drive alignment", "Inspect structure"],
+        "quarterly": ["Belt scale calibration", "Complete structural inspection", "NDT splice testing"]
+      },
+      "troubleshooting": {
+        "belt_misalignment": ["Adjust idler training", "Check loading point", "Inspect belt splice", "Verify gravity take-up"],
+        "belt_slippage": ["Increase belt tension", "Check drive lagging", "Reduce feed rate", "Check brake system"],
+        "excessive_wear": ["Check loading impact", "Install impact idlers", "Reduce drop height", "Check material moisture"]
+      }
+    }
+  },
+  "pumps": {
+    "Metso_MP1250": {
+      "specifications": {
+        "type": "Centrifugal slurry pump",
+        "flow_rate_m3h": 350,
+        "head_m": 45,
+        "motor_kw": 200,
+        "impeller_diameter_mm": 500,
+        "max_solids_percent": 40,
+        "max_particle_size_mm": 25
+      },
+      "applications": ["CIL circuit", "Tailings disposal", "Water supply"]
+    }
+  },
+  "gemstone_processing": {
+    "sorting_station": {
+      "equipment": [
+        {"name": "Gemological Microscope", "model": "Olympus SZX16", "magnification": "7-115x", "purpose": "Rough grading and inclusion analysis"},
+        {"name": "Digital Scale", "model": "Mettler Toledo XPR226", "precision": "0.001mg", "purpose": "Carat weight measurement"},
+        {"name": "Refractometer", "model": "Kruess OEG-M", "range": "1.30-1.80", "purpose": "Refractive index measurement"},
+        {"name": "Spectroscope", "model": "Bausch & Lomb", "type": "Diffraction grating", "purpose": "Absorption spectrum analysis"},
+        {"name": "UV Lamp", "model": "UVGL-58", "wavelengths": "365nm (longwave), 254nm (shortwave)", "purpose": "Fluorescence testing"},
+        {"name": "Diamond Selector", "model": "Kurz IN 60", "type": "Thermal conductivity", "purpose": "Natural vs synthetic diamond detection"}
+      ],
+      "sorting_criteria": {
+        "tanzanite": {
+          "AAA": {"color": "Vivid blue (D block)", "clarity": "Eye clean", "size": ">5ct", "price_per_carat_usd": 1500},
+          "AA": {"color": "Blue-violet (B/C block)", "clarity": "Eye clean", "size": "2-5ct", "price_per_carat_usd": 800},
+          "A": {"color": "Violet-blue (A/B block)", "clarity": "Minor inclusions", "size": "1-3ct", "price_per_carat_usd": 400},
+          "Commercial": {"color": "Color varied", "clarity": "Included", "size": "<1ct", "price_per_carat_usd": 120}
+        },
+        "ruby": {
+          "Pigeon_Blood": {"color": "Pure red with fluorescent pink", "clarity": "VS-VVS", "size": ">2ct", "price_per_carat_usd": 50000},
+          "Fine": {"color": "Vivid red", "clarity": "VS-SI1", "size": "1-2ct", "price_per_carat_usd": 15000},
+          "Commercial": {"color": "Red with brownish tint", "clarity": "SI2-I1", "size": "<1ct", "price_per_carat_usd": 2000}
+        },
+        "tsavorite": {
+          "Vivid_Green": {"color": "Intense green (similar to emerald)", "clarity": "Eye clean", "size": ">2ct", "price_per_carat_usd": 8000},
+          "Fine": {"color": "Medium green", "clarity": "Eye clean", "size": "1-2ct", "price_per_carat_usd": 3000},
+          "Commercial": {"color": "Light green", "clarity": "Minor inclusions", "size": "<1ct", "price_per_carat_usd": 500}
+        }
+      },
+      "treatment_detection": {
+        "heat_treatment": {
+          "method": "FTIR spectroscopy",
+          "indicators": ["Altered inclusion appearance", "Changed diffusion profiles", "Modified color centers"],
+          "ruby_indicators": ["Flux residue in fractures", "Altered silk pattern", "Changed color zoning"],
+          "sapphire_indicators": ["Titanium exsolution discs dissolved", "Changed color zoning", "Altered silk"]
+        },
+        "filling_treatment": {
+          "method": "Raman spectroscopy + immersion",
+          "ruby_indicators": ["Surface-reaching fractures with orange flash effect", "Lead-glass filling (high RI)"],
+          "emerald_indicators": ["Oil/resin in fractures", "Flash effect under microscope"]
+        },
+        "diffusion_treatment": {
+          "method": "Immersed in methylene iodide",
+          "indicators": ["Color concentration at surface", "No color concentration in natural sapphires"]
+        }
+      }
+    }
+  }
+}

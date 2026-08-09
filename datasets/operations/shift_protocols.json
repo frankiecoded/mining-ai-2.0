@@ -1,0 +1,22 @@
+[
+  {
+    "id": "shift_handover",
+    "category": "operations",
+    "title": "Shift Handover Protocol",
+    "content": "Shift Handover Protocol:\n\n1. Timing\n   - Day shift: 06:00 - 18:00\n   - Night shift: 18:00 - 06:00\n   - Handover period: 15 minutes before shift change\n   - Shift supervisor must be on-site 30 minutes before shift start\n\n2. Handover Checklist\n   - Equipment status: all running equipment and any in breakdown\n   - Production metrics: tonnes milled, grade, recovery for the shift\n   - Safety issues: any incidents, near-misses, or hazards identified\n   - Weather conditions: surface conditions affecting operations\n   - Outstanding maintenance: any pending work orders\n   - Personnel: any absenteeism or crew changes\n\n3. Documentation\n   - Digital shift log entry (mandatory, before leaving site)\n   - Verbal briefing to incoming shift supervisor\n   - Handover signature in shift book (physical backup)\n   - Any pending actions highlighted with priority tags\n\n4. Critical Handover Items\n   - Active blasting operations in progress\n   - Equipment lockout/tagout status\n   - Gas monitoring readings (underground)\n   - Water pumping status and dam levels\n   - Environmental discharge compliance status\n\n5. Escalation\n   - Any unresolved safety issue must be escalated to Mine Manager before handover\n   - Environmental exceedances must be communicated to Environmental Manager\n   - Production shortfalls >10% of target reported to Plant Manager",
+    "tags": ["operations", "shift", "handover", "protocol", "supervisor", "documentation"],
+    "applicable_shafts": ["all"],
+    "last_reviewed": "2026-01-10",
+    "revision": "6.0"
+  },
+  {
+    "id": "emergency_response",
+    "category": "operations",
+    "title": "Emergency Response Procedures",
+    "content": "Emergency Response Procedures:\n\n1. Emergency Classification\n   - Category 1 (Critical): Fatality, serious injury, major structural failure\n   - Category 2 (Major): Fire, explosion, gas ingress, flooding\n   - Category 3 (Serious): Equipment damage, environmental spill, near-miss\n   - Category 4 (Minor): First aid, minor equipment damage\n\n2. Immediate Response\n   - Sound alarm: 3 short blasts (evacuation) or continuous (emergency)\n   - Radio Channel 1: Emergency announcement with location and nature\n   - Account for all personnel in affected area\n   - Activate emergency response team\n\n3. Communication Chain\n   - Mine Manager -> Safety Manager -> Department Heads -> All supervisors\n   - External: Emergency services (if required), DMRE (within 24 hours for Category 1)\n   - Community notification if surface impact\n\n4. Assembly Points\n   - Underground: Nearest refuge chamber\n   - Surface: Main parking area (south gate)\n   - Processing: Assembly point B (east of plant)\n   - Head office: Front reception\n\n5. Post-Emergency\n   - Incident investigation team deployed within 24 hours\n   - Root cause analysis using 5-Why method\n   - Corrective actions assigned with deadlines\n   - Lessons learned communicated to all operations\n   - Formal incident report to DMRE within required timeframe",
+    "tags": ["operations", "emergency", "response", "evacuation", "safety", "communication"],
+    "applicable_shafts": ["all"],
+    "last_reviewed": "2026-01-01",
+    "revision": "8.0"
+  }
+]

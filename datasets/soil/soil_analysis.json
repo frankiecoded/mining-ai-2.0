@@ -1,0 +1,364 @@
+{
+  "title": "Soil & Rock Sample Analysis Intelligence",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Soil geochemistry, rock sampling protocols, and exploration techniques for gold, precious stones, and rare earth deposits.",
+  "soil_sampling_protocols": {
+    "gold_exploration": {
+      "methods": [
+        {
+          "name": "Ridge soil sampling",
+          "spacing": "100-200m lines, 25-50m station intervals",
+          "depth": "B-horizon (20-40cm below surface)",
+          "sample_mass": "500g - 1kg",
+          "target_anomalies": ["Au", "As", "Sb", "Bi", "Te", "W"],
+          "background_levels": {
+            "Au_ppb": "<5",
+            "As_ppm": "<10",
+            "Sb_ppm": "<2",
+            "Bi_ppm": "<0.5"
+          },
+          "anomaly_thresholds": {
+            "Au_ppb": ">20",
+            "As_ppm": ">50",
+            "Sb_ppm": ">5",
+            "Bi_ppm": ">2"
+          }
+        },
+        {
+          "name": "Stream sediment sampling",
+          "spacing": "1 catchment per 2-5 km²",
+          "depth": "Below organic layer, 20-40cm",
+          "sample_mass": "2-5kg (bulk), <2mm fraction analyzed",
+          "target_anomalies": ["Au", "Ag", "As", "Sb", "Cu", "Zn"],
+          "analysis_methods": ["Fire assay (Au)", "ICP-MS (multi-element)", "Atomic absorption (individual elements)"]
+        },
+        {
+          "name": "Auger soil sampling",
+          "spacing": "50-100m grid",
+          "depth": "0.5-2m",
+          "sample_mass": "1-2kg",
+          "target": "Laterite and saprolite profiles",
+          "best_for": "Tropical laterite gold deposits (common in East Africa)"
+        }
+      ],
+      "chemical_indicators": {
+        "primary_pathfinder_elements": ["As", "Sb", "Bi", "Te", "W"],
+        "secondary_pathfinder_elements": ["Ag", "Cu", "Zn", "Pb", "Mo"],
+        "indicator_minerals": ["Pyrite", "Arsenopyrite", "Stibnite", "Bismuthinite", "Tellurides"],
+        "alteration_signatures": ["Silicification", "Sericitization", "Chloritization", "Albitization"]
+      },
+      "geophysical_signatures": {
+        "IP_chargeability": ">20 mV/V (massive sulfide associated gold)",
+        "resistivity": "Low resistivity may indicate alteration zones",
+        "magnetic": "Magnetic lows can indicate alteration destroying magnetite",
+        "EM_conductors": "May indicate sulfide-rich zones"
+      }
+    },
+    "diamond_exploration": {
+      "methods": [
+        {
+          "name": "Heavy mineral sampling",
+          "target": "Kimberlite indicator minerals (KIMs)",
+          "minerals": ["Garnet (G10/G9)", "Pyroxene (chrome diopside)", "Ilmenite", "Spinel"],
+          "sample_size": "20-50kg bulk sample",
+          "processing": "Dense media separation; hand picking under microscope"
+        },
+        {
+          "name": "Till sampling",
+          "spacing": "Glacial till geochemistry",
+          "target": "KIMs, diamond microdiamonds",
+          "analysis": "Microdiamond counts, indicator mineral chemistry"
+        },
+        {
+          "name": "Microdiamond sampling",
+          "method": "Caustic dissolution of kimberlite",
+          "sample_mass": "10-100kg",
+          "purpose": "Early assessment of diamond potential"
+        }
+      ],
+      "indicator_mineral_chemistry": {
+        "chrome_garnet_G10": {
+          "Cr2O3": ">1.5%",
+          "CaO": "<1.0%",
+          "MgO": ">20%",
+          "temperature_C": "900-1100 (xenocrystic from mantle)"
+        },
+        "chrome_diopside": {
+          "Cr2O3": ">0.5%",
+          "TiO2": "<0.3%",
+          "color": "Bright green"
+        },
+        "ilmenite": {
+          "Cr2O3": ">3%",
+          "MgO": ">5%",
+          "FeO_total": "<35%",
+          "MnO": "<0.5%"
+        }
+      },
+      "kimberlite_geochemistry": {
+        "major_elements": ["SiO2 30-40%", "MgO 20-30%", "Al2O3 2-5%", "Fe2O3 5-10%"],
+        "trace_elements": ["Ni >1000 ppm", "Cr >1000 ppm", "Co >100 ppm", "Nb >200 ppm"],
+        "radiometric": "High K and U in groundmass; Th/K ratio diagnostic"
+      }
+    },
+    "gemstone_exploration": {
+      "ruby_sapphire": {
+        "methods": ["Stream sediment sampling", "Heavy mineral panning", "Shallow auger"],
+        "target_minerals": ["Corundum (ruby/sapphire)", "Spinel", "Garnet", "Zircon"],
+        "indicator_rocks": ["Marble (ruby)", "Basalt (sapphire)", "Metamorphic gneiss"],
+        "pathfinder_elements": ["Cr", "V", "Ti", "Fe", "Ga"]
+      },
+      "tanzanite": {
+        "methods": ["Geological mapping", "IP/resistivity surveys", "Trenching"],
+        "host_rock": "Gneissic pegmatites in Merelani Hills",
+        "pathfinder_elements": ["Ba", "Sr", "Zr", "Nb"],
+        "geophysical_signature": "Resistivity anomalies along pegmatite veins"
+      },
+      "tsavorite": {
+        "methods": ["Soil auger sampling", "Geological mapping"],
+        "host_rock": "Graphitic schists and calc-silicate gneiss",
+        "target_minerals": ["Grossular garnet (green)", "Diopside", "Vesuvianite"],
+        "geochemical_indicators": ["Cr", "V", "Ti in soil"]
+      }
+    },
+    "rare_earth_exploration": {
+      "methods": [
+        {
+          "name": "Stream sediment geochemistry",
+          "target_elements": ["La", "Ce", "Nd", "Y", "Nb", "Zr", "Th", "U"],
+          "anomaly_thresholds": {
+            "La_ppm": ">100",
+            "Ce_ppm": ">200",
+            "Nd_ppm": ">50",
+            "Y_ppm": ">50",
+            "Th_ppm": ">30",
+            "U_ppm": ">10"
+          }
+        },
+        {
+          "name": "Rock chip sampling",
+          "target": "Outcrop exposures of pegmatites, carbonatites, alkaline rocks",
+          "analysis": "XRF portable + lab ICP-MS"
+        }
+      ],
+      "target_rock_types": ["Carbonatites", "Alkaline complexes", "Phosphorite", "Heavy mineral sands", "Ion-adsorption clays"],
+      "indicator_minerals": ["Monazite", "Xenotime", "Bastnasite", "Allanite", "Apatite", "Zircon"],
+      "radiometric_signature": "High gamma counts; K, U, Th enrichment; U/Th ratio varies by deposit type"
+    }
+  },
+  "sample_analysis_methods": {
+    "fire_assay": {
+      "element": "Au",
+      "detection_limit_ppb": 1,
+      "method": "Cupellation with Pb collector; weight or AAS finish",
+      "turnaround_hours": 24,
+      "cost_per_sample_usd": 15
+    },
+    "icp_ms": {
+      "elements": "Multi-element (40+ elements)",
+      "detection_limit_ppb": "0.01-10 depending on element",
+      "method": "Acid digestion (aqua regia or four-acid) followed by ICP-MS",
+      "turnaround_hours": 48,
+      "cost_per_sample_usd": 45
+    },
+    "icp_oes": {
+      "elements": "Major and minor elements",
+      "detection_limit_ppm": "0.1-100",
+      "method": "Fusion or acid digestion",
+      "turnaround_hours": 24,
+      "cost_per_sample_usd": 25
+    },
+    "xrf_portable": {
+      "elements": "30+ elements",
+      "detection_limit_ppm": "1-100",
+      "method": "Non-destructive X-ray fluorescence",
+      "turnaround_hours": "0.1 (instant)",
+      "cost_per_sample_usd": 0,
+      "note": "Field screening tool; lab confirmation required"
+    },
+    "thin_section": {
+      "purpose": "Petrographic analysis; mineral identification",
+      "method": "Microscopy (transmitted + reflected light)",
+      "turnaround_hours": 72,
+      "cost_per_sample_usd": 40
+    },
+    "microdiamond_recovery": {
+      "purpose": "Diamond indicator; grade estimation",
+      "method": "Caustic dissolution of 10-100kg sample",
+      "turnaround_hours": 168,
+      "cost_per_sample_usd": 500
+    }
+  },
+  "conveyor_belt_monitoring": {
+    "parameters": {
+      "belt_speed_ms": "1.5 - 5.0 m/s",
+      "belt_width_mm": "600 - 2400",
+      "load_capacity_tph": "100 - 10000",
+      "operating_temperature_C": "-20 to +50",
+      "belt_tension_kN": "Varies by length; typically 50-300"
+    },
+    "sensor_types": [
+      {
+        "name": "XRF analyzer (online)",
+        "purpose": "Real-time grade control on conveyor",
+        "elements_measured": "Fe, Cu, Zn, Pb, Au (by proxy)",
+        "accuracy": "±0.1% for major elements",
+        "installation": "Cross-belt analyzer"
+      },
+      {
+        "name": "Radiometric sensor",
+        "purpose": "REE and uranium/thorium detection",
+        "elements_measured": "U, Th, K",
+        "application": "Rare earth deposit characterization"
+      },
+      {
+        "name": "Near-infrared (NIR)",
+        "purpose": "Mineral identification on belt",
+        "minerals_detected": "Sulfides, carbonates, clays, micas",
+        "application": "Process optimization"
+      },
+      {
+        "name": "Vision system",
+        "purpose": "Particle size distribution; ore/waste sorting",
+        "technology": "Line scan cameras + AI classification",
+        "accuracy": "±5% on particle size"
+      }
+    ],
+    "maintenance_indicators": {
+      "belt_tracking": "Misalignment >25mm requires adjustment",
+      "splice_life": "Monitor for 80% of rated life",
+      "idler_failure": "Temperature rise >15°C above ambient",
+      "belt_wear": "Replace at 70% carcass thickness remaining",
+      "tension_monitoring": "Vary >10% from baseline indicates issues"
+    },
+    "ore_sorting": {
+      "technology": "XRT (X-ray transmission), XRF, NIR, or RGB cameras",
+      "decision_speed": "10-100ms per particle",
+      "rejection_rate": "30-60% waste rejection typical",
+      "grade_improvement": "2-5x head grade upgrade",
+      "applications": [
+        "Pre-concentration of gold ores",
+        "Diamond recovery (XRT sorting)",
+        "Gemstone recovery",
+        "Rejection of low-grade material before milling"
+      ]
+    }
+  },
+  "mining_equipment_knowledge": {
+    "drilling": {
+      "diamond_core_drill": {
+        "models": ["Sandvik DD421i", "Atlas Copco SmartROC D65"],
+        "hole_diameter_mm": "42-127",
+        "depth_capability_m": "300-1500",
+        "applications": ["Exploration drilling", "Grade control", "Geotechnical"],
+        "consumables": ["Diamond-impregnated bits", "Drill rods", "Drilling fluid"]
+      },
+      "reverse_circulation_drill": {
+        "models": ["Schramm T685WSi", "Boart Longyear LR90"],
+        "hole_diameter_mm": "85-200",
+        "depth_capability_m": "100-500",
+        "applications": ["Production drilling", "Grade control", "Blast holes"],
+        "advantages": "Faster than core drilling; continuous sampling"
+      },
+      "rotary_air_blast": {
+        "applications": ["Shallow exploration", "Soil sampling", "Water well drilling"],
+        "hole_diameter_mm": "50-150",
+        "depth_capability_m": "30-100"
+      }
+    },
+    "processing": {
+      "crusher_types": {
+        "jaw_crusher": "Primary crushing; 200-1000mm feed; 20-100mm product",
+        "cone_crusher": "Secondary; 100-300mm feed; 10-50mm product",
+        "hpgr": "High pressure grinding rolls; energy efficient for hard ores",
+        "impact_crusher": "Soft to medium ores; good shape factor"
+      },
+      "mill_types": {
+        "ball_mill": "Wet grinding; 75% of new installations; 80μm P80 typical",
+        "rod_mill": "Coarser grind; 2000-4000μm to 200-500μm; less fines",
+        "sag_mill": "Large throughput; 100-150mm feed; to ball mill circuit",
+        "vertimill": "Fine grinding; regrind applications; energy efficient"
+      },
+      "gravity_recovery": {
+        "spirals": "Heavy mineral concentration; 1-2mm to 0.075mm",
+        "shaking_tables": "Final concentration; high grade product",
+        "knelson_concentrator": "Centrifugal gravity; free gold recovery",
+        "jig": "Coarse particle recovery; lump ore applications"
+      },
+      "flotation": {
+        "mechanical_cells": "Standard; 1-3m³ per cell",
+        "column_cells": "Cleaning stage; froth washing",
+        "reagents": {
+          "collectors": ["SIPX (sodium isopropyl xanthate)", "Sodium butyl xanthate", "Aerophine 3418A"],
+          "frothers": ["MIBC", "Polyglycol ethers", "DF-250"],
+          "depressants": ["Lime (pyrite depression)", "NaCN (sulfide depression)", "CMC (carbonaceous material)"],
+          "pH_modifiers": ["Lime (alkaline)", "H2SO4 (acidic)"]
+        },
+        "gold_recovery_targets": ">95% for free gold; >85% for refractory",
+        "copper_recovery_targets": ">90% for chalcocite/chalcopyrite"
+      },
+      "cyanidation": {
+        "process": "Carbon-in-leach (CIL) or Carbon-in-pulp (CIP)",
+        "cyanide_concentration": "100-500 ppm NaCN",
+        "pH_control": "10.0-11.0 (lime)",
+        "leach_time": "24-72 hours",
+        "recovery_target": ">95% for free-milling gold",
+        "safety": "Cyanide management per International Cyanide Management Code (ICMC)"
+      },
+      "heap_leach": {
+        "application": "Low-grade oxide gold ores (<1 g/t)",
+        "heap_height": "30-100m",
+        "leach_cycle": "60-180 days",
+        "solution_strength": "0.5-2 g/L NaCN",
+        "recovery": "60-80%",
+        "environmental": "Liner systems; pregnant solution collection; cyanide destruction"
+      }
+    },
+    "haul_trucks": {
+      "CAT_797F": {
+        "payload_tons": 400,
+        "engine_hp": 4000,
+        "engine_temp_normal_C": "82-93",
+        "engine_temp_alarm_C": 99,
+        "oil_pressure_normal_psi": "55-75",
+        "tire_pressure_psi": 95,
+        "fuel_capacity_litres": 3800,
+        "cycle_time_minutes": 12,
+        "fuel_consumption_L_per_hour": 280
+      },
+      "Komatsu_980E": {
+        "payload_tons": 360,
+        "engine_hp": 3500,
+        "engine_temp_normal_C": "80-90",
+        "engine_temp_alarm_C": 96,
+        "oil_pressure_normal_psi": "50-70",
+        "tire_pressure_psi": 90,
+        "fuel_capacity_litres": 3400,
+        "cycle_time_minutes": 11,
+        "fuel_consumption_L_per_hour": 250
+      }
+    }
+  },
+  "safety_equipment_specifications": {
+    "personal_protective_equipment": {
+      "hard_hat": "Type I/II; ANSI Z89.1; EN 397",
+      "high_vis_vest": "Class 2/3; EN ISO 20471",
+      "safety_boots": "Steel toe; puncture resistant; ASTM F2413",
+      "respirators": "P100 particulate; organic vapor cartridge; NIOSH approved",
+      "eye_protection": "ANSI Z87.1+; EN 166; side shields",
+      "hearing_protection": "NRR 25-30 dB; muffs or plugs",
+      "gloves": "Cut resistant (A4 minimum); chemical resistant where needed"
+    },
+    "gas_detection": {
+      "multi_gas_detector": ["O2 (19.5-23.5%)", "LEL (0-100%)", "CO (0-2000 ppm)", "H2S (0-200 ppm)"],
+      "personal_monitors": "Continuous monitoring with vibration/alarm",
+      "calibration_frequency": "Daily bump test; full calibration monthly"
+    },
+    "fire_suppression": {
+      "vehicle_systems": "Automatic engine bay suppression (FPE, Minimax)",
+      "portable_extinguishers": "ABC dry chemical; CO2; foam",
+      "response_time": "Under 30 seconds for vehicle systems"
+    }
+  }
+}

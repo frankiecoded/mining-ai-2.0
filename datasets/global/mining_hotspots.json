@@ -1,0 +1,312 @@
+{
+  "title": "Global Mining Hotspots & Production Intelligence",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Comprehensive database of global mining regions, production data, and geological intelligence for gold, precious stones, and rare earth metals.",
+  "gold_producers": [
+    {
+      "country": "China",
+      "annual_production_tons": 370,
+      "key_deposits": ["Shandong (Jiaodong)", "Henan", "Gansu", "Yunnan"],
+      "mining_methods": ["Underground (cemented fill)", "Open pit", "Heap leach"],
+      "average_grade_g_per_t": 3.5,
+      "top_companies": ["Zijin Mining", "China Gold", "Shandong Gold"],
+      "regulatory_notes": "Strict environmental regulations; foreign ownership restrictions."
+    },
+    {
+      "country": "Australia",
+      "annual_production_tons": 310,
+      "key_deposits": ["Kalgoorlie Super Pit (WA)", "Tanami (NT)", "Boddington (WA)", "Fosterville (VIC)"],
+      "mining_methods": ["Open pit", "Underground (longhole stoping)", "CIL processing"],
+      "average_grade_g_per_t": 1.2,
+      "top_companies": ["Newmont", "Northern Star", "AngloGold Ashanti", "Gold Fields"],
+      "regulatory_notes": "Strong ESG requirements; native title considerations; FIFO workforce common."
+    },
+    {
+      "country": "Russia",
+      "annual_production_tons": 300,
+      "key_deposits": ["Olimpiada", "Natalka", "Sukhoi Log", "Bodaibo"],
+      "mining_methods": ["Open pit", "Underground", "CIL/CIP"],
+      "average_grade_g_per_t": 4.2,
+      "top_companies": ["Polyus", "Polymetal", "Petropavlovsk"],
+      "regulatory_notes": "Sanctions impact; export restrictions; domestic processing requirements."
+    },
+    {
+      "country": "Canada",
+      "annual_production_tons": 220,
+      "key_deposits": ["Detour Lake (ON)", "Canadian Malartic (QC)", "LaRonde (QC)", "Ekati (NWT)"],
+      "mining_methods": ["Open pit", "Underground", "Milling + gravity/flotation"],
+      "average_grade_g_per_t": 1.5,
+      "top_companies": ["Agnico Eagle", "Barrick Gold", "Kinross Gold"],
+      "regulatory_notes": "Provincial regulations; Indigenous consultation required; high environmental standards."
+    },
+    {
+      "country": "United States",
+      "annual_production_tons": 170,
+      "key_deposits": ["Carlin Trend (NV)", "Cortez (NV)", "Goldstrike (NV)", "Pogo (AK)"],
+      "mining_methods": ["Open pit (heap leach)", "Underground (CIL)"],
+      "average_grade_g_per_t": 1.8,
+      "top_companies": ["Newmont", "Barrick Gold", "Kinross Gold"],
+      "regulatory_notes": "Federal and state permits; NEPA compliance; BLM oversight; tribal consultation."
+    },
+    {
+      "country": "Ghana",
+      "annual_production_tons": 130,
+      "key_deposits": ["Obuasi (Ashanti)", "Tarkwa", "Prestea", "Ahafo"],
+      "mining_methods": ["Open pit", "Underground (re-entry)", "Hard rock + alluvial"],
+      "average_grade_g_per_t": 2.5,
+      "top_companies": ["AngloGold Ashanti", "Gold Fields", "Newmont"],
+      "regulatory_notes": "Minerals Commission oversight; local content requirements; 10% royalty rate."
+    },
+    {
+      "country": "South Africa",
+      "annual_production_tons": 100,
+      "key_deposits": "Witwatersrand Basin (world's deepest mines)",
+      "mining_methods": ["Underground (sublevel caving)", "Deep-level mining (4km+)"],
+      "average_grade_g_per_t": 5.0,
+      "top_companies": "Harmony Gold, AngloGold Ashanti, Sibanye-Stillwater",
+      "regulatory_notes": "Complex regulatory environment; BEE requirements; high energy costs; safety concerns."
+    },
+    {
+      "country": "Peru",
+      "annual_production_tons": 120,
+      "key_deposits": ["Yanacocha", "Cerro Negro", "La Zanja"],
+      "mining_methods": ["Open pit", "Heap leach", "CIL"],
+      "average_grade_g_per_t": 1.0,
+      "top_companies": ["Newmont", "Buenaventura"],
+      "regulatory_notes": "Community consultation required; water rights sensitive; social license critical."
+    },
+    {
+      "country": "Indonesia",
+      "annual_production_tons": 115,
+      "key_deposits": ["Grasberg (Papua)", "Batu Hijau (Sumbawa)"],
+      "mining_methods": ["Open pit transitioning underground", "Block caving"],
+      "average_grade_g_per_t": 1.8,
+      "top_companies": ["PT Freeport Indonesia", "PT Newmont Nusa Tenggara"],
+      "regulatory_notes": "Divestment requirements; export bans on raw ore; smelter development required."
+    },
+    {
+      "country": "Sudan",
+      "annual_production_tons": 85,
+      "key_deposits": ["Hashid el-Mahdi (River Nile)", "Ingessana Hills", "Kurmuk"],
+      "mining_methods": ["Artisanal and small-scale", "Open pit", "Alluvial"],
+      "average_grade_g_per_t": 2.0,
+      "top_companies": ["Sudan Gold Mining", "Kenana Gold", "Various Chinese-operated"],
+      "regulatory_notes": "Conflict-affected regions; artisanal mining dominates; limited infrastructure."
+    }
+  ],
+  "diamond_producers": [
+    {
+      "country": "Russia",
+      "annual_production_carats_million": 38,
+      "key_deposits": ["Mir", "Udachny", "Jubilee", "Aikhal"],
+      "mining_methods": ["Open pit", "Underground", "Alluvial"],
+      "quality": "Mostly industrial; some gem quality",
+      "top_companies": ["ALROSA", "PJSC ALROSA"]
+    },
+    {
+      "country": "Botswana",
+      "annual_production_carats_million": 23,
+      "key_deposits": ["Jwaneng", "Orapa", "Letlhakane", "Damtshaa"],
+      "mining_methods": ["Open pit", "Underground"],
+      "quality": "High gem quality; large stones",
+      "top_companies": ["Debswana (50/50 De Beers/Govt)", "Lucapa Diamond Company"]
+    },
+    {
+      "country": "DR Congo",
+      "annual_production_carats_million": 15,
+      "key_deposits": ["MIBA (Mbuji-Mayi)", "Bakwanga"],
+      "mining_methods": ["Artisanal", "Open pit"],
+      "quality": "Mostly industrial; some gem quality",
+      "top_companies": ["MIBA (state-owned)", "Various artisanal cooperatives"]
+    },
+    {
+      "country": "Australia",
+      "annual_production_carats_million": 12,
+      "key_deposits": ["Argyle (closed 2020)", "Merlin", "Smoke Creek"],
+      "mining_methods": ["Underground", "Alluvial"],
+      "quality": "Was primary source of pink diamonds; now industrial focus",
+      "top_companies": ["Rio Tinto (Argyle)", "Merlin Diamonds"]
+    },
+    {
+      "country": "Sierra Leone",
+      "annual_production_carats_million": 0.5,
+      "key_deposits": ["Kono District", "Tongo Field"],
+      "mining_methods": ["Alluvial artisanal"],
+      "quality": "High gem quality; famous large stones",
+      "top_companies": ["Koidu Holdings", "Octea Diamond Group"]
+    },
+    {
+      "country": "Tanzania",
+      "annual_production_carats_million": 2.0,
+      "key_deposits": ["Mwadui (Williamson)", "Mbulu"],
+      "mining_methods": ["Open pit", "Alluvial"],
+      "quality": "Medium to high gem quality",
+      "top_companies": ["Petra Diamonds (Mwadui)", "Tanzanian state mines"]
+    }
+  ],
+  "ruby_producers": [
+    {
+      "country": "Myanmar",
+      "deposit": "Mogok Valley",
+      "quality": "World's finest (pigeon blood rubies)",
+      "annual_production_carats": 50000,
+      "mining_methods": ["Underground", "Alluvial", "Open pit"],
+      "notes": "Geopolitical restrictions on imports in some markets"
+    },
+    {
+      "country": "Mozambique",
+      "deposit": "Montepuez (Cabo Delgado)",
+      "quality": "High quality; comparable to Mogok",
+      "annual_production_carats": 200000,
+      "mining_methods": ["Open pit", "Alluvial"],
+      "notes": "Gemfields dominates; strong supply growth"
+    },
+    {
+      "country": "Tanzania",
+      "deposit": "Winza (Dodoma)",
+      "quality": "Fine rubies with unique color",
+      "annual_production_carats": 30000,
+      "mining_methods": ["Artisanal", "Small-scale open pit"],
+      "notes": "Government holding significant ruby parcels"
+    }
+  ],
+  "emerald_producers": [
+    {
+      "country": "Colombia",
+      "deposit": "Muzo, Coscuez, Chivor",
+      "quality": "World's finest (vivid green)",
+      "annual_production_carats": 3000000,
+      "mining_methods": ["Underground", "Open pit"],
+      "notes": "Premium prices; historical mines"
+    },
+    {
+      "country": "Zambia",
+      "deposit": "Kagem Mine (Kitwe)",
+      "quality": "Deep green with bluish hue",
+      "annual_production_carats": 5000000,
+      "mining_methods": ["Open pit", "Underground"],
+      "notes": "Largest single emerald mine; Gemfields operated"
+    },
+    {
+      "country": "Brazil",
+      "deposit": "Itabira, Nova Era, Bahia",
+      "quality": "Variable; good clarity",
+      "annual_production_carats": 1500000,
+      "mining_methods": ["Small-scale underground", "Open pit"],
+      "notes": "Growing production"
+    },
+    {
+      "country": "Tanzania",
+      "deposit": "Simanjiro (Manyara)",
+      "quality": "Emerald-green; good clarity",
+      "annual_production_carats": 200000,
+      "mining_methods": ["Artisanal", "Small-scale"],
+      "notes": "Emerging source; government interest in development"
+    }
+  ],
+  "tanzanite_deposits": [
+    {
+      "location": "Merelani Hills, Arusha",
+      "country": "Tanzania",
+      "description": "ONLY known commercial source of tanzanite globally",
+      "mining_methods": ["Underground (small-scale)", "Artisanal shafts"],
+      "depth_range_m": "30-600m",
+      "geology": "Gneissic host rock; hydrothermal veins",
+      "annual_production_carats": 800000,
+      "estimated_remaining_reserves_years": 25,
+      "quality": "AAA blue: 5-10% of production",
+      "key_companies": ["TanzaniteOne (Blackwall Group)", "Tanzanite One Mining Ltd"],
+      "certification": "TanzaniteOne block chain traceability; AGTA standards"
+    }
+  ],
+  "tsavorite_deposits": [
+    {
+      "location": "Merelani Hills",
+      "country": "Tanzania",
+      "description": "Adjacent to tanzanite deposits; green grossular garnet",
+      "mining_methods": ["Artisanal", "Small-scale underground"],
+      "annual_production_carats": 50000,
+      "quality": "Vivid green (50% better than emerald in brilliance)",
+      "notes": "Limited production; extremely rare"
+    },
+    {
+      "location": "Voi Area",
+      "country": "Kenya",
+      "description": "Tsavo region deposits",
+      "mining_methods": ["Artisanal"],
+      "annual_production_carats": 15000,
+      "quality": "Fine to vivid green",
+      "notes": "Growing interest from government"
+    },
+    {
+      "location": "Mkomazi Game Reserve",
+      "country": "Tanzania",
+      "description": "Protected area with known tsavorite deposits",
+      "mining_methods": ["Not currently active (conservation area)"],
+      "annual_production_carats": 0,
+      "quality": "Unknown",
+      "notes": "Mining restricted due to conservation status"
+    }
+  ],
+  "east_africa_focus": {
+    "mining_regions": [
+      {
+        "country": "South Sudan",
+        "key_minerals": ["Gold", "Diamonds", "Manganese", "Iron Ore"],
+        "deposits": ["Nile Valley (alluvial gold)", "Imatong Mountains", "Boma Plateau", "Kapoeta (gemstones)"],
+        "status": "Pre-conflict exploration; artisanal mining active",
+        "infrastructure": "Extremely limited; river transport; minimal road network",
+        "opportunities": "Underexplored; potential for significant discoveries"
+      },
+      {
+        "country": "Kenya",
+        "key_minerals": ["Gold", "Soda ash", "Titanium", "Gemstones"],
+        "deposits": ["Kakamega (gold)", "Kilifi (titanium)", "Voi (tsavorite)", "Meru (sapphire)"],
+        "status": "Mixed; industrial mining growing",
+        "infrastructure": "Good in south; limited in north/northwest",
+        "opportunities": "Gemstone potential; titanium expansion"
+      },
+      {
+        "country": "Uganda",
+        "key_minerals": ["Gold", "Cobalt", "Copper", "Limestone", "Coltan"],
+        "deposits": ["Karamoja (gold)", "Kasese (cobalt/copper)", "Bushenyi (tin)"],
+        "status": "Growing; new discoveries",
+        "infrastructure": "Moderate; improving roads; hydroelectric power",
+        "opportunities": "Karamoja gold potential; cobalt in Kasese"
+      },
+      {
+        "country": "DR Congo",
+        "key_minerals": ["Gold", "Coltan", "Cassiterite", "Diamonds", "Cobalt", "Copper"],
+        "deposits": ["Kivu (coltan/tin)", "Ituri (gold)", "Kasai (diamonds)", "Katanga (copper/cobalt)"],
+        "status": "World-class deposits; conflict challenges",
+        "infrastructure": "Very limited in east; better in Katanga",
+        "opportunities": "Enormous mineral wealth; massive untapped potential"
+      },
+      {
+        "country": "Tanzania",
+        "key_minerals": ["Gold", "Diamonds", "Tanzanite", "Tsavorite", "Rubies", "Sapphires"],
+        "deposits": ["Lake Victoria Gold Belt", "Merelani (tanzanite)", "Winza (rubies)", "Tunduru (gem sands)"],
+        "status": "Mature mining sector; strong production",
+        "infrastructure": "Good in major mining areas; improving",
+        "opportunities": "Gemstone expansion; new gold discoveries"
+      }
+    ],
+    "regulatory_frameworks": {
+      "South Sudan": "Mining Act 2012; Ministry of Mining; limited enforcement; new investment code pending",
+      "Kenya": "Mining Act 2016; Ministry of Mining; 5% royalty; local content requirements",
+      "Uganda": "Mining and Minerals Act 2003; Ministry of Energy; 5% royalty; geological survey active",
+      "DR Congo": "Mining Code 2002 (amended 2018); 10% royalty on strategic minerals; complex permitting",
+      "Tanzania": "Mining Act 2010 (amended 2017); 6% royalty; 16% government free-carried interest; local content"
+    },
+    "investment_considerations": [
+      "Political stability varies; DRC and South Sudan highest risk",
+      "Infrastructure investment often required",
+      "Community engagement and benefit-sharing critical",
+      "Artisanal mining integration challenging but necessary",
+      "Security in remote areas",
+      "Foreign ownership restrictions in most countries",
+      "Environmental and social impact assessments mandatory"
+    ]
+  }
+}

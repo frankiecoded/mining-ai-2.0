@@ -1,0 +1,222 @@
+{
+  "title": "Metallurgical Testing & Process Optimization Dataset",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Laboratory test results, variability testing, process optimization data, and recovery curves.",
+  "comminution_testing": {
+    "bwi_test": {
+      "test_name": "Bond Ball Mill Work Index",
+      "standard": "Bond, 1961",
+      "results": [
+        {"ore_type": "Fresh gold ore (Lake Victoria)", "bwi_kwh_ton": 16.8, "classification": "Medium"},
+        {"ore_type": "Oxidized gold ore", "bwi_kwh_ton": 12.5, "classification": "Soft"},
+        {"ore_type": "Sulfide gold ore (Bulawayo)", "bwi_kwh_ton": 19.2, "classification": "Hard"},
+        {"ore_type": "Transition ore", "bwi_kwh_ton": 14.8, "classification": "Medium"}
+      ],
+      "interpretation": {
+        "soft": "<12 kWh/t",
+        "medium": "12-18 kWh/t",
+        "hard": "18-25 kWh/t",
+        "very_hard": ">25 kWh/t"
+      }
+    },
+    "rwi_test": {
+      "test_name": "Bond Rod Mill Work Index",
+      "results": [
+        {"ore_type": "Fresh gold ore (Lake Victoria)", "rwi_kwh_ton": 14.5},
+        {"ore_type": "Sulfide gold ore (Bulawayo)", "rwi_kwh_ton": 17.8}
+      ]
+    },
+    " abrasion_index": {
+      "test_name": "Bond Abrasion Index",
+      "results": [
+        {"ore_type": "Fresh gold ore", "ai": 0.35, "interpretation": "Medium wear"},
+        {"ore_type": "Sulfide gold ore", "ai": 0.52, "interpretation": "High wear"},
+        {"ore_type": "Oxidized ore", "ai": 0.18, "interpretation": "Low wear"}
+      ],
+      "impact": "Liner life prediction; higher AI = shorter liner life"
+    }
+  },
+  "flotation_testing": {
+    "rougher_flotation": {
+      "test_conditions": {
+        "grind_p80_microns": 75,
+        "pH": 9.5,
+        "collector_type": "SIPX",
+        "collector_dosage_gpt": 45,
+        "frother_type": "MIBC",
+        "frother_dosage_gpt": 15,
+        "conditioning_time_minutes": 5,
+        "flotation_time_minutes": 12,
+        "air_flow_rate_m3_m2_min": 1.0,
+        "impeller_speed_rpm": 1200
+      },
+      "results": [
+        {"time_min": 1, "recovery_percent": 35.2, "grade_percent": 12.5},
+        {"time_min": 2, "recovery_percent": 48.8, "grade_percent": 10.2},
+        {"time_min": 3, "recovery_percent": 58.5, "grade_percent": 8.8},
+        {"time_min": 5, "recovery_percent": 72.0, "grade_percent": 7.2},
+        {"time_min": 8, "recovery_percent": 82.5, "grade_percent": 5.8},
+        {"time_min": 12, "recovery_percent": 88.0, "grade_percent": 4.8}
+      ],
+      "cumulative_results": {
+        "rougher_recovery_percent": 88.0,
+        "rougher_grade_percent": 4.8,
+        "rougher_concentrate_yield_percent": 12.0
+      }
+    },
+    "cleaner_flotation": {
+      "results": {
+        "cleaner_1_recovery_percent": 92.0,
+        "cleaner_1_grade_percent": 18.5,
+        "cleaner_2_recovery_percent": 88.0,
+        "cleaner_2_grade_percent": 28.5,
+        "final_concentrate_grade_percent": 28.5,
+        "final_recovery_percent": 72.0
+      }
+    },
+    "regrind_optimization": {
+      "regrind_p80_microns": 20,
+      "regrind_energy_kwh_ton": 18.5,
+      "improvement_in_recovery_percent": 3.2,
+      "improvement_in_grade_percent": 2.8,
+      "economic_benefit": "Positive at gold price >$2000/oz"
+    }
+  },
+  "gravity_recovery": {
+    "knelson_concentrator": {
+      "test_conditions": {
+        "feed_size_range_microns": "75-300",
+        "feed_pulp_density_percent": 35,
+        "centrifugal_force_g": 100,
+        "water_flow_rate_lpm": 3.5,
+        "cycle_time_minutes": 60
+      },
+      "results": {
+        "recovery_percent": 45.0,
+        "concentrate_grade_ppm": 1250,
+        "concentrate_yield_percent": 0.08,
+        "partition_curve": [
+          {"size_microns": 75, "recovery_percent": 20},
+          {"size_microns": 106, "recovery_percent": 35},
+          {"size_microns": 150, "recovery_percent": 55},
+          {"size_microns": 212, "recovery_percent": 68},
+          {"size_microns": 300, "recovery_percent": 75}
+        ]
+      },
+      "interpretation": "Gravity recoverable gold (GRG) = 45% of total gold"
+    }
+  },
+  "cyanidation_testing": {
+    "bottle_roll_test": {
+      "test_conditions": {
+        "sample_mass_kg": 2.0,
+        "grind_p80_microns": 75,
+        "pulp_density_percent": 40,
+        "na_concentration_ppm": 300,
+        "pH": 10.5,
+        "temperature_C": 25,
+        "dissolved_oxygen_mg_L": 8.0
+      },
+      "results": [
+        {"time_hours": 2, "recovery_percent": 55.0},
+        {"time_hours": 4, "recovery_percent": 72.0},
+        {"time_hours": 8, "recovery_percent": 85.0},
+        {"time_hours": 12, "recovery_percent": 91.0},
+        {"time_hours": 24, "recovery_percent": 95.5},
+        {"time_hours": 36, "recovery_percent": 96.8},
+        {"time_hours": 48, "recovery_percent": 97.2}
+      ],
+      "leach_index_li": 24.5,
+      "interpretation": "Fast leaching ore; 24hr leach achieves 95.5% recovery"
+    },
+    "cil_testing": {
+      "results": {
+        "circuit_recovery_percent": 96.5,
+        "carbon_loading_rate_g_gold_kg_carbon": 1850,
+        "elution_efficiency_percent": 98.5,
+        "electrowinning_efficiency_percent": 99.0,
+        "overall_gold_recovery_percent": 94.2
+      }
+    }
+  },
+  "recovery_curves": {
+    "gold_recovery_vs_grind": [
+      {"p80_microns": 150, "recovery_percent": 82.0},
+      {"p80_microns": 120, "recovery_percent": 86.5},
+      {"p80_microns": 100, "recovery_percent": 89.0},
+      {"p80_microns": 75, "recovery_percent": 92.5},
+      {"p80_microns": 53, "recovery_percent": 94.0},
+      {"p80_microns": 38, "recovery_percent": 94.8},
+      {"p80_microns": 25, "recovery_percent": 95.0}
+    ],
+    "gold_recovery_vs_cyanide": [
+      {"na_ppm": 100, "recovery_percent": 88.0},
+      {"na_ppm": 150, "recovery_percent": 91.5},
+      {"na_ppm": 200, "recovery_percent": 94.0},
+      {"na_ppm": 250, "recovery_percent": 95.8},
+      {"na_ppm": 300, "recovery_percent": 96.5},
+      {"na_ppm": 400, "recovery_percent": 96.8},
+      {"na_ppm": 500, "recovery_percent": 97.0}
+    ],
+    "gold_recovery_vs_time": [
+      {"time_hours": 4, "recovery_percent": 72.0},
+      {"time_hours": 8, "recovery_percent": 85.0},
+      {"time_hours": 12, "recovery_percent": 91.0},
+      {"time_hours": 16, "recovery_percent": 94.0},
+      {"time_hours": 20, "recovery_percent": 95.5},
+      {"time_hours": 24, "recovery_percent": 96.5},
+      {"time_hours": 36, "recovery_percent": 97.0},
+      {"time_hours": 48, "recovery_percent": 97.2}
+    ],
+    "gold_recovery_vs_ph": [
+      {"pH": 9.0, "recovery_percent": 94.5},
+      {"pH": 9.5, "recovery_percent": 95.8},
+      {"pH": 10.0, "recovery_percent": 96.5},
+      {"pH": 10.5, "recovery_percent": 96.8},
+      {"pH": 11.0, "recovery_percent": 96.5},
+      {"pH": 11.5, "recovery_percent": 95.8}
+    ]
+  },
+  "variability_testing": {
+    "ore_type_distribution": {
+      "fresh_sulfide": {"percent": 55, "recovery_range": "92-96%", "head_grade_range": "2.5-4.5 g/t"},
+      "oxide": {"percent": 25, "recovery_range": "95-98%", "head_grade_range": "1.5-3.0 g/t"},
+      "transition": {"percent": 15, "recovery_range": "90-94%", "head_grade_range": "2.0-3.5 g/t"},
+      "refractory": {"percent": 5, "recovery_range": "80-85%", "head_grade_range": "3.0-5.0 g/t"}
+    },
+    "refractory_ore_characteristics": {
+      "gold_hosted_in": ["Pyrite", "Arsenopyrite"],
+      "liberation_size_microns": 30,
+      "treatment_options": [
+        {"option": "Ultra-fine grinding", "additional_recovery_percent": 8, "cost_per_oz": 45},
+        {"option": "Pressure oxidation", "additional_recovery_percent": 12, "cost_per_oz": 85},
+        {"option": "Bio-oxidation", "additional_recovery_percent": 10, "cost_per_oz": 65},
+        {"option": "Roasting", "additional_recovery_percent": 15, "cost_per_oz": 95}
+      ],
+      "recommended": "Ultra-fine grinding (lowest cost per incremental ounce)"
+    }
+  },
+  "process_optimization": {
+    "key_control_parameters": [
+      {"parameter": "Mill feed rate", "target": "5000 t/day", "range": "4800-5200"},
+      {"parameter": "Mill P80", "target": "75 microns", "range": "65-85"},
+      {"parameter": "CIL pulp density", "target": "45%", "range": "40-50%"},
+      {"parameter": "CIL pH", "target": "10.5", "range": "10.0-11.0"},
+      {"parameter": "NaCN concentration", "target": "300 ppm", "range": "200-400"},
+      {"parameter": "Dissolved oxygen", "target": "8 mg/L", "range": "6-10"},
+      {"parameter": "Carbon loading", "target": "18 g/L", "range": "15-22"}
+    ],
+    "economic_optimization": {
+      "trade_off_curve": [
+        {"recovery_percent": 92, "cost_per_oz": 650, "margin_at_2500": 1850},
+        {"recovery_percent": 94, "cost_per_oz": 720, "margin_at_2500": 1780},
+        {"recovery_percent": 96, "cost_per_oz": 850, "margin_at_2500": 1650},
+        {"recovery_percent": 97, "cost_per_oz": 980, "margin_at_2500": 1520},
+        {"recovery_percent": 98, "cost_per_oz": 1200, "margin_at_2500": 1300}
+      ],
+      "optimal_recovery_percent": 96,
+      "justification": "Beyond 96%, marginal cost exceeds marginal revenue"
+    }
+  }
+}

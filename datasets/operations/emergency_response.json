@@ -1,0 +1,1744 @@
+{
+  "metadata": {
+    "document_id": "ERP-MINE-2026-001",
+    "version": "4.2.0",
+    "last_updated": "2026-07-19",
+    "review_cycle": "quarterly",
+    "regulatory_baseline": "MSHA 30 CFR Part 46/48/56/57/62/75/77",
+    "emergency_contact_number": "+1-800-MINE-SAFE",
+    "jurisdiction": "Federal and State Mining Regulations",
+    "applicable_facilities": [
+      "underground_operations",
+      "surface_mines",
+      "processing_plants",
+      "tailings_facilities",
+      "haul_roads",
+      "rail_operations"
+    ]
+  },
+  "emergency_classification": {
+    "level_1_minor": {
+      "description": "First aid treatment, minor equipment damage, near-miss events requiring investigation but no lost time",
+      "response_time": "15 minutes maximum",
+      "personnel": "First aid officer, shift supervisor",
+      "examples": [
+        "Cuts and abrasions requiring bandaging",
+        "Minor equipment malfunction with no safety impact",
+        "Small fluid leaks contained at source",
+        "Near-miss incidents with no exposure"
+      ],
+      "notification_requirements": {
+        "immediate": ["shift_supervisor", "first_aid_officer"],
+        "within_1_hour": ["safety_department"],
+        "within_24_hours": ["mine_manager"],
+        "documentation": "MSHA Form 7000-1 if reportable"
+      },
+      "investigation_level": "supervisor_led",
+      "stand_down_required": false,
+      "work_stoppage": false
+    },
+    "level_2_moderate": {
+      "description": "Lost time injury, significant equipment failure, environmental incident, partial evacuation required",
+      "response_time": "5 minutes maximum",
+      "personnel": "Safety manager, first response team, shift supervisor",
+      "examples": [
+        "Fractures or injuries requiring hospitalization",
+        "Conveyor belt fire contained to single section",
+        "Ground instability in development headings",
+        "Small chemical spill within secondary containment",
+        "Equipment rollover with operator injury",
+        "Fall from height with injury"
+      ],
+      "notification_requirements": {
+        "immediate": ["safety_manager", "first_response_team", "mine_manager", "shift_supervisor"],
+        "within_15_minutes": ["regional_safety_director", "emergency_response_coordinator"],
+        "within_1_hour": ["MSHA district_office", "insurance_carrier"],
+        "within_24_hours": ["corporate_safety", "legal_department"],
+        "documentation": "MSHA Form 7000-1 within 10 working days, internal incident report within 48 hours"
+      },
+      "investigation_level": "multi_department_team",
+      "stand_down_required": true,
+      "stand_down_duration": "minimum 30 minutes briefing",
+      "work_stoppage": "affected_area only",
+      "root_cause_analysis": "required"
+    },
+    "level_3_major": {
+      "description": "Hospitalization of multiple persons, structural failure of primary infrastructure, uncontrolled fire, significant ground failure, serious environmental release",
+      "response_time": "Immediate (under 2 minutes)",
+      "personnel": "Emergency response team, mine management, safety department, external emergency services on standby",
+      "examples": [
+        "Multiple hospitalization events",
+        "Roof collapse or rib failure in active workings",
+        "Fire extending beyond point of origin",
+        "Significant ground failure affecting main access",
+        "Underground inundation event",
+        "Large-scale chemical or cyanide release",
+        "Tailings dam distress",
+        "Pillar failure or mine subsidence"
+      ],
+      "notification_requirements": {
+        "immediate": ["entire_emergency_response_team", "mine_manager", "regional_director", "corporate_emergency"],
+        "within_5_minutes": ["MSHA_district_office", "local_fire_department", "local_hospital"],
+        "within_15_minutes": ["state_mining_agency", "environmental_agency", "corporate_legal"],
+        "within_1_hour": ["media_relations", "family_liaison_officer", "external_investigators"],
+        "documentation": "Immediate verbal report to MSHA, written report within 24 hours, MSHA Form 7000-1"
+      },
+      "investigation_level": "external_agency_assisted",
+      "stand_down_required": true,
+      "stand_down_duration": "minimum 2 hours comprehensive briefing",
+      "work_stoppage": "entire_mine or major portion",
+      "root_cause_analysis": "required with external review",
+      "consent_order可能性": "high"
+    },
+    "level_4_catastrophic": {
+      "description": "Fatality, mine collapse, multiple fatality event, uncontrolled major fire, explosive atmosphere, complete structural failure, mass casualty event",
+      "response_time": "Immediate and continuous",
+      "personnel": "Full emergency response deployment, mine management, corporate executive team, federal and state regulators, external emergency services (fire, EMS, SAR, hazmat), media and family liaison",
+      "examples": [
+        "Any fatality on mine property",
+        "Complete mine collapse or pillar recovery failure",
+        "Massive underground fire with smoke propagation throughout workings",
+        "Methane or coal dust explosion",
+        "Catastrophic tailings dam breach",
+        "Multiple fatality vehicle collision",
+        "Cyanide heap leach pad failure",
+        "Open stope collapse affecting surface"
+      ],
+      "notification_requirements": {
+        "immediate": ["everyone_available", "all_emergency_services", "mine_manager", "corporate_CEO", "board_chairman"],
+        "within_5_minutes": ["MSHA_national_office", "governor_office", "federal_emergency_management"],
+        "within_15_minutes": ["state_agency_head", "environmental_protection_agency", "OSHA"],
+        "within_30_minutes": ["media_relations_team", "family_liaison_team", "crisis_counseling_team"],
+        "within_1_hour": ["all_shareholders", "insurers", "legal_representation"],
+        "documentation": "Immediate verbal notification to MSHA, written report within 15 minutes, comprehensive report within 24 hours, ongoing updates every 4 hours until stabilized"
+      },
+      "investigation_level": "federal_investigation_MSHA_national",
+      "stand_down_required": true,
+      "stand_down_duration": "indefinite until cleared by MSHA",
+      "work_stoppage": "complete_mine_closure",
+      "root_cause_analysis": "federal_investigation_with_NTSB_assistance",
+      "criminal_investigation可能性": "possible",
+      "consent_order可能性": "certain",
+      "sec_notification": "if_public_company"
+    }
+  },
+  "specific_emergencies": {
+    "underground_fire": {
+      "identification_signs": [
+        "Smoke detection in return airways",
+        "Temperature rise in ventilation air",
+        "Unusual odors (burning rubber, electrical, diesel)",
+        "Fire detection system activation",
+        "Visual flame or glow",
+        "CO or CO2 sensor alarms",
+        "Thermal imaging anomalies"
+      ],
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Activate nearest fire alarm pull station and radio emergency channel",
+          "responsible": "First person to detect",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "Sound underground emergency siren pattern (3 long blasts)",
+          "responsible": "Shift supervisor or designee",
+          "time": "0-1 minute"
+        },
+        {
+          "sequence": 3,
+          "action": "All personnel in affected zone begin self-rescuer donning and evacuation via primary escape way",
+          "responsible": "All underground personnel in affected zone",
+          "time": "0-2 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Emergency response team dons firefighting equipment and proceeds to fire location via fresh air base",
+          "responsible": "Certified mine rescue team",
+          "time": "2-5 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Supervisor conducts headcount at designated assembly point",
+          "responsible": "Section supervisors",
+          "time": "5-10 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Ventilation adjustments to control smoke propagation - consideration of reversing, stopping, or maintaining airflow",
+          "responsible": "Ventilation engineer and mine rescue captain",
+          "time": "5-15 minutes"
+        },
+        {
+          "sequence": 7,
+          "action": "Coordinate with surface emergency response and external fire services",
+          "responsible": "Mine manager or designee",
+          "time": "10-20 minutes"
+        },
+        {
+          "sequence": 8,
+          "action": "Establish command post and begin incident command system protocols",
+          "responsible": "Incident commander",
+          "time": "10-15 minutes"
+        }
+      ],
+      "evacuation_routes": {
+        "primary_escape_way": "Designated escapeway with fresh air supply, marked with luminous directional signs at 50-foot intervals, clear of obstructions, minimum 4.5 feet wide by 6.5 feet high",
+        "secondary_escape_way": "Alternative escapeway through separate ventilation split, accessible if primary is compromised",
+        "refuge_chambers": {
+          "location_requirement": "Within 1500 feet of all active working faces per MSHA 30 CFR 75.1704",
+          "capacity": "Minimum 15-minute supply of compressed air, water, and communication to surface",
+          "duration": "96-hour rated sealed refuge alternatives where applicable",
+          "inspection": "Daily by shift supervisor, weekly by safety department"
+        },
+        "self_rescuers": {
+          "type": "Combustion-type self-rescuer (SWCR or equivalent), 60-minute rated",
+          "location": "Within 25 feet of all working positions and at all entry points to underground",
+          "training": "Annual refresher per MSHA 48.32, practical donning exercise",
+          "inspection": "Daily visual inspection, monthly function test"
+        },
+        "evacuation_markers": {
+          "type": "Photoluminescent directional signs",
+          "spacing": "Every 50 feet along escapeways and at all intersections",
+          "height": "4 to 6 feet above floor level",
+          "maintenance": "Monthly cleaning and visibility check"
+        }
+      },
+      "fire_suppression_methods": {
+        "portable_extinguishers": {
+          "types": ["ABC dry chemical", "CO2 for electrical", "foam for flammable liquids"],
+          "placement": "Within 50 feet of electrical equipment, within 100 feet of flammable material storage",
+          "inspection": "Monthly by safety department, annual professional servicing"
+        },
+        "fixed_suppression": {
+          "deluge_systems": "At belt drive heads, crusher stations, underground workshops",
+          "sprinkler_systems": "In processing plants, warehouses, electrical rooms",
+          "foam_systems": "Fuel storage areas, flotation cells",
+          "dry_chemical_systems": "Conveyor transfer points, electrical substations"
+        },
+        "fire_fighting_strategy": {
+          "electrical_fire": "De-energize equipment before attempting suppression, use CO2 or dry chemical extinguishers, never use water on energized electrical equipment",
+          "belt_fire": "Activate deluge system if available, apply water spray to cool surrounding structure, remove fuel source if possible, evacuate beltway if fire cannot be controlled within 5 minutes",
+          "diesel_fire": "Use foam or dry chemical, do not use water jet (may spread burning fuel), activate fuel shutoff valves",
+          "coal_dust_fire": "Apply water spray to prevent spread, use rock dust to inert atmosphere, carefully approach with CO monitoring",
+          "electrical_substation": "De-energize remotely, apply CO2 extinguishers, do not enter until confirmed de-energized"
+        },
+        "mine_rescue_equipment": {
+          "breathing_apparatus": "BG-4 or equivalent closed-circuit breathing apparatus, 4-hour duration",
+          "gas_detection": "Multi-gas detectors (CH4, CO, CO2, O2, H2S), calibrated weekly",
+          "thermal_protection": "Fire-resistant suits rated to 500 degrees F for 30 minutes",
+          "communication": "Through-earth communication systems, leaky feeder, and emergency communication cables"
+        }
+      },
+      "communication_protocols": {
+        "initial_alarm": "Radio emergency channel 1, mine telephone to surface, fire alarm pull station, emergency siren",
+        "status_updates": "Every 10 minutes from incident commander to surface command post",
+        "code_words": {
+          "FIRE_IN_UND": "Confirmed fire underground",
+          "SMOKE_REPORT": "Smoke detected, investigating",
+          "EVAC_UND": "Order evacuation of underground",
+          "RESCUE_TEAM": "Mine rescue team deployment authorized",
+          "FIRE_CONTROLLED": "Fire suppression successful",
+          "FIRE_UNCONTROLLED": "Fire beyond control, complete evacuation"
+        },
+        "external_notification": "Activate 911 dispatch, notify local fire department with mine maps, request mutual aid if multiple companies in area"
+      },
+      "post_incident_procedures": {
+        "re_entry_criteria": "Atmosphere monitoring confirms safe conditions (CO < 25 ppm, O2 > 19.5%, no flammable gases), structural assessment by qualified engineer, MSHA approval obtained",
+        "ventilation_restoration": "Gradual return to normal ventilation under controlled monitoring, continuous atmospheric monitoring during restoration",
+        "damage_assessment": "Engineering assessment of structural damage, equipment condition evaluation, infrastructure integrity verification",
+        "evidence_preservation": "Photograph and document scene before disturbance, preserve electronic data from monitoring systems, secure equipment involved in incident",
+        "return_to_work": "All personnel briefed on incident findings, updated safety procedures if applicable, equipment inspected and certified before use"
+      }
+    },
+    "underground_flood": {
+      "identification_signs": [
+        "Unexpected water inflow increase",
+        "Water level monitoring alerts",
+        "Pumping system failure alarms",
+        "Mud or sediment in working areas",
+        "Dewatering well performance degradation",
+        "Seismic activity near water bodies",
+        "Changes in mine water chemistry"
+      ],
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Activate flood alarm and radio emergency channel",
+          "responsible": "First person to detect",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "All personnel evacuate to higher ground within mine",
+          "responsible": "All underground personnel",
+          "time": "0-3 minutes"
+        },
+        {
+          "sequence": 3,
+          "action": "Activate emergency pumping systems",
+          "responsible": "Pump station operators",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Assess water source and inflow rate",
+          "responsible": "Shift supervisor and geologist",
+          "time": "5-15 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Seal off affected area if possible using pre-installed bulkheads",
+          "responsible": "Emergency response team",
+          "time": "10-30 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Headcount all personnel at assembly points",
+          "responsible": "Section supervisors",
+          "time": "5-15 minutes"
+        },
+        {
+          "sequence": 7,
+          "action": "Notify regulatory agencies and coordinate external dewatering assistance",
+          "responsible": "Mine manager",
+          "time": "15-60 minutes"
+        }
+      ],
+      "prevention_measures": {
+        "geological_surveys": "Comprehensive hydrogeological study before mining, regular geological updates during operations",
+        "water_detection": "Pre-mining drilling and geophysical surveys to identify water-bearing structures",
+        "barrier_pillars": "Adequate barrier pillars between mine workings and surface water bodies per MSHA 30 CFR 75.1700",
+        "pumping_capacity": "Redundant pumping systems rated at 200% of maximum anticipated inflow",
+        "monitoring": "Continuous water level monitoring in all sumps and outside water bodies"
+      },
+      "evacuation_routes": {
+        "vertical_escape": "Raise boring or escape shafts to surface",
+        "horizontal_escape": "Main entryways maintained above floor level with walkways",
+        "floating_egress": "Emergency flotation devices pre-positioned in areas prone to flooding"
+      },
+      "post_incident_procedures": {
+        "dewatering": "Systematic dewatering with continuous structural monitoring",
+        "stability_assessment": "Geotechnical assessment of mine openings after water recession",
+        "electrical_safety": "All electrical equipment tested before re-energization",
+        "environmental_monitoring": "Water quality testing before discharge to environment"
+      }
+    },
+    "ground_failure_collapse": {
+      "identification_signs": [
+        "Unexpected convergence measurements",
+        "Coal or rock outburst sounds (popping, cracking)",
+        "Visible deformation of supports",
+        "Cracks in roof or ribs",
+        "Water seepage changes",
+        "Increase in methane emission",
+        "Seismic monitoring anomalies",
+        "Changes in roof bolt torque readings"
+      ],
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Sound emergency alarm and evacuate affected area immediately",
+          "responsible": "First person to detect instability",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "All personnel withdraw to last known safe location",
+          "responsible": "All personnel in affected section",
+          "time": "0-1 minute"
+        },
+        {
+          "sequence": 3,
+          "action": "Conduct headcount and account for all personnel",
+          "responsible": "Section supervisors",
+          "time": "1-5 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Do NOT re-enter area to recover equipment or personnel until deemed safe",
+          "responsible": "Mine manager authority required",
+          "time": "Standing order"
+        },
+        {
+          "sequence": 5,
+          "action": "Initiate search and rescue operations if personnel are trapped",
+          "responsible": "Mine rescue team with ground monitoring equipment",
+          "time": "5-15 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Establish exclusion zone and continuous ground monitoring",
+          "responsible": "Safety department and geotechnical engineer",
+          "time": "5-20 minutes"
+        }
+      ],
+      "ground_control_plan_requirements": {
+        "MSHA_compliance": "Per 30 CFR Part 75 Subpart L - Ground Control",
+        "roof_bolt_installation": "Per approved roof control plan, verified by MSHA inspector",
+        "convergence_monitoring": "Daily readings in designated stations, immediate reporting of significant changes",
+        "supplemental_support": "Steel sets, cribs, or shotcrete in weak ground areas",
+        "scaling": "Regular scaling of loose material from roof and ribs"
+      },
+      "rescue_operations": {
+        "trapped_miner_response": "Communication attempt via through-earth system, locate trapped miner using listening devices",
+        "stabilization": "Stabilize area around collapse zone before entry",
+        "extrication": "Careful removal of material with continuous ground monitoring",
+        "medical_standby": "EMS staged at mine portal during rescue operations"
+      }
+    },
+    "gas_inundation": {
+      "gas_types": {
+        "methane_CH4": {
+          "explosive_range": "5-15% concentration in air",
+          "sources": "Coal seams, adjacent abandoned workings, gas-bearing formations",
+          "detection": "Continuous monitoring per MSHA 30 CFR 75.323",
+          "action_levels": {
+            "1_percent": "Withdrawal of personnel, increase ventilation",
+            "2_percent": "Stop all equipment, evacuate",
+            "5_percent": "Full evacuation, no electrical equipment operation"
+          }
+        },
+        "carbon_dioxide_CO2": {
+          "danger_level": "Asphyxiant at concentrations above 5%",
+          "sources": "Decomposing organic material, certain geological formations, combustion processes",
+          "detection": "CO2 sensors in return air and dead-end headings",
+          "action_levels": {
+            "1.5_percent": "Warning - increase ventilation",
+            "3_percent": "Evacuation of affected area",
+            "5_percent": "Life-threatening - immediate evacuation"
+          }
+        },
+        "hydrogen_sulfide_H2S": {
+          "danger_level": "Extremely toxic, IDLH at 100 ppm, odor of rotten eggs at low concentrations but paralyzes olfactory nerve at dangerous levels",
+          "sources": "Certain geological formations, decomposing organic material, mine water",
+          "detection": "Dedicated H2S monitors at all working faces",
+          "action_levels": {
+            "10_ppm": "Warning - monitor closely",
+            "20_ppm": "Evacuate affected area",
+            "100_ppm": "IDLH - full respiratory protection required"
+          }
+        },
+        "carbon_monoxide_CO": {
+          "danger_level": "Toxic, prevents oxygen transport in blood, IDLH at 1200 ppm",
+          "sources": "Fire, diesel exhaust, blasting fumes, oxidation processes",
+          "detection": "CO monitors, personal monitors on all underground workers",
+          "action_levels": {
+            "25_ppm": "Warning level",
+            "200_ppm": "Evacuate area, investigate source",
+            "400_ppm": "Emergency evacuation"
+          }
+        }
+      },
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Don self-rescuer immediately upon gas alarm activation",
+          "responsible": "All personnel in affected zone",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "Sound gas alarm and evacuate via fresh air base to surface",
+          "responsible": "First person to detect or alarm activation",
+          "time": "0-1 minute"
+        },
+        {
+          "sequence": 3,
+          "action": "Activate ventilation emergency procedures (increase air quantity or adjust fans)",
+          "responsible": "Ventilation engineer",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "De-energize electrical equipment in affected zone if methane is detected",
+          "responsible": "Shift supervisor",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Headcount and account for all personnel",
+          "responsible": "Section supervisors",
+          "time": "5-10 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Atmospheric monitoring from safe location to determine extent and concentration",
+          "responsible": "Safety department with multi-gas detectors",
+          "time": "10-30 minutes"
+        },
+        {
+          "sequence": 7,
+          "action": "Determine source of gas and implement control measures",
+          "responsible": "Geologist and ventilation engineer",
+          "time": "30-60 minutes"
+        }
+      ],
+      "ventilation_emergency_procedures": {
+        "fan_failure": "Activate standby fan within 15 minutes, evacuate underground if ventilation cannot be restored, monitor methane levels continuously",
+        "reversal": "Controlled reversal only with mine manager approval, notify all underground personnel before action",
+        "boosting": "Portable fans deployed to maintain minimum airflow in critical areas"
+      }
+    },
+    "surface_fire": {
+      "identification_signs": [
+        "Visible flame or smoke from surface structures",
+        "Fire alarm activation in plants or buildings",
+        "Thermal imaging anomalies in stockpiles",
+        "Wildfire approaching mine property",
+        "Fuel storage area temperature increases"
+      ],
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Call 911 and activate facility fire alarm",
+          "responsible": "First person to detect",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "Evacuate all personnel from affected building or area",
+          "responsible": "Area supervisors",
+          "time": "0-2 minutes"
+        },
+        {
+          "sequence": 3,
+          "action": "Attempt suppression with portable extinguishers if safe to do so and fire is small",
+          "responsible": "Trained fire wardens only",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Shut down affected equipment and close fuel shutoff valves",
+          "responsible": "Equipment operators",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Establish fire perimeter and keep clear for emergency services access",
+          "responsible": "Security team",
+          "time": "2-5 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Account for all personnel at assembly points",
+          "responsible": "Area supervisors",
+          "time": "5-10 minutes"
+        },
+        {
+          "sequence": 7,
+          "action": "Provide fire department with site plans, hazardous material inventories, and access information",
+          "responsible": "Mine manager or designee",
+          "time": "5-15 minutes"
+        }
+      ],
+      "wildfire_response": {
+        "defensible_space": "Maintain 100-foot defensible space around all surface structures",
+        "evacuation_triggers": "Wind-driven fire within 1 mile, air quality index above 300",
+        "coordination": "Work with local fire agencies, provide heavy equipment for firebreak construction"
+      }
+    },
+    "chemical_spill": {
+      "classification": {
+        "minor": "Contained within secondary containment, no exposure risk, less than 10 gallons",
+        "moderate": "Partial containment breach, potential exposure, 10-100 gallons",
+        "major": "Complete containment failure, actual exposure, greater than 100 gallons",
+        "catastrophic": "Environmental release, water contamination, mass exposure"
+      },
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Alert personnel in area and establish exclusion zone upwind and uphill",
+          "responsible": "First person to detect",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "Identify chemical from SDS (Safety Data Sheet) and assess hazards",
+          "responsible": "Area supervisor",
+          "time": "0-3 minutes"
+        },
+        {
+          "sequence": 3,
+          "action": "Don appropriate PPE before attempting containment",
+          "responsible": "Trained spill response personnel",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Stop source of release if safe to do so (close valves, plug leaks)",
+          "responsible": "Trained personnel",
+          "time": "0-10 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Contain spill using booms, berms, absorbent materials",
+          "responsible": "Spill response team",
+          "time": "0-15 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Notify environmental department and safety department",
+          "responsible": "Area supervisor",
+          "time": "5-10 minutes"
+        },
+        {
+          "sequence": 7,
+          "action": "Report to regulatory agencies if reportable quantity released",
+          "responsible": "Environmental manager",
+          "time": "15 minutes per CERCLA/EPCRA requirements"
+        }
+      ],
+      "common_mining_chemicals": {
+        "sodium_cyanide": {
+          "hazard": "Extremely toxic, releases HCN gas when acidic",
+          "PPE": "Full face respirator with cyanide-specific cartridge, chemical suit, neoprene gloves",
+          "neutralization": "Sodium hypochlorite solution, alkaline pH above 10",
+          "reporting": "EPCRA Section 304, immediate notification required"
+        },
+        "sulfuric_acid": {
+          "hazard": "Corrosive, releases toxic SO2 gas when heated",
+          "PPE": "Full face respirator, acid-resistant suit, face shield",
+          "neutralization": "Soda ash (sodium carbonate) or lime",
+          "reporting": "Report release exceeding RQ of 1000 lbs"
+        },
+        "sodium_hydroxide": {
+          "hazard": "Caustic, severe burns",
+          "PPE": "Chemical splash goggles, face shield, chemical-resistant clothing",
+          "neutralization": "Dilute acid or citric acid solution",
+          "reporting": "Report if release exceeds RQ"
+        },
+        "diesel_fuel": {
+          "hazard": "Flammable, environmental contaminant",
+          "PPE": "Vapor-supplying respirator in confined spaces, chemical suit",
+          "containment": "Absorbent booms and pads, dike with soil",
+          "reporting": "State environmental agency if impact to waterway"
+        },
+        "froth_reagents": {
+          "hazard": "Various toxicity levels, some flammable",
+          "PPE": "Per SDS requirements, typically chemical goggles and gloves",
+          "containment": "Absorbent materials, prevent entry to drains",
+          "reporting": "Per SDS and state requirements"
+        }
+      }
+    },
+    "cyanide_spill": {
+      "severity_levels": {
+        "level_1": "Contained spill within secondary containment, no personnel exposure",
+        "level_2": "Uncontained spill, potential personnel exposure, no water body impact",
+        "level_3": "Release to environment or water body, actual or potential human exposure",
+        "level_4": "Massive release, multiple exposures, water supply contamination"
+      },
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Evacuate all personnel from spill area immediately - cyanide is instantly lethal at high concentrations",
+          "responsible": "First person to detect",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "Activate cyanide emergency alarm and notify all mine personnel",
+          "responsible": "Shift supervisor",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 3,
+          "action": "Shut off cyanide supply pumps and close isolation valves",
+          "responsible": "Process control operator",
+          "time": "0-2 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Establish upwind exclusion zone (minimum 500 meters for large spills)",
+          "responsible": "Emergency response team",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Deploy emergency cyanide neutralization equipment (hydrogen peroxide, Caro's acid, or alkaline chlorination)",
+          "responsible": "Cyanide emergency response team",
+          "time": "0-15 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Monitor for HCN gas using dedicated cyanide monitors, establish downwind monitoring stations",
+          "responsible": "Safety department",
+          "time": "0-10 minutes"
+        },
+        {
+          "sequence": 7,
+          "action": "Notify downstream water users and environmental agencies immediately",
+          "responsible": "Mine manager",
+          "time": "0-15 minutes"
+        },
+        {
+          "sequence": 8,
+          "action": "Administer cyanide antidote kit (Cyanokit - hydroxocobalamin) to any exposed persons - call poison control: 1-800-222-1222",
+          "responsible": "First aid officer / EMS",
+          "time": "Immediate for any exposure"
+        },
+        {
+          "sequence": 9,
+          "action": "Air monitoring for HCN gas before any re-entry - must be below 10 ppm",
+          "responsible": "Environmental team",
+          "time": "Before re-entry"
+        }
+      ],
+      "neutralization_methods": {
+        "alkaline_chlorination": "Raise pH above 10.5, add sodium hypochlorite to oxidize cyanide to cyanate then to CO2 and N2",
+        "hydrogen_peroxide": "Add H2O2 under alkaline conditions to destroy cyanide, effective for large volumes",
+        "caros_acid": "Peroxymonosulfuric acid, rapid destruction of cyanide, requires careful pH control",
+        "soils_contamination": "Excavate contaminated soils, treat on-site or transport to licensed facility",
+        "water_contamination": "Deploy turbidity curtains, pump and treat, activated carbon adsorption"
+      },
+      "medical_response_cyanide": {
+        "symptoms": "Rapid breathing, headache, dizziness, confusion, seizures, cardiac arrest",
+        "first_aid": "Fresh air, 100% oxygen if available, Cyanokit (hydroxocobalamin) 5g IV, amyl nitrite if Cyanokit unavailable",
+        "transport": "Immediate ALS transport to nearest hospital with cyanide treatment capability",
+        "decontamination": "Remove contaminated clothing, wash skin with copious water"
+      }
+    },
+    "explosives_incident": {
+      "categories": {
+        "misfire": "Failure of explosive charge to detonate",
+        "hangfire": "Delayed or partial detonation",
+        "premature_detonation": "Unintended detonation during handling or loading",
+        "unexploded_ordnance": "Unexploded charges in face or muck pile",
+        "storage_breach": "Unauthorized access or damage to explosives magazine"
+      },
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "All personnel evacuate blast zone to safe distance (minimum 500 feet for surface, full evacuation for underground)",
+          "responsible": "Blast crew leader",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "Sound explosives alarm (continuous siren)",
+          "responsible": "Blast crew leader",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 3,
+          "action": "Establish security perimeter, prevent re-entry",
+          "responsible": "Security team",
+          "time": "0-2 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Contact explosives manufacturer technical representative for misfire/hangfire guidance",
+          "responsible": "Blast crew leader",
+          "time": "0-15 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Do NOT approach misfire or hangfire for minimum 30 minutes (per MSHA 30 CFR 75.1313)",
+          "responsible": "All personnel - mandatory",
+          "time": "Standing order"
+        },
+        {
+          "sequence": 6,
+          "action": "Notify mine manager, safety department, and MSHA if required",
+          "responsible": "Blast crew leader",
+          "time": "0-30 minutes"
+        },
+        {
+          "sequence": 7,
+          "action": "Investigate cause and develop remediation plan before any re-entry",
+          "responsible": "Blast engineer and safety team",
+          "time": "After safe period elapsed"
+        }
+      ],
+      "misfire_procedures": {
+        "wait_time": "Minimum 30 minutes per MSHA 30 CFR 75.1313 for electric blasting, 60 minutes for non-electric",
+        "investigation": "Blast crew leader, safety representative, and MSHA inspector review circumstances",
+        "disposition": "Re-detonate with fresh primer if accessible, or drill and shoot new hole adjacent to misfire",
+        "documentation": "Complete misfire report including hole location, charge details, circuit integrity"
+      },
+      "magazine_safety": {
+        "requirements": "Per ATF 27 CFR Part 55 and MSHA 30 CFR 75.1312",
+        "inspections": "Daily visual, weekly detailed, annual inventory reconciliation",
+        "separation_distances": "Per ATF tables based on quantity of explosives",
+        "protection": "Lightning protection, intrusion detection, fire suppression"
+      }
+    },
+    "vehicle_collision": {
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Secure scene, activate hazard lights on all vehicles",
+          "responsible": "Witnesses and first responders",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "Call emergency medical services, provide GPS coordinates of incident location",
+          "responsible": "First person on scene",
+          "time": "0-1 minute"
+        },
+        {
+          "sequence": 3,
+          "action": "Administer first aid if trained, do not move seriously injured persons unless imminent danger",
+          "responsible": "First aid trained personnel",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Notify mine dispatch and shift supervisor",
+          "responsible": "Equipment operator or witness",
+          "time": "0-2 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Establish traffic control to prevent secondary collisions",
+          "responsible": "Safety team",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Photograph scene before moving vehicles (unless medical emergency)",
+          "responsible": "Safety investigator",
+          "time": "0-15 minutes"
+        },
+        {
+          "sequence": 7,
+          "action": "Drug and alcohol testing per company policy and MSHA requirements",
+          "responsible": "Safety department",
+          "time": "Within 2 hours"
+        }
+      ],
+      "haul_road_emergency": {
+        "berm_requirements": "Per MSHA 30 CFR 56/57.9300 - berms or equivalent protection on haul road edges",
+        "signage": "Speed limits, grade warnings, blind corner mirrors, intersection warnings",
+        "communication": "Two-way radio communication between all mobile equipment operators"
+      }
+    },
+    "conveyor_accident": {
+      "types": [
+        "Entanglement in conveyor rollers or pulleys",
+        "Contact with moving belt",
+        "Falls from conveyor structure",
+        "Belt fire or splice failure",
+        "Structural collapse of conveyor gantry"
+      ],
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Emergency stop conveyor using pull cord or emergency stop button",
+          "responsible": "First person to detect incident",
+          "time": "0 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "Do NOT attempt to free entangled person while belt is moving",
+          "responsible": "All - mandatory",
+          "time": "Standing order"
+        },
+        {
+          "sequence": 3,
+          "action": "Isolate conveyor electrically - lockout/tagout per MSHA 30 CFR 56/57.14107",
+          "responsible": "Shift supervisor or electrician",
+          "time": "0-3 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Administer first aid once conveyor is de-energized and secured",
+          "responsible": "First aid officer",
+          "time": "3-10 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Call for medical evacuation if required",
+          "responsible": "Shift supervisor",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Preserve scene for investigation, do not restart conveyor until cleared by safety",
+          "responsible": "Safety department",
+          "time": "After medical response"
+        }
+      ],
+      "prevention": {
+        "safety_devices": "Pull cord switches every 50 feet on both sides, zero speed switches, belt alignment switches",
+        "guarding": "All moving parts guarded per MSHA 30 CFR 56.14100-14107",
+        "training": "Annual conveyor safety training including emergency stop procedures",
+        "lockout_tagout": "Complete energy isolation before any maintenance work"
+      }
+    },
+    "electrical_incident": {
+      "hazards": {
+        "high_voltage": "Primary power systems 4.16kV to 69kV, lethal at any contact",
+        "medium_voltage": "Distribution systems 600V to 4.16kV, extremely dangerous",
+        "low_voltage": "Utilization systems below 600V, still capable of causing cardiac arrest",
+        "static_electrical": "Static buildup in dry conditions, ignition source for flammable atmospheres"
+      },
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "DO NOT touch victim if still in contact with electrical source",
+          "responsible": "All - mandatory",
+          "time": "Standing order"
+        },
+        {
+          "sequence": 2,
+          "action": "De-energize electrical circuit at nearest disconnect or by calling power dispatch",
+          "responsible": "Qualified electrician or operator",
+          "time": "0-2 minutes"
+        },
+        {
+          "sequence": 3,
+          "action": "Verify de-energized state with voltage tester before approaching victim",
+          "responsible": "Qualified electrician",
+          "time": "0-3 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Move victim from contact point using non-conductive rescue hook or dry rope",
+          "responsible": "Trained rescue personnel",
+          "time": "3-5 minutes"
+        },
+        {
+          "sequence": 5,
+          "action": "Begin CPR/AED immediately if victim is unresponsive and not breathing normally",
+          "responsible": "First aid officer",
+          "time": "Immediate upon safe rescue"
+        },
+        {
+          "sequence": 6,
+          "action": "Call for ALS medical transport, electrical burns require specialized treatment",
+          "responsible": "Shift supervisor",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 7,
+          "action": "Secure electrical area and do not re-energize until investigation complete",
+          "responsible": "Electrical supervisor",
+          "time": "After incident"
+        }
+      ],
+      "electrical_safety_program": {
+        "requirements": "Per MSHA 30 CFR Part 56/57 Subpart K",
+        "qualified_persons": "Only qualified persons may work on energized equipment above 50 volts",
+        "ppe": "Rubber insulating gloves rated for voltage level, arc flash protection per NFPA 70E",
+        "training": "Annual electrical safety training including CPR/AED certification"
+      }
+    },
+    "environmental_spill": {
+      "categories": {
+        "fuel_spill": "Diesel, gasoline, hydraulic fluid release to ground or water",
+        "process_chemical": "Flotation reagents, leach solutions, process water with elevated metals",
+        "tailings_release": "Tailings dam overtopping or structural failure",
+        "seepage": "Acid mine drainage or process water seepage to groundwater"
+      },
+      "immediate_actions": [
+        {
+          "sequence": 1,
+          "action": "Contain spill at source using available materials (soil, absorbent, berms)",
+          "responsible": "First responders on scene",
+          "time": "0-5 minutes"
+        },
+        {
+          "sequence": 2,
+          "action": "Prevent entry to surface water, storm drains, or groundwater",
+          "responsible": "Environmental response team",
+          "time": "0-10 minutes"
+        },
+        {
+          "sequence": 3,
+          "action": "Notify environmental department and document with photographs",
+          "responsible": "Area supervisor",
+          "time": "0-15 minutes"
+        },
+        {
+          "sequence": 4,
+          "action": "Report to state environmental agency and EPA if required (CERCLA/EPCRA thresholds)",
+          "responsible": "Environmental manager",
+          "time": "Per regulatory requirements (15 minutes to 24 hours depending on severity)"
+        },
+        {
+          "sequence": 5,
+          "action": "Begin recovery operations using vacuum trucks, booms, skimmers",
+          "responsible": "Environmental response team",
+          "time": "15-60 minutes"
+        },
+        {
+          "sequence": 6,
+          "action": "Conduct environmental assessment of affected area",
+          "responsible": "Environmental consultants",
+          "time": "24-72 hours"
+        }
+      ],
+      "reporting_thresholds": {
+        "CERCLA": "Release of reportable quantity (RQ) of hazardous substance",
+        "EPCRA": "Section 304 immediate notification for extremely hazardous substances",
+        "Clean_Water_Act": "Discharge of pollutants to waters of the United States",
+        "RCRA": "Hazardous waste release or potential release"
+      }
+    }
+  },
+  "communication_chain": {
+    "initial_alarm": {
+      "methods": {
+        "underground_communication": {
+          "primary": "Leaky feeder radio system - all underground personnel carry receivers",
+          "secondary": "Mine telephone system - hard-wired to surface dispatch",
+          "tertiary": "Through-earth communication system (TEMS) - for emergency rescue",
+          "emergency_siren": "Three long blasts = evacuate, one long blast = all clear, continuous = emergency"
+        },
+        "surface_communication": {
+          "primary": "Two-way radio on designated emergency channels",
+          "secondary": "PA system in all buildings and process areas",
+          "tertiary": "Cellular phones and satellite phones for remote areas",
+          "visual": "Strobe lights and rotating beacons at assembly points"
+        },
+        "alarm_activation_points": {
+          "pull_stations": "Located at every underground section change, at all building exits, at all main access points",
+          "manual_call_boxes": "At all emergency refuge chambers, at main portal, at all shaft stations",
+          "automatic_detection": "Fire detection systems, gas monitoring systems, water level monitoring, ground monitoring systems"
+        }
+      },
+      "initial_message_format": {
+        "template": "EMERGENCY - [TYPE] - [LOCATION] - [SEVERITY] - [NUMBERS_AFFECTED] - [INITIAL_ACTIONS_TAKEN] - [ADDITIONAL_RESOURCES_NEEDED] - [REPORTER_NAME]",
+        "examples": [
+          "EMERGENCY - FIRE - MAIN BELT HEAD UG-07 - LEVEL 2 - 3 PERSONNEL INJURED - EVACUATING SECTION - NEED FIRE RESPONSE - J. SMITH SUPERVISOR",
+          "EMERGENCY - GROUND FAILURE - DEVELOPMENT HEADING UG-12 - LEVEL 3 - PERSONNEL TRAPPED - RESCUE TEAM DEPLOYED - REQUESTING ADDITIONAL RESCUE - S. JONES SHIFT SUP"
+        ],
+        "clarity_requirements": "Speak slowly and clearly, repeat critical information, confirm receipt of message"
+      }
+    },
+    "notification_tree": {
+      "level_1_minor": {
+        "sequence": [
+          {"contact": "Shift Supervisor", "method": "Radio", "time": "Immediate"},
+          {"contact": "First Aid Officer", "method": "Radio/Phone", "time": "Immediate"},
+          {"contact": "Safety Department", "method": "Phone", "time": "Within 1 hour"},
+          {"contact": "Mine Manager", "method": "Phone/Email", "time": "Within 24 hours"}
+        ]
+      },
+      "level_2_moderate": {
+        "sequence": [
+          {"contact": "Shift Supervisor", "method": "Radio", "time": "Immediate"},
+          {"contact": "Safety Manager", "method": "Phone", "time": "Immediate"},
+          {"contact": "Mine Manager", "method": "Phone", "time": "Immediate"},
+          {"contact": "First Response Team", "method": "Radio/Page", "time": "Immediate"},
+          {"contact": "Regional Safety Director", "method": "Phone", "time": "Within 15 minutes"},
+          {"contact": "MSHA District Office", "method": "Phone", "time": "Within 1 hour"},
+          {"contact": "Corporate Safety", "method": "Phone/Email", "time": "Within 24 hours"},
+          {"contact": "Insurance Carrier", "method": "Phone", "time": "Within 24 hours"}
+        ]
+      },
+      "level_3_major": {
+        "sequence": [
+          {"contact": "All Emergency Response Team", "method": "Radio/Page/Phone", "time": "Immediate"},
+          {"contact": "Mine Manager", "method": "Phone", "time": "Immediate"},
+          {"contact": "Regional Director", "method": "Phone", "time": "Immediate"},
+          {"contact": "Corporate Emergency Line", "method": "Phone", "time": "Immediate"},
+          {"contact": "MSHA District Office", "method": "Phone", "time": "Within 5 minutes"},
+          {"contact": "Local Fire Department", "method": "911/Phone", "time": "Within 5 minutes"},
+          {"contact": "Local Hospital", "method": "Phone", "time": "Within 5 minutes"},
+          {"contact": "State Mining Agency", "method": "Phone", "time": "Within 15 minutes"},
+          {"contact": "Environmental Agency", "method": "Phone", "time": "Within 15 minutes"},
+          {"contact": "Corporate Legal", "method": "Phone", "time": "Within 15 minutes"},
+          {"contact": "Media Relations", "method": "Phone", "time": "Within 1 hour"},
+          {"contact": "Family Liaison", "method": "Phone", "time": "Within 1 hour"}
+        ]
+      },
+      "level_4_catastrophic": {
+        "sequence": [
+          {"contact": "ALL PERSONNEL", "method": "ALL CHANNELS", "time": "IMMEDIATE"},
+          {"contact": "Mine Manager", "method": "Phone", "time": "Immediate"},
+          {"contact": "Corporate CEO", "method": "Phone", "time": "Immediate"},
+          {"contact": "Board Chairman", "method": "Phone", "time": "Immediate"},
+          {"contact": "ALL Emergency Services", "method": "911", "time": "Immediate"},
+          {"contact": "MSHA National Office", "method": "Phone", "time": "Within 5 minutes"},
+          {"contact": "Governor Office", "method": "Phone", "time": "Within 5 minutes"},
+          {"contact": "Federal Emergency Management", "method": "Phone", "time": "Within 15 minutes"},
+          {"contact": "State Agency Head", "method": "Phone", "time": "Within 15 minutes"},
+          {"contact": "Environmental Protection Agency", "method": "Phone", "time": "Within 15 minutes"},
+          {"contact": "Media Relations Team", "method": "Phone", "time": "Within 30 minutes"},
+          {"contact": "Family Liaison Team", "method": "Phone", "time": "Within 30 minutes"},
+          {"contact": "Crisis Counseling Team", "method": "Phone", "time": "Within 30 minutes"},
+          {"contact": "All Shareholders", "method": "SEC Filing", "time": "Within 1 hour"},
+          {"contact": "Legal Representation", "method": "Phone", "time": "Within 1 hour"}
+        ]
+      }
+    },
+    "external_services": {
+      "emergency_services": {
+        "fire_department": {
+          "primary": "Local Volunteer/Paid Fire Department",
+          "number": "911",
+          "response_time": "15-30 minutes",
+          "capabilities": "Fire suppression, hazmat response, technical rescue",
+          "pre_arrangements": "Annual site tour, familiarization with mine layout, MSHA training for mutual aid responders"
+        },
+        "ems": {
+          "primary": "County EMS/Ambulance Service",
+          "number": "911",
+          "response_time": "10-25 minutes",
+          "capabilities": "ALS/BLS emergency medical transport",
+          "medevac": "Helicopter medevac for critical patients, LZ designated on mine property"
+        },
+        "law_enforcement": {
+          "primary": "County Sheriff Department",
+          "number": "Non-emergency: [local number]",
+          "capabilities": "Scene security, traffic control, criminal investigation"
+        },
+        "hazmat": {
+          "primary": "Regional Hazmat Team",
+          "number": "Via 911 dispatch",
+          "response_time": "30-60 minutes",
+          "capabilities": "Chemical identification, containment, decontamination"
+        }
+      },
+      "medical_facilities": {
+        "level_1_trauma": {
+          "name": "Regional Medical Center",
+          "distance": "45 miles",
+          "drive_time": "45 minutes by road, 15 minutes by air",
+          "capabilities": "Level 1 Trauma Center, burn unit, toxicology",
+          "address": "[Address]",
+          "phone": "[Phone]"
+        },
+        "community_hospital": {
+          "name": "County Community Hospital",
+          "distance": "15 miles",
+          "drive_time": "20 minutes",
+          "capabilities": "Emergency department, general surgery, ICU",
+          "address": "[Address]",
+          "phone": "[Phone]"
+        },
+        "occupational_health": {
+          "name": "Mine Occupational Health Center",
+          "distance": "5 miles",
+          "drive_time": "10 minutes",
+          "capabilities": "Occupational medicine, pulmonary function, audiometry"
+        }
+      },
+      "regulatory_agencies": {
+        "MSHA": {
+          "name": "Mine Safety and Health Administration",
+          "emergency_number": "1-800-746-3147",
+          "district_office": "[District Office Address and Phone]",
+          "reporting_requirement": "Fatal accidents within 15 minutes, serious injuries within 15 minutes, all others within 10 working days"
+        },
+        "state_agency": {
+          "name": "[State Mining Safety Agency]",
+          "phone": "[Phone]",
+          "reporting_requirement": "Per state regulations"
+        },
+        "environmental": {
+          "EPA": "1-800-424-8802 (Emergency Response Hotline)",
+          "state_environmental": "[State Environmental Agency Phone]",
+          "local_conervation_district": "[Phone]"
+        }
+      },
+      "support_services": {
+        "crisis_counseling": "Employee Assistance Program - [Phone Number]",
+        "legal": "Mine Legal Counsel - [Phone Number]",
+        "insurance": "Workers Compensation Carrier - [Phone Number], Property/Casualty Carrier - [Phone Number]",
+        "public_relations": "Corporate Communications - [Phone Number]"
+      }
+    },
+    "media_communication": {
+      "spokesperson_authority": "Only designated spokesperson may communicate with media. All media inquiries directed to communications department.",
+      "holding_statements": {
+        "initial": "An incident has occurred at [Mine Name]. Emergency response is underway. We are working closely with regulatory agencies. Additional information will be provided as it becomes available.",
+        "fatality": "We are deeply saddened to confirm a fatality at [Mine Name]. Our thoughts are with the family and coworkers. We are cooperating fully with MSHA and all relevant authorities.",
+        "ongoing_response": "Emergency response operations continue at [Mine Name]. The situation is [stable/evolving]. [Number] personnel have been accounted for. We will provide updates at [time] intervals."
+      },
+      "prohibited_disclosures": [
+        "Names of victims before family notification",
+        "Speculation on cause of incident",
+        "Details that could compromise ongoing rescue operations",
+        "Information that could be used in litigation against the company",
+        "Internal communications or documents"
+      ],
+      "media_staging_area": "Designated location away from emergency operations with adequate parking, restroom facilities, and power"
+    },
+    "family_liaison": {
+      "activation": "Immediately upon any fatality or serious injury requiring hospitalization",
+      "liaison_team": {
+        "lead": "Senior management representative",
+        "support": "HR manager, chaplain, trained peer supporters",
+        "counseling": "Professional grief counselors on-site within 2 hours"
+      },
+      "notification_procedures": {
+        "in_person": "For fatalities - two-person team visits family in person",
+        "phone": "For serious injuries - phone notification followed by in-person visit",
+        "information_provided": "Nature of incident, current status, hospital location if applicable, designated contact person for ongoing updates",
+        "ongoing_support": "Regular updates every 2 hours during active incident, then daily during recovery period"
+      },
+      "family_assembly_point": "Designated area away from media with private space, refreshments, counseling services, children's care"
+    }
+  },
+  "medical_response": {
+    "first_aid_kit_locations": {
+      "underground": [
+        {"location": "Main portal entrance", "type": "Class A", "contents": "Burn treatment, eye wash, trauma dressings, splints, tourniquets, emergency blankets"},
+        {"location": "Each underground section change", "type": "Class A", "contents": "Full trauma kit with hemorrhage control, airway management"},
+        {"location": "Underground workshop", "type": "Class B", "contents": "Burn treatment, eye wash, minor wound care"},
+        {"location": "Each refuge chamber", "type": "Class C", "contents": "Basic first aid, eye wash, bandages"},
+        {"location": "Underground lunchroom", "type": "Class A", "contents": "Full trauma kit"}
+      ],
+      "surface": [
+        {"location": "Main office building", "type": "Class A", "contents": "Complete first aid, AED, emergency medications"},
+        {"location": "Each process building", "type": "Class B", "contents": "Burn treatment, eye wash stations, trauma dressings"},
+        {"location": "Fuel storage area", "type": "Class B with burn kit", "contents": "Burn treatment, eye wash, chemical spill supplies"},
+        {"location": "Maintenance shop", "type": "Class A", "contents": "Trauma kit, eye wash, burn treatment"},
+        {"location": "Security gate house", "type": "Class B", "contents": "Basic first aid, AED"},
+        {"location": "Each haul truck", "type": "Vehicle kit", "contents": "Bandages, tourniquet, emergency blanket, water"},
+        {"location": "Each light vehicle", "type": "Vehicle kit", "contents": "Basic first aid, emergency supplies"}
+      ],
+      "inspection_schedule": "Monthly by first aid officer, quarterly comprehensive audit, after each use complete restocking"
+    },
+    "AED_placement": {
+      "locations": [
+        "Main office building - reception area",
+        "Underground - main portal building",
+        "Process plant - control room",
+        "Maintenance shop - main entrance",
+        "Crusher building - ground level",
+        "Warehouse - main entrance",
+        "Each refuge chamber - integrated unit",
+        "Security gate house",
+        "Fuel farm - control building",
+        "Tailings facility - office"
+      ],
+      "requirements": {
+        "response_time": "AED accessible within 3 minutes of any work area",
+        "training": "All supervisors CPR/AED certified, minimum 2 AED-trained personnel per shift",
+        "inspection": "Weekly visual check, monthly function test, pad expiration tracking",
+        "registration": "Registered with county EMS for rapid identification during 911 calls"
+      }
+    },
+    "medevac_procedures": {
+      "ground_medevac": {
+        "procedure": "Patient loaded in ambucycle or ATV for transport to portal/staging area, then ambulance to hospital",
+        "access_routes": "Pre-designated medevac routes maintained clear at all times, marked on mine maps",
+        "equipment": "Stretcher, spinal immobilization, trauma kit at each section",
+        "estimated_times": "From deepest underground to surface: 30-60 minutes depending on mine layout"
+      },
+      "air_medevac": {
+        "procedure": "Helicopter landing zone (LZ) designated on mine property, GPS coordinates provided to dispatch, LZ maintained clear and marked",
+        "LZ_requirements": "100-foot diameter cleared area, marked with wind sock, night lighting, hazard markings",
+        "activation": "Via 911 dispatch or direct call to air ambulance service",
+        "capabilities": "ALS critical care transport, blood products, ventilator, cardiac monitoring",
+        "estimated_times": "Response: 15-30 minutes, Transport to Level 1 Trauma: 15-45 minutes depending on distance"
+      },
+      "underground_to_surface": {
+        "procedure": "Patient packaged in stretcher, transported via mantrip or rail car to portal, transferred to ambulance",
+        "vertical_extraction": "If hoist shaft available, patient transported via shaft in specially designed litter platform",
+        "communication": "Continuous communication between underground rescue team and surface EMS during transport"
+      }
+    },
+    "hospital_locations": {
+      "primary": {
+        "name": "[Primary Hospital Name]",
+        "address": "[Address]",
+        "phone": "[Phone]",
+        "distance_miles": 15,
+        "drive_time_minutes": 20,
+        "capabilities": ["Emergency Medicine", "Surgery", "ICU", "Radiology", "Burn Center"],
+        "trauma_level": "Level II",
+        "helicopter_LZ": true
+      },
+      "secondary": {
+        "name": "[Secondary Hospital Name]",
+        "address": "[Address]",
+        "phone": "[Phone]",
+        "distance_miles": 45,
+        "drive_time_minutes": 50,
+        "capabilities": ["Level 1 Trauma", "Burn Unit", "Toxicology", "All Surgical Specialties"],
+        "trauma_level": "Level I",
+        "helicopter_LZ": true
+      },
+      "tertiary": {
+        "name": "[Burn Center/Toxicology Center]",
+        "address": "[Address]",
+        "phone": "[Phone]",
+        "distance_miles": 150,
+        "drive_time_minutes": "180 (air: 60)",
+        "capabilities": ["Specialized Burn Care", "Cyanide Treatment", "Industrial Toxicology"],
+        "helicopter_LZ": true
+      }
+    },
+    "blood_bank_nearest": {
+      "name": "[Regional Blood Bank]",
+      "address": "[Address]",
+      "phone": "[Phone]",
+      "blood_types_available": "All blood types, O-negative emergency supply",
+      "delivery_time": "Emergency delivery within 30 minutes, helicopter delivery for mass casualty",
+      "mass_transfusion_protocol": "Activate MTP if 3+ units needed, blood bank notified of trauma activation"
+    },
+    "specialized_treatments": {
+      "cyanide_exposure": {
+        "antidote": "Cyanokit (Hydroxocobalamin) 5g IV",
+        "availability": "On-site cyanide emergency kit, hospital pharmacy",
+        "protocol": "Immediate 100% O2, Cyanokit administration, transport to hospital with toxicology capability"
+      },
+      "crush_injury": {
+        "protocol": "Aggressive IV fluids before extrication, monitor for hyperkalemia, sodium bicarbonate for acidosis",
+        "considerations": "Prolonged entrapment may require amputation for rescue"
+      },
+      "hypothermia": {
+        "protocol": "Remove from cold environment, passive rewarming for mild, active rewarming for moderate/severe",
+        "mine_specific": "Underground flooding events may result in cold water immersion"
+      }
+    }
+  },
+  "evacuation_plans": {
+    "underground_evacuation": {
+      "triggers": [
+        "Fire alarm activation",
+        "Gas alarm exceeding safe limits",
+        "Ground failure or imminent collapse",
+        "Flooding event",
+        "Explosion",
+        "Ventilation system failure",
+        "Any order from mine management or MSHA inspector"
+      ],
+      "evacuation_methods": {
+        "primary": "Travel via designated escapeways to surface, using self-rescuer if atmosphere compromised",
+        "secondary": "Via refuge chamber if primary escapeway blocked - activate refuge chamber, communicate with surface, await rescue",
+        "vertical": "Via shaft or raise boring if accessible and safe",
+        "beltway": "Travel on walkway beside conveyor belt - NEVER ride on belt during evacuation"
+      },
+      "evacuation_speed": {
+        "normal_conditions": "Walk at steady pace, do not run",
+        "smoke_conditions": "Stay low, use self-rescuer, follow luminous markers",
+        "water_conditions": "Move to higher ground immediately, avoid flooded areas",
+        "complete_darkness": "Follow guide rope if available, feel for wall-mounted markers"
+      },
+      "critical_stations": {
+        "fresh_air_base": "Located at each section, provides communication to surface and fresh air supply",
+        "refuge_chamber": "Within 1500 feet of all working faces, rated for 96 hours, provides air, water, communication",
+        "secondary_escape": "Independent ventilation split providing alternative route to surface",
+        "emergency_stockpiles": "Self-rescuers, first aid, water, and communication devices at strategic locations"
+      }
+    },
+    "surface_evacuation": {
+      "zones": {
+        "zone_A_process_plant": {
+          "assembly_point": "Upper parking lot - 300 meters from process plant",
+          "routes": ["Main access road", "Emergency vehicle access road"],
+          "hazards": ["Chemical exposure", "Dust", "Noise", "Heavy equipment"],
+          "accountability": "Process supervisor conducts headcount at assembly point"
+        },
+        "zone_B_maintenance_shop": {
+          "assembly_point": "South field - 200 meters from shop",
+          "routes": ["Shop exit door 1", "Shop exit door 2"],
+          "hazards": ["Welding fumes", "Chemical storage", "Moving equipment"],
+          "accountability": "Maintenance supervisor conducts headcount"
+        },
+        "zone_C_office_complex": {
+          "assembly_point": "North parking lot - 150 meters from office",
+          "routes": ["Main entrance", "Emergency exits"],
+          "hazards": ["Building collapse", "Fire"],
+          "accountability": "HR/admin conducts headcount"
+        },
+        "zone_D_fuel_storage": {
+          "assembly_point": "East field - 400 meters from fuel farm",
+          "routes": ["Service road", "Haul road access"],
+          "hazards": ["Fire", "Explosion", "Environmental release"],
+          "accountability": "Fuel farm operator conducts headcount"
+        },
+        "zone_E_tailings": {
+          "assembly_point": "West ridge - 500 meters from tailings dam",
+          "routes": ["Tailings access road", "Haul road"],
+          "hazards": ["Dam failure", "Environmental release", "Ground instability"],
+          "accountability": "Tailings supervisor conducts headcount"
+        }
+      }
+    },
+    "assembly_points": {
+      "primary_assembly_points": [
+        {
+          "id": "ASP-01",
+          "location": "Main parking lot - north side",
+          "capacity": "500 persons",
+          "features": ["Covered shelter", "First aid station", "Communication equipment", "Water supply", "Emergency lighting"],
+          "serves": ["Office staff", "Surface operations"],
+          "GPS_coordinates": "[Lat/Long]"
+        },
+        {
+          "id": "ASP-02",
+          "location": "Process plant upper lot",
+          "capacity": "300 persons",
+          "features": ["Open area", "Communication equipment", "First aid station"],
+          "serves": ["Process plant operators", "Maintenance"],
+          "GPS_coordinates": "[Lat/Long]"
+        },
+        {
+          "id": "ASP-03",
+          "location": "Underground portal staging area",
+          "capacity": "200 persons",
+          "features": ["Shelter", "Communication equipment", "Self-rescuer storage", "Headcount boards"],
+          "serves": ["Underground personnel"],
+          "GPS_coordinates": "[Lat/Long]"
+        }
+      ],
+      "designated_areas_for_contractors": {
+        "contractor_assembly": "Separate section within primary assembly point with contractor company identification boards",
+        "visitor_assembly": "Visitors escorted to main assembly point, registered at security gate",
+        "headcount_verification": "Contractor companies responsible for own headcount, reported to mine safety within 15 minutes of evacuation"
+      }
+    },
+    "headcount_procedures": {
+      "underground": {
+        "method": "Electronic tracking system (tag-in/tag-out at portal and section changes), supplemented by supervisor verbal headcount",
+        "verification": "Section supervisors report to surface dispatch within 10 minutes of alarm",
+        "reconciliation": "Surface dispatch reconciles tracking system data with shift roster and section reports",
+        "incomplete_headcount": "Immediately notify mine rescue team, begin search operations"
+      },
+      "surface": {
+        "method": "Supervisor conducts physical headcount at assembly point",
+        "verification": "Assembly point marshals report to emergency coordinator within 15 minutes",
+        "technology": "RFID badges scanned at assembly point readers, automated reconciliation",
+        "absentee_accounting": "Shift roster cross-referenced with time clock data and visitor logs"
+      },
+      "visitor_contractors": {
+        "pre_entry": "All visitors and contractors sign in at security gate, issued temporary ID badge with RFID",
+        "escort_required": "Visitors must be escorted at all times while on mine property",
+        "evacuation_escort": "During evacuation, escorts responsible for guiding visitors to assembly point",
+        "contractor_headcount": "Contractor company foreman responsible for own crew headcount, reports to mine safety"
+      }
+    },
+    "visitors_contractors": {
+      "pre_arrival": {
+        "safety_induction": "All visitors and contractors must complete mine safety orientation before entry",
+        "documentation": "Valid identification, company credentials, medical clearance if required",
+        "insurance": "Proof of workers compensation and liability insurance for contractors"
+      },
+      "on_site": {
+        "sign_in_out": "Mandatory sign-in at security gate with expected departure time",
+        "badge_system": "Color-coded badges indicating authorized areas and escort requirements",
+        "escort_requirements": "Visitors always escorted, contractors may self-navigate in authorized areas if oriented"
+      },
+      "evacuation": {
+        "responsibility": "Mine escort or contractor supervisor responsible for visitor/contractor evacuation",
+        "assembly": "Report to designated contractor assembly area, headcount reported to mine safety",
+        "accountability": "No visitor or contractor cleared until accounted for in headcount reconciliation"
+      }
+    }
+  },
+  "drills_and_exercises": {
+    "drill_frequency": {
+      "fire_drill": {
+        "underground": "Monthly - unannounced, different section each time",
+        "surface": "Monthly - unannounced in each zone",
+        "full_mine": "Quarterly - coordinated surface and underground evacuation drill"
+      },
+      "emergency_response_drill": {
+        "tabletop": "Monthly - different emergency scenario each session",
+        "functional": "Quarterly - test specific emergency systems",
+        "full_scale": "Annually - complete emergency response activation with external agencies"
+      },
+      "medical_emergency_drill": {
+        "CPR_AED": "Quarterly - all supervisors participate",
+        "mass_casualty": "Annually - with local EMS coordination",
+        "mine_rescue": "Monthly - 2-hour team practice sessions"
+      },
+      "hazardous_material_drill": {
+        "cyanide_spill": "Quarterly - with neutralization equipment deployment",
+        "chemical_spill": "Bi-annually - full response scenario",
+        "environmental_release": "Annually - with regulatory agency coordination"
+      },
+      "evacuation_timing_drills": {
+        "underground_to_surface": "Monthly - timed evacuation drills, target: full evacuation within 30 minutes",
+        "refuge_chamber": "Quarterly - deployment and communication drills",
+        "assembly_point": "Monthly - headcount procedures verification"
+      }
+    },
+    "drill_types": [
+      {
+        "type": "unannounced_fire_drill",
+        "description": "Random activation of fire alarm system with full evacuation procedures",
+        "frequency": "Monthly",
+        "duration": "30-60 minutes",
+        "participants": "All on-site personnel",
+        "success_criteria": "100% evacuation within target time, all headcounts complete within 15 minutes, all self-rescuers donned correctly"
+      },
+      {
+        "type": "announced_tabletop_exercise",
+        "description": "Management team works through emergency scenarios in conference room setting",
+        "frequency": "Monthly",
+        "duration": "2-4 hours",
+        "participants": "Mine management, safety team, department heads, external agency representatives",
+        "scenarios_rotated": ["Underground fire", "Ground failure", "Cyanide spill", "Mass casualty", "Tailings dam failure", "Explosion", "Flooding", "Multiple simultaneous emergencies"]
+      },
+      {
+        "type": "functional_drill",
+        "description": "Test specific emergency response systems without full-scale deployment",
+        "frequency": "Quarterly",
+        "examples": [
+          "Communication system test - message from deepest underground to surface within 5 minutes",
+          "Emergency lighting system test - all underground lights off, verify backup lighting",
+          "Pumping system failure drill - verify backup pumps activate within 15 minutes",
+          "AED deployment drill - from storage to patient in under 3 minutes",
+          "Cyanide neutralization drill - deploy neutralization equipment within 15 minutes"
+        ]
+      },
+      {
+        "type": "full_scale_emergency_drill",
+        "description": "Complete activation of emergency response system with external agency participation",
+        "frequency": "Annually",
+        "duration": "4-8 hours",
+        "participants": "All mine personnel, local fire department, EMS, MSHA (invited), hospital",
+        "scenario": "Complex multi-hazard event requiring coordinated response",
+        "success_criteria": "All notification chains completed, all response teams deployed within target times, medical transport initiated within 30 minutes, media response activated"
+      },
+      {
+        "type": "mine_rescue_competition_drill",
+        "description": "Mine rescue teams practice in simulated mine rescue scenarios",
+        "frequency": "Monthly practice, annual competition",
+        "duration": "2-4 hours per session",
+        "participants": "Certified mine rescue teams (4-person teams minimum)",
+        "skills_practiced": [
+          "Breathing apparatus operation",
+          "Hazardous atmosphere assessment",
+          "Fire fighting underground",
+          "Injured miner recovery and transport",
+          "Ground stabilization",
+          "Underground communication procedures"
+        ]
+      },
+      {
+        "type": "self_rescuer_drill",
+        "description": "All underground personnel practice self-rescuer donning in simulated emergency conditions",
+        "frequency": "Quarterly",
+        "duration": "1 hour per section",
+        "success_criteria": "Self-rescuer donned correctly within 60 seconds, proper seal check completed, all personnel participate"
+      }
+    ],
+    "evaluation_criteria": {
+      "timing": {
+        "alarm_to_evacuation_start": {"target": "2 minutes", "maximum_acceptable": "5 minutes"},
+        "underground_to_surface": {"target": "20 minutes", "maximum_acceptable": "30 minutes"},
+        "headcount_completion": {"target": "10 minutes", "maximum_acceptable": "15 minutes"},
+        "first_response_team_arrival": {"target": "5 minutes", "maximum_acceptable": "10 minutes"},
+        "medical_response_initiation": {"target": "5 minutes", "maximum_acceptable": "15 minutes"},
+        "AED_deployment": {"target": "3 minutes", "maximum_acceptable": "5 minutes"},
+        "external_services_notification": {"target": "5 minutes", "maximum_acceptable": "15 minutes"}
+      },
+      "completion": {
+        "personnel_accounted_for": "100% of on-site personnel must be accounted for",
+        "notification_chain": "100% of required notifications completed",
+        "equipment_deployment": "All required emergency equipment deployed and functional",
+        "communication": "Continuous communication maintained throughout drill",
+        "documentation": "Complete drill record with timing, observations, deficiencies"
+      },
+      "effectiveness": {
+        "decision_making": "Timely and appropriate decisions by incident command",
+        "resource_allocation": "Adequate resources deployed to appropriate locations",
+        "coordination": "Effective coordination between all response teams",
+        "communication_clarity": "Clear, concise, accurate communications throughout",
+        "safety": "No safety issues during drill execution"
+      }
+    },
+    "improvement_tracking": {
+      "deficiency_documentation": {
+        "immediate_correction": "Any safety-related deficiency corrected immediately during drill",
+        "short_term_correction": "Procedural or equipment deficiencies corrected within 30 days",
+        "long_term_correction": "Systemic or infrastructure deficiencies corrected within 90 days with project plan"
+      },
+      "corrective_action_process": {
+        "identification": "Drill after-action report identifies all deficiencies",
+        "assignment": "Each deficiency assigned to responsible person with completion deadline",
+        "tracking": "Maintained in corrective action tracking system with status updates",
+        "verification": "Completed corrective actions verified by safety department",
+        "closure": "Formal closure with documentation after verification"
+      },
+      "continuous_improvement": {
+        "lessons_learned": "Lessons from each drill shared with all personnel via safety meetings",
+        "procedure_updates": "Emergency procedures updated based on drill findings within 30 days",
+        "training_updates": "Training program modified to address identified weaknesses",
+        "annual_review": "Comprehensive review of all emergency procedures annually incorporating drill results",
+        "benchmarking": "Compare response times and procedures against industry best practices and MSHA guidelines"
+      },
+      "record_keeping": {
+        "drill_records": "Maintained for minimum 5 years, include timing data, participant lists, observer notes",
+        "after_action_reports": "Completed within 72 hours of each drill",
+        "corrective_action_records": "Maintained until closure, reviewed quarterly",
+        "trend_analysis": "Annual analysis of drill performance trends to identify systemic issues"
+      }
+    }
+  },
+  "regulatory_requirements": {
+    "MSHA_30_CFR": {
+      "Part_46": {
+        "title": "Training and Retraining of Miners",
+        "key_requirements": [
+          "New miner training - minimum 40 hours (underground) or 24 hours (surface)",
+          "New task training before performing new tasks",
+          "Annual refresher training - minimum 8 hours",
+          "Emergency procedures training included in all training programs",
+          "Self-rescuer training and practice - quarterly for underground"
+        ]
+      },
+      "Part_48": {
+        "title": "Training and Retraining of Miners (Alternates)",
+        "key_requirements": [
+          "Emergency response training for all miners",
+          "Mine rescue team training per Part 46",
+          "First aid training for designated first aid providers",
+          "Fire training for all underground personnel"
+        ]
+      },
+      "Part_56": {
+        "title": "Surface Metal and Nonmetal Mines",
+        "key_requirements": [
+          "Emergency action plans per 56.18002",
+          "Fire protection per 56.4201-56.4204",
+          "First aid requirements per 56.18012",
+          "Personal protective equipment per 56.18013",
+          "Emergency escape procedures per 56.18007"
+        ]
+      },
+      "Part_57": {
+        "title": "Underground Metal and Nonmetal Mines",
+        "key_requirements": [
+          "Emergency escape procedures per 57.18007",
+          "Self-rescuers per 57.18010",
+          "Emergency refuge alternatives per 57.18012",
+          "Fire protection per 57.4201-57.4204",
+          "First aid and rescue per 57.18012",
+          "Communication systems per 57.11001-57.11003"
+        ]
+      },
+      "Part_75": {
+        "title": "Underground Coal Mines",
+        "key_requirements": [
+          "Emergency escape ways per 75.1700-75.1704",
+          "Refuge alternatives per 75.1704",
+          "Self-rescuers per 75.1704-2",
+          "Emergency communication per 75.1600-75.1606",
+          "Mine rescue teams per 75.1701",
+          "Fire protection per 75.1100-75.1108",
+          "Explosive gas monitoring per 75.323"
+        ]
+      },
+      "Part_77": {
+        "title": "Surface Coal Mines and Surface Work Areas of Underground Coal Mines",
+        "key_requirements": [
+          "Emergency action plans per 77.1800",
+          "Fire protection per 77.1800-77.1803",
+          "First aid requirements per 77.1801",
+          "Emergency escape procedures per 77.1800-77.1801"
+        ]
+      },
+      "Part_62": {
+        "title": "Diesel Particulate Matter Exposure Limit",
+        "key_requirements": [
+          "DPM exposure monitoring per 62.130",
+          "Diesel equipment maintenance per 62.140",
+          "Emergency response to DPM exceedances"
+        ]
+      }
+    },
+    "reporting_requirements": {
+      "immediate_notification_to_MSHA": {
+        "fatalities": "Within 15 minutes of discovery",
+        "hospitalizations": "Within 15 minutes of discovery",
+        "amputations": "Within 15 minutes of discovery",
+        "loss_of_eye": "Within 15 minutes of discovery"
+      },
+      "written_reports_to_MSHA": {
+        "Form_7000_1": "Within 10 working days of accident or injury",
+        "accident_investigation": "Per MSHA investigation requirements",
+        "root_cause_analysis": "Required for serious accidents as determined by MSHA"
+      },
+      "state_requirements": {
+        "note": "Additional reporting requirements per state mining safety regulations - consult state agency for specific requirements",
+        "typical_requirements": "Similar to federal, some states require faster notification and more detailed reporting"
+      },
+      "environmental_reporting": {
+        "CERCLA": "Release of reportable quantity within 15 minutes to National Response Center",
+        "EPCRA": "Section 304 immediate notification for extremely hazardous substances",
+        "Clean_Water_Act": "NPDES permit violations reported per permit conditions",
+        "RCRA": "Hazardous waste incidents reported within 24 hours"
+      }
+    },
+    "inspection_preparedness": {
+      "MSHA_inspection_readiness": {
+        "documentation": "All emergency procedures documented, accessible, and current",
+        "training_records": "All personnel training records up to date and readily available",
+        "drill_records": "Complete drill records with after-action reports available",
+        "equipment_records": "All emergency equipment inspection and maintenance records current",
+        "mine_maps": "Current mine maps showing all emergency features, escape ways, refuge chambers"
+      },
+      "inspection_response": {
+        "accompany_inspector": "Safety manager or designee accompanies MSHA inspector",
+        "provide_documents": "All requested documents provided promptly",
+        "correct_violations": "Serious violations corrected immediately, others per abatement schedule",
+        "appeal_rights": "Understanding of contest rights and procedures for citations"
+      }
+    }
+  },
+  "emergency_equipment_inventory": {
+    "underground_equipment": {
+      "mine_rescue_apparatus": {
+        "BG4_breathing_apparatus": {"quantity": 16, "location": "Underground rescue station", "inspection": "Monthly functional test, annual hydrostatic test"},
+        "self_rescuers": {"quantity": "All underground personnel + 20% reserve", "location": "Within 25 feet of all working positions", "inspection": "Daily visual, monthly function test"},
+        "gas_detections": {"quantity": 24, "types": ["Multi-gas (O2, CH4, CO, CO2, H2S)", "Temperature", "Humidity"], "calibration": "Weekly bump test, monthly full calibration"}
+      },
+      "fire_suppression": {
+        "portable_extinguishers": {"quantity": 48, "types": ["ABC dry chemical", "CO2", "foam"], "inspection": "Monthly"},
+        "fire_hose_carts": {"quantity": 6, "location": "Main entries, near workshops", "inspection": "Monthly"},
+        "fire_water_pumps": {"quantity": 2, "capacity": "500 GPM each", "inspection": "Weekly test run"}
+      },
+      "communication_equipment": {
+        "leaky_feeder_system": {"coverage": "100% of active underground workings", "inspection": "Daily signal test"},
+        "through_earth_system": {"capability": "Surface to underground through 1000 feet of rock", "inspection": "Monthly test"},
+        "emergency_phones": {"quantity": 20, "location": "Every section, refuge chambers, main entries", "inspection": "Daily"},
+        "emergency_siren": {"quantity": 4, "coverage": "All underground areas", "test": "Weekly"}
+      },
+      "rescue_equipment": {
+        "stretcher_litters": {"quantity": 12, "location": "Strategic locations throughout mine", "inspection": "Monthly"},
+        "呼吸器_备用": {"quantity": 8, "location": "Rescue stations", "inspection": "Monthly"},
+        "ground_monitoring": {"equipment": ["Convergence stations", "Extensometers", "Seismic monitors"], "inspection": "Daily readings"}
+      }
+    },
+    "surface_equipment": {
+      "AED_units": {"quantity": 10, "locations": "See AED_placement section", "inspection": "Weekly"},
+      "first_aid_stations": {"quantity": 8, "locations": "See first_aid_kit_locations section", "inspection": "Monthly"},
+      "fire_trucks": {"quantity": 2, "capability": "1500 GPM, foam capability", "inspection": "Weekly"},
+      "spill_response_carts": {"quantity": 6, "location": "Fuel storage, chemical storage, process areas", "inspection": "Monthly"},
+      "emergency_vehicles": {"quantity": 4, "types": ["ATV with medical supplies", "Utility vehicle with fire extinguisher", "Ambulance", "Command vehicle"], "inspection": "Weekly"}
+    }
+  },
+  "special_considerations": {
+    "seasonal_adjustments": {
+      "summer": {
+        "heat_stress": "Modified work schedules, mandatory hydration, cooling stations, additional medical monitoring",
+        "wildfire": "Heightened monitoring, evacuation plans updated, defensible space maintained",
+        "flooding": "Monsoon season monitoring, pump capacity verification, weather alert system"
+      },
+      "winter": {
+        "cold_stress": "Warm-up shelters, frostbite prevention training, modified schedules for extreme cold",
+        "ice": "Road maintenance, anti-icing operations, vehicle safety checks",
+        "short_days": "Extended lighting requirements, visibility measures on haul roads"
+      }
+    },
+    "multi_shift_operations": {
+      "shift_changes": "Overlap period of 15 minutes between shifts to ensure continuity of emergency readiness",
+      "shift_supervisors": "Each shift has designated emergency coordinator and backup",
+      "communication_handoff": "Briefing between shifts includes current emergency status and any active incidents"
+    },
+    "contractor_management": {
+      "pre_qualification": "Contractors must demonstrate emergency response capability before award",
+      "site_specific": "Contractors receive site-specific emergency procedures orientation",
+      "integration": "Contractor emergency plans integrated with mine emergency plans",
+      "accountability": "Contractor foremen responsible for crew safety and headcount during emergencies"
+    },
+    "public_communities": {
+      "community_notification": "Mutual aid agreements with neighboring communities, community warning systems for mine emergencies",
+      "air_quality": "Community air monitoring during fire or dust events, public notification of exceedances",
+      "water_quality": "Downstream water quality monitoring, community notification of releases"
+    }
+  }
+}

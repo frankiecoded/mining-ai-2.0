@@ -1,0 +1,815 @@
+{
+  "title": "Deep Gold Mining Knowledge - Extraction Processes",
+  "version": "2.0",
+  "last_updated": "2026-07-19",
+  "description": "Comprehensive gold extraction methods, metallurgy, and processing knowledge.",
+  "extraction_methods": {
+    "cyanidation": {
+      "description": "Primary gold extraction method using dilute sodium cyanide solution to dissolve gold from ore",
+      "chemistry": {
+        "dissolution_reaction": "4Au + 8NaCN + O2 + 2H2O → 4Na[Au(CN)2] + 4NaOH",
+        "requirements": ["Oxygen", "Cyanide ions", "Alkaline pH (10-11)", "Adequate temperature"],
+        "optimal_conditions": {
+          "pH": "10.0-11.5",
+          "temperature_celsius": "20-25",
+          "cyanide_concentration_g_l": "0.5-2.0",
+          "oxygen_level_ppm": "6-8",
+          "residence_time_hours": "24-72"
+        }
+      },
+      "variants": {
+        "carbon_in_leach": {
+          "abbreviation": "CIL",
+          "description": "Gold is dissolved by cyanide and simultaneously adsorbed onto activated carbon in agitated tanks",
+          "process_steps": [
+            "Ore crushing and grinding to P80 of 75-150 microns",
+            "Slurry thickening to 40-50% solids",
+            "CIL tank circuit (8-12 tanks in series)",
+            "Activated carbon addition (15-25 g/L in tanks)",
+            "Carbon advancement counter-current to slurry",
+            "Loaded carbon stripped (elution) with hot caustic cyanide solution",
+            "Gold recovered from eluate by electrowinning",
+            "Carbon regenerated in rotary kiln at 700-800°C",
+            "Tailings thickened and disposal"
+          ],
+          "key_parameters": {
+            "tank_count": "8-12",
+            "retention_time_hours": "24-36",
+            "carbon_concentration_g_l": "15-25",
+            "carbon_screen_size_mesh": "6-16",
+            "gold_recovery_percent": "90-98",
+            "grind_size_p80_microns": "75-150"
+          },
+          "advantages": ["High recovery", "Simple operation", "Lower reagent costs than CIP", "Better for preg-robbing ores"],
+          "disadvantages": ["Higher carbon inventory", "Carbon fouling risk", "Lower elution efficiency than CIP"]
+        },
+        "carbon_in_pulp": {
+          "abbreviation": "CIP",
+          "description": "Gold dissolved in cyanide tanks, then recovered by passing slurry through carbon screens",
+          "process_steps": [
+            "Ore crushing and grinding",
+            "Cyanidation in agitated tanks",
+            "Slurry screened to remove coarse particles",
+            "Carbon added to adsorption tanks",
+            "Carbon advanced counter-current",
+            "Loaded carbon stripped and gold recovered"
+          ],
+          "key_parameters": {
+            "tank_count": "6-10",
+            "retention_time_hours": "24-48",
+            "carbon_concentration_g_l": "20-40",
+            "gold_recovery_percent": "90-97"
+          },
+          "advantages": ["Higher elution efficiency", "Better carbon management", "More selective gold adsorption"],
+          "disadvantages": ["More complex screening", "Higher capital cost", "Less suited for high-clay ores"]
+        },
+        "heap_leach": {
+          "description": "Low-grade ore stacked on pads and irrigated with cyanide solution; gold percolates through and is collected",
+          "process_steps": [
+            "Ore crushed to -25mm or run-of-mine",
+            "Heap constructed on lined pad (clay or HDPE liner)",
+            "Cyanide solution applied at 5-10 L/m2/hr",
+            "Pregnant solution collected in pond",
+            "Gold recovered by activated carbon columns",
+            "Barren solution recycled to heap",
+            "Heap decommissioned and rehabilitated"
+          ],
+          "key_parameters": {
+            "ore_grade_g_t": "0.3-1.5",
+            "heap_height_m": "6-12",
+            "leach_cycle_months": "60-180",
+            "irrigation_rate_l_m2_hr": "5-10",
+            "cyanide_concentration_g_l": "0.5-1.5",
+            "gold_recovery_percent": "50-80",
+            "ore_throughput_tpd": "5000-100000"
+          },
+          "advantages": ["Low capital cost", "Handles low-grade ore", "Simple operation", "Scalable"],
+          "disadvantages": ["Low recovery", "Long leach cycle", "Environmental risk", "Channeling"]
+        },
+        "pressure_oxidation": {
+          "abbreviation": "POX",
+          "description": "High-pressure, high-temperature oxidation to break down sulfide minerals and liberate gold",
+          "conditions": {
+            "pressure_bar": "20-30",
+            "temperature_celsius": "200-230",
+            "oxygen_purity_percent": "99",
+            "retention_time_hours": "1-2"
+          },
+          "applications": ["Refractory sulfide ores", "Arsenopyrite ores", "High-carbon ores"],
+          "gold_recovery_percent": "90-98",
+          "applications_in_east_africa": "Limited; higher capital cost but suitable for refractory DRC/Tanzania ores"
+        },
+        "biooxidation": {
+          "abbreviation": "BIOX",
+          "description": "Bacterial oxidation of sulfide minerals to liberate encapsulated gold",
+          "organisms": ["Acidithiobacillus ferrooxidans", "Leptospirillum ferrooxidans", "Sulfolobus acidocaldarius"],
+          "conditions": {
+            "temperature_celsius": "40-80",
+            "pH": "1.5-2.5",
+            "retention_time_days": "5-20",
+            "oxygen_requirement": "High"
+          },
+          "applications": ["Refractory gold ores", "Arsenopyrite", "Pyrite"],
+          "gold_recovery_percent": "85-95",
+          "operational_sites": ["Fairview (South Africa)", "Sao Bento (Brazil)", "Wiluna (Australia)"]
+        },
+        "gravity_concentration": {
+          "description": "Physical separation based on gold's high specific gravity (19.3) relative to gangue (2.6-3.0)",
+          "equipment": [
+            {
+              "name": "Spiral concentrators",
+              "description": "Helical channels that separate heavy minerals",
+              "capacity_tph": "1-4",
+              "gold_recovery_percent": "30-60",
+              "application": "Placer deposits, free gold in circuit"
+            },
+            {
+              "name": "Shaking tables",
+              "description": "Oscillating deck with riffles for fine gold recovery",
+              "capacity_tph": "0.5-2",
+              "gold_recovery_percent": "40-70",
+              "application": "Fine gold, gravity circuit concentrate"
+            },
+            {
+              "name": "Falcon concentrators",
+              "description": "Centrifugal gravity concentrator for fine gold",
+              "capacity_tph": "0.5-1",
+              "gold_recovery_percent": "50-80",
+              "application": "Free gold in grinding circuit"
+            },
+            {
+              "name": "Jigs",
+              "description": "Pulsating water bed for coarse gold recovery",
+              "capacity_tph": "5-20",
+              "gold_recovery_percent": "30-50",
+              "application": "Coarse gold, alluvial deposits"
+            },
+            {
+              "name": "Sluice boxes",
+              "description": "Water channel with riffles for placer gold",
+              "capacity_tph": "5-50",
+              "gold_recovery_percent": "20-40",
+              "application": "Alluvial/placer mining"
+            }
+          ],
+          "recovery_in_circuit": "20-40% of total gold recovered at gravity circuit before cyanidation"
+        },
+        "amalgamation": {
+          "description": "Historical method using mercury to capture gold particles (being phased out)",
+          "process": "Mercury mixed with gold-bearing material; gold dissolves in mercury forming amalgam; mercury evaporated leaving gold",
+          "recovery_percent": "60-80",
+          "environmental_concerns": ["Mercury vapor emissions", "Mercury contamination of water", "Health hazards to workers"],
+          "regulatory_status": "Banned or restricted in most countries; ASGM sector still uses in some regions",
+          "alternative": "Borax method for artisanal miners"
+        }
+      }
+    },
+    "refining": {
+      "description": "Purification of gold to marketable standards",
+      "processes": {
+        "electrowinning": {
+          "description": "Gold plated from cyanide solution onto stainless steel cathodes",
+          "current_density_a_m2": "10-20",
+          "voltage_volts": "3-5",
+          "cathode_material": "Stainless steel mesh",
+          "anode_material": "Stainless steel or titanium",
+          "gold_purity_achieved": "99.5%"
+        },
+        "smelting": {
+          "description": "Melting gold precipitate with fluxes to produce doré bars",
+          "temperature_celsius": "1100-1200",
+          "flux_composition": ["Borax", "Silica", "Sodium carbonate"],
+          "dore_composition": "80-95% gold, balance silver",
+          "pouring": "Cast into moulds for transport to refinery"
+        },
+        "aqua_regia_refining": {
+          "description": "Dissolving gold in aqua regia (3:1 HCl:HNO3) for high-purity refining",
+          "purity_achieved": "99.99%",
+          "applications": ["Final refining", "Recycling", "Assay"],
+          "safety": "Extremely hazardous; requires fume hood and PPE"
+        },
+        "miller_process": {
+          "description": "Chlorine gas blown through molten gold to remove base metals and silver",
+          "purity_achieved": "99.5%",
+          "throughput_kg_hr": "100-1000",
+          "applications": ["Primary gold refineries", "Doré bar processing"]
+        },
+        "wohlwill_process": {
+          "description": "Electrolytic refining using chloroauric acid electrolyte",
+          "purity_achieved": "99.999%",
+          "applications": ["Investment-grade gold", "LBMA good delivery"],
+          "complexity": "High; requires ultra-pure starting material"
+        }
+      },
+      "standards": {
+        "LBMA_good_delivery": {
+          "minimum_purity_percent": 99.5,
+          "maximum_silver_percent": 0.5,
+          "bar_weight_kg": "350-430",
+          "dimensions_mm": "210 x 80 x 45",
+          "accepted_refineries": "List maintained by LBMA",
+          "certification_required": true
+        },
+        "doré_bar": {
+          "composition": "80-95% gold, 5-20% silver",
+          "destination": "LBMA refinery for final purification",
+          "advantage": "Lower transport cost per gold unit"
+        }
+      }
+    },
+    "placer_mining": {
+      "description": "Extraction of gold from alluvial (river) deposits",
+      "methods": {
+        "dredging": {
+          "description": "Floating plant excavates riverbed material and processes it",
+          "dredge_sizes": [
+            {"type": "Small", "throughput_m3_hr": "5-20", "depth_m": "3-5", "application": "Artisanal"},
+            {"type": "Medium", "throughput_m3_hr": "20-100", "depth_m": "5-15", "application": "Semi-mechanized"},
+            {"type": "Large", "throughput_m3_hr": "100-500", "depth_m": "15-50", "application": "Commercial"}
+          ],
+          "gold_recovery": "20-50%",
+          "environmental_impact": "High; riverbed disturbance, sedimentation"
+        },
+        "hydraulic_mining": {
+          "description": "High-pressure water jets erode gold-bearing gravels",
+          "water_pressure_bar": "50-150",
+          "monitor_capacity_m3_hr": "100-500",
+          "applications": ["Hillside deposits", "Terrace gravels"],
+          "environmental_impact": "High; massive sedimentation"
+        },
+        "dry_land_washing": {
+          "description": "Using water to wash gravels on dry land",
+          "methods": ["Wash plants", "Sluice boxes", "Jigs"],
+          "applications": ["River terraces", "Dry placer deposits"],
+          "water_requirement": "High"
+        },
+        "artisanal_methods": {
+          "description": "Manual methods used by small-scale miners in East Africa",
+          "equipment": ["Panning", "Sluice boxes", "Wooden sluices", "Manual jigs"],
+          "gold_recovery": "10-30%",
+          "labor_intensity": "Very high",
+          "environmental_impact": "Mercury use common; habitat disturbance"
+        }
+      },
+      "east_african_placers": [
+        {
+          "location": "Mara River (Kenya/Tanzania)",
+          "deposit_type": "River alluvial",
+          "grade_g_m3": "0.5-2.0",
+          "depth_m": "2-8",
+          "operators": "Artisanal miners, some mechanized",
+          "annual_production_oz": "5000"
+        },
+        {
+          "location": "Lake Victoria shoreline (Tanzania)",
+          "deposit_type": "Beach/river",
+          "grade_g_m3": "0.3-1.5",
+          "depth_m": "1-5",
+          "operators": "Artisanal and small-scale",
+          "annual_production_oz": "15000"
+        },
+        {
+          "location": "Kidepo Valley (Uganda)",
+          "deposit_type": "River alluvial",
+          "grade_g_m3": "0.2-1.0",
+          "depth_m": "1-4",
+          "operators": "Artisanal miners",
+          "annual_production_oz": "1000"
+        }
+      ]
+    },
+    "underground_mining": {
+      "description": "Methods for extracting gold from underground deposits",
+      "methods": {
+        "longhole_stoping": {
+          "description": "Drilling long holes from one level to another and blasting to create stopes",
+          "ore_dip_range_degrees": "45-90",
+          "stope_width_m": "3-30",
+          "hole_diameter_mm": "64-89",
+          "blast_pattern_m": "3 x 3 to 5 x 5",
+          "productivity_tpd": "500-3000",
+          "applications": ["Steeply dipping orebodies", "Hard rock"]
+        },
+        "cut_and_fill": {
+          "description": "Mining in horizontal slices, filling mined void with backfill",
+          "slice_height_m": "3-5",
+          "fill_types": ["Cemented rockfill", "Paste fill", "Hydraulic fill"],
+          "ore_dip_range_degrees": "0-45",
+          "productivity_tpd": "200-800",
+          "advantages": ["Selective mining", "Good ground control", "High recovery"],
+          "disadvantages": ["Higher cost", "Lower productivity", "Fill system complexity"]
+        },
+        "sublevel_caving": {
+          "description": "Ore blasted from sublevel drifts; overburden caves and follows ore",
+          "ore_body_width_m": ">15",
+          "dip_degrees": ">60",
+          "sublevel_spacing_m": "15-25",
+          "productivity_tpd": "1000-5000",
+          "dilution_percent": "15-30",
+          "recovery_percent": "80-90",
+          "applications": ["Large, steep orebodies", "Strong host rock"]
+        },
+        "room_and_pillar": {
+          "description": "Mining in rooms separated by pillars of ore left for support",
+          "pillar_width_m": "6-12",
+          "room_width_m": "6-15",
+          "recovery_percent": "50-70",
+          "pillars_recovered": "Secondary mining with backfill",
+          "applications": ["Flat-lying deposits", "Coal, salt, potash", "Some gold deposits"]
+        }
+      },
+      "development": {
+        "decline": {
+          "description": "Ramped access from surface to underground",
+          "gradient_percent": "10-15",
+          "width_m": "5-6",
+          "height_m": "4.5-5.5",
+          "advantage": "Truck access to surface without hoisting"
+        },
+        "shaft": {
+          "description": "Vertical access for personnel, ore, and waste",
+          "depth_range_m": "100-3000",
+          "diameter_m": "5-8",
+          "hoisting_speed_m_s": "10-20",
+          "skip_capacity_t": "10-30",
+          "cage_capacity_persons": "20-80"
+        }
+      }
+    }
+  },
+  "heap_leach_detailed": {
+    "pad_design": {
+      "liner_type": "HDPE 2mm",
+      "liner_thickness_mm": 2,
+      "leachate_collection": "Perforated pipes",
+      "slope_percent": "2-5%",
+      "pond_capacity_days": 15
+    },
+    "heap_construction": {
+      "lift_height_m": "6-10",
+      "compaction": "Sheepfoot roller",
+      "mining_method": "Load-haul-dump",
+      "ore_placement": "Radiused stacking"
+    },
+    "solution_management": {
+      "pregnant_solution_grade_g_l": "1-5",
+      "barren_solution_grade_g_l": "0.01-0.1",
+      "flow_rate_l_m2_hr": "5-10",
+      "cyanide_concentration_g_l": "0.5-1.5"
+    },
+    "carbon_columns": {
+      "column_count": "3-6",
+      "carbon_loaded_g_l": "15-25",
+      "retention_time_hours": "8-24"
+    },
+    "recovery_by_ore_type": {
+      "oxide": "80-90%",
+      "mixed": "60-80%",
+      "sulfide": "30-50%",
+      "clay_rich": "40-60%"
+    },
+    "environmental_controls": {
+      "dust": "Polymer solution spray",
+      "seepage": "Liner leak detection",
+      "stack_runoff": "Diversion channels"
+    },
+    "decommissioning": {
+      "steps": [
+        "Remove heap and remediate pad",
+        "Neutralize residual cyanide",
+        "Sample pad liner for leaks",
+        "Rehabilitate disturbed area",
+        "Re-vegetate with native species"
+      ],
+      "timeline_years": "2-5",
+      "rehabilitation": "Re-vegetation"
+    }
+  },
+  "refractory_ore_processing": {
+    "pressure_oxidation": {
+      "conditions": {
+        "temp_c": "200-230",
+        "pressure_bar": "20-30",
+        "retention_h": "1-2"
+      },
+      "oxygen_consumption_kg_t": "15-25",
+      "autoclave_design": "Multi-compartment",
+      "linings": "Titanium",
+      "gold_recovery": "90-98%",
+      "operational_sites": [
+        "Nevada Gold Mines (USA)",
+        "Kumtor (Kyrgyzstan)",
+        "Obuasi (Ghana)",
+        "Bulyanhulu (Tanzania)"
+      ]
+    },
+    "roasting": {
+      "temperature_c": "550-700",
+      "types": ["Multiple hear", "Fluidized bed"],
+      "gas_treatment": "Sulfuric acid plant",
+      "gold_recovery": "90-95%",
+      "environmental_issues": "SO2 emissions"
+    },
+    "ultrafine_grinding": {
+      "product_p80_microns": "10-20",
+      "energy_kwh_t": "30-80",
+      "mill_types": ["IsaMill", "Stirred media detritor"],
+      "applications": ["Refractory gold", "Deportment studies"]
+    },
+    "chlorination": {
+      "reagent": "Chlorine gas",
+      "conditions": {
+        "pH": "1-2",
+        "temperature_c": "50-80"
+      },
+      "recovery": "90-95%",
+      "status": "Rarely used now"
+    }
+  },
+  "electrowinning_detailed": {
+    "cell_design": {
+      "dimensions": "1.5m x 1.5m x 1.5m",
+      "material": "Stainless steel",
+      "cathode": {
+        "material": "Stainless steel mesh",
+        "area_m2": 2.5,
+        "spacing_mm": 75
+      },
+      "anode": {
+        "material": "Stainless steel or titanium",
+        "area_m2": 2.5,
+        "spacing_mm": 75
+      }
+    },
+    "electrolyte_chemistry": {
+      "gold_concentration_g_l": "10-30",
+      "pH": "12-14",
+      "temperature_c": "50-60"
+    },
+    "current_efficiency": {
+      "value_percent": "80-95%",
+      "energy_consumption_kwh_kg": "2000-3000"
+    },
+    "cathode_harvesting": {
+      "method": "Chemical stripping",
+      "gold_mud_purity_percent": "60-80%",
+      "processing": "Smelting to doré"
+    },
+    "common_problems": [
+      "Passivation",
+      "Shorting",
+      "Scaling"
+    ],
+    "operating_parameters": {
+      "current_density_a_m2": "10-20",
+      "voltage_volts": "3-5",
+      "electrolyte_flow_rate_l_min": "5-10",
+      "cell_number": "2-4"
+    }
+  },
+  "smelting_detailed": {
+    "flux_recipes": {
+      "low_purity": {
+        "flux": "Borax 50%, Silica 30%, Sodium carbonate 20%",
+        "target_purity_percent": "80-90%"
+      },
+      "high_purity": {
+        "flux": "Borax 40%, Litharge 30%, Silica 20%, Carbon 10%",
+        "target_purity_percent": "95-98%"
+      }
+    },
+    "furnace_types": {
+      "induction": {
+        "description": "Electromagnetic induction heating",
+        "temperature_max_c": 1600,
+        "capacity_kg": "50-500"
+      },
+      "gas": {
+        "description": "Natural gas fired",
+        "temperature_max_c": 1300,
+        "capacity_kg": "100-1000"
+      },
+      "oil": {
+        "description": "Fuel oil fired",
+        "temperature_max_c": 1300,
+        "capacity_kg": "100-500"
+      }
+    },
+    "temperature_profiles": {
+      "melting": "1064-1200C",
+      "holding": "1150-1200C",
+      "pouring": "1100-1200C"
+    },
+    "dore_bar_quality": {
+      "gold_content_percent": "80-95",
+      "silver_content_percent": "5-20",
+      "weight_kg": "10-25"
+    },
+    "silver_rejection": {
+      "method": "Oxidation in furnace",
+      "efficiency_percent": "85-95%"
+    },
+    "refining_routes": {
+      "miller_process": "Chlorination to 99.5%",
+      "wohlwill_process": "Electrolytic to 99.999%"
+    }
+  },
+  "artisanal_gold_processing": {
+    "current_practices": {
+      "mercury_amalgamation": {
+        "method": "Mercury mixed with ore",
+        "recovery_percent": "60-80%",
+        "issues": "Mercury vapor exposure"
+      },
+      "borax_method": {
+        "method": "Borax added to molten gold",
+        "recovery_percent": "70-90%",
+        "issues": "Requires furnace"
+      },
+      "shaker_tables": {
+        "method": "Gravity separation",
+        "recovery_percent": "50-70%",
+        "issues": "Water requirement"
+      }
+    },
+    "mercury_exposure_pathways": [
+      "Inhalation of vapor",
+      "Dermal absorption",
+      "Ingestion of contaminated food"
+    ],
+    "health_impacts": {
+      "neurological": "Tremors, memory loss",
+      "kidney": "Damage",
+      "respiratory": "Lung damage"
+    },
+    "mercury_free_alternatives": {
+      "gravimetric": "Gravity separation",
+      "cyanidation": "Legal framework required",
+      "borax": "Borax method"
+    },
+    "east_african_asm_statistics": {
+      "artisanal_miners": "10-15 million",
+      "production_share_percent": "15-20%",
+      "formalization_rate_percent": "10-20%"
+    },
+    "formalization_programs": [
+      "Licensing",
+      "Technical assistance",
+      "Market access",
+      "Environmental compliance"
+    ],
+    "mercury_burning_techniques": {
+      "open_burning": {
+        "method": "Open flame to evaporate mercury",
+        "efficiency_percent": "60-70%",
+        "mercury_loss_percent": "30-40%"
+      },
+      "retort": {
+        "method": "Enclosed retort to capture mercury",
+        "efficiency_percent": "90-95%",
+        "mercury_loss_percent": "5-10%"
+      }
+    },
+    "east_african_countries": [
+      "Kenya",
+      "Tanzania",
+      "Uganda",
+      "DRC",
+      "Burundi",
+      "Rwanda",
+      "Ethiopia",
+      "Mozambique"
+    ],
+    "regulatory_frameworks": {
+      "minamata_convention": "Global mercury reduction treaty",
+      "national_legislation": "Country-specific mining laws",
+      "environmental_impact_assessment": "Required for formal operations"
+    }
+  },
+  "gold_transport_and_security": {
+    "transport_methods": {
+      "armored_vehicles": {
+        "description": "Armored trucks with security personnel",
+        "cost_per_trip_usd": "5000-15000",
+        "capacity_kg": "100-500"
+      },
+      "air_freight": {
+        "description": "Air cargo for international shipment",
+        "cost_per_kg_usd": "50-100",
+        "transit_time_hours": "24-48"
+      },
+      "hand_carry": {
+        "description": "Hand carry by authorized personnel",
+        "cost_usd": "0-500",
+        "limit_kg": "5"
+      }
+    },
+    "security_requirements": {
+      "armed_escort": true,
+      "tracking": "GPS real-time",
+      "alarm_system": "Silent alarm"
+    },
+    "insurance": {
+      "types": ["All-risk", "Nail-to-nail"],
+      "coverage_percent": "100%",
+      "cost_per_million_usd": "1000-3000"
+    },
+    "documentation": {
+      "export_permit": "Required",
+      "customs_declaration": "Required",
+      "assay_certificate": "Required"
+    },
+    "east_african_routes": [
+      "Mine to local refinery",
+      "Mine to Mombasa port",
+      "Mine to Dubai",
+      "Mine to London"
+    ]
+  },
+  "production_accounting": {
+    "gold_balance_sheets": {
+      "description": "Daily and monthly gold balance reconciliation",
+      "components": [
+        "Ore mined",
+        "Ore processed",
+        "Gold in circuit",
+        "Gold produced",
+        "Gold in tailings"
+      ]
+    },
+    "metal_balance_reconciliation": {
+      "description": "Reconciliation of gold input vs output",
+      "tolerance_percent": "2-5%"
+    },
+    "inventory_management": {
+      "ore": {
+        "stockpile_management": true,
+        "grade_control": "Regular sampling"
+      },
+      "concentrate": {
+        "storage": "Sealed containers",
+        "tracking": "Barcode system"
+      },
+      "dore": {
+        "storage": "Secure vault",
+        "tracking": "GPS and barcode"
+      }
+    },
+    "variance_analysis": {
+      "description": "Analysis of differences between predicted and actual recovery",
+      "acceptance_limit_percent": "5%"
+    },
+    "reporting_standards": {
+      "JORC": {
+        "description": "Joint Ore Reserves Committee",
+        "region": "Australia",
+        "classification": ["Probable", "Proven"]
+      },
+      "NI43-101": {
+        "description": "National Instrument 43-101",
+        "region": "Canada",
+        "classification": ["Probable", "Proven"]
+      },
+      "SAMREC": {
+        "description": "South African Mineral Resource Committee",
+        "region": "South Africa",
+        "classification": ["Probable", "Proven"]
+      }
+    }
+  },
+  "gold_geology": {
+    "deposit_types": {
+      "orogenic_gold": {
+        "description": "Gold deposits formed during mountain-building events",
+        "age_range": "3.0 Ga to present",
+        "host_rock": ["Greenstone belts", "Turbidite sequences", "Metamorphic rocks"],
+        "structural_controls": ["Shear zones", "Faults", "Fold hinges", "Brittle-ductile transitions"],
+        "mineral_association": ["Quartz veins", "Pyrite", "Arsenopyrite", "Carbonate", "Sericite"],
+        "typical_grade_g_t": "5-15",
+        "typical_size_moz": "1-20",
+        "examples": ["Kibali (DRC)", "Geita (Tanzania)", "Obuasi (Ghana)", "Bendigo (Australia)"]
+      },
+      "carlin_type": {
+        "description": "Disseminated gold in carbonate-hosted rocks",
+        "host_rock": ["Dolomite", "Limestone", "Siltstone"],
+        "mineral_association": ["Fine-grained gold", "Pyrite", "Realgar", "Orpiment"],
+        "typical_grade_g_t": "1-5",
+        "typical_size_moz": "5-50",
+        "examples": ["Carlin trend (Nevada)", "Jerritt Canyon"]
+      },
+      "porphyry_gold": {
+        "description": "Gold associated with copper porphyry systems",
+        "host_rock": ["Granodiorite", "Diorite", "Monzonite"],
+        "mineral_association": ["Chalcopyrite", "Bornite", "Magnetite", "Quartz veinlets"],
+        "typical_grade_g_t": "0.3-1.5",
+        "typical_size_moz": "5-50",
+        "examples": ["Bingham Canyon", "Grasberg"]
+      },
+      "epithermal": {
+        "description": "Shallow-level hydrothermal deposits",
+        "subtypes": ["Adularia-sericite (low sulfidation)", "Quartz-alunite (high sulfidation)"],
+        "host_rock": ["Volcanic rocks", "Tuffs", "Rhyolite"],
+        "mineral_association": ["Quartz", "Adularia", "Calcite", "Sulfides"],
+        "typical_grade_g_t": "5-50",
+        "typical_size_moz": "0.5-10",
+        "examples": ["Hishikari (Japan)", "Lihir (PNG)", "Bulyanhulu (Tanzania)"]
+      },
+      "placeral": {
+        "description": "Alluvial gold from weathered primary deposits",
+        "host_rock": ["Gravel", "Sand", "Clay"],
+        "gold_form": ["Nuggets", "Flakes", "Fine particles", "Dust"],
+        "typical_grade_g_m3": "0.5-5.0",
+        "examples": ["Klondike (Canada)", "Witwatersrand (South Africa)", "Mara River (Kenya)"]
+      },
+      "iron_oxide_copper_gold": {
+        "abbreviation": "IOCG",
+        "description": "Gold associated with iron oxide-rich copper deposits",
+        "host_rock": ["Hematite-rich breccia", "Magnetite breccia"],
+        "mineral_association": ["Hematite", "Magnetite", "Chalcopyrite", "Gold"],
+        "examples": ["Olympic Dam (Australia)", "Salobo (Brazil)"]
+      }
+    },
+    "east_african_gold_belts": {
+      "nyanzian_greenstone_belt": {
+        "location": "Western Tanzania, Kenya",
+        "age_ga": "2.7-2.8",
+        "lithology": ["Basalt", "Andesite", "Rhyolite", "Banded iron formation"],
+        "deposits": ["Geita", "Sukumaland"],
+        "ore_style": "Shear-zone hosted quartz veins",
+        "total_production_moz": 25,
+        "resources_moz": 15
+      },
+      "kibaran_belt": {
+        "location": "Burundi, DRC, Tanzania, Uganda",
+        "age_ga": "1.4-1.8",
+        "lithology": ["Metasediments", "Granites", "Gneiss"],
+        "deposits": ["Bulyanhulu", "Kabanga", "Biharamulo"],
+        "ore_style": "Orogenic gold in shear zones",
+        "total_production_moz": 10,
+        "resources_moz": 20
+      },
+      "pegmatite_fields": {
+        "location": "Nigeria, DRC, Uganda, Kenya",
+        "age_ga": "0.5-0.6",
+        "lithology": ["Pegmatite", "Granite"],
+        "minerals": ["Tin", "Tantalum", "Lithium", "Gold (minor)"],
+        "deposits": ["Bunagu (DRC)", "Kidepo (Uganda)"]
+      },
+      "lake_victoria_greenstone": {
+        "location": "Tanzania, Kenya, Uganda",
+        "deposit_type": "Archean greenstone belt gold",
+        "key_deposits": [
+          {"name": "Geita", "owner": "AngloGold Ashanti", "production_oz_yr": 500000, "grade_g_t": 4.5},
+          {"name": "North Mara", "owner": "Barrick Gold", "production_oz_yr": 300000, "grade_g_t": 3.2},
+          {"name": "Bulyanhulu", "owner": "Barrick Gold", "production_oz_yr": 250000, "grade_g_t": 6.8},
+          {"name": "Kibali", "owner": "AngloGold Ashanti", "production_oz_yr": 700000, "grade_g_t": 4.0}
+        ],
+        "total_gold_belt_moz": 50,
+        "exploration_potential": "High; underexplored in Kenya and Uganda"
+      }
+    }
+  },
+  "gold_market_knowledge": {
+    "pricing_mechanism": {
+      "LBMA_fix": {
+        "description": "London Bullion Market Association twice-daily price setting",
+        "am_fix_time_utc": "10:30",
+        "pm_fix_time_utc": "15:00",
+        "participants": ["Banks", "Refiners", "Mines", "Jewelers"],
+        "price_unit": "USD per troy ounce",
+        "benchmark_for": "Mine sales, jewelry, ETFs, central bank transactions"
+      },
+      "futures": {
+        "exchange": "COMEX (New York)",
+        "contract_size_oz": 100,
+        "delivery_months": ["February", "April", "June", "August", "October", "December"],
+        "margin_requirement_percent": "5-10",
+        "open_interest_typical": "500000 contracts"
+      }
+    },
+    "demand_drivers": {
+      "jewelry": {"share_percent": 48, "top_consumers": ["India", "China", "USA"]},
+      "investment": {"share_percent": 25, "instruments": ["Bars", "Coins", "ETFs", "Futures"]},
+      "central_banks": {"share_percent": 15, "top_holders": ["USA", "Germany", "Italy", "France", "Russia", "China"]},
+      "technology": {"share_percent": 12, "applications": ["Electronics", "Dentistry", "Aerospace"]}
+    },
+    "supply_sources": {
+      "mine_production": {"annual_tonnes": 3600, "top_countries": ["China", "Australia", "Russia", "Canada", "USA", "Ghana", "South Africa", "Tanzania"]},
+      "recycling": {"annual_tonnes": 1100, "sources": ["Jewelry", "Electronics", "Industrial"]},
+      "total_supply_tonnes": 4700
+    },
+    "price_history": {
+      "all_time_high_usd": 2790,
+      "all_time_high_date": "2024-10",
+      "key_milestones": [
+        {"year": 2000, "price_usd": 279},
+        {"year": 2005, "price_usd": 444},
+        {"year": 2010, "price_usd": 1225},
+        {"year": 2015, "price_usd": 1060},
+        {"year": 2020, "price_usd": 1770},
+        {"year": 2024, "price_usd": 2790},
+        {"year": 2025, "price_usd": 3200}
+      ]
+    }
+  }
+}

@@ -1,0 +1,1076 @@
+{
+  "title": "Gold Processing & Metallurgy Deep Knowledge",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Detailed gold processing, circuit design, and metallurgical optimization.",
+  "grinding_circuits": {
+    "sag_mill": {
+      "description": "Semi-Autogenous Grinding mill for primary grinding",
+      "feed_size_mm": "250-400",
+      "product_size_p80_microns": "150-300",
+      "charge_composition": {
+        "ore_percent": "60-70",
+        "steel_balls_percent": "8-12",
+        "water_percent": "25-35"
+      },
+      "ball_charge_percent": "8-15",
+      "power_draw_kw": "5000-20000",
+      "diameter_m": "8-12",
+      "critical_speed_percent": "70-80"
+    },
+    "ball_mill": {
+      "description": "Secondary/tertiary grinding for finer liberation",
+      "feed_size_mm": "10-25",
+      "product_size_p80_microns": "38-107",
+      "charge_composition": {
+        "ore_percent": "55-65",
+        "steel_balls_percent": "30-40",
+        "water_percent": "25-35"
+      },
+      "ball_diameter_mm": "25-100",
+      "power_draw_kw": "2000-8000",
+      "types": ["Overflow", "Grate discharge"]
+    },
+    "hpgr": {
+      "description": "High Pressure Grinding Rolls - energy efficient comminution",
+      "energy_saving_vs_sag_percent": "20-40",
+      "product_size_p80_microns": "100-200",
+      "pressure_mpa": "2-4",
+      "throughput_tph": "200-2000",
+      "advantages": ["Lower energy", "Micro-cracking improves leach", "Lower media consumption"]
+    },
+    "vertimill": {
+      "description": "Stirred mill for fine grinding",
+      "product_size_p80_microns": "10-40",
+      "power_draw_kw": "200-4000",
+      "applications": ["Reground concentrate", "Pre-leach regrind", "Ultra-fine grinding"],
+      "energy_efficiency": "30-50% better than ball mill for fine grinding"
+    }
+  },
+  "flotation": {
+    "description": "Froth flotation for gold sulfide recovery before cyanidation",
+    "reagents": {
+      "collectors": [
+        {"name": "Sodium isopropyl xanthate (SIPX)", "dosage_g_t": "50-200", "function": "Collects gold-bearing sulfides"},
+        {"name": "Potassium amyl xanthate (PAX)", "dosage_g_t": "30-100", "function": "Strong collector for difficult ores"},
+        {"name": "Aerofloat 3477", "dosage_g_t": "20-80", "function": "Dithiophosphate collector"}
+      ],
+      "frothers": [
+        {"name": "MIBC (Methyl Isobutyl Carbinol)", "dosage_g_t": "15-30", "function": "Froth stabilizer"},
+        {"name": "FrothPro 240", "dosage_g_t": "10-25", "function": "Polyglycol frother"}
+      ],
+      "depressants": [
+        {"name": "Lime (CaO)", "dosage_g_t": "500-2000", "function": "Pyrite depressant at high pH"},
+        {"name": "Sodium metabisulfite (SMBS)", "dosage_g_t": "100-500", "function": "Pyrite depressant"},
+        {"name": "Cyanide (NaCN)", "dosage_g_t": "5-20", "function": "Selective pyrite depression"}
+      ]
+    },
+    "cells": {
+      "mechanical_cells": {
+        "volume_m3": "5-160",
+        "air_flow_m3_m2_min": "0.5-1.5",
+        "impeller_speed_rpm": "150-300",
+        "retention_time_min": "8-20"
+      },
+      "column_cells": {
+        "diameter_m": "1-5",
+        "height_m": "10-15",
+        "wash_water_l_m2_min": "0.5-1.0",
+        "applications": ["Cleaning", "Final concentrate"]
+      }
+    },
+    "circuit_design": {
+      "rougher_circuit": "3-6 cells in series; 50-70% recovery",
+      "cleaner_circuit": "2-4 cells; upgrades concentrate grade",
+      "scavenger_circuit": "2-4 cells; recovers slow-floating particles",
+      "total_recovery": "85-95% of gold into sulfide concentrate"
+    }
+  },
+  "cil_circuit_optimization": {
+    "carbon_management": {
+      "carbon_screen_type": "Curved wedge wire (4-6 mesh)",
+      "screen_area_m2_per_tank": "1.0-2.0",
+      "carbon_loading_g_l": "15-25",
+      "carbon_advance_rate": "Every 24-48 hours",
+      "carbon_inventory_t": "2-5 per 1000tpd plant",
+      "carbon_wear_rate_kg_t_ore": "0.05-0.15"
+    },
+    "cyanide_management": {
+      "free_cyanide_target_ppm": "200-500",
+      "cyanide_addition_point": "All tanks + makeup",
+      "cyanide_consumption_kg_t_ore": "0.3-2.0",
+      "cyanide_destroy": "INCO SO2/air process or hydrogen peroxide",
+      "effluent_cyanide_limit_ppm": "<10 (free), <50 (total)"
+    },
+    "gold_solubility_factors": {
+      "temperature_effect": "Rate doubles per 10°C increase up to 85°C",
+      "oxygen_effect": "Rate proportional to dissolved O2 concentration",
+      "cyanide_effect": "Rate proportional to CN- concentration (square root law)",
+      "pH_effect": "Optimal at pH 10.0-11.0; below 9 HCN gas evolved",
+      "copper_effect": "Copper cyanide complexes consume CN-; reduce free cyanide",
+      "arsenic_effect": "Arsenopyrite consumes cyanide; slower dissolution"
+    },
+    "preg_robbing": {
+      "description": "Gold re-adsorbed onto carbonaceous material in ore",
+      "diagnostic_test": "Activated carbon added to leach vs. no-carbon test",
+      "mitigation": ["Pre-oxidation", "Bioleach", "Carbon-in-leach (CIL)", "Carbon-in-pulp (CIP)"]
+    }
+  },
+  "gravity_circuit": {
+    "design_principles": {
+      "objective": "Recover free gold early in circuit before cyanidation",
+      "recovery_target_percent": "30-60",
+      "position_in_circuit": "After primary grinding, before leach",
+      "concentration_ratio": "2000:1 to 5000:1"
+    },
+    "circuit_components": [
+      {
+        "unit": "Jig",
+        "position": "Primary concentrator",
+        "capacity_tph": "5-20",
+        "gold_recovery_percent": "30-50"
+      },
+      {
+        "unit": "Spiral concentrator",
+        "position": "Secondary concentrator",
+        "capacity_tph": "1-4",
+        "gold_recovery_percent": "20-40"
+      },
+      {
+        "unit": "Shaking table",
+        "position": "Final cleaning",
+        "capacity_tph": "0.5-2",
+        "gold_recovery_percent": "40-70"
+      },
+      {
+        "unit": "Centrifugal concentrator (Falcon/Knelson)",
+        "position": "High-capacity primary",
+        "capacity_tph": "0.5-1",
+        "gold_recovery_percent": "50-80"
+      }
+    ],
+    "gravity_gold_products": {
+      "concentrate": "50-80% Au; sent to smelting",
+      "middlings": "5-20% Au; recirculated",
+      "tailings": "<1% Au; sent to cyanidation"
+    }
+  },
+  "cyanide_management": {
+    "types_of_cyanide": {
+      "sodium_cyanide": {
+        "formula": "NaCN",
+        "concentration_percent": "98-99",
+        "form": "Solid briquettes or flakes",
+        "dosage_kg_t_ore": "0.5-3.0",
+        "cost_per_kg_usd": "2.5-4.0"
+      },
+      "calcium_cyanide": {
+        "formula": "Ca(CN)2",
+        "concentration_percent": "65-70",
+        "form": "White powder",
+        "cost_per_kg_usd": "1.5-2.5"
+      }
+    },
+    "safety": {
+      "hcna_gas_risk": "Below pH 9.3, CN- converts to toxic HCN gas",
+      "minimum_pH": 10.0,
+      "detection_methods": ["Dräger tubes", "Continuous HCN monitors", "pH indicators"],
+      "ppe_required": ["Chemical-resistant suit", "SCBA for confined spaces", "HCN monitor", "Gloves", "Goggles"],
+      "spill_response": ["Evacuate area", "Apply lime to raise pH", "Notify environmental team", "Report to authorities"]
+    },
+    "destruction": {
+      "inco_process": {
+        "description": "SO2/air process for cyanide destruction",
+        "reagents": ["SO2 gas", "Lime"],
+        "effluent_cyanide_ppm": "<10 free, <50 total",
+        "reaction": "2NaCN + 5SO2 + 6H2O → 2(NH4)2SO4 + 2NaHSO4"
+      },
+      "hydrogen_peroxide": {
+        "description": "H2O2 oxidation of cyanide",
+        "reagents": ["H2O2 (35%)", "Cu catalyst"],
+        "effluent_cyanide_ppm": "<5 free, <20 total",
+        "advantage": "No SO2 handling"
+      }
+    },
+    "international_cyanide_management_code": {
+      "abbreviation": "ICMC",
+      "description": "Voluntary code for cyanide management in gold mining",
+      "principles": [
+        "Cyanide should be manufactured to an internationally recognized standard",
+        "Cyanide should be transported in a safe and efficient manner",
+        "Cyanide should be stored to minimize risks",
+        "Cyanide should be used in a safe and environmentally sound manner",
+        "Effluents from operations using cyanide should be treated and discharged in a responsible manner"
+      ]
+    }
+  },
+  "gold_room_management": {
+    "description": "Secure area for final gold recovery and smelting",
+    "security": {
+      "access": "Restricted; biometric + keycard",
+      "surveillance": "24/7 CCTV, motion sensors",
+      "staffing": "Minimum 2 personnel at all times",
+      "reconciliation": "Daily gold balance (feed vs. recovery)"
+    },
+    "process": {
+      "elution": {
+        "description": "Stripping gold from loaded carbon",
+        "method": "Zadra or Anglo American Research Laboratory (AARL)",
+        "eluant": "1% NaCN + 1% NaOH at 90-95°C",
+        "retention_time_hours": "8-12",
+        "gold_in_eluate_ppm": "50-200"
+      },
+      "electrowinning": {
+        "description": "Gold plated from eluate onto cathodes",
+        "cell_voltage_v": "2.5-4.0",
+        "current_a": "200-500",
+        "cathode": "Stainless steel mesh",
+        "anode": "Stainless steel or titanium",
+        "plating_time_hours": "12-24",
+        "gold_purity_plated": "99-99.5%"
+      },
+      "smelting": {
+        "flux_composition": ["Borax (Na2B4O7)", "Silica (SiO2)", "Sodium carbonate (Na2CO3)"],
+        "flux_ratio_kg_kg_gold": "0.3-0.5",
+        "furnace_temperature_celsius": "1100-1250",
+        "smelting_time_hours": "1-2",
+        "pouring": "Cast into 5-30 kg doré moulds",
+        "dore_composition": "85-95% Au, 3-12% Ag, trace Cu"
+      },
+      "weighing_and_sampling": {
+        "weighing": "Precision scale (0.1g accuracy)",
+        "sampling": "Cupellation and fire assay",
+        "assay_lab": "On-site or external (accredited)",
+        "certificates": "Assay certificate per batch"
+      }
+    },
+    "accounting": {
+      "daily_reconciliation": "Feed grade × tonnes vs. gold recovered",
+      "recovery_difference_percent": "±2% acceptable",
+      "shrinkage_allowance_percent": "<0.5%",
+      "reporting": "Daily, weekly, monthly gold balance"
+    }
+  },
+  "water_in_gold_processing": {
+    "consumption": {
+      "fresh_water_m3_t_ore": "2-5",
+      "recycled_water_percent": "50-80",
+      "total_water_m3_t_ore": "5-10",
+      "dewatering_m3_day": "5000-20000"
+    },
+    "quality_requirements": {
+      "process_water": {
+        "turbidity_ntu": "<50",
+        "pH": "7.0-9.0",
+        "tds_ppm": "<2000",
+        "chloride_ppm": "<200",
+        "hardness_dh": "<20"
+      },
+      "drinking_water": {
+        "who_guidelines": true,
+        "bacterial_count": "Zero coliforms",
+        "turbidity_ntu": "<5"
+      }
+    },
+    "treatment": {
+      "settling_ponds": "Multi-stage for suspended solids",
+      "lime_treatment": "pH adjustment for cyanide destruction",
+      "filtration": "Sand or membrane for polishing",
+      "reverse_osmosis": "For high-quality process water"
+    }
+  },
+  "maintenance_in_gold_processing": {
+    "critical_equipment": [
+      {
+        "equipment": "CIL agitators",
+        "failure_mode": "Impeller wear, seal failure",
+        "mtbf_hours": 4000,
+        "inspection_interval_days": 30,
+        "maintenance_type": "Condition-based"
+      },
+      {
+        "equipment": "Carbon screens",
+        "failure_mode": "Blinding, wear, mesh breakage",
+        "mtbf_hours": 2000,
+        "inspection_interval_days": 7,
+        "maintenance_type": "Preventive (weekly)"
+      },
+      {
+        "equipment": "Electrowinning cells",
+        "failure_mode": "Cathode fouling, bus bar corrosion",
+        "mtbf_hours": 6000,
+        "inspection_interval_days": 14,
+        "maintenance_type": "Preventive (bi-weekly)"
+      },
+      {
+        "equipment": "Elution column",
+        "failure_mode": "Heater failure, valve leak",
+        "mtbf_hours": 8000,
+        "inspection_interval_days": 30,
+        "maintenance_type": "Predictive"
+      }
+    ],
+    "preventive_maintenance_schedule": {
+      "daily": ["Check agitation speed", "Monitor dissolved O2", "Check pH and cyanide", "Inspect carbon screens"],
+      "weekly": ["Screen inspection", "Pump performance check", "Reagent inventory"],
+      "monthly": ["Carbon sampling for gold loading", "Vibration analysis", "Oil analysis"],
+      "quarterly": ["Full circuit survey", "Metallurgical balance", "Equipment condition assessment"]
+    }
+  },
+  "crushing_circuit": {
+    "primary_crusher": {
+      "type": "Jaw crusher",
+      "feed_size_mm": "1000-1500",
+      "product_size_mm": "150-200",
+      "capacity_tph": "500-2000",
+      "power_kw": "200-400",
+      "models": ["Metso C160", "Sandvik CJ815", "Terex MJ55"]
+    },
+    "secondary_crusher": {
+      "type": "Cone crusher (standard)",
+      "feed_size_mm": "150-200",
+      "product_size_mm": "20-50",
+      "capacity_tph": "300-1500",
+      "models": ["Metso HP500", "Sandvik CH870", "Cedarapids MVP550"]
+    },
+    "tertiary_crusher": {
+      "type": "Cone crusher (short head)",
+      "product_size_mm": "10-20",
+      "capacity_tph": "200-800"
+    },
+    "crushing_circuit_design": "Two-stage or three-stage depending on ore hardness",
+    "vibrating_screen_specs": {
+      "deck_count": "3-5",
+      "aperture_mm": [25, 15, 10],
+      "area_m2": "20-60"
+    }
+  },
+  "leaching_chemistry": {
+    "gold_dissolution_reactions": {
+      "elsner_equation": {
+        "equation": "4Au + 8NaCN + O2 + 2H2O → 4Na[Au(CN)2] + 4NaOH",
+        "description": "Primary gold dissolution reaction in alkaline cyanide solution",
+        "stoichiometry": {
+          "au_moles_per_o2_mole": 4,
+          "nacn_moles_per_au_mole": 2,
+          "water_moles_per_au_mole": 0.5
+        }
+      },
+      "alternative_dissolution": {
+        "hydrogen_peroxide_path": "2Au + 4NaCN + H2O2 → 2Na[Au(CN)2] + 2NaOH",
+        "hypochlorite_path": "2Au + 5NaClO + H2O → 2HAuCl4 + 5NaOH",
+        "thiourea_path": "Au + 2CS(NH2)2 → Au[CS(NH2)2]2+ + e-",
+        "thiosulfate_path": "Au + 5S2O3 2- → Au(S2O3)2 3- + e-"
+      }
+    },
+    "gold_dissolution_kinetics": {
+      "activation_energy_kj_mol": "30-45",
+      "rate_constant_range_k": "1e-5 to 1e-3",
+      "reaction_order_wrt_gold": 1,
+      "reaction_order_wrt_cyanide": 0.5,
+      "reaction_order_wrt_oxygen": 1,
+      "apparent_activation_energy_interpretation": "Mixed control regime (diffusion + chemical)"
+    },
+    "effect_of_temperature": {
+      "arrhenius_plot_data": {
+        "temperature_range_celsius": ["25", "35", "45", "55", "65", "75", "85"],
+        "relative_rate": ["1.0", "1.8", "3.2", "5.6", "9.5", "15.2", "22.0"],
+        "notes": "Rate roughly doubles per 10°C increase in ambient range"
+      },
+      "optimal_temperature_celsius": "75-85",
+      "above_optimal": "Excessive cyanide decomposition and evaporation above 85°C",
+      "below_optimal": "Reaction rate too slow for economic leach times"
+    },
+    "effect_of_pH": {
+      "optimal_range": "10.0-11.0",
+      "hcn_dissociation_curve": {
+        "pH_8": "HCN dominant (dangerous gas evolution)",
+        "pH_9.3": "50% HCN / 50% CN-",
+        "pH_10": "CN- dominant (>90%)",
+        "pH_11": "CN- dominant (>99%)",
+        "pH_12": "Excess lime; calcium cyanamide formation risk"
+      },
+      "cyanide_speciation": {
+        "hcn_pka": 9.21,
+        "dominant_species_above_pH_11": "CN-",
+        "dominant_species_below_pH_9": "HCN (toxic gas)"
+      },
+      "lime_addition_rate_kg_t_ore": "1.0-5.0",
+      "target_pH_measurement": "Online pH probe with manual verification every 4 hours"
+    },
+    "effect_of_dissolved_oxygen": {
+      "saturation_concentration_at_25c_ppm": "8.2",
+      "minimum_dissolved_oxygen_ppm": "2.0",
+      "optimal_dissolved_oxygen_ppm": "5.0-8.0",
+      "mass_transfer_correlation": {
+        "kla_typical": "0.005-0.02 s-1",
+        "agitation_effect": "Kla increases proportionally with agitation power",
+        "aeration_effect": "Sparger design critical; fine bubbles increase interfacial area"
+      },
+      "pure_oxygen_enrichment": {
+        "benefit": "Increase DO to 15-20 ppm; 20-40% faster leach",
+        "consumption_m3_o2_t_ore": "0.5-2.0",
+        "cost_benefit": "Economic for refractory ores or high throughput"
+      }
+    },
+    "effect_of_cyanide_concentration": {
+      "square_root_law": "Rate = k × [CN-]^0.5 × [O2]",
+      "optimal_cyanide_concentration_ppm": "300-500",
+      "above_optimal": "Diminishing returns; copper minerals consume excess cyanide",
+      "below_optimal": "Insufficient dissolution; incomplete gold recovery",
+      "cyanide_consumption_sources": [
+        "Oxidation to cyanate (CNO-)",
+        "Copper mineral dissolution forming Cu(CN)4 3-",
+        "Iron sulfide decomposition consuming cyanide",
+        "Mechanical losses to tailings",
+        "Reaction with arsenic/antimony minerals"
+      ]
+    },
+    "refractory_ore_behavior": {
+      "arsenopyrite": {
+        "formula": "FeAsS",
+        "gold_occurrence": "Sub-micron gold locked within crystal lattice",
+        "cyanide_consumption_kg_t_ore": "5-15",
+        "dissolution_inhibition": "Passivating iron arsenate layer on gold surfaces",
+        "remediation": ["Pressure oxidation (POX)", "Bio-oxidation (BIOX)", "Roasting", "Ultra-fine grinding"]
+      },
+      "pyrite": {
+        "formula": "FeS2",
+        "gold_occurrence": "Fine gold disseminated in pyrite matrix",
+        "cyanide_consumption_kg_t_ore": "2-8",
+        "dissolution_inhibition": "Elemental sulfur and polysulfide passivation layers",
+        "remediation": ["Aqueous oxidation", "Pressure oxidation", "Magnetic separation + roast"]
+      },
+      "stibnite": {
+        "formula": "Sb2S3",
+        "gold_occurrence": "Gold associated with antimony sulfide gangue",
+        "cyanide_consumption_kg_t_ore": "10-25",
+        "dissolution_inhibition": "Antimony trioxide surface coating; severe CN- consumption",
+        "remediation": ["Selective flotation to remove stibnite", "Caustic pre-leach", "Pressure oxidation"]
+      },
+      "carbonaceous_ore": {
+        "description": "Natural carbonaceous material pre-adsorbs gold (preg-robbing)",
+        "preg_robbing_index_mg_au_kg_c": ">10 indicates problematic preg-robbing",
+        "remediation": ["CIL (counteract preg-robbing)", "Bleed and burn carbonaceous concentrate", "Chlorination pre-oxidation", "Biological pre-treatment"]
+      }
+    },
+    "passivation_mechanisms_and_remedies": {
+      "mechanisms": [
+        "Sulfide passivation: Elemental sulfur and polysulfide layers on gold surfaces",
+        "Iron hydroxide coating: Fe(OH)3 precipitation at high pH",
+        "Calcium carbonate scale: CaCO3 precipitation in high-Ca2+ solutions",
+        "Arsenic/antimony oxide films: Inhibitory surface layers from refractory minerals"
+      ],
+      "remedies": [
+        "Abrasion/scavenging: Gold surfaces cleaned by attrition in CIL",
+        "Lead nitrate addition: Disrupts sulfide passivation layers (10-50 g/t)",
+        "Ultra-fine grinding: Exposes fresh gold surfaces",
+        "Pre-oxidation: Removes sulfide minerals before cyanidation",
+        "Nitric acid leach: Dissolves passivating arsenate/antimonate films"
+      ]
+    }
+  },
+  "carbon_management_detailed": {
+    "carbon_types": {
+      "coconut_shell_activated_carbon": {
+        "source": "Coconut shell charcoal, steam activated",
+        "hardness_index_aca": ">97",
+        "iodine_number_mg_g": ">1050",
+        "gold_adsorption_capacity_kg_au_t_carbon": "20-40",
+        "particle_size_range_mm": "0.6-2.4",
+        "advantages": ["High microporosity", "High gold loading capacity", "Lower attrition rate"],
+        "cost_per_kg_usd": "1.50-3.50",
+        "preferred_for": "CIL and CIP circuits; standard in most operations"
+      },
+      "coal_based_activated_carbon": {
+        "source": "Bituminous coal, steam or chemically activated",
+        "hardness_index_aca": ">90",
+        "iodine_number_mg_g": ">850",
+        "gold_adsorption_capacity_kg_au_t_carbon": "15-25",
+        "particle_size_range_mm": "0.5-3.0",
+        "advantages": ["Lower cost", "Larger particle size available", "Good for heap leach"],
+        "cost_per_kg_usd": "0.80-2.00",
+        "preferred_for": "Heap leach operations; lower-grade applications"
+      }
+    },
+    "carbon_activity_measurement": {
+      "method": "ASTM D21.06 / AARL standard activity test",
+      "procedure": "Equilibrate carbon with 100 mg/L gold solution at 25°C for 24 hours",
+      "results_expression": "mg Au adsorbed per gram of carbon",
+      "acceptance_criteria": {
+        "new_carbon_mg_au_g": ">35",
+        "operating_carbon_mg_au_g": ">15",
+        "replacement_threshold_mg_au_g": "<10"
+      },
+      "test_frequency": "Weekly on each carbon stage",
+      "sample_size_g": 100
+    },
+    "carbon_sizing_and_attrition": {
+      "target_size_range_mm": "0.7-2.0",
+      "oversize_removal": "Screening on carbon safety screen",
+      "undersize_removal": "Lost through carbon screens to next tank or tails",
+      "attrition_rate_percent_per_week": "1-3",
+      "attrition_factors": [
+        "Agitator power intensity",
+        "Inter-particle contact stress",
+        "Carbon hardness and microporous structure",
+        "Pump type (peristaltic vs. centrifugal)"
+      ],
+      "attrition_measurement": "Weight loss after standardized ball mill test"
+    },
+    "carbon_regeneration_kiln": {
+      "type": "Direct-fired rotary kiln or indirect electric",
+      "temperature_profile": {
+        "preheat_zone_celsius": "200-400",
+        "activation_zone_celsius": "700-900",
+        "cooling_zone_celsius": "200-400"
+      },
+      "atmosphere": "Steam + CO2 (activation zone)",
+      "residence_time_minutes": "20-40",
+      "feed_carbon_moisture_percent": "<15",
+      "kiln_diameter_m": "0.6-1.5",
+      "kiln_length_m": "6-12",
+      "throughput_kg_hr": "100-500",
+      "post_kiln_activity_recovery_percent": ">90",
+      "activation_loss_percent": "3-8 per cycle"
+    },
+    "carbon_losses_and_costs": {
+      "loss_sources": {
+        "attrition_percent": "40-60 of total losses",
+        "screen_wear_percent": "15-25 of total losses",
+        "thermal_degradation_percent": "10-20 of total losses",
+        "mechanical_breakage_percent": "5-15 of total losses"
+      },
+      "total_carbon_loss_rate_kg_t_ore": "0.05-0.15",
+      "annual_carbon_consumption_t": "50-200 for 3000tpd plant",
+      "carbon_cost_per_t_ore_usd": "0.10-0.50",
+      "replacement_strategy": "Continuous makeup; 5-10% of circuit inventory per week"
+    },
+    "carbon_pre_treatment": {
+      "acid_washing": {
+        "purpose": "Remove calcium carbonate and metal oxides from carbon surface",
+        "acid_used": "HCl (5-10%) or HNO3 (5-8%)",
+        "temperature_celsius": "70-90",
+        "retention_time_hours": "4-8",
+        "rinse_water_volume_pore_volumes": "10-15",
+        "post_wash_activity_recovery_percent": "85-95",
+        "frequency": "Every regeneration cycle"
+      },
+      "caustic_wash": {
+        "purpose": "Dissolve organic contaminants and oil films",
+        "naoh_concentration_percent": "2-5",
+        "temperature_celsius": "80-95",
+        "retention_time_hours": "2-4"
+      },
+      "combined_acid_causitic_sequence": {
+        "sequence": "Acid wash → water rinse → caustic wash → water rinse",
+        "benefit": "Maximum activity recovery for heavily contaminated carbon"
+      }
+    }
+  },
+  "tailings_management": {
+    "tailings_characterisation": {
+      "particle_size_distribution": {
+        "d10_microns": "2-20",
+        "d50_microns": "30-150",
+        "d90_microns": "200-800",
+        "percent_minus_75_microns": "40-80",
+        "percent_minus_20_microns": "10-30"
+      },
+      "specific.gravity": "2.4-3.2 (ore dependent)",
+      "mineralogical_composition": {
+        "quartz_percent": "30-70",
+        "feldspar_percent": "5-20",
+        "clay_minerals_percent": "2-15",
+        "iron_oxides_percent": "2-10",
+        "sulfide_minerals_percent": "0.5-5",
+        "carbonaceous_material_percent": "0-2"
+      },
+      "chemical_composition": {
+        "residual_cyanide_ppm": "<10 (after treatment)",
+        "dissolved_metals_ppm": "As <1, Cu <5, Fe <50, Mn <10",
+        "sulfate_ppm": "<500",
+        "chloride_ppm": "<200"
+      }
+    },
+    "thickening": {
+      "high_rate_thickener": {
+        "description": "Conventional gravity thickener with flocculant",
+        "diameter_m": "20-80",
+        "depth_m": "3-5",
+        "capacity_m3_h": "100-1500",
+        "underflow_solids_percent": "45-65",
+        "overflow_turbidity_ntu": "<100",
+        "flocculant_type": "Anionic polyacrylamide",
+        "flocculant_dosage_g_t": "20-80",
+        "power_draw_kw": "5-30"
+      },
+      "paste_thickener": {
+        "description": "Deep cone thickener producing high-density paste",
+        "diameter_m": "10-25",
+        "depth_m": "8-15",
+        "capacity_m3_h": "50-300",
+        "underflow_solids_percent": "60-75",
+        "rheology": "Non-Newtonian; Bingham plastic or Herschel-Bulkley",
+        "energy_consumption_kwh_m3": "0.5-2.0"
+      }
+    },
+    "tailings_disposal_methods": {
+      "dry_stack": {
+        "description": "Filtered tailings deposited as moist cake",
+        "moisture_percent": "15-25",
+        "filtration_equipment": "Pressure filter or vacuum belt",
+        "filter_capacity_m2": "500-5000",
+        "water_recovery_percent": "85-95",
+        "advantages": ["No tailings dam", "Lower water consumption", "Lower environmental risk"],
+        "cost_usd_per_t": "3-8"
+      },
+      "conventional_slurry": {
+        "description": "High-density slurry pumped to surface tailings storage facility",
+        "solids_content_percent": "35-55",
+        "pumping_distance_km": "1-50",
+        "pump_type": "Centrifugal or positive displacement",
+        "water_recovery_percent": "30-60",
+        "cost_usd_per_t": "1-3"
+      },
+      "subaqueous": {
+        "description": "Tailings discharged underwater (lake or marine)",
+        "application": "Arctic, remote, or island operations",
+        "advantages": "No dust; minimal surface disturbance",
+        "regulatory_hurdles": "Very high; marine/ freshwater discharge permits required"
+      }
+    },
+    "tailings_dam_design": {
+      "upstream": {
+        "description": "Embankment built on deposited tailings",
+        "seismic_resistance": "Low to moderate",
+        "cost_index": 100,
+        "failure_risk": "Highest (historical failures)",
+        "suitability": "Low seismicity regions only"
+      },
+      "downstream": {
+        "description": "Embankment built on foundation material downstream",
+        "seismic_resistance": "High",
+        "cost_index": 250,
+        "failure_risk": "Lowest",
+        "suitability": "High seismicity zones; critical facilities"
+      },
+      "centerline": {
+        "description": "Embankment raised along centerline of crest",
+        "seismic_resistance": "Moderate to high",
+        "cost_index": 175,
+        "failure_risk": "Low to moderate",
+        "suitability": "General; most common modern design"
+      }
+    },
+    "environmental_monitoring": {
+      "seepage_monitoring": {
+        "methods": ["Piezometers downstream", "Seepage collection ditches", "Groundwater monitoring wells"],
+        "frequency": "Continuous piezometers; quarterly well sampling",
+        "contaminants_monitored": ["Cyanide", "Heavy metals", "pH", "TDS", "Sulfate"],
+        "alert_thresholds": {
+          "free_cyanide_ppm": ">0.5",
+          "arsenic_ppm": ">0.01",
+          "lead_ppm": ">0.05",
+          "pH_range": "<7 or >9"
+        }
+      },
+      "stability_monitoring": {
+        "methods": ["InSAR satellite", "Survey prisms", "Extensometers", "Inclinometers"],
+        "frequency": "Monthly InSAR; weekly prism readings",
+        "trigger_levels": "Alert (2mm/yr), Alarm (5mm/yr), Evacuation (10mm/yr displacement)"
+      },
+      "dust_management": {
+        "methods": ["Water sprays", "Polymer crust", "Vegetative cover", "Wind fences"],
+        "pm10_limit_ug_m3": "<50 (ambient)",
+        "monitoring": "Continuous particulate monitors at site boundary"
+      }
+    },
+    "water_recovery_from_tailings": {
+      "methods": [
+        "Decant water from thickener overflow",
+        "Pond decant (floating or fixed decant)",
+        "Filtration of tailings (dry stacking)",
+        "Evaporation ponds in arid climates"
+      ],
+      "recovery_rate_percent": "40-90 (depends on method)",
+      "water_quality": "Typically suitable for recirculation after pH adjustment",
+      "benefit": "Reduces freshwater intake by 50-80%"
+    },
+    "geotechnical_stability_assessment": {
+      "testing_required": [
+        "Triaxial compression tests (UU, CU, CD)",
+        "Consolidation tests",
+        "Direct shear tests on tailings-structure interfaces",
+        "Cyclic triaxial for seismic response",
+        "Vane shear tests (in-situ)"
+      ],
+      "factor_of_safety_minimum": {
+        "static_normal": 1.5,
+        "static_extreme": 1.2,
+        "seismic_pseudo_static": 1.1,
+        "seismic_dynamic": 1.0
+      },
+      "monitoring_instruments": [
+        "Piezometers (standpipe and vibrating wire)",
+        "Settlement plates",
+        "Inclinometers",
+        "Extensometers",
+        "Survey monuments"
+      ]
+    }
+  },
+  "gold_recovery_data": {
+    "oxide_ore": {
+      "ore_type": "Free-milling oxide",
+      "gold_occurrence": "Visible or sub-microscopic gold in oxide matrix",
+      "recommended_flowsheet": "Crushing → Grinding → CIL",
+      "recovery_range_percent": "92-97",
+      "expected_recovery_cil_percent": "95",
+      "cyanide_consumption_kg_t_ore": "0.3-1.5",
+      "leach_time_hours": "12-36",
+      "challenges": [
+        "Clay-bearing ores cause high viscosity",
+        "High moisture in tropical climates",
+        "Iron oxide consumption of cyanide"
+      ],
+      "typical_plant_locations": ["West Africa", "Australia", "Central Asia"]
+    },
+    "mixed_ore": {
+      "ore_type": "Mixed oxide-sulfide",
+      "gold_occurrence": "Free gold in oxide; gold locked in sulfide minerals",
+      "recommended_flowsheet": "Crushing → Grinding → Gravity + CIL (partial pre-oxidation optional)",
+      "recovery_range_percent": "88-94",
+      "expected_recovery_cil_percent": "91",
+      "cyanide_consumption_kg_t_ore": "1.0-3.0",
+      "leach_time_hours": "24-48",
+      "challenges": [
+        "Variable mineralogy requires flexible circuit",
+        "Sulfide zones consume more cyanide",
+        "Blending strategy critical for consistent performance"
+      ],
+      "pre_treatment_options": ["Selective flotation of sulfide fraction", "Controlled oxidation"]
+    },
+    "refractory_sulfide": {
+      "ore_type": "Refractory sulfide (pyrite, arsenopyrite)",
+      "gold_occurrence": "Sub-microscopic gold locked in sulfide crystal lattice",
+      "recommended_flowsheet": "Crushing → Grinding → Flotation → Concentrate pre-oxidation (POX/BIOX/roast) → CIL",
+      "recovery_range_percent": "85-95",
+      "expected_recovery_with_pretreatment_percent": "90",
+      "cyanide_consumption_kg_t_ore": "0.5-2.0 (post pre-treatment)",
+      "leach_time_hours": "24-72",
+      "challenges": [
+        "High capital and operating cost for pre-treatment",
+        "Arsenic and antimony handling during oxidation",
+        "Sulfate and iron management in downstream circuits",
+        "Repassivation risk if pre-treatment incomplete"
+      ],
+      "pre_treatment_comparison": {
+        "pressure_oxidation": {"temperature_celsius": "180-220", "pressure_bar": "15-25", "retention_min": "30-60", "recovery_boost_percent": "15-25"},
+        "bio_oxidation": {"temperature_celsius": "40-50", "retention_days": "5-15", "recovery_boost_percent": "10-20", "organisms": ["Sulfolobus", "Acidithiobacillus", "Ferroplasma"]},
+        "roasting": {"temperature_celsius": "450-650", "retention_min": "10-30", "recovery_boost_percent": "15-20", "emissions": "SO2 and As2O3 require scrubbing"}
+      }
+    },
+    "carbonaceous_ore": {
+      "ore_type": "Carbonaceous (preg-robbing)",
+      "gold_occurrence": "Gold liberated but re-adsorbed by natural carbon in ore",
+      "recommended_flowsheet": "Crushing → Grinding → Pre-oxidation (chlorination/bio) → CIL with high carbon loading",
+      "recovery_range_percent": "80-90",
+      "expected_recovery_cil_percent": "85",
+      "cyanide_consumption_kg_t_ore": "0.5-2.0",
+      "leach_time_hours": "36-72",
+      "challenges": [
+        "Natural carbon competes with added activated carbon",
+        "High carbon-in-leach loading required",
+        "Bleed-and-burn adds complexity and cost",
+        "Preg-robbing index must be carefully monitored"
+      ],
+      "mitigation_strategies": [
+        {"method": "Chlorination pre-oxidation", "description": "Destroy carbonaceous matter with Cl2/NaOCl", "cost_usd_t": "5-15"},
+        {"method": "Bleed and burn", "description": "Remove carbon-rich stream, roast to destroy organic carbon", "cost_usd_t": "3-10"},
+        {"method": "Bio-oxidation", "description": "Use fungi or bacteria to degrade organic carbon", "cost_usd_t": "2-8", "time_days": "10-30"}
+      ]
+    },
+    "copper_bearing_ore": {
+      "ore_type": "Copper-gold (chalcopyrite, bornite, covellite)",
+      "gold_occurrence": "Gold associated with copper sulfide minerals",
+      "recommended_flowsheet": "Crushing → Grinding → Flotation (Cu-Au concentrate) → Smelting; or gravity + CIL for oxide portion",
+      "recovery_range_percent": "80-90",
+      "expected_recovery_cil_percent": "85",
+      "cyanide_consumption_kg_t_ore": "2.0-10.0 (high due to Cu)",
+      "leach_time_hours": "48-96",
+      "challenges": [
+        "Copper minerals dissolve and consume cyanide (forming Cu(CN)4 3-)",
+        "Elevated cyanide consumption makes direct CIL expensive",
+        "Sulfate and nitrate buildup in recycled solutions",
+        "Selective cyanide addition for copper complex dissolution"
+      ],
+      "pre_treatment_options": [
+        "Flotation to produce copper-gold concentrate for smelter",
+        "Nitric acid leach to dissolve copper before CIL",
+        "Sulfide precipitation of copper",
+        "Ammonia-based leach for copper dissolution"
+      ],
+      "cyanide_copper_chemistry": {
+        "copper_cyanide_complexes": ["Cu(CN)2- (stable, low CN consumption)", "Cu(CN)3 2- (very stable)", "Cu(CN)4 3- (highest CN consumption)"],
+        "cyanide_consumption_by_copper_kg_kg_cu": "1.5-3.0"
+      }
+    }
+  },
+  "plant_design_parameters": {
+    "throughput_determination": {
+      "methods": [
+        "Reserve tonnage / mine life",
+        "Market demand and commodity price projections",
+        "Capital expenditure constraints",
+        "Mineral processing test work (bench → pilot → full scale)",
+        "Geotechnical and hydrological site constraints"
+      ],
+      "design_capacity_tpd": {
+        "small_scale": "100-1000",
+        "medium_scale": "1000-5000",
+        "large_scale": "5000-20000",
+        "mega_scale": ">20000"
+      },
+      "availability_factor_percent": "90-95",
+      "design_margin_percent": "10-20 above average expected throughput"
+    },
+    "work_index_testing": {
+      "bond_ball_mill_work_index": {
+        "test_standard": "Bond Third Theory of Comminution",
+        "equipment": "Bond ball mill (diameter 305mm, length 305mm)",
+        "test_procedure": "7-cycle test with closing 100-mesh screen",
+        "typical_range_kwh_t": {
+          "soft_ore": "10-15",
+          "medium_ore": "15-20",
+          "hard_ore": "20-25",
+          "very_hard_ore": "25-35"
+        },
+        "formula": "W = Wi × (10/√P80 - 10/√F80)",
+        "notes": "Wi = Bond Work Index (kWh/t); P80 = product 80% passing size; F80 = feed 80% passing size"
+      },
+      "bond_rod_mill_work_index": {
+        "test_standard": "Bond rod mill work index test",
+        "equipment": "Bond rod mill (diameter 305mm, length 610mm)",
+        "typical_range_kwh_t": {
+          "soft_ore": "8-12",
+          "medium_ore": "12-17",
+          "hard_ore": "17-22",
+          "very_hard_ore": "22-30"
+        },
+        "formula": "W = Wi × (10/√P80 - 10/√F80)"
+      },
+      "bond_abrasion_index": {
+        "test_standard": "Bond abrasion index test",
+        "equipment": "Bond abrasion machine with cast iron blades",
+        "typical_range_g": {
+          "soft_ore": "0.1-0.5",
+          "medium_ore": "0.5-1.0",
+          "hard_ore": "1.0-2.0",
+          "very_hard_ore": ">2.0"
+        },
+        "interpretation": "Abrasion index correlates with liner and media wear rates"
+      }
+    },
+    "sag_mill_design": {
+      "morrell_c_model": {
+        "description": "Empirical model for SAG mill power prediction",
+        "inputs": ["Bond Wi", "Drop weight index", "Feed size (F80)", "Mill diameter", "Mill charge filling"],
+        "accuracy": "±5-10% on power draw prediction",
+        "applicability": "Wet overflow and grate discharge SAG mills"
+      },
+      "macpherson_method": {
+        "description": "SAG mill design based on pilot-scale testing",
+        "test_equipment": "MacPherson autogenous mill (diameter 1.8m × length 0.6m)",
+        "key_output": "Specific energy consumption (kWh/t) at target grind size",
+        "scales_to": "Full SAG mills of 8-12m diameter"
+      },
+      "design_sizing_parameters": {
+        "fraction_of_critical_speed": "70-80",
+        "ball_charge_volume_percent": "8-15",
+        "ore_charge_volume_percent": "25-35",
+        "total_charge_volume_percent": "35-45",
+        "mill_diameter_range_m": "8-12",
+        "l_to_d_ratio": "0.3-0.5",
+        "liner_type": "Radial or double-wave; rubber or steel"
+      }
+    },
+    "circuit_selection_matrices": {
+      "grinding_circuit_selection": {
+        "high_throughput_low_hardness": "SAG + ball mill (conventional)",
+        "high_throughput_high_hardness": "SAG + HPGR + ball mill",
+        "low_throughput": "Rod mill + ball mill",
+        "regrind_fine_grinding": "Stirred mill (Vertimill or IsaMill)",
+        "energy_efficient_option": "HPGR + ball mill (replaces SAG in some cases)"
+      },
+      "recovery_circuit_selection": {
+        "free_milling_oxide": "Gravity + CIL",
+        "mixed_ore": "Gravity + CIL (with optional flotation)",
+        "refractory_sulfide": "Flotation + Concentrate treatment (POX/BIOX/Roast) + CIL",
+        "carbonaceous": "Pre-oxidation + CIL",
+        "copper_bearing": "Flotation + Smelter (or CIL with cyanide management)"
+      }
+    },
+    "mass_balance_templates": {
+      "steady_state_mass_balance": {
+        "input_streams": ["ROM feed", "Water", "Reagents", "Lime"],
+        "output_streams": ["Doré gold", "Tailings", "Plant losses", "Off-gas"],
+        "conservation_law": "Sum of inputs = Sum of outputs (steady state)",
+        "gold_balance": "Au in feed = Au in product + Au in tailings + Au in circuit inventory + Au unaccounted"
+      },
+      "sampling_requirements": {
+        "primary_streams": "Every 2 hours (24 samples/day)",
+        "secondary_streams": "Every 4 hours (6 samples/day)",
+        "analysis_methods": ["Fire assay (Au)", "ICP-OES (multi-element)", "AAS (Cu, Fe, As)"],
+        "compositing": "24-hour composites for daily metallurgical balance"
+      }
+    },
+    "water_balance_design": {
+      "fresh_water_sources": ["Municipal supply", "Bore water", "River intake", "Rainwater harvesting"],
+      "recycled_water_sources": ["Thickener overflow", "Tailings decant", "Process returns"],
+      "consumption_breakdown": {
+        "grinding_m3_t_ore": "1.5-3.0",
+        "leaching_m3_t_ore": "0.5-1.5",
+        "tailings_disposal_m3_t_ore": "0.5-2.0",
+        "drinking_and_fire_m3_day": "10-50",
+        "dust_suppression_m3_day": "50-200"
+      },
+      "recirculation_target_percent": "60-85",
+      "evaporation_loss_m3_day": "100-1000 (climate dependent)",
+      "makeup_water_calculation": "Evaporation + Tailings losses + Process losses + Leakage"
+    },
+    "electrical_load_estimation": {
+      "major_power_consumers": {
+        "sag_mill": {"share_percent": "30-40", "power_kw": "5000-20000"},
+        "ball_mill": {"share_percent": "20-30", "power_kw": "2000-8000"},
+        "crushing": {"share_percent": "5-10", "power_kw": "300-800"},
+        "pumps_and_agitation": {"share_percent": "10-15", "power_kw": "500-3000"},
+        "elution_and_ew": {"share_percent": "3-5", "power_kw": "200-1000"},
+        "auxiliaries": {"share_percent": "5-10", "power_kw": "200-1000"}
+      },
+      "total_plant_power_kw": "10000-40000",
+      "power_supply": "11kV or 33kV from grid or on-site generation",
+      "backup_generation": "Diesel generators for critical systems (100% redundancy)",
+      "power_cost_usd_kwh": "0.05-0.15",
+      "energy_consumption_kwh_t_ore": "20-40"
+    }
+  },
+  "operational_optimization": {
+    "grinding_optimization": {
+      "media_addition": {
+        "method": "Scheduled ball addition based on power draw monitoring",
+        "ball_size_selection": "100mm for SAG; 25-75mm for ball mill (size reduction progression)",
+        "addition_rate_kg_kwh": "0.3-0.5",
+        "monitoring": "Mill power draw, noise monitoring, crash-stop ball charge measurement",
+        "optimization_goal": "Maintain constant power draw at target ball charge level"
+      },
+      "speed_control": {
+        "variable_speed_drives": "SAG mills typically VSD-controlled",
+        "optimal_speed_range": "68-78% critical speed",
+        "speed_optimization_method": "Gradually increase speed while monitoring product size and power",
+        "high_speed_benefit": "Increased throughput but coarser product",
+        "low_speed_benefit": "Finer product but reduced throughput"
+      },
+      "classification": {
+        "hydrocyclone_operation": {
+          "inlet_pressure_kpa": "80-150",
+          "aperture_mm": "10-25",
+          "split_ratio": "30-50% to underflow",
+          "d50_cut_size_microns": "75-200",
+          "monitoring": "Pressure transmitters, flow meters, PSD analyzers"
+        },
+        "classification_efficiency": {
+          "target": ">70% (by reduced efficiency curve)",
+          "problems": ["Bypass of fines to underflow", "Short-circuiting", "Overloading"],
+          "remedies": ["Air core control", "Aperture optimization", "Multiple stages"]
+        }
+      }
+    },
+    "leach_optimization": {
+      "dissolved_oxygen_control": {
+        "method": "Pure oxygen sparging or compressed air injection",
+        "target_do_ppm": "5.0-8.0 (ambient) or 15-20 (enriched)",
+        "monitoring": "Online DO probe with telemetry to SCADA",
+        "control_strategy": "Cascade control: DO setpoint → air/oxygen flow → agitation speed",
+        "response_time_seconds": "30-120"
+      },
+      "ph_management": {
+        "target_range": "10.0-11.0",
+        "lime_addition_method": "Dry lime silo → slurry mixing → dosing to CIL tanks",
+        "control_strategy": "Online pH probe → lime dosing pump → feedback loop",
+        "sampling_frequency": "Continuous (online) + every 4 hours (manual verification)",
+        "upset_conditions": {
+          "high_ph": "Excessive lime; copper precipitation; increased viscosity",
+          "low_ph": "HCN gas evolution; gold recovery loss; safety risk"
+        }
+      },
+      "cyanide_dosing": {
+        "method": "Multi-point addition (all CIL tanks + makeup to first tank)",
+        "target_free_cyanide_ppm": "200-500 (ore dependent)",
+        "control_strategy": "Free cyanide measurement → dosing pump adjustment → periodic jar test verification",
+        "cost_optimization": "Minimize excess cyanide; high consumption triggers ore investigation",
+        "monitoring_tools": ["AgNO3 titration", "ION-selective electrode", "Colorimetric kits"]
+      }
+    },
+    "carbon_optimization": {
+      "screen_maintenance": {
+        "inspection_frequency": "Daily visual; weekly detailed",
+        "failure_modes": ["Blinding (carbon/calcium buildup)", "Mesh tearing", "Seal leakage"],
+        "cleaning_method": "High-pressure water jet; acid wash for calcium deposits",
+        "replacement_schedule": "Every 6-12 months or when gold bypass detected",
+        "monitoring": "Carbon-in-tails sampling; if >50g/t Au on tails screens, replace immediately"
+      },
+      "elution_timing": {
+        "trigger": "When loaded carbon reaches 3000-6000 g/t Au (depending on elution circuit capacity)",
+        "batch_vs_continuous": "Batch elution most common; continuous for very large operations",
+        "elution_cycle_hours": "12-24 (including heating, stripping, cooling)",
+        "optimization": "Elute when loaded carbon value justifies throughput; avoid unnecessary cycles"
+      },
+      "carbon_inventory_management": {
+        "target_loading_g_l": "15-25",
+        "monitoring": "Daily sampling of each tank; profile across circuit",
+        "advance_strategy": "Counter-current: move carbon from last tank to first; elute most loaded",
+        "balance": "Loading rate should equal elution rate for steady-state operation"
+      }
+    },
+    "water_optimization": {
+      "recycling": {
+        "target_recirculation_percent": "75-85",
+        "recycled_water_quality": "Monitor TDS, pH, dissolved metals",
+        "treatment_for_recycling": "Lime dosing, settling, filtration",
+        "benefit": "Reduces freshwater costs by 50-80%; regulatory compliance"
+      },
+      "quality_management": {
+        "monitoring_points": ["Raw water intake", "Process water supply", "Thickener overflow", "Tailings decant"],
+        "key_parameters": ["pH", "TDS", "Turbidity", "Cyanide", "Heavy metals"],
+        "control_actions": ["Adjust lime", "Divert to treatment", "Blend with freshwater"]
+      },
+      "evaporation_management": {
+        "in_arid_climates": "Cover process water tanks; minimize open surfaces",
+        "losses_m3_day": "100-1000 depending on climate and surface area",
+        "compensation": "Additional freshwater makeup or increased recycling"
+      }
+    },
+    "energy_optimization": {
+      "variable_speed_drives": {
+        "equipment": ["SAG mill", "Ball mill", "Pumps", "Fans", "Conveyors"],
+        "energy_saving_percent": "15-30 on VSD-equipped equipment",
+        "payback_period_months": "12-36",
+        "implementation": "Retrofit existing fixed-speed motors with VSD + motor"
+      },
+      "demand_management": {
+        "peak_shaving": "Shift non-critical loads to off-peak hours",
+        "load_scheduling": "Coordinate grinding, crushing, and pumping schedules",
+        "battery_storage": "Peak shaving with lithium-ion for remote off-grid sites",
+        "power_factor_correction": "Capacitor banks to maintain PF > 0.95"
+      },
+      "energy_audit": {
+        "frequency": "Annual comprehensive audit",
+        "scope": "All electrical and thermal energy consumers",
+        "benchmarking": "Compare kWh/t against industry database (e.g., GEMIS, US DOE)",
+        "typical_findings": ["Oversized motors", "Inefficient pumps", "Compressed air leaks", "Poor insulation"],
+        "savings_potential_percent": "10-25 through operational improvements"
+      }
+    }
+  }
+}

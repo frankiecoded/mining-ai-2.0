@@ -1,0 +1,237 @@
+{
+  "title": "Drilling & Blasting Design Dataset",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Blast design patterns, explosive types, vibration monitoring, and fragmentation standards.",
+  "blast_designs": {
+    "open_pit": {
+      "bench_height_m": 10,
+      "bench_width_m": 15,
+      "bench_slope_angle_degrees": 65,
+      "blast_patterns": [
+        {
+          "pattern_name": "Standard Gold Ore",
+          "drill_diameter_mm": 152,
+          "hole_spacing_m": 4.5,
+          "burden_m": 4.0,
+          "stemming_m": 3.0,
+          "sub_drill_m": 1.5,
+          "explosive_type": "Emulsion",
+          "charge_kg_per_hole": 120,
+          "powder_factor_kg_per_ton": 0.35,
+          "fragmentation_target": "80% passing 300mm"
+        },
+        {
+          "pattern_name": "Hard Rock (Bulawayo)",
+          "drill_diameter_mm": 165,
+          "hole_spacing_m": 4.0,
+          "burden_m": 3.5,
+          "stemming_m": 3.5,
+          "sub_drill_m": 2.0,
+          "explosive_type": "ANFO/Emulsion blend",
+          "charge_kg_per_hole": 145,
+          "powder_factor_kg_per_ton": 0.45,
+          "fragmentation_target": "80% passing 250mm"
+        },
+        {
+          "pattern_name": "Soft Oxide Zone",
+          "drill_diameter_mm": 127,
+          "hole_spacing_m": 5.0,
+          "burden_m": 4.5,
+          "stemming_m": 2.5,
+          "sub_drill_m": 1.0,
+          "explosive_type": "Bulk emulsion",
+          "charge_kg_per_hole": 80,
+          "powder_factor_kg_per_ton": 0.20,
+          "fragmentation_target": "80% passing 400mm"
+        }
+      ]
+    },
+    "underground": {
+      "drift_design": {
+        "cross_section_m2": 20,
+        "drill_pattern": "Cut and fill",
+        "drill_diameter_mm": 51,
+        "hole_length_m": 3.5,
+        "holes_per_round": 35,
+        "explosive_type": "Emulsion cartridges",
+        "charge_kg_per_hole": 5.5,
+        "total_charge_kg": 192,
+        "blast_round_m3": 70,
+        "powder_factor_kg_per_m3": 2.75
+      },
+      "stoping_design": {
+        "stope_width_m": 8,
+        "stope_height_m": 10,
+        "stope_length_m": 30,
+        "drill_pattern": "Longhole open stoping",
+        "drill_diameter_mm": 89,
+        "hole_length_m": 12,
+        "holes_per_ring": 12,
+        "explosive_type": "Bulk emulsion",
+        "charge_kg_per_hole": 35,
+        "powder_factor_kg_per_ton": 0.38
+      }
+    }
+  },
+  "explosives": {
+    "ANFO": {
+      "full_name": "Ammonium Nitrate/Fuel Oil",
+      "density_kg_m3": 850,
+      "velocity_of_detonation_m_s": 4500,
+      "energy_kj_kg": 3800,
+      "water_resistance": "Poor",
+      "applications": ["Dry blastholes", "Development headings", "Surface mining"],
+      "sensitivity": "Low - requires primer",
+      "storage": "Explosives magazine; temperature <40°C",
+      "hazards": ["Deflagration if contaminated", "Prone to cap-sensitivity failure"]
+    },
+    "emulsion": {
+      "full_name": "Emulsion explosive",
+      "density_kg_m3": 1150,
+      "velocity_of_detonation_m_s": 5800,
+      "energy_kj_kg": 4200,
+      "water_resistance": "Excellent",
+      "applications": ["Wet blastholes", "Underwater blasting", "High-density charges"],
+      "sensitivity": "Medium - requires primer",
+      "storage": "Insulated containers; avoid freezing",
+      "hazards": ["Phase separation if stored too long"]
+    },
+    "ANFO_emulsion_blend": {
+      "full_name": "Heavy ANFO (Emulsion/ANFO blend)",
+      "density_kg_m3": 1050,
+      "velocity_of_detonation_m_s": 5200,
+      "energy_kj_kg": 4000,
+      "water_resistance": "Moderate",
+      "applications": ["Borderline wet conditions", "Large diameter holes"],
+      "sensitivity": "Low - requires primer"
+    },
+    "detonators": {
+      "electric_detonator": {
+        "type": "Instantaneous or delayed",
+        "delays_ms": ["0, 25, 50, 100, 200, 500, 1000, 2000"],
+        "misfire_rate_percent": 0.01,
+        "applications": ["Most surface and underground blasts"]
+      },
+      "non_electric_detonator": {
+        "type": "Shock tube (Nonel)",
+        "delays_ms": ["0, 17, 25, 42, 65, 100, 150, 250, 400, 650, 1000"],
+        "misfire_rate_percent": 0.005,
+        "applications": ["High-precision blasts", "Electronic initiation preferred"]
+      },
+      "electronic_detonator": {
+        "type": "Programmable delay",
+        "delay_accuracy_ms": "±0.1",
+        "delays_ms": "Programmable 0-16000 in 1ms increments",
+        "misfire_rate_percent": 0.001,
+        "applications": ["Precision blasting", "Vibration control", "Fragmentation optimization"],
+        "cost_premium_percent": 300
+      }
+    }
+  },
+  "vibration_control": {
+    "limits": {
+      "structure_type": {
+        "residential_weak": {"ppv_mm_s": 5, "frequency_hz": "5-15"},
+        "residential_strong": {"ppv_mm_s": 10, "frequency_hz": "15-40"},
+        "commercial": {"ppv_mm_s": 25, "frequency_hz": "15-40"},
+        "industrial": {"ppv_mm_s": 50, "frequency_hz": "40-150"},
+        "bridge": {"ppv_mm_s": 75, "frequency_hz": "15-40"}
+      }
+    },
+    "monitoring": {
+      "equipment": "Seismograph (Instantel Minimate Plus or equivalent)",
+      "placement": "At nearest structure and at lease boundary",
+      "reporting": "Each blast; exceedances within 24 hours",
+      "data_parameters": ["Peak Particle Velocity (PPV)", "Frequency", "Duration", "Airblast (dB)"]
+    },
+    "reduction_techniques": [
+      "Electronic detonators for precise timing",
+      "Reduce charge per delay",
+      "Increase number of delays",
+      "Use air deck stemming",
+      "Pre-split blasting on final walls",
+      "Optimize blast direction relative to structures"
+    ],
+    "airblast_limits": {
+      "residential": 120,
+      "industrial": 135,
+      "unit": "dB (peak)"
+    }
+  },
+  "fragmentation": {
+    "measurement_methods": [
+      {
+        "method": "Digital image analysis",
+        "equipment": "High-resolution camera + software (Split-Desktop, WipFrag)",
+        "accuracy": "±10% on size distribution",
+        "application": "Post-blast muck pile analysis"
+      },
+      {
+        "method": "Sieve analysis",
+        "equipment": "Sieve stack (ASTM)",
+        "accuracy": "±5%",
+        "application": "Calibration of image analysis"
+      },
+      {
+        "method": "Conveyorscan",
+        "equipment": "Online belt analyzer",
+        "accuracy": "±5% in real-time",
+        "application": "Continuous monitoring of crusher feed"
+      }
+    ],
+    "target_distributions": {
+      "SAG_mill_feed": {
+        "P80_mm": 150,
+        "P10_mm": 25,
+        "top_size_mm": 300,
+        "fines_percent": 15
+      },
+      "ball_mill_feed": {
+        "P80_mm": 12,
+        "top_size_mm": 25,
+        "fines_percent": 40
+      },
+      "heap_leach": {
+        "P80_mm": 12,
+        "top_size_mm": 75,
+        "fines_percent": 30
+      }
+    }
+  },
+  "drill_and_blast_management": {
+    "permits_required": ["Blasting license", "Explosive storage permit", "Transport permit"],
+    "competency_requirements": [
+      "Explosives Engineer (BSc Mining + 5 years experience)",
+      "Blast Crew Leader (Certificate + 3 years)",
+      "Shot firer (Certificate + 2 years)"
+    ],
+    "documentation": [
+      "Blast plan (Hole layout, charge plan, initiation sequence)",
+      "Risk assessment",
+      "Pre-blast inspection checklist",
+      "Post-blast report (fragmentation, vibration, visual)",
+      "Misfire investigation report (if applicable)"
+    ],
+    "safety_protocols": {
+      "pre_blast": [
+        "Check weather (wind >30 km/h = postpone)",
+        "Secure blast area with barriers",
+        "Sound warning signal (3 minutes before)",
+        "All personnel to designated safe zones",
+        "Verify initiation system continuity"
+      ],
+      "during_blast": [
+        "Fire all holes as planned",
+        "Wait for all detonations to complete",
+        "Post-blast check for misfires (30 minute minimum)"
+      ],
+      "post_blast": [
+        "Inspect blast area for misfires",
+        "Check muck pile for unexploded charges",
+        "Confirm all personnel accounted for",
+        "Resume operations only on ALL CLEAR signal"
+      ]
+    }
+  }
+}

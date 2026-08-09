@@ -1,0 +1,222 @@
+{
+  "title": "Training & Competency Framework Dataset",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Training programs, competency matrices, certifications, and learning pathways for all mining roles.",
+  "competency_matrix": {
+    "operator_level_1": {
+      "title": "Entry-Level Operator",
+      "experience": "0-2 years",
+      "required_certifications": ["Mine Safety Induction", "First Aid Level 1"],
+      "competencies": [
+        "Basic equipment operation",
+        "Hazard identification",
+        "Emergency procedures",
+        "PPE usage and care",
+        "Hand signals and communication"
+      ],
+      "training_hours": 120,
+      "assessment": "Practical skills test + written exam"
+    },
+    "operator_level_2": {
+      "title": "Competent Operator",
+      "experience": "2-5 years",
+      "required_certifications": ["Mine Safety Induction", "First Aid Level 1", "Equipment-specific certification"],
+      "competencies": [
+        "Independent equipment operation",
+        "Pre-start inspections",
+        "Basic maintenance",
+        "Shift handover procedures",
+        "Environmental compliance"
+      ],
+      "training_hours": 80,
+      "assessment": "Practical assessment + supervisor sign-off"
+    },
+    "operator_level_3": {
+      "title": "Senior Operator",
+      "experience": "5-10 years",
+      "required_certifications": ["Mine Safety Induction", "First Aid Level 2", "All equipment certifications"],
+      "competencies": [
+        "Multi-equipment operation",
+        "Mentoring junior operators",
+        "Advanced troubleshooting",
+        "Shift supervisor duties",
+        "Incident investigation"
+      ],
+      "training_hours": 60,
+      "assessment": "Portfolio evidence + interview"
+    },
+    "supervisor": {
+      "title": "Shift Supervisor",
+      "experience": "8+ years",
+      "required_certifications": ["Mine Safety Induction", "Supervisor Safety Training", "First Aid Level 2", "Mine Manager's Certificate (optional)"],
+      "competencies": [
+        "Shift planning and control",
+        "Team leadership",
+        "Production optimization",
+        "Safety management",
+        "Conflict resolution",
+        "Performance management"
+      ],
+      "training_hours": 200,
+      "assessment": "Leadership assessment + 360 review"
+    },
+    "safety_officer": {
+      "title": "Health & Safety Officer",
+      "experience": "5+ years",
+      "required_certifications": ["Nebosh IGC", "IOSH Managing Safely", "First Aid Level 2", "Incident Investigation"],
+      "competencies": [
+        "Risk assessment",
+        "Hazard identification",
+        "Audit management",
+        "Emergency response planning",
+        "Regulatory compliance",
+        "Training delivery"
+      ],
+      "training_hours": 300,
+      "assessment": "Nebosh exam + portfolio review"
+    },
+    "metallurgist": {
+      "title": "Process Metallurgist",
+      "experience": "3+ years",
+      "required_certifications": ["Metallurgy degree", "SAIMM membership"],
+      "competencies": [
+        "Process optimization",
+        "Metallurgical accounting",
+        "Lab management",
+        "Flotation control",
+        "Gravity recovery optimization",
+        "Gold room management"
+      ],
+      "training_hours": 250,
+      "assessment": "Technical exam + project portfolio"
+    }
+  },
+  "training_programs": {
+    "safety_induction": {
+      "duration_hours": 16,
+      "frequency": "On hire + annual refresher",
+      "topics": [
+        "Mine hazards and controls",
+        "Emergency procedures",
+        "PPE requirements",
+        "Reporting obligations",
+        "Code of conduct",
+        "Environmental awareness",
+        "Alcohol and drug policy"
+      ],
+      "assessment": "Written exam (80% pass mark)",
+      "records_retention": "Duration of employment + 5 years"
+    },
+    "equipment_specific": {
+      "categories": [
+        {
+          "equipment": "CAT 797F Haul Truck",
+          "duration_hours": 40,
+          "topics": ["Operating principles", "Pre-start checks", "Loading procedures", "Haul road safety", "Fuel systems", "Braking systems"],
+          "assessment": "Practical driving test + theory"
+        },
+        {
+          "equipment": "Komatsu PC5500 Excavator",
+          "duration_hours": 32,
+          "topics": ["Hydraulic systems", "Dig techniques", "Swing management", "Operator aids", "Maintenance basics"],
+          "assessment": "Practical digging test"
+        },
+        {
+          "equipment": "Sandvik DD421iJ Drill",
+          "duration_hours": 24,
+          "topics": ["Jumbo operation", "Drill patterns", "Collaring", "Hole alignment", "Water management"],
+          "assessment": "Drill pattern accuracy test"
+        },
+        {
+          "equipment": "CIL/Carbon Circuit",
+          "duration_hours": 20,
+          "topics": ["Carbon management", "Cyanide handling", "Gold room procedures", "Safety protocols", "Process monitoring"],
+          "assessment": "Practical assessment + cyanide safety cert"
+        }
+      ]
+    },
+    "hazardous_materials": {
+      "cyanide_handling": {
+        "duration_hours": 8,
+        "frequency": "Annual",
+        "topics": ["Properties", "PPE requirements", "Spill response", "Health effects", "Storage requirements", "Transport regulations"],
+        "assessment": "Written exam + practical (spill drill)"
+      },
+      "explosives_safety": {
+        "duration_hours": 16,
+        "frequency": "Annual",
+        "topics": ["Storage requirements", "Transport regulations", "Misfire procedures", "Blasting area safety", "Detonator handling"],
+        "assessment": "Written exam + practical"
+      }
+    },
+    "environmental": {
+      "environmental_awareness": {
+        "duration_hours": 4,
+        "frequency": "Annual",
+        "topics": ["Water quality", "Air quality", "Waste management", "Biodiversity", "Reporting obligations"],
+        "assessment": "Written exam"
+      },
+      "tailings_management": {
+        "duration_hours": 8,
+        "frequency": "Annual",
+        "topics": ["TSF design", "Monitoring", "Emergency procedures", "GISTM compliance"],
+        "assessment": "Written exam + drill participation"
+      }
+    },
+    "leadership_development": {
+      "programs": [
+        {
+          "program": "Emerging Leaders Program",
+          "duration_months": 12,
+          "target": "High-potential supervisors",
+          "modules": ["Leadership", "Communication", "Problem solving", "Project management"],
+          "delivery": "Blended (classroom + online + workplace)"
+        },
+        {
+          "program": "Mining Leadership Academy",
+          "duration_months": 6,
+          "target": "Senior managers",
+          "modules": ["Strategic planning", "Change management", "Stakeholder engagement", "Financial acumen"],
+          "delivery": "Block release (2 weeks per module)"
+        }
+      ]
+    }
+  },
+  "certification_tracking": {
+    "system": "Competency Management System (CMS)",
+    "features": [
+      "Digital competency records",
+      "Automated expiry alerts",
+      "Training history",
+      "Assessment results",
+      "Gap analysis"
+    ],
+    "compliance_requirements": [
+      "Safety induction must be current",
+      "Equipment certifications must be valid",
+      "Medical fitness certificates",
+      "Competency reviews annually"
+    ]
+  },
+  "training_needs_analysis": {
+    "method": "Annual training needs analysis",
+    "inputs": [
+      "Performance appraisals",
+      "Incident investigations",
+      "Audit findings",
+      "Regulatory requirements",
+      "Technology changes",
+      "Career development plans"
+    ],
+    "frequency": "Annual (Q4)",
+    "review": "Monthly training dashboard",
+    "metrics": [
+      "Training hours per employee",
+      "Training spend per employee",
+      "Certification compliance rate",
+      "Training satisfaction scores",
+      "Knowledge retention rates"
+    ]
+  }
+}

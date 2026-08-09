@@ -1,0 +1,2037 @@
+{
+  "dataset_metadata": {
+    "title": "Comprehensive Mine Planning and Scheduling Knowledge Base",
+    "version": "2.0",
+    "description": "Production-grade mine planning dataset covering open pit and underground methods, financial modeling, scheduling optimization, and East African case studies",
+    "classification": "Technical Reference",
+    "applicable_commodities": ["gold", "copper", "iron_ore", "coal", "nickel", "lithium", "rare_earth"],
+    "standards_referenced": [
+      "JORC 2012",
+      "NI 43-101",
+      "CIM Best Practice Guidelines",
+      "SAMREC",
+      "UNFC/Eurostat for mineral resources",
+      "UN-ECE RFC for coal classification",
+      "JORC Code",
+      "CIM Definition Standards"
+    ],
+    "units": "metric",
+    "currency": "USD",
+    "revision_date": "2026-07-19",
+    "author": "Mining AI Knowledge Engine",
+    "total_sections": 7,
+    "key_contacts": {
+      "technical": "mine_planning_engineer",
+      "financial": "project_economist",
+      "geological": "resource_geologist",
+      "operations": "operations_manager"
+    }
+  },
+
+  "cut_off_grade": {
+    "definition": "The minimum grade of mineralisation required for ore to be processed at a profit, covering all direct mining costs, processing costs, general and administrative (G&A) costs, and sustaining capital expenditure",
+    "economic_basis": "Cut-off grade is the break-even point where revenue from recovered metal exactly equals total costs of extracting and processing the material",
+    "formula": {
+      "general_expression": "COG = (C_mining + C_processing + C_GA + C_sustaining_capex) / (R × P_metal × CF)",
+      "variables": {
+        "C_mining": "Total mining cost per tonne of ore mined (includes drilling, blasting, loading, hauling, grade control)",
+        "C_processing": "Total processing cost per tonne of ore treated (includes comminution, concentration, leaching, CIL, gravity, flotation)",
+        "C_GA": "General and administrative cost per tonne of ore (includes camp, labour, management, office, regulatory compliance)",
+        "C_sustaining_capex": "Sustaining capital expenditure per tonne (includes equipment replacement, tailings dam raises, infrastructure maintenance)",
+        "R": "Metallurgical recovery rate (fraction, e.g., 0.95 for 95% recovery)",
+        "P_metal": "Commodity spot or long-term forecast price per unit",
+        "CF": "Conversion factor to convert grade to the same units as price"
+      },
+      "conversion_factors": {
+        "gold_oz_per_gram": 0.032151,
+        "gold_oz_per_tonne_grams": 0.032151,
+        "gold_tonne_per_oz": 31.1035,
+        "silver_oz_per_tonne_grams": 0.032151,
+        "copper_tonne_per_pct": 10.0,
+        "iron_ore_tonne_per_pct": 0.01,
+        "platinum_oz_per_gram": 0.032151,
+        "palladium_oz_per_gram": 0.032151,
+        "lithium_carbonate_per_pct": 10.0,
+        "nickel_tonne_per_pct": 10.0
+      },
+      "derived_formulas": {
+        "break_even_cog": "COG_be = (C_total) / (R × P × CF)",
+        "marginal_cog": "COG_m = (C_processing + C_GA + C_sustaining_capex) / (R × P × CF)",
+        "incremental_cog": "COG_inc = (C_additional_processing) / (R × P × CF)",
+        "whittle_cog": "COG_w = COG_be + profit_margin_factor × (Revenue_per_tonne - COG_be × R × P × CF)"
+      }
+    },
+    "factors": {
+      "mining_cost_per_tonne": {
+        "open_pit": {
+          "strip_ratio_0_to_1": "2-4",
+          "strip_ratio_1_to_1": "4-6",
+          "strip_ratio_2_to_1": "6-8",
+          "strip_ratio_3_to_1": "8-10",
+          "strip_ratio_5_to_1": "10-14",
+          "deep_open_pit": "10-18",
+          "notes": "Costs increase exponentially with strip ratio; truck and shovel vs. dragline significantly affects cost"
+        },
+        "underground": {
+          "sublevel_caving": "15-30",
+          "sublevel_open_stope": "25-50",
+          "cut_and_fill": "30-60",
+          "longwall": "20-40",
+          "room_and_pillar": "25-55",
+          "shrinkage_stoping": "30-55",
+          "cut_and_fill_with_cemented_fill": "40-80",
+          "square_set_stoping": "50-100",
+          "drift_and_fill": "35-65",
+          "notes": "Underground costs vary by method, depth, ground conditions, and production rate"
+        }
+      },
+      "processing_cost_per_tonne": {
+        "CIL": {
+          "range": "15-30",
+          "typical": "20-25",
+          "breakdown": {
+            "crushing": "2-4",
+            "grinding": "5-8",
+            "leaching": "2-4",
+            "CIL_circuit": "3-6",
+            "reagent_consumption": "2-4",
+            "tailings_disposal": "2-4",
+            "water_treatment": "1-2",
+            "maintenance": "1-3"
+          }
+        },
+        "heap_leach": {
+          "range": "5-15",
+          "typical": "8-12",
+          "breakdown": {
+            "crushing_or_agglomeration": "1-3",
+            "solution_management": "1-3",
+            "heap_construction": "1-2",
+            "SX_EW": "2-4",
+            "pregnant_solution_processing": "1-2",
+            "stacking_operations": "1-2"
+          }
+        },
+        "gravity": {
+          "range": "8-15",
+          "typical": "10-13",
+          "breakdown": {
+            "comminution": "3-5",
+            "spirals": "1-2",
+            "centrifugal_concentrators": "1-2",
+            "leach_refractory": "2-4",
+            "dewatering": "1-2"
+          }
+        },
+        "flotation": {
+          "range": "10-25",
+          "typical": "15-20",
+          "breakdown": {
+            "grinding": "5-8",
+            "flotation_reagents": "3-5",
+            "froth_handling": "1-3",
+            "concentrate_filtration": "2-4",
+            "tailings": "2-3"
+          }
+        },
+        "pressure_oxidation": {
+          "range": "30-60",
+          "typical": "40-50",
+          "notes": "Required for refractory ores; significantly higher CAPEX and OPEX"
+        }
+      },
+      "ga_cost_per_tonne": {
+        "range": "3-8",
+        "typical": "5-6",
+        "breakdown": {
+          "camp_operations": "0.5-1.5",
+          "management": "0.5-1.0",
+          "office_admin": "0.3-0.8",
+          "security": "0.2-0.5",
+          "regulatory_compliance": "0.3-0.8",
+          "environmental_monitoring": "0.2-0.5",
+          "community_relations": "0.1-0.3",
+          "IT_and_communications": "0.2-0.4",
+          "insurance": "0.1-0.3",
+          "legal": "0.1-0.2"
+        }
+      },
+      "recovery_rate": {
+        "CIL": {
+          "range": "93-97",
+          "typical": "95",
+          "factors_affecting": [
+            "ore_mineralogy",
+            "grind_size",
+            "cyanide_concentration",
+            "retention_time",
+            "dissolved_oxygen_levels",
+            "pH_control",
+            "preg_robbing",
+            "carbon_activity",
+            "ore_hardness"
+          ]
+        },
+        "heap_leach": {
+          "range": "60-80",
+          "typical": "70",
+          "factors_affecting": [
+            "ore_permeability",
+            "particle_size",
+            "clay_content",
+            "solution_flow_distribution",
+            "heap_height",
+            "irrigation_rate",
+            "bacterial_activity",
+            "climate",
+            "ore_competency"
+          ]
+        },
+        "gravity": {
+          "range": "85-95",
+          "typical": "90",
+          "factors_affecting": [
+            "free_milling_nature",
+            "liberation_size",
+            "specific_gravity_difference",
+            "feed_size_distribution",
+            "circuit_efficiency"
+          ]
+        },
+        "flotation": {
+          "range": "85-95",
+          "typical": "90",
+          "factors_affecting": [
+            "mineral_liberation",
+            "collector_type",
+            "frother_type",
+            "pH_control",
+            "particle_size",
+            "pulp_density",
+            "cell_design"
+          ]
+        },
+        "cyanidation_direct": {
+          "range": "90-96",
+          "typical": "93"
+        },
+        "refractory_ore_treatment": {
+          "pressure_oxidation": "95-98",
+          "bio_oxidation": "90-95",
+          "roasting": "93-97"
+        }
+      },
+      "conversion_factor_oz_per_tonne": {
+        "gold": 0.032151,
+        "silver": 0.032151,
+        "platinum": 0.032151,
+        "palladium": 0.032151,
+        "notes": "1 gram = 0.0321507 troy ounces; 1 troy ounce = 31.1035 grams"
+      }
+    },
+    "strategies": {
+      "maximize_NPV": {
+        "method": "Set COG equal to marginal cost (processing + G&A + sustaining capex only)",
+        "description": "Mining costs are sunk once material is blasted; only incremental costs matter for NPV maximization",
+        "formula": "COG_NPV = (C_processing + C_GA + C_sustaining_capex) / (R × P × CF)",
+        "when_to_use": "When objective is to maximize present value of all cash flows",
+        "advantages": [
+          "Maximizes discounted cash flow",
+          "Optimal for finite deposit life",
+          "Accounts for time value of money"
+        ],
+        "disadvantages": [
+          "May increase waste handling costs",
+          "Requires accurate incremental cost data",
+          "Can reduce mine life"
+        ],
+        "reference": "Lane's algorithm 1964; Whittle 1988"
+      },
+      "maximize_tonnage": {
+        "method": "Set COG equal to total average cost (all costs included)",
+        "description": "Ensures every tonne of ore processed covers its full share of all mine costs",
+        "formula": "COG_tonnes = (C_mining + C_processing + C_GA + C_sustaining_capex) / (R × P × CF)",
+        "when_to_use": "When mine is throughput-constrained and revenue per tonne is marginal",
+        "advantages": [
+          "Ensures profitability on every tonne",
+          "Lower risk",
+          "Higher mill throughput"
+        ],
+        "disadvantages": [
+          "Lower NPV than margin-based approach",
+          "Processes lower grade material unnecessarily",
+          "Longer mine life"
+        ]
+      },
+      "hybrid": {
+        "method": "Ramp COG upward as metal price increases; lower when price decreases",
+        "description": "Dynamic cut-off grade that responds to market conditions to balance NPV and risk",
+        "formula": "COG_hybrid = COG_be × (1 + α × (P_actual / P_forecast - 1))",
+        "parameters": {
+          "alpha": "Sensitivity factor (0.5-1.5)",
+          "P_actual": "Current metal price",
+          "P_forecast": "Budgeted metal price"
+        },
+        "when_to_use": "Most common in practice; balances risk and value",
+        "advantages": [
+          "Responsive to price volatility",
+          "Balances grade and tonnage",
+          "Practical and implementable"
+        ],
+        "disadvantages": [
+          "Requires frequent reassessment",
+          "May leave ore in marginal zones",
+          "Complex to implement in scheduling software"
+        ]
+      },
+      "phased_approach": {
+        "method": "Different COG for different phases of the mine life",
+        "description": "Uses higher COG in early years when debt servicing is critical, lower in later years",
+        "phases": {
+          "early_life": "High COG to maximize early cash flow for debt repayment",
+          "mid_life": "Moderate COG for steady production and shareholder returns",
+          "late_life": "Lower COG to extend mine life and maximize total recovery"
+        }
+      },
+      "geological_domain_based": {
+        "method": "Apply different COGs to different geological domains based on metallurgical response",
+        "description": "Accounts for variability in mineralogy, hardness, and recovery across the deposit",
+        "domains": {
+          "oxide_zone": "Lower COG due to higher recovery and lower processing cost",
+          "transitional_zone": "Moderate COG",
+          "sulphide_zone": "Higher COG due to refractory nature and lower recovery",
+          "fresh_rock": "Highest COG if refractory"
+        }
+      }
+    },
+    "examples": {
+      "gold_CIL_example": {
+        "description": "Typical gold deposit processed via CIL circuit",
+        "inputs": {
+          "mining_cost_per_tonne": 4.50,
+          "processing_cost_per_tonne": 22.00,
+          "GA_cost_per_tonne": 5.50,
+          "sustaining_capex_per_tonne": 2.00,
+          "recovery_rate": 0.95,
+          "gold_price_USD_per_oz": 1950,
+          "conversion_factor": 0.032151
+        },
+        "calculation": {
+          "total_cost": 34.00,
+          "revenue_per_gram": 62.67,
+          "recovery_revenue_per_gram": 59.54,
+          "break_even_cog_g_per_tonne": 0.57,
+          "break_even_cog_oz_per_tonne": 0.0183
+        },
+        "interpretation": "Ore above 0.57 g/t Au is profitable to process under these conditions"
+      },
+      "gold_heap_leach_example": {
+        "description": "Gold deposit processed via heap leach in arid environment",
+        "inputs": {
+          "mining_cost_per_tonne": 3.00,
+          "processing_cost_per_tonne": 10.00,
+          "GA_cost_per_tonne": 4.50,
+          "sustaining_capex_per_tonne": 1.50,
+          "recovery_rate": 0.70,
+          "gold_price_USD_per_oz": 1950,
+          "conversion_factor": 0.032151
+        },
+        "calculation": {
+          "total_cost": 19.00,
+          "revenue_per_gram": 62.67,
+          "recovery_revenue_per_gram": 43.87,
+          "break_even_cog_g_per_tonne": 0.43,
+          "break_even_cog_oz_per_tonne": 0.0139
+        },
+        "interpretation": "Lower processing cost but lower recovery results in different cut-off grade profile"
+      },
+      "copper_flotation_example": {
+        "description": "Porphyry copper deposit processed via flotation",
+        "inputs": {
+          "mining_cost_per_tonne": 3.50,
+          "processing_cost_per_tonne": 18.00,
+          "GA_cost_per_tonne": 4.00,
+          "sustaining_capex_per_tonne": 2.50,
+          "recovery_rate": 0.88,
+          "copper_price_USD_per_tonne": 8500,
+          "copper_concentrate_grade": 0.28,
+          "smelter_payable": 0.965,
+          "refining_cost_per_tonne": 80
+        },
+        "calculation": {
+          "total_cost": 28.00,
+          "revenue_per_pct_Cu_per_tonne": 85.00,
+          "net_revenue_per_pct_Cu": 77.03,
+          "break_even_cog_pct_Cu": 0.36,
+          "break_even_cog_pct_Cu_finesse": 0.34
+        },
+        "interpretation": "Ore above 0.36% Cu is profitable to process"
+      }
+    }
+  },
+
+  "long_term_planning": {
+    "definition": "Strategic mine plan covering the full life of mine from exploration through closure, defining production targets, capital requirements, and economic returns",
+    "life_of_mine_phases": {
+      "pre_construction": {
+        "duration": "12-24 months",
+        "objectives": [
+          "Complete feasibility study (BFS/PEA)",
+          "Obtain mining permits and environmental approvals",
+          "Secure project financing",
+          "Complete detailed engineering design",
+          "Establish community agreements",
+          "Negotiate offtake agreements"
+        ],
+        "activities": [
+          "Feasibility study completion and board approval",
+          "Environmental Impact Assessment (EIA)",
+          "Mining licence application and approval",
+          "Water use permits and extraction licences",
+          "Land acquisition and resettlement action plans",
+          "Community development agreements (CDAs)",
+          "Detailed engineering design and procurement",
+          "EPC contractor selection",
+          "Project finance structuring",
+          "Insurance placement",
+          "Government relations and regulatory compliance",
+          "Baseline environmental studies",
+          "Archaeological and heritage assessments",
+          "Geotechnical investigations",
+          "Hydrological studies"
+        ],
+        "key_deliverables": [
+          "Bankable Feasibility Study (BFS)",
+          "Environmental Impact Statement (EIS)",
+          "Mining Licence",
+          "Financial Close Documentation",
+          "Detailed Engineering Design Package"
+        ],
+        "budget_range_USD": "5M-25M"
+      },
+      "construction": {
+        "duration": "12-18 months",
+        "objectives": [
+          "Build mine infrastructure",
+          "Construct processing plant",
+          "Install utilities and services",
+          "Recruit and train workforce",
+          "Commission all systems"
+        ],
+        "activities": [
+          "Access road construction and upgrading",
+          "Camp construction and commissioning",
+          "Power supply installation (grid or genset)",
+          "Water supply infrastructure",
+          "Tailings storage facility (TSF) construction",
+          "Processing plant civil works",
+          "Processing plant mechanical and electrical installation",
+          "Crushing circuit construction",
+          "Grinding circuit installation",
+          "Leach circuit or flotation circuit installation",
+          "CIL circuit or SX/EW plant construction",
+          "Mine office and workshop construction",
+          "Weighbridge and laboratory construction",
+          "ICT and communications infrastructure",
+          "Fleet procurement and commissioning",
+          "Ventilation shaft sinking (underground)",
+          "Portal and decline development (underground)",
+          "Open pit pre-stripping",
+          "Grade control drilling",
+          "Water treatment plant construction",
+          "Fire suppression systems",
+          "Safety systems installation"
+        ],
+        "key_deliverables": [
+          "Commissioned processing plant",
+          "Operating mine",
+          "Fully staffed camp",
+          "Permitted TSF",
+          "First ore to plant"
+        ],
+        "budget_range_USD": "50M-500M"
+      },
+      "ramp_up": {
+        "duration": "6-12 months",
+        "objectives": [
+          "Achieve design throughput",
+          "Optimize circuit performance",
+          "Achieve design recovery rates",
+          "Establish operating procedures"
+        ],
+        "activities": [
+          "Progressive throughput increase (60-100% design)",
+          "Metallurgical reconciliation and optimization",
+          "Reagent dosage optimization",
+          "Grind size optimization",
+          "Maintenance schedule establishment",
+          "Operator training and competency assessment",
+          "Process control system tuning",
+          "Safety system validation",
+          "Environmental monitoring baseline establishment",
+          "Grade control calibration",
+          "Haulage and logistics optimization",
+          "Stockpile management establishment",
+          "Quality assurance and quality control (QA/QC) program"
+        ],
+        "key_deliverables": [
+          "Design throughput achieved",
+          "Design recovery achieved",
+          "All circuits operational",
+          "Stable operations confirmed"
+        ],
+        "production_ramp_schedule": {
+          "month_1": "60% design throughput",
+          "month_2": "70% design throughput",
+          "month_3": "80% design throughput",
+          "month_4": "85% design throughput",
+          "month_5": "90% design throughput",
+          "month_6": "95% design throughput",
+          "month_7": "100% design throughput"
+        }
+      },
+      "steady_state": {
+        "duration": "5-15 years",
+        "objectives": [
+          "Maintain design production rates",
+          "Optimize costs and recovery",
+          "Maximize NPV",
+          "Maintain safety and environmental compliance"
+        ],
+        "activities": [
+          "Daily production mining operations",
+          "Processing plant operation at design capacity",
+          "Grade control and reconciliation",
+          "Mine planning updates (quarterly, annual)",
+          "Equipment maintenance and rebuild programs",
+          "Tailings dam raises and monitoring",
+          "Environmental monitoring and compliance",
+          "Community development programs",
+          "Workforce management and development",
+          "Supply chain and logistics management",
+          "Revenue accounting and financial reporting",
+          "Reserve and resource statement updates",
+          "Geotechnical monitoring",
+          "Water management and treatment",
+          "Energy management and optimization",
+          "Technology upgrades and innovation",
+          "Continuous improvement programs"
+        ],
+        "KPIs": {
+          "ore_tonnage": "Within 5% of plan",
+          "waste_tonnage": "Within 10% of plan",
+          "head_grade": "Within 0.1 g/t of plan",
+          "recovery": "Within 2% of design",
+          "C1_cash_cost": "Below budget",
+          "AISC": "Below benchmark",
+          "safety_LTIFR": "<1.0",
+          "environmental_incidents": "Zero major incidents"
+        }
+      },
+      "decline": {
+        "duration": "2-5 years",
+        "objectives": [
+          "Maximize remaining value",
+          "Reduce costs progressively",
+          "Extend mine life where possible",
+          "Prepare for closure"
+        ],
+        "activities": [
+          "Progressive COG reduction",
+          "Selective mining of remnant ore",
+          "Re-treatment of historical stockpiles",
+          "Processing optimization for lower grades",
+          "Workforce reduction planning",
+          "Equipment rationalization",
+          "Infrastructure decommissioning planning",
+          "Closure cost estimation and provisioning",
+          "Regulatory closure planning",
+          "Environmental liability assessment"
+        ]
+      },
+      "closure": {
+        "duration": "2-5 years",
+        "objectives": [
+          "Safe and responsible mine closure",
+          "Environmental rehabilitation",
+          "Regulatory compliance and sign-off",
+          "Community transition support"
+        ],
+        "activities": [
+          "Processing plant decommissioning and demolition",
+          "Mine dewatering or flooding (controlled)",
+          "Tailings dam closure and capping",
+          "Landform rehabilitation and revegetation",
+          "Water treatment during closure",
+          "Infrastructure removal or repurposing",
+          "Environmental monitoring during closure",
+          "Biodiversity offsets implementation",
+          "Community resettlement completion",
+          "Closure bond release",
+          "Post-closure monitoring program",
+          "Knowledge management and records archiving",
+          "Regulatory sign-off and closure certification"
+        ],
+        "budget_range_USD": "10M-100M",
+        "post_closure_monitoring": "5-30 years",
+        "closure_bond": "10-50M depending on jurisdiction"
+      }
+    },
+    "scheduling_methods": {
+      "pushback_scheduling": {
+        "description": "Sequencing extraction of nested pit shells to define phases of open pit mining",
+        "process": [
+          "Run Lerchs-Grossmann or Pseudoflow optimization at multiple revenue factors",
+          "Generate nested pit shells (5-20 shells)",
+          "Define pushbacks as groups of nested shells",
+          "Schedule pushbacks in sequence based on NPV contribution",
+          "Apply mining rate and processing constraints",
+          "Optimize within pushbacks for grade blending"
+        ],
+        "software": ["Whittle/GEOVIA", "Deswik_sched", "MinePlan", "VUMS"],
+        "outputs": ["pushback_boundaries", "annual_ore_waste_schedules", "NPV_profile"]
+      },
+      "nested_pit_scheduling": {
+        "description": "Detailed scheduling within individual pit shells",
+        "process": [
+          "Define mining blocks within each pit shell",
+          "Apply pushover constraints and slope angles",
+          "Schedule blocks to meet production targets",
+          "Account for mining equipment accessibility",
+          "Apply blending and stockpile rules"
+        ]
+      },
+      "stope_scheduling": {
+        "description": "Underground open stoping sequence optimization",
+        "process": [
+          "Define stope geometry based on geotechnical conditions",
+          "Optimize stope dimensions for maximum extraction",
+          "Schedule stopes based on grade, accessibility, and stress conditions",
+          "Plan development access for each stope",
+          "Sequence stoping to manage ground stress",
+          "Plan backfill operations"
+        ],
+        "software": ["Deswik", "Maptek Vulcan", "Datamine", "Surpac"],
+        "optimization_objectives": [
+          "Maximize early cash flow",
+          "Maintain geotechnical stability",
+          "Minimize development meters",
+          "Maximize NPV"
+        ]
+      },
+      "level_by_level": {
+        "description": "Underground mining sequence progressing from upper to lower levels",
+        "process": [
+          "Develop top level first for early access",
+          "Complete stoping on upper level before proceeding down",
+          "Maintain vertical development advance ahead of stoping",
+          "Plan level development access and ventilation",
+          "Schedule level infrastructure installation"
+        ],
+        "advantages": [
+          "Simpler to manage",
+          "Better ground control",
+          "Clearer ventilation circuit"
+        ],
+        "disadvantages": [
+          "Later levels may have lower grades",
+          "Delayed access to deeper ore",
+          "Higher development costs initially"
+        ]
+      },
+      "bottom_up_sequencing": {
+        "description": "Starting mining from lower levels and progressing upward",
+        "when_to_use": "Deep deposits with high-grade ore at depth",
+        "advantages": [
+          "Early access to high-grade deep ore",
+          "Lower initial mining costs if ore is deeper",
+          "Potential for sub-level caving from bottom"
+        ]
+      },
+      "top_down_sequencing": {
+        "description": "Starting mining from surface and progressing to depth",
+        "when_to_use": "Most common approach for open pit and shallow underground",
+        "advantages": [
+          "Lower initial risk",
+          "Gradual capital expenditure",
+          "Easier grade control"
+        ]
+      }
+    },
+    "optimization_tools": {
+      "Whittle_GEOVIA": {
+        "developer": "Dassault Systemes",
+        "capabilities": [
+          "Lerchs-Grossmann pit optimization",
+          "Pseudoflow algorithm",
+          "Pushback design",
+          "Production scheduling",
+          "NPV maximization",
+          "Multiple constraint handling"
+        ],
+        "inputs": ["block_model", "cost_parameters", "slope_angles", "metal_prices", "processing_limits"],
+        "outputs": ["optimal_pit_shells", "pushback_sequence", "annual_schedules", "NPV_projections"]
+      },
+      "Deswik": {
+        "developer": "Deswik Mining",
+        "capabilities": [
+          "Short and medium term planning",
+          "Equipment selection and matching",
+          "Fleet simulation",
+          "Schedule optimization",
+          "Haul road design",
+          "Drill and blast design"
+        ],
+        "modules": ["Deswik.Sched", "Deswik.ODS", "Deswik.CAD", "Deswik.Sim"]
+      },
+      "MinePlan": {
+        "developer": "Hexagon Mining",
+        "capabilities": [
+          "3D geological modelling",
+          "Resource estimation",
+          "Mine design",
+          "Production scheduling",
+          "Survey and reconciliation"
+        ]
+      },
+      "Surpac": {
+        "developer": "Hexagon Mining",
+        "capabilities": [
+          "Geological modelling",
+          "Resource estimation",
+          "Mine planning",
+          "Survey"
+        ]
+      },
+      "Datamine": {
+        "developer": "Datamine Global",
+        "capabilities": [
+          "Geological modelling",
+          "Resource estimation",
+          "Mine planning",
+          "Production scheduling"
+        ],
+        "modules": ["Studio 5", "Studio 3", "Studio RM", "Evolution"]
+      },
+      "VUMS": {
+        "developer": "Gemcom/Seequent",
+        "capabilities": [
+          "Virtual mining simulation",
+          "Discrete event simulation",
+          "Equipment scheduling",
+          "Bottleneck analysis"
+        ]
+      },
+      "Vulcan": {
+        "developer": "Maptek",
+        "capabilities": [
+          "3D modelling",
+          "Resource estimation",
+          "Mine design",
+          "Blast planning",
+          "Production scheduling"
+        ]
+      }
+    },
+    "mine_life_optimization": {
+      "methodology": "Lane's algorithm for optimum cut-off grade scheduling",
+      "constraints": [
+        "Mining capacity (tonnes per annum)",
+        "Processing capacity (tonnes per annum)",
+        "Market capacity (tonnes of product per annum)",
+        "Geotechnical constraints",
+        "Environmental constraints",
+        "Financial constraints (debt covenants)"
+      ],
+      "optimization_objectives": [
+        "Maximize NPV",
+        "Maximize IRR",
+        "Maximize total undiscounted cash flow",
+        "Minimize payback period",
+        "Maximize mine life"
+      ]
+    }
+  },
+
+  "open_pit_design": {
+    "pushback_principles": {
+      "definition": "A pushback is a phase of open pit mining that extracts a portion of the orebody in sequence, designed to maximize NPV while maintaining operational practicality",
+      "design_criteria": {
+        "minimum_pushback_width": "60-120m depending on fleet size",
+        "typical_pushbacks_per_mine": "3-6",
+        "pushback_duration": "2-5 years each",
+        "principles": [
+          "Each pushback must be self-sustaining (revenue > cost)",
+          "Pushbacks should progress from highest to lowest NPV zones",
+          "Inner pushbacks typically have higher grades",
+          "Outer pushbacks may have lower grades and higher strip ratios",
+          "Pushback transitions must be smooth to avoid operational disruptions"
+        ]
+      },
+      "design_parameters": {
+        "overall_slope_angle": {
+          "hard_rock_good_conditions": "45-55 degrees",
+          "hard_rock_poor_conditions": "35-45 degrees",
+          "soft_rock": "25-35 degrees",
+          "weathered_material": "20-30 degrees",
+          "factors_affecting": [
+            "Rock mass quality (RMR, Q-system)",
+            "Groundwater conditions",
+            "Seismicity",
+            "Blast damage",
+            "Weathering profile",
+            "Structural geology"
+          ]
+        },
+        "bench_height": {
+          "large_truck_fleet": "12-15m",
+          "medium_truck_fleet": "8-12m",
+          "small_truck_fleet": "5-8m",
+          "factors_affecting": [
+            "Drill rig reach",
+            "Loading equipment size",
+            " orebody geometry",
+            "Blast fragmentation requirements",
+            "Safety considerations"
+          ]
+        },
+        "bench_slope_angle": {
+          "typically": "65-75 degrees",
+          "depends_on": "Rock mass quality and blast damage"
+        },
+        "berm_width": {
+          "catch_berms": "5-8m minimum",
+          "access_berms": "10-15m",
+          "final_berms": "8-12m",
+          "notes": "Required for safety and access; width depends on bench height and slope angle"
+        }
+      }
+    },
+    "pit_shell_optimization": {
+      "algorithm": {
+        "name": "Lerchs-Grossmann",
+        "year": 1965,
+        "type": "Graph theory based maximum closure algorithm",
+        "description": "Finds the pit that maximizes total profit by identifying the set of blocks whose total revenue minus total cost is maximum, subject to slope constraints",
+        "variants": [
+          "Original Lerchs-Grossmann (1965)",
+          "Pseudoflow algorithm (Hochbaum 2001)",
+          "Floating cone method (alternative, less rigorous)",
+          "Microsoft Excel-based Lerchs-Grossmann (Whittle)"
+        ],
+        "performance": "Pseudoflow is generally faster for large block models; both produce identical results for standard problems"
+      },
+      "parameters": [
+        {
+          "name": "block_model",
+          "description": "3D block model with grade, rock type, density, and economic value attributes",
+          "typical_block_size": "10x10x10m to 25x25x15m"
+        },
+        {
+          "name": "revenue_blocks",
+          "description": "Block values calculated from grade × recovery × price - selling costs",
+          "formula": "V_block = Tonnage × Grade × Recovery × Price × Payable% - C_processing - C_GA - C_selling"
+        },
+        {
+          "name": "slope_constraints",
+          "description": "Maximum allowable slope angles in all directions",
+          "input_format": "User-defined angles for each direction (N, NE, E, SE, S, SW, W, NW) or single overall angle"
+        },
+        {
+          "name": "mining_cost",
+          "description": "Cost to mine each block (may vary by rock type, depth, or zone)",
+          "formula": "C_mining = Base_cost × Rock_factor × Depth_factor"
+        },
+        {
+          "name": "processing_cost",
+          "description": "Cost to process each block (may vary by mineralogy)",
+          "formula": "C_processing = Base_cost × Mineralogy_factor"
+        },
+        {
+          "name": "discount_rate",
+          "description": "Used for NPV optimization in dynamic scheduling",
+          "typical_range": "5-12%"
+        },
+        {
+          "name": "metal_price",
+          "description": "Revenue per unit of metal produced",
+          "assumptions": "May use spot price, long-term forecast, or price deck"
+        }
+      ],
+      "outputs": [
+        "Ultimate pit limit",
+        "Nested pit shells at various revenue factors",
+        "Block-by-block extraction sequence",
+        "Maximum NPV pit design",
+        "Pushback candidates",
+        "High-wall and low-wall profiles"
+      ],
+      "validation": [
+        "Check against geotechnical slope limits",
+        "Verify total ore tonnes match resource estimate",
+        "Ensure processing plant is fully utilized",
+        "Compare with manual designs",
+        "Sensitivity analysis on key parameters"
+      ]
+    },
+    "access_road_design": {
+      "gradient": {
+        "loaded_trucks": "8-12% maximum",
+        "typical_design": "10% sustained with 12% maximum over short distances",
+        "empty_trucks": "Can handle steeper gradients on return haul",
+        "notes": "Gradient is the primary constraint on truck productivity and fuel consumption"
+      },
+      "width": {
+        "single_lane": "20-25m",
+        "two_lane": "25-35m",
+        "passing_bays": "Every 200-300m on single-lane roads",
+        "width_formula": "W = Number_of_lanes × Lane_width + Berm_width + Safety_margin"
+      },
+      "turning_radius": {
+        "large_trucks": "15-25m minimum",
+        "typical": "20-200m depending on truck size",
+        "design_criterion": "Minimum 3x truck length for safe turning"
+      },
+      "super_elevation": {
+        "on_curves": "2-6% superelevation",
+        "formula": "e = v² / (g × R) where v = speed, g = gravity, R = curve radius"
+      },
+      "safety_features": [
+        "Rolling barriers or concrete barriers on high-walls",
+        "Catch berms 60% of truck tire height minimum",
+        "Signage and speed limit markers",
+        "Lighting at intersections",
+        "Watering stations for dust suppression",
+        "Radio communication coverage"
+      ],
+      "design_standards": {
+        "AS_2958": "Australian Standard for quarry design",
+        "MSHA_30 CFR56": "US mine safety regulations",
+        "ISO_19296": "Mining equipment safety"
+      }
+    },
+    "bench_design": {
+      "bench_height_determination": {
+        "formula": "H_bench = f(drill_rig, loader, truck, orebody_dip)",
+        "rules_of_thumb": [
+          "Bench height ≤ 1.5× loading bucket height",
+          "Bench height ≤ 0.5× bench length",
+          "Minimum 2× blast hole diameter for proper breakage"
+        ],
+        "typical_values": {
+          "large_scale_mining": "12-15m",
+          "medium_scale_mining": "8-12m",
+          "small_scale_mining": "5-8m",
+          "highwall_mining": "3-5m"
+        }
+      },
+      "bench_width_determination": {
+        "operational_berms": "15-25m for truck access",
+        "catch_berms": "5-8m minimum",
+        "safety_berms": "1.5× truck height minimum",
+        "combination_berms": "Can combine operational and safety functions"
+      },
+      "bench_configuration": {
+        "single_bench": "One bench at a time, most common",
+        "double_bench": "Two benches combined for larger catch berm",
+        "multi_bench": "Multiple benches combined for final walls"
+      }
+    },
+    "haul_road_design": {
+      "profile_design": {
+        "grade": "8-12% maximum loaded, 10% typical",
+        "vertical_curves": "Minimum 100m radius at grade changes",
+        "horizontal_curves": "Minimum 25m radius for large trucks",
+        "crest_curves": "Minimum 100m radius for visibility",
+        "sag_curves": "Minimum 50m radius"
+      },
+      "surface_preparation": {
+        "subgrade": "Compacted to 95% standard Proctor",
+        "base_course": "200-300mm compacted gravel",
+        "surface": "100-150mm crushed rock or laterite",
+        "seal": "Bitumen or polymer seal for dust control"
+      },
+      "drainage": {
+        "crossfall": "2-4% from centerline",
+        "culverts": "At all drainage crossings",
+        "ditches": "Along both sides where needed",
+        "water_bars": "On unpaved sections"
+      },
+      "design_traffic": {
+        "typical_speed": "30-50 km/h loaded, 40-60 km/h empty",
+        "design_life": "5-10 years per pavement design",
+        "traffic_volume": "Based on fleet size and cycle time"
+      }
+    }
+  },
+
+  "underground_planning": {
+    "method_selection": {
+      "criteria": [
+        "Deposit geometry (width, dip, strike length)",
+        "Rock mass quality (RMR, Q-system, GSI)",
+        "Grade distribution and continuity",
+        "Depth below surface",
+        "Groundwater conditions",
+        "Surface constraints",
+        "Production rate requirements",
+        "Capital and operating cost constraints"
+      ],
+      "methods": {
+        "sublevel_caving": {
+          "applicable_conditions": [
+            "Large, steeply dipping orebodies",
+            "Moderate to poor rock mass quality",
+            "Large production rates (1-3 Mtpa)",
+            "Surface subsidence acceptable"
+          ],
+          "recovery": "70-85%",
+          "dilution": "15-30%",
+          "development_cost": "Low",
+          "operating_cost": "Low-medium"
+        },
+        "sublevel_open_stope": {
+          "applicable_conditions": [
+            "Moderate to steeply dipping orebodies",
+            "Good to moderate rock mass quality",
+            "Medium to large production rates",
+            "Selective mining required"
+          ],
+          "recovery": "80-90%",
+          "dilution": "10-20%",
+          "development_cost": "Medium",
+          "operating_cost": "Medium"
+        },
+        "cut_and_fill": {
+          "applicable_conditions": [
+            "Irregular orebodies",
+            "Good to excellent rock mass quality",
+            "Low to medium production rates",
+            "Selective mining required"
+          ],
+          "recovery": "85-95%",
+          "dilution": "5-15%",
+          "development_cost": "High",
+          "operating_cost": "High"
+        },
+        "longwall": {
+          "applicable_conditions": [
+            "Flat-lying, tabular deposits (coal, potash)",
+            "Large horizontal extent",
+            "High production rates",
+            "Surface subsidence acceptable"
+          ],
+          "recovery": "75-90%",
+          "dilution": "5-15%",
+          "development_cost": "Very High",
+          "operating_cost": "Medium"
+        },
+        "room_and_pillar": {
+          "applicable_conditions": [
+            "Flat-lying, tabular deposits",
+            "Moderate rock mass quality",
+            "Selective mining or retreat mining",
+            "Surface subsidence to be minimized"
+          ],
+          "recovery": "40-70%",
+          "dilution": "5-15%",
+          "development_cost": "Medium",
+          "operating_cost": "Medium"
+        },
+        "block_caving": {
+          "applicable_conditions": [
+            "Large, massive orebodies",
+            "Poor to moderate rock mass quality",
+            "Very large production rates (2-10 Mtpa)",
+            "Deep orebody (>200m)"
+          ],
+          "recovery": "60-80%",
+          "dilution": "20-40%",
+          "development_cost": "Very High (undercut level)",
+          "operating_cost": "Very Low"
+        },
+        "shrinkage_stoping": {
+          "applicable_conditions": [
+            "Steeply dipping, narrow orebodies",
+            "Good rock mass quality",
+            "Low to medium production rates",
+            "Selective mining"
+          ],
+          "recovery": "80-90%",
+          "dilution": "5-15%",
+          "development_cost": "Medium",
+          "operating_cost": "Medium"
+        }
+      }
+    },
+    "level_spacing": {
+      "shallow_mines": {
+        "range": "15-30m vertical",
+        "typical": "20-25m",
+        "factors": [
+          "Orebody thickness",
+          "Drill hole accuracy",
+          "Geotechnical conditions",
+          "Stoping method",
+          "Production requirements"
+        ]
+      },
+      "deep_mines": {
+        "range": "30-60m vertical",
+        "typical": "40-50m",
+        "factors": [
+          "Increased stress at depth",
+          "Wider stopes possible with cemented fill",
+          "Reduced number of levels lowers cost",
+          "Ventilation requirements",
+          "Equipment capability"
+        ]
+      },
+      "sublevel_spacing": {
+        "typical": "10-25m between sublevels",
+        "notes": "Sublevels are intermediate levels used for drilling and access in sublevel stoping"
+      },
+      "level_design_considerations": [
+        "Stope height = level spacing",
+        "Drill hole length limitations",
+        "Dilution control requirements",
+        "Geotechnical stability",
+        "Ventilation circuit design",
+        "Infrastructure placement"
+      ]
+    },
+    "stope_sequence": {
+      "principles": [
+        "Extract high-grade stopes first for early cash flow",
+        "Maintain stress shadow to protect adjacent stopes",
+        "Avoid creating stress concentrations",
+        "Ensure development access ahead of stoping",
+        "Allow time for backfill curing before adjacent stoping",
+        "Maintain minimum pillar dimensions"
+      ],
+      "sequencing_options": {
+        "primary_secondary": {
+          "description": "Alternate primary and secondary stopes; primary stopes backfilled before secondary extraction",
+          "extraction_sequence": ["P1", "S1", "P2", "S2", "P3", "S3"],
+          "backfill": "Cemented paste or rock fill for primary; uncemented for secondary",
+          "recovery": "85-95%"
+        },
+        "retreating": {
+          "description": "Mining progresses from one end of the orebody to the other",
+          "advantages": ["Reduced stress on remaining ground", "Clear access for ventilation"],
+          "disadvantages": ["Longer development required", "Later stopes may have lower grades"]
+        },
+        "advancing": {
+          "description": "Mining progresses from multiple points toward a central area",
+          "advantages": ["Multiple mining fronts", "Flexible production scheduling"],
+          "disadvantages": ["Higher development cost", "Complex ventilation"]
+        },
+        "staggered": {
+          "description": "Stopes are extracted in a staggered pattern to manage stress",
+          "advantages": ["Better stress management", "Reduced dilution"],
+          "disadvantages": ["Complex scheduling", "Requires careful planning"]
+        }
+      }
+    },
+    "development_schedule": {
+      "development_types": {
+        "decline": {
+          "gradient": "1:7 to 1:5 (14-20%)",
+          "width": "5-6m",
+          "height": "4.5-5.5m",
+          "purpose": "Primary access for equipment and personnel"
+        },
+        "level_decline": {
+          "gradient": "1:10 to 1:8 (10-12%)",
+          "width": "5-6m",
+          "height": "4.5-5.5m",
+          "purpose": "Access between levels"
+        },
+        "decline_to_ore": {
+          "gradient": "1:7 to 1:5",
+          "purpose": "Direct access from decline to ore zone"
+        },
+        "level_development": {
+          "crosscut": "Horizontal development from decline to orebody",
+          "drift": "Development along the orebody on each level",
+          "width": "4.5-6m",
+          "height": "4.5-5.5m"
+        },
+        "stope_access": {
+          "drawpoints": "Extraction points at base of stope",
+          "slotRaises": "Initial openings for stope development",
+          "longholes": "Production drill holes from sublevel"
+        },
+        "infrastructure": {
+          "ventilation_shaft": "5-8m diameter",
+          "escape_shaft": "Minimum 3m diameter",
+          "loading_bays": "Where ore is loaded for haulage",
+          "workshops": "Underground maintenance facilities",
+          "fuel_stations": "Underground refueling",
+          "water_dams": "Underground water storage"
+        }
+      },
+      "advance_rates": {
+        "decline": "3-5m per day",
+        "level_crosscut": "4-6m per day",
+        "level_drift": "3-5m per day",
+        "raise_boring": "0.5-2m per day",
+        "slot_raise": "2-4m per day"
+      },
+      "development_budget": {
+        "decline_per_meter": "2000-5000 USD/m",
+        "level_per_meter": "1500-3500 USD/m",
+        "crosscut_per_meter": "1500-3000 USD/m",
+        "shaft_per_meter": "5000-15000 USD/m"
+      }
+    },
+    "ventilation_planning": {
+      "objectives": [
+        "Provide fresh air to all working areas",
+        "Remove diesel exhaust fumes",
+        "Remove blasting fumes",
+        "Control heat at depth",
+        "Control dust",
+        "Maintain air quality standards"
+      ],
+      "design_parameters": {
+        "fresh_air_requirement": "3-6 m³/s per diesel unit (150-300 kW)",
+        "minimum_air_velocity": "0.5 m/s in headings",
+        "maximum_air_velocity": "5-8 m/s to avoid dust pickup",
+        "diesel_equivalent": "1 kW diesel = 0.05-0.1 m³/s air",
+        "heat_limit": "27.5-30°C wet bulb depending on jurisdiction"
+      },
+      "ventilation_systems": {
+        "exhaust": {
+          "description": "Main fan at surface exhausts air from mine",
+          "advantages": ["Positive pressure at surface", "No recirculation", "Fire safety"],
+          "disadvantages": ["Higher resistance", "More shaft seals required"]
+        },
+        "supply": {
+          "description": "Main fan at surface forces air into mine",
+          "advantages": ["Lower resistance", "Easier to seal workings"],
+          "disadvantages": ["Recirculation risk", "Fire management"]
+        },
+        "auxiliary": {
+          "description": "Secondary fans to ventilate dead-end headings",
+          "types": ["Forcing fans", "Exhausting fans", "Overlapping systems"]
+        }
+      },
+      "fan_specification": {
+        "main_fan_power": "100-1000 kW",
+        "main_fan_diameter": "2-5m",
+        "total_pressure": "1000-5000 Pa",
+        "efficiency": "75-85%",
+        "control": "Variable speed drive for energy optimization"
+      },
+      "cooling_requirements": {
+        "depth_threshold": "500-1000m depending on geothermal gradient",
+        "geothermal_gradient": "10-30°C per 1000m",
+        "cooling_systems": [
+          "Surface chillers",
+          "Underground制冷 plants",
+          "Ice systems",
+          "Air conditioning units",
+          "Spray chambers"
+        ],
+        "cooling_capacity": "500-5000 kW depending on mine depth and size"
+      }
+    }
+  },
+
+  "production_scheduling": {
+    "monthly_target_formulation": {
+      "objective": "Define monthly ore tonnage, waste tonnage, grade, and metal production targets that achieve the annual plan while smoothing operations",
+      "constraints": [
+        "Maximum mining capacity (fleet limited)",
+        "Maximum processing capacity (plant limited)",
+        "Minimum mining rate (sustaining operations)",
+        "Geotechnical slope stability",
+        "Water table drawdown limits",
+        "Environmental permit conditions",
+        "Equipment availability and maintenance windows",
+        "Seasonal weather variations",
+        "Geological variability and grade control accuracy"
+      ],
+      "optimization_method": {
+        "linear_programming": {
+          "objective_function": "Maximize NPV = Σ (Revenue_t - Cost_t) / (1 + r)^t",
+          "decision_variables": [
+            "Tonnes of ore from each block/zone per period",
+            "Tonnes of waste from each block/zone per period",
+            "Stockpile additions and withdrawals",
+            "Blend ratios from different sources"
+          ],
+          "constraints_matrix": "A × x ≤ b, where A is constraint matrix, x is decision vector, b is RHS"
+        },
+        "integer_programming": {
+          "description": "Binary variables for mine/stop/no-mine decisions",
+          "application": "Stope scheduling, pushback sequencing"
+        },
+        "heuristic_methods": {
+          "description": "Greedy algorithms, genetic algorithms, simulated annealing",
+          "application": "Large-scale problems where exact methods are too slow"
+        }
+      },
+      "target_smoothing": {
+        "method": "Apply rolling average or moving window to monthly targets",
+        "window": "3-6 months",
+        "purpose": "Reduce variability in operations and financial planning"
+      },
+      "production_profiles": {
+        "ramp_up": {
+          "year_1": "60-80% design capacity",
+          "year_2": "80-100% design capacity",
+          "year_3": "100% design capacity"
+        },
+        "steady_state": {
+          "ore_tonnage": "Within 5% of design",
+          "grade": "Within 10% of reserve grade",
+          "recovery": "Within 2% of design"
+        },
+        "decline": {
+          "method": "Progressive reduction in throughput or grade as reserves deplete"
+        }
+      }
+    },
+    "tonnage_grade_reconciliation": {
+      "definition": "Comparison between planned (modelled) and actual (mined) tonnage and grade to validate the resource model and mine plan",
+      "reconciliation_hierarchy": {
+        "model_to_mill": "Geological model vs. actual head grade to plant",
+        "model_to_mined": "Geological model vs. blast hole grade control",
+        "planned_vs_actual": "Mine plan vs. actual production",
+        "planned_vs_processed": "Mine plan vs. mill feed",
+        "long_term_vs_short_term": "Annual plan vs. monthly plan"
+      },
+      "key_metrics": {
+        "tonnage_reconciliation": "Actual_tonnes / Planned_tonnes × 100%",
+        "grade_reconciliation": "Actual_grade / Planned_grade × 100%",
+        "contained_metal_reconciliation": "Actual_metal / Planned_metal × 100%",
+        "reconciliation_accuracy_target": "95-105% for tonnage, 90-110% for grade",
+        "acceptable_variance": {
+          "tonnage": "±5%",
+          "grade": "±10%",
+          "contained_metal": "±10%"
+        }
+      },
+      "reconciliation_methods": {
+        "tagging_system": "Unique IDs for each blast hole, truck load, and plant feed",
+        "geostatistical_reconciliation": "Compare kriged estimates with production data",
+        "cumulative_reconciliation": "Running total to identify systematic biases",
+        "moving_average_reconciliation": "3-month or 6-month rolling reconciliation"
+      },
+      "common_issues": {
+        "positive_reconciliation": "Actual > Planned; may indicate model underestimation or selective mining",
+        "negative_reconciliation": "Actual < Planned; may indicate model overestimation, dilution, or ore loss",
+        "grade_variability": "Natural geological variation not captured in model",
+        "dilution": "Unplanned waste mixing with ore during mining"
+      },
+      "reporting": {
+        "frequency": "Monthly, quarterly, annual",
+        "auditing": "Independent geological audit annually",
+        "JORC_compliance": "Reconciliation required for JORC reporting",
+        "investor_reporting": "Key metric for mining company disclosure"
+      }
+    },
+    "stockpile_management": {
+      "types": {
+        "rom_stockpile": {
+          "purpose": "Buffer between mining and processing",
+          "typical_size": "1-7 days of plant feed",
+          "management": "Maintain consistent grade blend to plant"
+        },
+        "low_grade_stockpile": {
+          "purpose": "Store material below current cut-off grade for future processing",
+          "typical_size": "Months to years of future feed",
+          "management": "Reassess periodically as cut-off grade changes"
+        },
+        "marginal_stockpile": {
+          "purpose": "Store material near cut-off grade for blending",
+          "typical_size": "1-3 months of plant feed",
+          "management": "Blend with higher grade ore to maintain target grade"
+        },
+        "high_grade_stockpile": {
+          "purpose": "Store high-grade ore for strategic blending or when plant capacity is limited",
+          "typical_size": "1-2 weeks of plant feed",
+          "management": "Priority feed to plant during grade control"
+        },
+        "waste_stockpile": {
+          "purpose": "Store waste material for future reprocessing or backfill",
+          "typical_size": "Variable",
+          "management": "Long-term storage for potential reprocessing"
+        }
+      },
+      "stockpile_economics": {
+        "holding_cost_per_tonne": "0.5-2.0 USD/t per year",
+        "opportunity_cost": "Value of metal locked in stockpile at discount rate",
+        "rehandling_cost_per_tonne": "1-3 USD/t",
+        "environmental_cost": "Dust, water, rehabilitation"
+      },
+      "optimization": {
+        "method": "Determine optimal stockpile size to maximize NPV while maintaining mill feed continuity",
+        "factors": [
+          "Grade variability of ore sources",
+          "Processing plant capacity",
+          "Mining rate variability",
+          "Metal price outlook",
+          "Discount rate"
+        ]
+      }
+    },
+    "blending_strategies": {
+      "objective": "Achieve target head grade and mineralogy at the processing plant by blending ore from different sources",
+      "strategies": {
+        "grade_blending": {
+          "description": "Combine high and low grade ore to achieve target head grade",
+          "formula": "Grade_target = (T₁ × G₁ + T₂ × G₂ + ... + Tₙ × Gₙ) / (T₁ + T₂ + ... + Tₙ)",
+          "tolerance": "±0.1 g/t or ±5% of target"
+        },
+        "mineralogy_blending": {
+          "description": "Blend ores with different mineralogy to optimize metallurgical response",
+          "parameters": [
+            "Sulphide/sulphur ratio",
+            "Carbon content (preg-robbing)",
+            "Clay content",
+            "Hardness (Bond Work Index)",
+            "Arsenic content"
+          ]
+        },
+        "contaminant_blending": {
+          "description": "Control deleterious elements through blending",
+          "elements": ["Arsenic", "Antimony", "Mercury", "Bismuth", "Copper (in gold circuits)"],
+          "limits": "Set by smelter or environmental regulations"
+        },
+        "temporal_blending": {
+          "description": "Blend ore from different mining phases over time to smooth grade profile",
+          "approach": "Mine multiple pushbacks simultaneously with different grade profiles"
+        },
+        "spatial_blending": {
+          "description": "Blend ore from different parts of the deposit simultaneously",
+          "approach": "Load trucks from multiple faces and blend at ROM pad"
+        }
+      },
+      "blending_techniques": {
+        "truck_blending": "Load trucks from different faces and mix at ROM pad",
+        "conveyor_blending": "Use conveyor stacking and reclaiming for continuous blending",
+        "stockpile_blending": "Reclaim from multiple stockpile layers",
+        "inpit_blending": "Blend ore from different benches during mining"
+      }
+    }
+  },
+
+  "financial_modeling": {
+    "NPV_calculation": {
+      "formula": "NPV = Σ [CF_t / (1 + r)^t] - I₀",
+      "where": {
+        "CF_t": "Net cash flow in year t",
+        "r": "Discount rate (typically 8-12% for mining)",
+        "t": "Time period (years)",
+        "I₀": "Initial capital investment"
+      },
+      "cash_flow_components": {
+        "revenue": "Ore_tonnage × Grade × Recovery × Metal_price × Payable%",
+        "operating_costs": "Mining_cost + Processing_cost + G&A + Transport + Royalties",
+        "capital_costs": "Initial_capex + Sustaining_capex + Expansion_capex",
+        "taxes": "Corporate_tax × (Revenue - Operating_costs - Depreciation)",
+        "royalties": "Royalty_rate × Revenue",
+        "working_capital": "Receivables + Inventory - Payables",
+        "closure_costs": "Closure_cost × (1 + r)^(-n) discounted to present"
+      },
+      "discount_rate_determination": {
+        "WACC": "Weighted Average Cost of Capital",
+        "formula": "WACC = (E/V × Re) + (D/V × Rd × (1-Tc))",
+        "components": {
+          "Re": "Cost of equity (CAPM: Rf + β × (Rm - Rf))",
+          "Rd": "Cost of debt (interest rate on borrowings)",
+          "E": "Market value of equity",
+          "D": "Market value of debt",
+          "V": "Total value (E + D)",
+          "Tc": "Corporate tax rate",
+          "Rf": "Risk-free rate (typically 3-5%)",
+          "Rm": "Expected market return (typically 8-12%)",
+          "beta": "Project-specific risk factor (typically 1.0-2.0 for mining)"
+        },
+        "typical_WACC_ranges": {
+          "gold_mining": "8-12%",
+          "copper_mining": "8-12%",
+          "coal_mining": "10-15%",
+          "base_metals": "9-13%",
+          "development_stage": "12-18%"
+        }
+      },
+      "incremental_NPV": {
+        "description": "NPV of each phase or pushback to determine optimal sequence",
+        "formula": "NPV_incremental = NPV_with_phase - NPV_without_phase",
+        "application": "Compare pushback options, stope sequences, and expansion decisions"
+      },
+      "after_tax_NPV": {
+        "formula": "AT_NPV = Σ [(Revenue - Opex - Depreciation) × (1 - Tax_rate) + Depreciation - Capex - Working_capital_changes] / (1 + r)^t",
+        "notes": "Depreciation is added back as it is a non-cash expense"
+      }
+    },
+    "IRR_benchmarks": {
+      "greenfield_gold": {
+        "range": "15-20%",
+        "typical": "18%",
+        "notes": "Includes all capital and operating costs from scratch"
+      },
+      "brownfield_gold": {
+        "range": "20-30%",
+        "typical": "25%",
+        "notes": "Leveraging existing infrastructure and processing facilities"
+      },
+      "greenfield_copper": {
+        "range": "15-20%",
+        "typical": "17%",
+        "notes": "Large scale operations with significant capex"
+      },
+      "brownfield_copper": {
+        "range": "20-25%",
+        "typical": "22%",
+        "notes": "Expansion of existing operations"
+      },
+      "greenfield_coal": {
+        "range": "15-25%",
+        "typical": "18%",
+        "notes": "Highly variable based on coal quality and market"
+      },
+      "underground_gold": {
+        "range": "20-35%",
+        "typical": "25%",
+        "notes": "Higher risk and higher return"
+      },
+      "lithium": {
+        "range": "20-35%",
+        "typical": "25%",
+        "notes": "High demand driven by EV market"
+      },
+      "threshold_values": {
+        "minimum_attractive_IRR": "12-15% depending on company risk appetite",
+        "board_approval_IRR": "18-25% for most mining companies",
+        "exceptional_project_IRR": ">30%"
+      }
+    },
+    "payback_period": {
+      "range": "3-7 years",
+      "typical_gold": "4-6 years",
+      "typical_copper": "4-7 years",
+      "target": "5 years or less for most projects",
+      "formula": "Payback = Year before recovery + (Unrecovered cost at start of year / Cash flow during year)",
+      "notes": "Undiscounted payback is most common; discounted payback should also be considered",
+      "importance": "Indicates how quickly initial capital is recovered; important for project financing"
+    },
+    "sensitivity_parameters": {
+      "gold_price": {
+        "impact": "Directly affects revenue; most sensitive parameter",
+        "range_tested": "±20-30% of base case",
+        "typical_sensitivity": "±$100/oz changes NPV by 15-25%"
+      },
+      "recovery": {
+        "impact": "Affects revenue and processing optimization",
+        "range_tested": "±5-10% of base case",
+        "typical_sensitivity": "±2% recovery changes NPV by 10-15%"
+      },
+      "operating_cost": {
+        "impact": "Directly affects operating margin",
+        "range_tested": "±20-30% of base case",
+        "typical_sensitivity": "±10% OPEX changes NPV by 15-20%"
+      },
+      "capital_expenditure": {
+        "impact": "Affects initial investment and ongoing sustaining costs",
+        "range_tested": "±20-40% of base case",
+        "typical_sensitivity": "±20% CAPEX changes NPV by 10-15%"
+      },
+      "discount_rate": {
+        "impact": "Affects time value of money",
+        "range_tested": "±2-3% absolute change",
+        "typical_sensitivity": "±1% discount rate changes NPV by 10-20%"
+      },
+      "exchange_rate": {
+        "impact": "Affects cost base for non-USD operations",
+        "range_tested": "±20% of base case",
+        "typical_sensitivity": "±10% FX rate changes NPV by 5-10%"
+      },
+      "mining_cost": {
+        "impact": "Directly affects operating margin",
+        "range_tested": "±20% of base case",
+        "typical_sensitivity": "±10% mining cost changes NPV by 8-12%"
+      }
+    },
+    "risk_analysis": {
+      "monte_carlo": {
+        "description": "Probabilistic analysis using random sampling of uncertain parameters",
+        "methodology": [
+          "Define probability distributions for each uncertain variable",
+          "Run 1,000-10,000 simulations",
+          "Collect output distribution (NPV, IRR)",
+          "Calculate probability of NPV > 0",
+          "Identify P10, P50, P90 outcomes",
+          "Determine value-at-risk (VaR)"
+        ],
+        "input_distributions": {
+          "gold_price": "Lognormal with mean = base case, σ = 15-25%",
+          "recovery": "Normal with mean = design, σ = 2-5%",
+          "operating_cost": "Normal with mean = base case, σ = 10-20%",
+          "capital_cost": "Triangular with mode = base case, ±30%"
+        },
+        "output_metrics": {
+          "probability_NPV_positive": "Target >85%",
+          "expected_NPV": "Mean of distribution",
+          "P10_NPV": "10th percentile (downside)",
+          "P50_NPV": "50th percentile (median)",
+          "P90_NPV": "90th percentile (upside)",
+          "standard_deviation": "Measure of risk"
+        }
+      },
+      "scenario_analysis": {
+        "description": "Evaluate project under discrete scenarios representing different market or operational conditions",
+        "scenarios": {
+          "base_case": "Most likely assumptions",
+          "optimistic": "Best case: high price, high recovery, low cost",
+          "pessimistic": "Worst case: low price, low recovery, high cost",
+          "stress_test": "Extreme conditions to test project viability"
+        },
+        "scenario_parameters": {
+          "price": "Low (P10), Base (P50), High (P90)",
+          "recovery": "Low, Base, High",
+          "cost": "Low, Base, High",
+          "capex": "Low, Base, High"
+        }
+      },
+      "decision_tree_analysis": {
+        "description": "Map sequential decisions and chance events",
+        "application": "Evaluate exploration targets, expansion options, hedging strategies",
+        "method": "Calculate expected value at each decision node"
+      },
+      "real_options_analysis": {
+        "description": "Value flexibility in mine plan (expand, contract, defer, abandon)",
+        "options": [
+          "Option to expand (Phase 2, plant expansion)",
+          "Option to defer (wait for higher prices)",
+          "Option to abandon (close mine early)",
+          "Option to switch (processing method)"
+        ],
+        "method": "Black-Scholes or binomial option pricing adapted for mining"
+      }
+    },
+    "production_economics": {
+      "revenue_calculation": {
+        "formula": "Revenue = Tonnage_milled × Grade × Recovery × Metal_price × Payable% - Treatment_charges - Refining_charges",
+        "treatment_charges": "30-60 USD per tonne of concentrate",
+        "refining_charges": "0.02-0.06 USD per lb of metal",
+        "payable_metals": "85-96% of contained metal"
+      },
+      "C1_cash_cost": {
+        "formula": "C1 = (Mining_cost + Processing_cost + G&A + Transport + Royalties) / Ounces_produced",
+        "benchmark_gold": "400-700 USD/oz",
+        "benchmark_copper": "1.50-2.50 USD/lb",
+        "includes": ["Mining", "Processing", "G&A", "Transport", "Royalties"],
+        "excludes": ["Sustaining capex", "Expansion capex", "Interest", "Tax"]
+      },
+      "AISC": {
+        "formula": "AISC = C1 + Sustaining_capex_per_oz + Closure_provisions_per_oz",
+        "benchmark_gold": "600-1000 USD/oz",
+        "benchmark_copper": "2.00-3.00 USD/lb",
+        "notes": "All-in sustaining cost is the industry standard for comparing mining companies"
+      }
+    }
+  },
+
+  "east_africa_cases": [
+    {
+      "mine": "Geita Gold Mine",
+      "operator": "AngloGold Ashanti (now merged with Newmont)",
+      "location": {"country": "Tanzania", "region": "Geita", "coordinates": "-2.87, 32.23"},
+      "type": "open_pit",
+      "annual_tonnes": 5000000,
+      "grade": "1.5 g/t",
+      "recovery": "95%",
+      "processing_method": "CIL",
+      "mine_life": "15+ years (with extensions)",
+      "annual_production_oz": "225000",
+      "capex_million_usd": 350,
+      "C1_cost_per_oz": 550,
+      "AISC_per_oz": 780,
+      "workforce": 2500,
+      "key_features": [
+        "Multiple open pits mined sequentially",
+        "Complex geology with multiple ore shoots",
+        "Strong community development programs",
+        "Major employer in Geita region"
+      ],
+      "geology": {
+        "rock_type": "Archean greenstone belt",
+        "mineralization_style": "Shear zone hosted, quartz veining",
+        "ore_controlling_structures": "NE-trending shear zones",
+        "alteration": "Sericite-carbonate-pyrite"
+      }
+    },
+    {
+      "mine": "Kibali Gold Mine",
+      "operator": "Barrick Gold",
+      "location": {"country": "DRC", "region": "Haut-Uele", "coordinates": "3.32, 29.35"},
+      "type": "open_pit_underground",
+      "annual_tonnes": 3000000,
+      "grade": "2.8 g/t",
+      "recovery": "93%",
+      "processing_method": "CIL",
+      "mine_life": "20+ years",
+      "annual_production_oz": "250000",
+      "capex_million_usd": 500,
+      "C1_cost_per_oz": 480,
+      "AISC_per_oz": 720,
+      "workforce": 4000,
+      "key_features": [
+        "Hybrid open pit and underground operation",
+        "One of Africa's largest gold mines",
+        "Complex metallurgy requiring multiple treatment routes",
+        "Significant underground development",
+        "Remote location with dedicated airstrip"
+      ],
+      "geology": {
+        "rock_type": "Archean greenstone belt",
+        "mineralization_style": "Orogenic gold",
+        "ore_controlling_structures": "NW and NE trending shear zones",
+        "alteration": "Albite-sericite-quartz-pyrite"
+      },
+      "underground_details": {
+        "method": "Long-hole open stoping with cemented paste fill",
+        "level_spacing": "30m",
+        "production_rate": "1.5 Mtpa underground"
+      }
+    },
+    {
+      "mine": "North Mara Gold Mine",
+      "operator": "Barrick Gold",
+      "location": {"country": "Tanzania", "region": "Mara", "coordinates": "-1.86, 33.58"},
+      "type": "open_pit",
+      "annual_tonnes": 12000000,
+      "grade": "1.2 g/t",
+      "recovery": "94%",
+      "processing_method": "CIL",
+      "mine_life": "10+ years (with extensions)",
+      "annual_production_oz": "430000",
+      "capex_million_usd": 400,
+      "C1_cost_per_oz": 600,
+      "AISC_per_oz": 850,
+      "workforce": 3000,
+      "key_features": [
+        "One of Tanzania's largest gold producers",
+        "High tonnage, lower grade operation",
+        "Multiple open pits",
+        "Strong environmental management program",
+        "Community relocation and resettlement completed"
+      ],
+      "geology": {
+        "rock_type": "Archean greenstone belt",
+        "mineralization_style": "Shear zone hosted with stockwork quartz veins",
+        "ore_controlling_structures": "NNE-trending shear zones",
+        "alteration": "Silica-sericite-pyrite"
+      }
+    },
+    {
+      "mine": "Bulyanhulu Gold Mine",
+      "operator": "Barrick Gold",
+      "location": {"country": "Tanzania", "region": "Shinyanga", "coordinates": "-3.42, 30.54"},
+      "type": "underground",
+      "annual_tonnes": 1500000,
+      "grade": "4.5 g/t",
+      "recovery": "92%",
+      "processing_method": "CIL",
+      "mine_life": "25+ years",
+      "annual_production_oz": "200000",
+      "capex_million_usd": 350,
+      "C1_cost_per_oz": 500,
+      "AISC_per_oz": 800,
+      "workforce": 2500,
+      "key_features": [
+        "Deep underground operation",
+        "High-grade narrow vein mining",
+        "Cemented paste backfill",
+        "Long-hole stoping method",
+        "Complex structural geology"
+      ],
+      "geology": {
+        "rock_type": "Archean greenstone belt",
+        "mineralization_style": "Shear zone hosted, high-grade veins",
+        "ore_controlling_structures": "Multiple intersecting shear zones",
+        "alteration": "Quartz-carbonate-sericite-pyrite-arsenopyrite"
+      },
+      "underground_details": {
+        "method": "Long-hole open stoping with cemented paste fill",
+        "level_spacing": "25m",
+        "production_rate": "1.5 Mtpa",
+        "depth": "800-1200m below surface"
+      }
+    },
+    {
+      "mine": "Acacia Buzwagi",
+      "operator": "Acacia Mining (now Barrick Gold)",
+      "location": {"country": "Tanzania", "region": "Shinyanga", "coordinates": "-3.35, 30.60"},
+      "type": "open_pit",
+      "annual_tonnes": 8000000,
+      "grade": "2.0 g/t",
+      "recovery": "93%",
+      "processing_method": "CIL",
+      "mine_life": "12 years",
+      "annual_production_oz": "290000",
+      "capex_million_usd": 300,
+      "C1_cost_per_oz": 520,
+      "AISC_per_oz": 750,
+      "workforce": 2000,
+      "key_features": [
+        "Large open pit operation",
+        "Located near Bulyanhulu underground mine",
+        "Processing plant shared infrastructure consideration",
+        "Strong grade control program",
+        "Rehabilitation and closure planning in progress"
+      ],
+      "geology": {
+        "rock_type": "Archean greenstone belt",
+        "mineralization_style": "Shear zone hosted, stockwork quartz veins",
+        "ore_controlling_structures": "NE-trending structures",
+        "alteration": "Silica-sericite-chlorite-pyrite"
+      }
+    },
+    {
+      "mine": "Nyanzaga Gold Project",
+      "operator": "Sahara Mining",
+      "location": {"country": "Tanzania", "region": "Mwanza", "coordinates": "-2.55, 32.90"},
+      "type": "open_pit",
+      "annual_tonnes": 3500000,
+      "grade": "1.8 g/t",
+      "recovery": "93%",
+      "processing_method": "CIL",
+      "mine_life": "12 years",
+      "annual_production_oz": "180000",
+      "status": "Development stage",
+      "capex_million_usd": 250,
+      "key_features": [
+        "Greenfield development project",
+        "Strong resource base",
+        "Potential for underground extension",
+        "Community development agreement in place"
+      ]
+    },
+    {
+      "mine": "Lugenda Gold Project",
+      "operator": "Barrick Gold",
+      "location": {"country": "Tanzania", "region": "Lindi", "coordinates": "-10.50, 37.50"},
+      "type": "open_pit",
+      "annual_tonnes": 2000000,
+      "grade": "1.5 g/t",
+      "recovery": "92%",
+      "processing_method": "CIL",
+      "mine_life": "10 years",
+      "annual_production_oz": "90000",
+      "status": "Exploration/Pre-feasibility",
+      "key_features": [
+        "Early stage exploration project",
+        "Potential for significant gold endowment",
+        "Remote location requiring infrastructure development"
+      ]
+    },
+    {
+      "mine": "Kilimapesa Gold Mine",
+      "operator": "Goldplat",
+      "location": {"country": "Kenya", "region": "Kapenguria", "coordinates": "1.23, 35.20"},
+      "type": "underground",
+      "annual_tonnes": 50000,
+      "grade": "8.0 g/t",
+      "recovery": "95%",
+      "processing_method": "CIL",
+      "mine_life": "8 years",
+      "annual_production_oz": "12000",
+      "key_features": [
+        "Small scale underground operation",
+        "High grade narrow vein mining",
+        "One of Kenya's only operating gold mines",
+        "Artisanal and small-scale mining interface"
+      ]
+    },
+    {
+      "mine": "Tulu Kapi Gold Project",
+      "operator": "Kefi Minerals",
+      "location": {"country": "Ethiopia", "region": "Oromia", "coordinates": "7.25, 35.25"},
+      "type": "open_pit",
+      "annual_tonnes": 2500000,
+      "grade": "1.6 g/t",
+      "recovery": "93%",
+      "processing_method": "CIL",
+      "mine_life": "10 years",
+      "annual_production_oz": "120000",
+      "status": "Development stage",
+      "capex_million_usd": 180,
+      "key_features": [
+        "Ethiopia's most advanced gold development project",
+        "Strong community and government support",
+        "Potential for regional satellite deposits",
+        "Infrastructure development required"
+      ]
+    },
+    {
+      "mine": "Adyabo Copper-Gold Project",
+      "operator": "Kefi Minerals",
+      "location": {"country": "Ethiopia", "region": "Tigray", "coordinates": "14.30, 38.50"},
+      "type": "open_pit",
+      "annual_tonnes": 1500000,
+      "grade": "0.8% Cu, 0.3 g/t Au",
+      "recovery": "85% Cu, 90% Au",
+      "processing_method": "Flotation + CIL",
+      "mine_life": "12 years",
+      "status": "Pre-feasibility",
+      "key_features": [
+        "Copper-gold porphyry style mineralization",
+        "Dual commodity revenue stream",
+        "Complex metallurgy requiring flotation and CIL"
+      ]
+    }
+  ],
+
+  "production_benchmarks": {
+    "open_pit_gold": {
+      "typical_throughput": "1-20 Mtpa ore",
+      "strip_ratio_range": "2:1 to 15:1",
+      "truck_fleet_size": "10-50 trucks",
+      "truck_capacity": "100-400 tonnes",
+      "shovel_capacity": "10-25 m³",
+      "drill_pattern": "10x10m to 15x15m",
+      "blast_frequency": "1-3 blasts per week",
+      "load_haul_cycle_time": "15-45 minutes"
+    },
+    "underground_gold": {
+      "typical_throughput": "0.3-3 Mtpa",
+      "stope_dimensions": "15-30m high × 10-20m wide × 20-50m long",
+      "development_advance": "3-5m per day",
+      "production_drill_rate": "50-200m per day",
+      "charge_and_blast_rate": "2-5 blasts per day",
+      "tramming_distance": "500-3000m"
+    },
+    "processing_benchmarks": {
+      "CIL_plant_availability": "92-96%",
+      "throughput_utilization": "90-98% of design",
+      "recovery_achievement": "95-98% of design",
+      "reagent_consumption": {
+        "cyanide": "0.5-2.0 kg/t",
+        "lime": "2-5 kg/t",
+        "activated_carbon": "15-25 g/t"
+      },
+      "grind_size": "80% passing 75-150 microns",
+      "residence_time": {
+        "leach": "24-48 hours",
+        "CIL": "1-4 stages"
+      }
+    }
+  },
+
+  "environmental_compliance": {
+    "key_areas": {
+      "tailings_management": {
+        "design_standards": "Global Industry Standard on Tailings Management (GISTM)",
+        "monitoring": [
+          "Piezometer readings",
+          "InSAR satellite monitoring",
+          "Seismic monitoring",
+          "Visual inspections",
+          "Water quality monitoring"
+        ],
+        "closure_requirements": "Stable landform with cover system"
+      },
+      "water_management": {
+        "dewatering": "Control groundwater inflow to maintain mine stability",
+        "water_treatment": "Remove metals and contaminants before discharge",
+        "water_balance": "Track all water inputs and outputs",
+        "acid_mine_drainage": "Prevent or treat acid drainage from sulphide ores"
+      },
+      "air_quality": {
+        "dust_control": "Water sprays, chemicals, covers",
+        "emissions_monitoring": "Continuous emission monitoring for stacks",
+        "vehicle_emissions": "Tier 4 engines, electric vehicles"
+      },
+      "biodiversity": {
+        "offsets": "Biodiversity offset programs where impacts are unavoidable",
+        "rehabilitation": "Revegetation and habitat restoration",
+        "monitoring": "Long-term ecological monitoring"
+      },
+      "community": {
+        "resettlement": "Involuntary Resettlement Action Plan (RAP)",
+        "community_development": "Community Development Agreement (CDA)",
+        "grievance_mechanism": "Formal grievance handling process",
+        "health_safety": "Community health and safety programs"
+      }
+    },
+    "permitting": {
+      "required_permits": [
+        "Mining Licence",
+        "Environmental Impact Assessment (EIA) Approval",
+        "Water Use Licence",
+        "Air Quality Permit",
+        "Waste Management Licence",
+        "Explosives Licence",
+        "Heritage Permit"
+      ],
+      "timeline": "12-24 months for full permitting",
+      "renewal": "Annual environmental audit required"
+    }
+  },
+
+  "safety_benchmarks": {
+    "LTIFR": {
+      "world_class": "<0.5",
+      "industry_average": "1.0-2.0",
+      "poor": ">3.0",
+      "definition": "Lost Time Injury Frequency Rate per million man-hours"
+    },
+    "TRIFR": {
+      "world_class": "<3.0",
+      "industry_average": "5.0-10.0",
+      "definition": "Total Recordable Injury Frequency Rate per million man-hours"
+    },
+    "fatalities_target": "Zero",
+    "safety_systems": [
+      "Safety Management System (SMS)",
+      "Job Safety Analysis (JSA)",
+      "Management of Change (MOC)",
+      "Pre-start safety talks",
+      "Hazard reporting systems",
+      "Safety observation programs",
+      "Emergency response plans",
+      "Mine rescue team"
+    ],
+    "underground_specific": {
+      "refuge_chambers": "Required every 500-1000m",
+      "escape_routes": "Multiple independent escape routes",
+      "communication": "Leaky feeder or WiFi underground",
+      "gas_monitoring": "Continuous monitoring for CH₄, CO, NO₂"
+    }
+  },
+
+  "technology_trends": {
+    "automation": {
+      "autonomous_trucks": "Already deployed at several large operations",
+      "remote_control_excavators": "Tele-remote operation from surface",
+      "automated_drill_rigs": "Precision drilling with GPS guidance",
+      "benefits": ["Improved safety", "24/7 operation", "Consistent performance"]
+    },
+    "digital_twins": {
+      "description": "Virtual replica of the mine for real-time optimization",
+      "applications": [
+        "Real-time production monitoring",
+        "Predictive maintenance",
+        "Ventilation optimization",
+        "Ground movement monitoring"
+      ]
+    },
+    "AI_applications": {
+      "grade_control": "Machine learning for block model updates",
+      "predictive_maintenance": "Equipment failure prediction",
+      "process_optimization": "Plant circuit optimization",
+      "autonomous_haulage": "Self-driving trucks and dozers"
+    },
+    "electrification": {
+      "battery_trucks": "Underground trucks moving to battery-electric",
+      "trolley_assist": "Electric trolley systems for haul trucks",
+      "benefits": ["Lower emissions", "Reduced ventilation costs", "Lower operating costs"]
+    }
+  }
+}

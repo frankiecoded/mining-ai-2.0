@@ -1,0 +1,174 @@
+{
+  "title": "Water Management & Hydrogeology Dataset",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Water quality monitoring, treatment processes, dewatering systems, and environmental compliance data.",
+  "water_sources": [
+    {
+      "source_id": "WS-001",
+      "name": "Lake Victoria (Geita Operations)",
+      "type": "surface_water",
+      "annual_volume_m3": 50000000,
+      "quality": {
+        "pH": "7.2",
+        "TDS_mg_L": 185,
+        "conductivity_uS_cm": 290,
+        "turbidity_NTU": 12,
+        "Cu_mg_L": 0.02,
+        "Fe_mg_L": 0.8,
+        "Zn_mg_L": 0.05,
+        "CN_mg_L": 0.0,
+        "sulfate_mg_L": 25,
+        "chloride_mg_L": 18
+      },
+      "seasonal_variation": "Wet season (Mar-May): +40% turbidity; Dry season (Jun-Oct): baseline quality",
+      "treatment_required": "Sedimentation and chlorination before use"
+    },
+    {
+      "source_id": "WS-002",
+      "name": "Underground Dewatering (Bulawayo)",
+      "type": "groundwater",
+      "annual_volume_m3": 12000000,
+      "quality": {
+        "pH": "6.8",
+        "TDS_mg_L": 850,
+        "conductivity_uS_cm": 1350,
+        "turbidity_NTU": 45,
+        "Cu_mg_L": 1.2,
+        "Fe_mg_L": 28.0,
+        "Mn_mg_L": 8.5,
+        "sulfate_mg_L": 320,
+        "hardness_mg_L_CaCO3": 580
+      },
+      "treatment_required": "Iron/manganese removal, pH adjustment, settling"
+    }
+  ],
+  "process_water": {
+    "circuits": [
+      {
+        "circuit_id": "PW-001",
+        "name": "CIL Circuit Water",
+        "source": "WS-001",
+        "consumption_m3_day": 4500,
+        "quality_requirements": {
+          "pH": "10.0-11.0 (with lime)",
+          "TDS_mg_L_max": 5000,
+          "dissolved_oxygen_mg_L_min": 6.0,
+          "turbidity_NTU_max": 50
+        },
+        "recycle_rate_percent": 85,
+        "makeup_source": "Fresh water + dewatering return"
+      },
+      {
+        "circuit_id": "PW-002",
+        "name": "Grinding Circuit Water",
+        "source": "Recycled",
+        "consumption_m3_day": 6000,
+        "quality_requirements": {
+          "pH": "7.0-8.5",
+          "TDS_mg_L_max": 3000,
+          "particle_size_microns_max": 75
+        },
+        "recycle_rate_percent": 92
+      }
+    ]
+  },
+  "dewatering_system": {
+    "underground_pumps": [
+      {"pump_id": "WP-UG-01", "type": "Submersible", "capacity_m3_h": 150, "head_m": 80, "motor_kw": 75, "status": "operational"},
+      {"pump_id": "WP-UG-02", "type": "Submersible", "capacity_m3_h": 150, "head_m": 80, "motor_kw": 75, "status": "standby"},
+      {"pump_id": "WP-UG-03", "type": "Vertical turbine", "capacity_m3_h": 200, "head_m": 120, "motor_kw": 110, "status": "operational"}
+    ],
+    "total_dewatering_capacity_m3_h": 500,
+    "average_inflow_m3_h": 280,
+    "pumping_hours_per_day": 20,
+    "water_level_monitoring": {
+      "sump_level_m": "Monitored continuously",
+      "target_level_m": "Below pump intake",
+      "alarm_level_m": "Above pump intake + 0.5m",
+      "data_interval_minutes": 5
+    }
+  },
+  "water_treatment": {
+    "iron_removal": {
+      "process": "Aeration + settling + filtration",
+      "target_Fe_mg_L": 0.3,
+      "chemicals": ["Sodium hypochlorite (oxidant)", "Polymer (flocculant)"],
+      "retention_time_hours": 4,
+      "flow_rate_m3_h": 50
+    },
+    "ph_adjustment": {
+      "process": "Lime dosing",
+      "target_pH": "7.0-8.5",
+      "chemical": "Hydrated lime (Ca(OH)2)",
+      "dosing_rate_kg_per_m3": 0.5,
+      "monitoring": "pH probe continuous"
+    },
+    "cyanide_destruction": {
+      "process": "INCO SO2/Air process",
+      "reagents": ["SO2 (sodium metabisulfite)", "Air (blower)"],
+      "target_CN_mg_L": 0.2,
+      "retention_time_hours": 2,
+      "monitoring": "CN and pH continuous"
+    },
+    "tailings_water_recovery": {
+      "process": "Settling + decanting",
+      "recovery_rate_percent": 85,
+      "return_to_process": true,
+      "makeup_fresh_water_percent": 15
+    }
+  },
+  "discharge_compliance": {
+    "limits": {
+      "pH": "6.5-8.5",
+      "TSS_mg_L": 50,
+      "Cu_mg_L": 0.05,
+      "Zn_mg_L": 0.5,
+      "Fe_mg_L": 1.0,
+      "Mn_mg_L": 0.5,
+      "CN_mg_L": 0.1,
+      "sulfate_mg_L": 500,
+      "As_mg_L": 0.1,
+      "Hg_mg_L": 0.001
+    },
+    "monitoring_frequency": "Weekly for major parameters, Monthly for trace metals",
+    "reporting": "Quarterly to environmental regulator",
+    "events_2026_ytd": {
+      "tests_conducted": 48,
+      "compliant": 48,
+      "non_compliant": 0,
+      "compliance_rate_percent": 100
+    }
+  },
+  "water_balance": {
+    "annual_inputs_m3": 62000000,
+    "annual_outputs_m3": 62000000,
+    "breakdown": {
+      "process_consumption": "45% (evaporation, moisture in concentrate/tailings)",
+      "tailings_discharge": "30% (lost with tailings deposition)",
+      "evaporation_from_dams": "15%",
+      "site_discharge": "10% (to environment, treated)"
+    }
+  },
+  "risk_scenarios": {
+    "acid_mine_drainage": {
+      "risk_level": "low",
+      "description": "Low sulfide content in ore; acid generation potential is minimal",
+      "mitigation": "Liner systems on waste dumps; cover material for closure",
+      "monitoring": "Quarterly AMD characterization of waste rock"
+    },
+    "cyanide_spill": {
+      "risk_level": "medium",
+      "description": "Risk from cyanide transport and storage",
+      "mitigation": "Bunded storage, emergency response plan, spill kits on-site",
+      "response_time_minutes": 5,
+      "neutralization_agent": "Sodium hypochlorite + lime"
+    },
+    "tailings_dam_failure": {
+      "risk_level": "low",
+      "description": "Engineered dam with safety factors >1.5",
+      "mitigation": "Seismic monitoring, piezometer array, emergency action plan",
+      "consequence_zone_km": 5
+    }
+  }
+}

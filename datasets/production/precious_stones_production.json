@@ -1,0 +1,146 @@
+{
+  "title": "Precious Stones Production Data",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Operational data for precious stones mining and processing in East Africa.",
+  "tanzanite_operations": [
+    {
+      "operation_id": "GEM-TZ-001",
+      "name": "Merelani Hills Tanzanite Mine",
+      "location": "Arusha, Tanzania",
+      "mining_method": "Underground (artisanal + industrial)",
+      "depth_m": "100-450",
+      "host_rock": "Gneissic pegmatites",
+      "production": {
+        "monthly_carats": 65000,
+        "ytd_carats": 455000,
+        "target_annual_carats": 800000,
+        "aaa_grade_percent": 8,
+        "aa_grade_percent": 15,
+        "a_grade_percent": 25,
+        "commercial_grade_percent": 52
+      },
+      "pricing": {
+        "aaa_per_carat_usd": 1500,
+        "aa_per_carat_usd": 800,
+        "a_per_carat_usd": 400,
+        "commercial_per_carat_usd": 120,
+        "average_per_carat_usd": 380
+      },
+      "quality_characteristics": {
+        "aaa": "D block; vivid blue; >5ct; excellent clarity",
+        "aa": "B/C block; blue-violet; 2-5ct; eye clean",
+        "a": "A/B block; violet-blue; 1-3ct; minor inclusions",
+        "commercial": "Lower blocks; color varied; <2ct; included"
+      },
+      "processing": {
+        "sorting": "Manual by expert gemologists",
+        "heating": "Standard (500-600°C) to enhance blue color",
+        "cutting": "Off-site (India, Israel, USA)",
+        "certification": "TanzaniteOne grading; GIA optional"
+      },
+      "workforce": {
+        "miners": 350,
+        "sorters": 25,
+        "support": 75,
+        "total": 450
+      }
+    }
+  ],
+  "ruby_operations": [
+    {
+      "operation_id": "GEM-RB-001",
+      "name": "Winza Ruby Project",
+      "location": "Dodoma, Tanzania",
+      "mining_method": "Artisanal + small-scale",
+      "production": {
+        "monthly_carats": 2500,
+        "ytd_carats": 17500,
+        "target_annual_carats": 30000,
+        "gem_quality_percent": 20,
+        "commercial_grade_percent": 80
+      },
+      "pricing": {
+        "pigeon_blood_per_carat_usd": 25000,
+        "fine_red_per_carat_usd": 8000,
+        "commercial_per_carat_usd": 1500,
+        "average_per_carat_usd": 3200
+      },
+      "quality_notes": "Winza rubies known for fluorescent pinkish-red; no heat treatment preferred"
+    }
+  ],
+  "tsavorite_operations": [
+    {
+      "operation_id": "GEM-TS-001",
+      "name": "Voi Tsavorite Project",
+      "location": "Taita-Taveta, Kenya",
+      "mining_method": "Artisanal + small-scale underground",
+      "production": {
+        "monthly_carats": 1200,
+        "ytd_carats": 8400,
+        "target_annual_carats": 15000,
+        "vivid_green_percent": 10,
+        "fine_green_percent": 30,
+        "commercial_percent": 60
+      },
+      "pricing": {
+        "vivid_green_per_carat_usd": 8000,
+        "fine_green_per_carat_usd": 3000,
+        "commercial_per_carat_usd": 500,
+        "average_per_carat_usd": 1800
+      },
+      "quality_notes": "East African tsavorite: finest green garnet; 95%+ brilliance vs emerald's 85%"
+    }
+  ],
+  "diamond_operations": [
+    {
+      "operation_id": "GEM-DM-001",
+      "name": "Williamson Diamond Mine",
+      "location": "Shinyanga, Tanzania",
+      "mining_method": "Open pit (Mwadui)",
+      "production": {
+        "monthly_carats": 150000,
+        "ytd_carats": 1050000,
+        "target_annual_carats": 1800000,
+        "gem_quality_percent": 30,
+        "near_gem_percent": 15,
+        "industrial_percent": 55
+      },
+      "pricing": {
+        "fine_gem_per_carat_usd": 3500,
+        "commercial_gem_per_carat_usd": 800,
+        "near_gem_per_carat_usd": 200,
+        "industrial_per_carat_usd": 15,
+        "average_per_carat_usd": 180
+      },
+      "famous_stones": ["Tanzania Pink (23.16ct)", "Williamson Star (51.7ct)"],
+      "certification": "Kimberley Process compliant"
+    }
+  ],
+  "gemological_testing": {
+    "equipment": [
+      "GemScope microscope (10-80x)",
+      "Refractometer (1.30-1.80 RI)",
+      "Spectroscope (visible + infrared)",
+      "UV lamp (longwave 365nm, shortwave 254nm)",
+      "Chelsea color filter",
+      "Electronic balance (0.01ct precision)",
+      "Diamond selector (thermal conductivity)",
+      "FTIR spectrometer (treatment detection)",
+      "Raman spectrometer (mineral identification)"
+    ],
+    "grading_systems": {
+      "diamond": "4Cs: Carat, Color (D-Z), Clarity (FL-I3), Cut (Excellent-Poor)",
+      "ruby": "Color (pigeon blood, vivid, fine), Clarity (IF-SI3), Cut, Carat",
+      "sapphire": "Color (blue, padparadscha, fancy), Clarity, Cut, Carat",
+      "tanzanite": "Color (AAA blue, AA blue-violet, A violet-blue), Clarity, Cut",
+      "tsavorite": "Color (vivid green, fine, commercial), Clarity, Cut, Carat"
+    },
+    "treatment_detection": [
+      "FTIR for heat treatment (ruby, sapphire)",
+      "Raman for filling detection (ruby, emerald)",
+      "UV fluorescence for origin determination",
+      "Inclusion analysis for natural vs synthetic"
+    ]
+  }
+}

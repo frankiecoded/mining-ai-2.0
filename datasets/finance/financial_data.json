@@ -1,0 +1,332 @@
+{
+  "title": "Gold & Precious Metals Financial Intelligence",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Comprehensive financial data for mining operations including budgets, procurement, cost analysis, and investment metrics.",
+  "budgets": {
+    "FY2026": {
+      "departments": [
+        {
+          "department": "exploration",
+          "allocated_usd": 12000000,
+          "spent_usd": 5400000,
+          "remaining_usd": 6600000,
+          "variance_percent": 45.0,
+          "status": "on_track",
+          "items": [
+            {"category": "Drilling", "budget": 5000000, "spent": 2200000},
+            {"category": "Geochemistry", "budget": 2000000, "spent": 900000},
+            {"category": "Geophysics", "budget": 1500000, "spent": 650000},
+            {"category": "Camp & Logistics", "budget": 2000000, "spent": 1000000},
+            {"category": "Laboratory", "budget": 1500000, "spent": 650000}
+          ]
+        },
+        {
+          "department": "mining_operations",
+          "allocated_usd": 38000000,
+          "spent_usd": 20100000,
+          "remaining_usd": 17900000,
+          "variance_percent": 47.1,
+          "status": "on_track",
+          "items": [
+            {"category": "Drill & Blast", "budget": 8000000, "spent": 4200000},
+            {"category": "Haulage", "budget": 12000000, "spent": 6500000},
+            {"category": "Labour", "budget": 10000000, "spent": 5300000},
+            {"category": "Fuel", "budget": 5000000, "spent": 2600000},
+            {"category": "Ground Support", "budget": 3000000, "spent": 1500000}
+          ]
+        },
+        {
+          "department": "processing",
+          "allocated_usd": 28000000,
+          "spent_usd": 14200000,
+          "remaining_usd": 13800000,
+          "variance_percent": 50.7,
+          "status": "on_track",
+          "items": [
+            {"category": "Reagents", "budget": 8000000, "spent": 4100000},
+            {"category": "Mill Media", "budget": 4000000, "spent": 2000000},
+            {"category": "Power", "budget": 6000000, "spent": 3000000},
+            {"category": "Labour", "budget": 5000000, "spent": 2600000},
+            {"category": "Maintenance", "budget": 5000000, "spent": 2500000}
+          ]
+        },
+        {
+          "department": "gemstone_recovery",
+          "allocated_usd": 8500000,
+          "spent_usd": 4800000,
+          "remaining_usd": 3700000,
+          "variance_percent": 43.5,
+          "status": "on_track",
+          "items": [
+            {"category": "Sorting & Grading", "budget": 2000000, "spent": 1100000},
+            {"category": "Heat Treatment", "budget": 1500000, "spent": 850000},
+            {"category": "Security & Transport", "budget": 2000000, "spent": 1200000},
+            {"category": "Expert Gemologists", "budget": 1500000, "spent": 800000},
+            {"category": "Certification", "budget": 1500000, "spent": 850000}
+          ]
+        },
+        {
+          "department": "environmental",
+          "allocated_usd": 4500000,
+          "spent_usd": 2100000,
+          "remaining_usd": 2400000,
+          "variance_percent": 53.3,
+          "status": "on_track",
+          "items": [
+            {"category": "Water Treatment", "budget": 1500000, "spent": 700000},
+            {"category": "Tailings Management", "budget": 1000000, "spent": 500000},
+            {"category": "Air Quality", "budget": 500000, "spent": 200000},
+            {"category": "Biodiversity", "budget": 500000, "spent": 200000},
+            {"category": "Compliance Reporting", "budget": 1000000, "spent": 500000}
+          ]
+        },
+        {
+          "department": "safety",
+          "allocated_usd": 6500000,
+          "spent_usd": 2900000,
+          "remaining_usd": 3600000,
+          "variance_percent": 55.4,
+          "status": "on_track",
+          "items": [
+            {"category": "Training", "budget": 1500000, "spent": 700000},
+            {"category": "PPE", "budget": 1000000, "spent": 450000},
+            {"category": "Gas Detection", "budget": 800000, "spent": 350000},
+            {"category": "Refuge Chambers", "budget": 1200000, "spent": 500000},
+            {"category": "Emergency Equipment", "budget": 1000000, "spent": 450000},
+            {"category": "Medical", "budget": 1000000, "spent": 450000}
+          ]
+        },
+        {
+          "department": "corporate",
+          "allocated_usd": 9000000,
+          "spent_usd": 4200000,
+          "remaining_usd": 4800000,
+          "variance_percent": 53.3,
+          "status": "on_track",
+          "items": [
+            {"category": "Salaries & Benefits", "budget": 4000000, "spent": 1900000},
+            {"category": "Insurance", "budget": 1500000, "spent": 700000},
+            {"category": "Legal & Compliance", "budget": 1000000, "spent": 500000},
+            {"category": "IT Systems", "budget": 1500000, "spent": 700000},
+            {"category": "Community Investment", "budget": 1000000, "spent": 400000}
+          ]
+        },
+        {
+          "department": "market_intelligence",
+          "allocated_usd": 2000000,
+          "spent_usd": 850000,
+          "remaining_usd": 1150000,
+          "variance_percent": 57.5,
+          "status": "on_track",
+          "items": [
+            {"category": "Market Research", "budget": 800000, "spent": 350000},
+            {"category": "Price Hedging", "budget": 500000, "spent": 200000},
+            {"category": "Sales & Marketing", "budget": 400000, "spent": 170000},
+            {"category": "Trade Shows", "budget": 300000, "spent": 130000}
+          ]
+        }
+      ],
+      "total_budget_usd": 108500000,
+      "total_spent_usd": 54550000,
+      "total_remaining_usd": 53950000,
+      "ytd_variance_percent": 49.6
+    }
+  },
+  "cost_analysis": {
+    "all_in_sustaining_cost": {
+      "current_aic_per_oz": 890,
+      "target_aic_per_oz": 950,
+      "benchmark_industry": 1100,
+      "trend": "decreasing",
+      "breakdown": {
+        "mining_cost_per_oz": 320,
+        "processing_cost_per_oz": 180,
+        "ga_cost_per_oz": 85,
+        "royalties_per_oz": 145,
+        "sustaining_capex_per_oz": 160
+      }
+    },
+    "operational_costs": {
+      "cost_per_tonne_mined": 4.85,
+      "cost_per_tonne_milled": 27.50,
+      "cost_per_ore_fatality": 28500,
+      "fuel_cost_per_litre": 1.35,
+      "power_cost_per_kwh": 0.085,
+      "water_cost_per_m3": 2.10
+    },
+    "gemstone_costs": {
+      "tanzanite_cost_per_carat": 85,
+      "ruby_cost_per_carat": 420,
+      "tsavorite_cost_per_carat": 180,
+      "diamond_cost_per_carat": 22,
+      "sorting_cost_per_carat": 5,
+      "treatment_cost_per_carat": 12,
+      "certification_cost_per_carat": 8,
+      "security_transport_cost_per_carat": 15
+    },
+    "cost_benchmarks": {
+      "gold_mining_aic_range": {"low": 750, "average": 1100, "high": 1500},
+      "gold_processing_per_oz": {"low": 150, "average": 250, "high": 400},
+      "tanzanite_per_carat": {"low": 50, "average": 100, "high": 200},
+      "diamond_per_carat": {"low": 10, "average": 30, "high": 60}
+    }
+  },
+  "procurement": {
+    "active_contracts": [
+      {
+        "contract_id": "PROC-2026-001",
+        "supplier": "Barrick Gold Supply Co.",
+        "item": "Sodium Cyanide (NaCN)",
+        "quantity": 500,
+        "unit": "tonnes",
+        "unit_price_usd": 2800,
+        "total_value_usd": 1400000,
+        "delivery_schedule": "Monthly 42t",
+        "status": "active",
+        "expiry": "2026-12-31"
+      },
+      {
+        "contract_id": "PROC-2026-002",
+        "supplier": "Komatsu Mining Corp",
+        "item": "980E Haul Truck Spare Parts",
+        "quantity": 1,
+        "unit": "lot",
+        "unit_price_usd": 850000,
+        "total_value_usd": 850000,
+        "delivery_schedule": "Quarterly",
+        "status": "active",
+        "expiry": "2027-06-30"
+      },
+      {
+        "contract_id": "PROC-2026-003",
+        "supplier": "Cytec Solvay Group",
+        "item": "SIPX Collector (Sodium Isopropyl Xanthate)",
+        "quantity": 120,
+        "unit": "tonnes",
+        "unit_price_usd": 3200,
+        "total_value_usd": 384000,
+        "delivery_schedule": "Monthly 10t",
+        "status": "active",
+        "expiry": "2026-12-31"
+      },
+      {
+        "contract_id": "PROC-2026-004",
+        "supplier": "Metso Outotec",
+        "item": "HP500 Cone Crusher Liners",
+        "quantity": 8,
+        "unit": "sets",
+        "unit_price_usd": 45000,
+        "total_value_usd": 360000,
+        "delivery_schedule": "Bi-monthly",
+        "status": "active",
+        "expiry": "2026-12-31"
+      },
+      {
+        "contract_id": "PROC-2026-005",
+        "supplier": "Sandvik Mining",
+        "item": "DD421iJ Drill Rig Consumables",
+        "quantity": 1,
+        "unit": "lot",
+        "unit_price_usd": 280000,
+        "total_value_usd": 280000,
+        "delivery_schedule": "Quarterly",
+        "status": "active",
+        "expiry": "2026-12-31"
+      },
+      {
+        "contract_id": "PROC-2026-006",
+        "supplier": "TanzaniteOne Mining Ltd",
+        "item": "Tanzanite Sorting & Grading Services",
+        "quantity": 1,
+        "unit": "annual",
+        "unit_price_usd": 450000,
+        "total_value_usd": 450000,
+        "delivery_schedule": "Monthly 37,500",
+        "status": "active",
+        "expiry": "2026-12-31"
+      }
+    ],
+    "pending_requisitions": [
+      {"requisition_id": "REQ-2026-045", "item": "Belt Scale Calibration Kit", "estimated_cost": 25000, "urgency": "high"},
+      {"requisition_id": "REQ-2026-046", "item": "Underground Ventilation Fan Motor", "estimated_cost": 85000, "urgency": "critical"},
+      {"requisition_id": "REQ-2026-047", "item": "XRF Analyzer Replacement Tube", "estimated_cost": 12000, "urgency": "medium"},
+      {"requisition_id": "REQ-2026-048", "item": "Gemological Microscope Upgrade", "estimated_cost": 45000, "urgency": "low"}
+    ]
+  },
+  "revenue": {
+    "monthly": [
+      {"month": "2026-01", "gold_oz": 13200, "gold_revenue_usd": 32808000, "gemstone_revenue_usd": 2850000, "total_revenue_usd": 35658000},
+      {"month": "2026-02", "gold_oz": 13800, "gold_revenue_usd": 34362000, "gemstone_revenue_usd": 3100000, "total_revenue_usd": 37462000},
+      {"month": "2026-03", "gold_oz": 14500, "gold_revenue_usd": 36250000, "gemstone_revenue_usd": 3450000, "total_revenue_usd": 39700000},
+      {"month": "2026-04", "gold_oz": 14200, "gold_revenue_usd": 35500000, "gemstone_revenue_usd": 3200000, "total_revenue_usd": 38700000},
+      {"month": "2026-05", "gold_oz": 15100, "gold_revenue_usd": 37750000, "gemstone_revenue_usd": 3650000, "total_revenue_usd": 41400000},
+      {"month": "2026-06", "gold_oz": 14800, "gold_revenue_usd": 37000000, "gemstone_revenue_usd": 3400000, "total_revenue_usd": 40400000}
+    ],
+    "ytd_total_gold_oz": 85600,
+    "ytd_total_revenue_usd": 233320000,
+    "ytd_gemstone_revenue_usd": 19650000,
+    "gold_price_assumption": 2450,
+    "currency": "USD"
+  },
+  "hedging": {
+    "strategy": "Forward contracts covering 40% of annual production",
+    "positions": [
+      {"instrument": "Gold Forward", "quantity_oz": 30000, "strike_price_usd": 2420, "expiry": "2026-12-31", "counterparties": "HSBC, JP Morgan"},
+      {"instrument": "Gold Call Option", "quantity_oz": 15000, "strike_price_usd": 2500, "premium_usd": 45, "expiry": "2026-09-30"},
+      {"instrument": "Silver Forward", "quantity_oz": 200000, "strike_price_usd": 30.50, "expiry": "2026-12-31"}
+    ],
+    "unhedged_production": 128400,
+    "hedge_book_value_usd": 8500000
+  },
+  "investment_metrics": {
+    "npv_usd": 1250000000,
+    "irr_percent": 28.5,
+    "payback_years": 3.2,
+    "project_life_years": 12,
+    "initial_capex_usd": 450000000,
+    "sustaining_capex_total_usd": 180000000,
+    "closure_cost_usd": 45000000,
+    "salvage_value_usd": 15000000,
+    "gold_price_assumption_usd": 2200,
+    "sensitivity_analysis": [
+      {"gold_price_usd": 1800, "irr_percent": 18.2, "npv_usd": 680000000},
+      {"gold_price_usd": 2000, "irr_percent": 23.4, "npv_usd": 960000000},
+      {"gold_price_usd": 2200, "irr_percent": 28.5, "npv_usd": 1250000000},
+      {"gold_price_usd": 2400, "irr_percent": 33.8, "npv_usd": 1550000000},
+      {"gold_price_usd": 2600, "irr_percent": 38.9, "npv_usd": 1860000000}
+    ]
+  },
+  "taxation": {
+    "royalty_rate_percent": 6,
+    "corporate_tax_rate_percent": 30,
+    "mining_rental_tax_percent": 0,
+    "export_levy_percent": 0,
+    "community_development_levy_percent": 1,
+    "carbon_tax_usd_per_tonne": 15,
+    "annual_royalty_estimate_usd": 14000000,
+    "annual_tax_estimate_usd": 42000000,
+    "tax_incentives": [
+      "Capital allowance on mining assets over 5 years",
+      "VAT exemption on mining equipment imports",
+      "Loss carry-forward unlimited",
+      "Investment allowance 50% in first year"
+    ]
+  },
+  "payroll": {
+    "total_employees": 1250,
+    "monthly_gross_payroll_usd": 4200000,
+    "monthly_tax_withheld_usd": 840000,
+    "monthly_benefits_usd": 630000,
+    "monthly_net_paid_usd": 2730000,
+    "average_salary_usd": 3360,
+    "categories": [
+      {"category": "Management", "count": 25, "avg_salary_usd": 18000},
+      {"category": "Professional", "count": 85, "avg_salary_usd": 8500},
+      {"category": "Skilled Trades", "count": 340, "avg_salary_usd": 4200},
+      {"category": "Operators", "count": 450, "avg_salary_usd": 3500},
+      {"category": "Semi-skilled", "count": 250, "avg_salary_usd": 2200},
+      {"category": "Unskilled", "count": 100, "avg_salary_usd": 1200}
+    ]
+  }
+}

@@ -1,0 +1,490 @@
+{
+  "title": "Geological Standards & Mineral Identification Guide",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Comprehensive geological classification, mineral identification, and rock description standards for gold, precious stones, and rare earth exploration.",
+  "rock_classification": {
+    "igneous": {
+      "intrusive_plutonic": {
+        "granite": {
+          "composition": "Quartz + feldspar + mica",
+          "color": "Light (felsic)",
+          "texture": "Phaneritic (coarse-grained)",
+          "gold_association": "Low - occasional orogenic gold in shear zones",
+          "gemstone_association": "Tourmaline, beryl, topaz in pegmatites",
+          "example_deposits": ["Greenbushes pegmatite (Australia)", "Kibusu pegmatite (Kenya)"]
+        },
+        "diorite": {
+          "composition": "Plagiophase + hornblende + biotite",
+          "color": "Intermediate",
+          "texture": "Phaneritic to porphyritic",
+          "gold_association": "Moderate - porphyry copper-gold deposits",
+          "gemstone_association": "None significant",
+          "example_deposits": ["Porphyry deposits (Tanzania)"]
+        },
+        "gabbro": {
+          "composition": "Plagioclase + pyroxene + olivine",
+          "color": "Dark (mafic)",
+          "texture": "Phaneritic",
+          "gold_association": "Low - some magmatic Ni-Cu-PGE deposits",
+          "gemstone_association": "None",
+          "example_deposits": []
+        },
+        "pegmatite": {
+          "composition": "Quartz + feldspar + mica + tourmaline + rare minerals",
+          "color": "Variable",
+          "texture": "Very coarse (>1cm crystals)",
+          "gold_association": "Low",
+          "gemstone_association": "High - tanzanite, tsavorite, emerald, tourmaline, spodumene",
+          "example_deposits": ["Merelani pegmatites (Tanzania)", "Karako-Kayah (Kenya)"]
+        }
+      },
+      "extrusive_volcanic": {
+        "basalt": {
+          "composition": "Plagioclase + pyroxene + olivine",
+          "color": "Dark (mafic)",
+          "texture": "Aphanitic (fine-grained)",
+          "gold_association": "Moderate - epithermal gold deposits in volcanic arcs",
+          "gemstone_association": "Moderate - sapphire in alkali basalts (Tanzania, Kenya)",
+          "example_deposits": ["Merelani Hills (Tanzania)", "Yatta Plateau (Kenya)"]
+        },
+        "rhyolite": {
+          "composition": "Quartz + alkali feldspar + biotite",
+          "color": "Light (felsic)",
+          "texture": "Aphanitic to porphyritic",
+          "gold_association": "High - epithermal gold deposits",
+          "gemstone_association": "Low",
+          "example_deposits": ["Epithermal deposits in East African Rift"]
+        },
+        "tuff": {
+          "composition": "Volcanic ash and fragments",
+          "color": "Variable",
+          "texture": "Pyroclastic",
+          "gold_association": "Moderate - associated with epithermal systems",
+          "gemstone_association": "Low",
+          "example_deposits": []
+        }
+      }
+    },
+    "sedimentary": {
+      "clastic": {
+        "conglomerate": {
+          "description": "Cemented gravel and pebbles",
+          "gold_association": "High - placer gold deposits, Witwatersrand reefs",
+          "gemstone_association": "High - alluvial diamonds, sapphires, tanzanite",
+          "example_deposits": ["Witwatersrand (South Africa)", "Lake Victoria alluvials (Tanzania)"]
+        },
+        "sandstone": {
+          "description": "Cemented sand grains",
+          "gold_association": "Moderate - some paleoplacer deposits",
+          "gemstone_association": "Low",
+          "example_deposits": []
+        },
+        "shale": {
+          "description": "Fine-grained clay-rich rock",
+          "gold_association": "Low - occasionally in black shales",
+          "gemstone_association": "Low",
+          "example_deposits": []
+        }
+      },
+      "chemical": {
+        "limestone": {
+          "description": "Calcium carbonate (CaCO3)",
+          "gold_association": "Moderate - replacement deposits in carbonate rocks",
+          "gemstone_association": "Moderate - emerald in calc-silicate host rocks",
+          "example_deposits": ["Muzo emerald mines (Colombia)"]
+        },
+        "chert": {
+          "description": "Siliceous sedimentary rock",
+          "gold_association": "High - banded iron formations (BIF) hosting gold",
+          "gemstone_association": "Low",
+          "example_deposits": ["Hamersley Basin (Australia)", "Kibali (DRC)"]
+        },
+        "evaporite": {
+          "description": "Salt deposits (halite, gypsum)",
+          "gold_association": "None",
+          "gemstone_association": "None",
+          "example_deposits": []
+        }
+      }
+    },
+    "metamorphic": {
+      "foliated": {
+        "gneiss": {
+          "description": "Banded metamorphic rock; feldspar + quartz + mica",
+          "gold_association": "High - orogenic gold deposits in greenstone belts",
+          "gemstone_association": "High - tanzanite in Merelani gneissic pegmatites",
+          "example_deposits": ["Merelani Hills (Tanzania)", "Kibali (DRC)", "Geita (Tanzania)"]
+        },
+        "schist": {
+          "description": "Medium-grade metamorphic rock; visible mica",
+          "gold_association": "High - greenstone belt gold deposits",
+          "gemstone_association": "High - tsavorite in graphitic schists",
+          "example_deposits": ["Nzega Greenstone Belt (Tanzania)", "Bulawayo (Zimbabwe)"]
+        },
+        "phyllite": {
+          "description": "Low-grade metamorphic; silky sheen",
+          "gold_association": "Moderate",
+          "gemstone_association": "Low",
+          "example_deposits": []
+        },
+        "slate": {
+          "description": "Low-grade metamorphic; fine-grained, fissile",
+          "gold_association": "Low",
+          "gemstone_association": "Low",
+          "example_deposits": []
+        }
+      },
+      "non_foliated": {
+        "marble": {
+          "description": "Metamorphosed limestone; calcite or dolomite",
+          "gold_association": "Low",
+          "gemstone_association": "High - ruby in marble (Mogok, Winza)",
+          "example_deposits": ["Mogok (Myanmar)", "Winza (Tanzania)"]
+        },
+        "quartzite": {
+          "description": "Metamorphosed sandstone; quartz-rich",
+          "gold_association": "Moderate - orogenic gold in quartz veins",
+          "gemstone_association": "Low",
+          "example_deposits": ["Various greenstone belts"]
+        },
+        "hornfels": {
+          "description": "Contact metamorphic rock; hard, dense",
+          "gold_association": "Low",
+          "gemstone_association": "Low",
+          "example_deposits": []
+        }
+      }
+    }
+  },
+  "mineral_identification": {
+    "gold_indicators": {
+      "primary_minerals": [
+        {
+          "mineral": "Native Gold",
+          "formula": "Au",
+          "hardness": "2.5-3",
+          "color": "Yellow metallic",
+          "streak": "Golden yellow",
+          "luster": "Metallic",
+          "specific_gravity": "19.3",
+          "occurrence": "Free-milling in quartz veins, disseminated in sulfides, placer deposits",
+          "identification_tips": ["Very heavy", "Malleable - won't break when hammered", "Soluble in aqua regia only"]
+        },
+        {
+          "mineral": "Pyrite",
+          "formula": "FeS2",
+          "hardness": "6-6.5",
+          "color": "Pale brass yellow",
+          "streak": "Greenish black",
+          "luster": "Metallic",
+          "specific_gravity": "5.0",
+          "occurrence": "Associated with gold in many deposit types",
+          "identification_tips": ["Fool's gold - but often contains gold", "Harder than gold", "Strikes fire with steel"]
+        },
+        {
+          "mineral": "Arsenopyrite",
+          "formula": "FeAsS",
+          "hardness": "5.5-6",
+          "color": "Tin white to silver white",
+          "streak": "Dark grey",
+          "luster": "Metallic",
+          "specific_gravity": "6.1",
+          "occurrence": "Common pathfinder mineral for gold",
+          "identification_tips": ["Garlic smell when struck with hammer", "Harder than pyrite"]
+        },
+        {
+          "mineral": "Chalcopyrite",
+          "formula": "CuFeS2",
+          "hardness": "3.5-4",
+          "color": "Brass yellow with greenish tarnish",
+          "streak": "Greenish black",
+          "luster": "Metallic",
+          "specific_gravity": "4.1",
+          "occurrence": "Copper-gold porphyry deposits",
+          "identification_tips": ["Tarnishes green/blue", "Softer than pyrite"]
+        },
+        {
+          "mineral": "Galena",
+          "formula": "PbS",
+          "hardness": "2.5",
+          "color": "Lead grey",
+          "streak": "Lead grey",
+          "luster": "Metallic",
+          "specific_gravity": "7.6",
+          "occurrence": "Silver-gold vein deposits",
+          "identification_tips": ["Very heavy", "Perfect cubic cleavage", "Leaves grey streak"]
+        }
+      ],
+      "pathfinder_elements": {
+        "arsenic": {
+          "mineral": "Arsenopyrite, realgar, orpiment",
+          "threshold_ppm": 50,
+          "significance": "Primary pathfinder for orogenic gold"
+        },
+        "antimony": {
+          "mineral": "Stibnite",
+          "threshold_ppm": 5,
+          "significance": "Associated with epithermal and orogenic gold"
+        },
+        "bismuth": {
+          "mineral": "Bismuthinite",
+          "threshold_ppm": 2,
+          "significance": "Intrusion-related gold systems"
+        },
+        "tellurium": {
+          "mineral": "Calaverite, sylvanite",
+          "threshold_ppm": 1,
+          "significance": "Associated with high-grade gold veins"
+        },
+        "tungsten": {
+          "mineral": "Scheelite, wolframite",
+          "threshold_ppm": 20,
+          "significance": "Intrusion-related gold systems"
+        }
+      }
+    },
+    "diamond_indicators": {
+      "kimberlite_indicator_minerals": [
+        {
+          "mineral": "Pyrope Garnet (G10)",
+          "chemistry": "Cr2O3 >1.5%, CaO <1.0%, MgO >20%",
+          "temperature_C": "900-1100",
+          "significance": "Most important KIM - diamond stability field"
+        },
+        {
+          "mineral": "Chrome Diopside",
+          "chemistry": "Cr2O3 >0.5%, TiO2 <0.3%",
+          "color": "Bright emerald green",
+          "significance": "Upper mantle origin; associated with diamondiferous kimberlites"
+        },
+        {
+          "mineral": "Chrome Ilmenite",
+          "chemistry": "Cr2O3 >3%, MgO >5%, FeO <35%, MnO <0.5%",
+          "significance": "Diamond stability field indicator"
+        },
+        {
+          "mineral": "Magnesiochromite",
+          "chemistry": "MgO >10%, Cr2O3 >45%",
+          "significance": "Deep mantle origin indicator"
+        }
+      ],
+      "kimberlite_geochemistry": {
+        "major_elements": {
+          "SiO2": "30-40%",
+          "MgO": "20-30%",
+          "Al2O3": "2-5%",
+          "Fe2O3": "5-10%",
+          "TiO2": "1-3%",
+          "K2O": "0.5-2%"
+        },
+        "trace_elements": {
+          "Ni": ">1000 ppm",
+          "Cr": ">1000 ppm",
+          "Co": ">100 ppm",
+          "Nb": ">200 ppm",
+          "Ba": ">500 ppm",
+          "La": ">100 ppm"
+        },
+        "radiometric": {
+          "potassium": "High K in groundmass",
+          "thorium": "Elevated Th",
+          "uranium": "Elevated U",
+          "th_k_ratio": "Diagnostic for kimberlite vs other intrusives"
+        }
+      },
+      "microdiamond_sampling": {
+        "method": "Caustic dissolution of kimberlite",
+        "sample_mass_kg": "10-100",
+        "processing": "Dissolve in NaOH at 300°C; recover microdiamonds on grease table",
+        "evaluation": "Count, size distribution, crystal morphology",
+        "significance": "Early assessment of diamond potential before bulk sampling"
+      }
+    },
+    "gemstone_indicators": {
+      "ruby_indicators": {
+        "host_rocks": ["Marble (metamorphic)", "Calc-silicate gneiss", "Amphibolite"],
+        "indicator_minerals": ["Corundum", "Spinel", "Phlogopite", "Rutile"],
+        "pathfinder_elements": ["Cr", "V", "Ti", "Fe", "Ga"],
+        "geochemical_signature": "High Cr/V ratio indicates magmatic origin; low ratio indicates metamorphic"
+      },
+      "sapphire_indicators": {
+        "host_rocks": ["Alkali basalt", "Metamorphic gneiss", "Alluvial deposits"],
+        "indicator_minerals": ["Corundum", "Zircon", "Ilmenite", "Magnetite"],
+        "pathfinder_elements": ["Ti", "Fe", "Cr", "V", "Ga", "Mg"],
+        "geochemical_signature": "Ti/Fe ratio discriminates basaltic vs metamorphic origin"
+      },
+      "tanzanite_indicators": {
+        "host_rocks": ["Gneissic pegmatites", "Graphitic schists", "Calc-silicate gneiss"],
+        "indicator_minerals": ["Zoisite", "Clinozoisite", "Diopside", " graphite"],
+        "pathfinder_elements": ["Ba", "Sr", "Zr", "Nb", "V"],
+        "geophysical_signature": "Resistivity anomalies along pegmatite veins"
+      },
+      "tsavorite_indicators": {
+        "host_rocks": ["Graphitic schists", "Calc-silicate gneiss", "Mica schists"],
+        "indicator_minerals": ["Grossular garnet (green)", "Diopside", "Vesuvianite", "Graphite"],
+        "pathfinder_elements": ["Cr", "V", "Ti"],
+        "geological_setting": "East African Orogen metamorphic belt"
+      }
+    },
+    "ree_indicators": {
+      "target_minerals": ["Monazite", "Xenotime", "Bastnasite", "Allanite", "Apatite", "Zircon"],
+      "target_rocks": ["Carbonatites", "Alkaline complexes", "Phosphorite", "Heavy mineral sands", "Ion-adsorption clays"],
+      "pathfinder_elements": {
+        "light_ree": ["La", "Ce", "Nd", "Pr"],
+        "heavy_ree": ["Y", "Dy", "Er", "Yb"],
+        "associated": ["Nb", "Zr", "Th", "U", "P"]
+      },
+      "anomaly_thresholds": {
+        "La_ppm": 100,
+        "Ce_ppm": 200,
+        "Nd_ppm": 50,
+        "Y_ppm": 50,
+        "Th_ppm": 30,
+        "U_ppm": 10
+      }
+    }
+  },
+  "soil_geochemistry_standards": {
+    "sampling_methods": {
+      "B_horizon": {
+        "depth_cm": "20-40",
+        "purpose": "Primary gold exploration method",
+        "sample_mass_kg": "1-2",
+        "sieve_fraction": "-2mm",
+        "analysis": "Fire assay + ICP-MS"
+      },
+      "stream_sediment": {
+        "catchment_area_km2": "2-5",
+        "depth_cm": "20-40 below organics",
+        "sample_mass_kg": "2-5",
+        "sieve_fraction": "-80 mesh (180 micron)",
+        "analysis": "Fire assay (Au), ICP-MS (multi-element)"
+      },
+      "laterite": {
+        "depth_cm": "0-200",
+        "purpose": "Tropical terrain gold exploration",
+        "sample_mass_kg": "2-5",
+        "analysis": "ICP-MS after four-acid digestion"
+      }
+    },
+    "anomaly_classification": {
+      "background": "Below detection limit or regional background level",
+      "weak_anomaly": "2-5x background",
+      "moderate_anomaly": "5-20x background",
+      "strong_anomaly": ">20x background",
+      "bullseye": "Concentrated anomaly with clear center"
+    },
+    "multi_element_signatures": {
+      "orogenic_gold": {
+        "primary": ["Au", "As", "Sb"],
+        "secondary": ["Bi", "Te", "W", "Mo"],
+        "ratio_indicators": ["As/Sb >10 = deep source", "As/Sb <1 = shallow source"]
+      },
+      "epithermal_gold": {
+        "primary": ["Au", "Ag", "As", "Sb"],
+        "secondary": ["Hg", "Te", "Tl"],
+        "ratio_indicators": ["Au/Ag >1 = mesothermal", "Au/Ag <1 = epithermal"]
+      },
+      "porphyry_copper_gold": {
+        "primary": ["Cu", "Au", "Mo"],
+        "secondary": ["Ag", "Zn", "Pb", "As"],
+        "zoning": ["Cu-Au core → Zn-Pb periphery"]
+      },
+      "placer_gold": {
+        "primary": ["Au"],
+        "secondary": ["Sn", "Zr", "Ti", "Cr"],
+        "mineral_indicators": ["Magnetite", "Ilmenite", "Chromite", "Zircon"]
+      }
+    }
+  },
+  "core_logging_standards": {
+    "lithology_codes": {
+      "AQ": "Quartz vein",
+      "BQ": "Banded quartz vein",
+      "CG": "Conglomerate",
+      "GN": "Gneiss",
+      "GR": "Granite",
+      "SC": "Schist",
+      "SL": "Slate",
+      "BZ": "Basalt",
+      "DZ": "Diorite",
+      "MZ": "Monzonite",
+      "PK": "Pegmatite",
+      "MR": "Marble",
+      "QZ": "Quartzite"
+    },
+    "alteration_codes": {
+      "SER": "Sericite",
+      "SIL": "Silicification",
+      "CHL": "Chlorite",
+      "CAR": "Carbonate",
+      "PYR": "Pyrite (disseminated)",
+      "ARG": "Argillic",
+      "PROP": "Propylitic",
+      "POT": "Potassic",
+      "ALB": "Albite"
+    },
+    "structure_codes": {
+      "V": "Vein",
+      "SZ": "Shear zone",
+      "F": "Fault",
+      "B": "Breccia",
+      "M": "Malachite staining",
+      "OX": "Oxidized zone",
+      "SUP": "Supergene enrichment"
+    },
+    "rqr_protocol": {
+      "description": "Rock Quality Designation",
+      "formula": "(Sum of intact core pieces >10cm / Total core run length) x 100",
+      "classification": [
+        {"rqr_percent": "0-25", "quality": "Very poor", "rock_mass": "Very fractured"},
+        {"rqr_percent": "25-50", "quality": "Poor", "rock_mass": "Fractured"},
+        {"rqr_percent": "50-75", "quality": "Fair", "rock_mass": "Moderately fractured"},
+        {"rqr_percent": "75-90", "quality": "Good", "rock_mass": "Slightly fractured"},
+        {"rqr_percent": "90-100", "quality": "Excellent", "rock_mass": "Intact"}
+      ]
+    }
+  },
+  "assay_methods": {
+    "fire_assay": {
+      "element": "Au",
+      "detection_limit_ppb": 1,
+      "method": "Cupellation with Pb collector",
+      "finish": "Gravimetric or AAS",
+      "turnaround_hours": 24,
+      "cost_per_sample_usd": 15,
+      "precision": "±5% at 1 g/t"
+    },
+    "icp_ms": {
+      "elements": "40+ elements simultaneously",
+      "detection_limit_ppb": "0.01-10",
+      "method": "Aqua regia digestion",
+      "turnaround_hours": 48,
+      "cost_per_sample_usd": 45,
+      "precision": "±10% at detection limit"
+    },
+    "icp_oes": {
+      "elements": "Major and minor elements",
+      "detection_limit_ppm": "0.1-100",
+      "method": "Fusion or acid digestion",
+      "turnaround_hours": 24,
+      "cost_per_sample_usd": 25,
+      "precision": "±5% at 1%"
+    },
+    "xrf_portable": {
+      "elements": "30+ elements",
+      "detection_limit_ppm": "1-100",
+      "method": "Non-destructive X-ray fluorescence",
+      "turnaround_hours": 0.01,
+      "cost_per_sample_usd": 0,
+      "note": "Field screening; lab confirmation required"
+    },
+    "screen_fire_assay": {
+      "element": "Au (nugget effect ores)",
+      "method": "Pulverize entire sample; screen to 50 micron; assay both fractions",
+      "purpose": "More representative for coarse gold",
+      "cost_per_sample_usd": 35
+    }
+  }
+}

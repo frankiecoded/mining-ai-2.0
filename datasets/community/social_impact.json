@@ -1,0 +1,229 @@
+{
+  "title": "Community Social Impact & Benefit Sharing Dataset",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Community engagement programs, social impact assessments, benefit sharing, and stakeholder management data.",
+  "community_profiles": [
+    {
+      "community_id": "CM-001",
+      "name": "Geita Town",
+      "country": "Tanzania",
+      "population": 65000,
+      "distance_from_mine_km": 5,
+      "primary_livelihoods": ["Agriculture", "Fishing", "Mining (artisanal)", "Small business"],
+      "demographics": {
+        "youth_percent": 45,
+        "females_percent": 52,
+        "literacy_rate_percent": 72,
+        "health_facilities": 3,
+        "schools": 12,
+        "water_access_percent": 65
+      },
+      "social_issues": ["Youth unemployment", "Water scarcity in dry season", "Healthcare access", "Education quality"],
+      "engagement_level": "High",
+      "grievances_active": 2
+    },
+    {
+      "community_id": "CM-002",
+      "name": "Bulawayo Rural",
+      "country": "Zimbabwe",
+      "population": 15000,
+      "distance_from_mine_km": 12,
+      "primary_livelihoods": ["Agriculture", "Livestock", "Small-scale mining"],
+      "demographics": {
+        "youth_percent": 42,
+        "females_percent": 54,
+        "literacy_rate_percent": 85,
+        "health_facilities": 1,
+        "schools": 4,
+        "water_access_percent": 45
+      },
+      "social_issues": ["Drought vulnerability", "Limited healthcare", "Youth outmigration", "Infrastructure"],
+      "engagement_level": "Medium",
+      "grievances_active": 1
+    }
+  ],
+  "benefit_sharing": {
+    "financial_contributions": {
+      "community_development_levy": {
+        "rate_percent_of_revenue": 1.0,
+        "annual_budget_usd": 2500000,
+        "allocation": {
+          "education": "30%",
+          "healthcare": "25%",
+          "water_and_sanitation": "20%",
+          "infrastructure": "15%",
+          "livelihoods": "10%"
+        }
+      },
+      "royalty_to_government": {
+        "rate_percent": 6,
+        "annual_payment_usd": 14000000
+      },
+      "corporate_social_responsibility": {
+        "annual_budget_usd": 1500000,
+        "programs": [
+          "Scholarship fund (50 students/year)",
+          "Health clinic construction and staffing",
+          "Clean water borehole program (20 boreholes/year)",
+          "Agricultural training and inputs",
+          "Women's entrepreneurship program"
+        ]
+      }
+    },
+    "employment": {
+      "total_mine_employees": 1250,
+      "local_employment_percent": 68,
+      "target_local_percent": 80,
+      "youth_employment_programs": [
+        {"name": "Mining Skills Academy", "graduates_per_year": 50, "placement_rate_percent": 85},
+        {"name": "Artisanal Mining Integration", "beneficiaries": 2000, "support_type": "Equipment, training, market access"},
+        {"name": "Enterprise Development", "beneficiaries": 150, "support_type": "Business training, microfinance"}
+      ],
+      "local_procurement": {
+        "annual_spend_usd": 8500000,
+        "local_share_percent": 45,
+        "target_percent": 60,
+        "suppliers_supported": 125
+      }
+    }
+  },
+  "social_impact_assessment": {
+    "baseline_study_date": "2024-03-15",
+    "impact_categories": [
+      {
+        "category": "Employment and Income",
+        "baseline": "45% unemployment; average income $2.50/day",
+        "projected_impact": "Positive - 1250 direct jobs; 3000 indirect jobs",
+        "current_status": "On track - 850 direct jobs created",
+        "mitigation": "Local hiring preference; skills training"
+      },
+      {
+        "category": "Health and Safety",
+        "baseline": "Limited healthcare; 1 doctor per 50,000",
+        "projected_impact": "Mixed - mine brings health services but also health risks",
+        "current_status": "Mine health clinic operational; serves 800 patients/month",
+        "mitigation": "Community health programs; disease prevention"
+      },
+      {
+        "category": "Education",
+        "baseline": "68% primary enrollment; 35% secondary",
+        "projected_impact": "Positive - school construction; scholarships",
+        "current_status": "3 schools supported; 50 scholarships awarded",
+        "mitigation": "Teacher training; facility improvement"
+      },
+      {
+        "category": "Environment",
+        "baseline": "Clean rivers; diverse biodiversity",
+        "projected_impact": "Negative - water use; dust; noise; land use",
+        "current_status": "Water treatment operational; dust suppression active",
+        "mitigation": "Water recycling; dust management; biodiversity offsets"
+      },
+      {
+        "category": "Infrastructure",
+        "baseline": "Poor roads; unreliable power",
+        "projected_impact": "Positive - road improvement; power infrastructure",
+        "current_status": "25km access road upgraded; power line extended",
+        "mitigation": "Community road maintenance program"
+      },
+      {
+        "category": "Cultural Heritage",
+        "baseline": "Traditional burial sites; sacred areas",
+        "projected_impact": "Negative - potential disturbance",
+        "current_status": "Heritage assessment completed; buffer zones established",
+        "mitigation": "Exclusion zones; heritage management plan"
+      }
+    ]
+  },
+  "grievance_mechanism": {
+    "type": "Community Liaison Committee",
+    "channels": [
+      "Community Liaison Officers (4 staff)",
+      "Grievance boxes at community centers",
+      "Toll-free hotline",
+      "Monthly community meetings",
+      "Traditional leaders engagement"
+    ],
+    "process": [
+      "Receive grievance (within 24 hours)",
+      "Log in grievance register",
+      "Investigate (within 7 days)",
+      "Propose resolution (within 14 days)",
+      "Implement resolution (within 30 days)",
+      "Follow up and close (within 60 days)"
+    ],
+    "statistics_2026_ytd": {
+      "received": 32,
+      "resolved": 28,
+      "in_progress": 4,
+      "average_resolution_days": 18,
+      "satisfaction_rate_percent": 82,
+      "escalated_to_tribunal": 2
+    },
+    "categories": [
+      {"category": "Employment", "percent": 35},
+      {"category": "Environment", "percent": 25},
+      {"category": "Infrastructure", "percent": 20},
+      {"category": "Land and resettlement", "percent": 12},
+      {"category": "Other", "percent": 8}
+    ]
+  },
+  "resettlement": {
+    "total_affected_households": 45,
+    "total_affected_persons": 225,
+    "compensation_package": {
+      "replacement_cost": "Full replacement value (not depreciated)",
+      "housing": "New house or equivalent compensation",
+      "land": "Replacement land + transitional support",
+      "livelihoods": "Livelihood restoration program (3 years)",
+      "moving_allowance": "3 months income equivalent"
+    },
+    "entitlements": [
+      "Full replacement cost for all affected assets",
+      "Choice of cash compensation or resettlement site",
+      "Transitional support for 3 years",
+      "Access to mine health and education facilities",
+      "Priority employment for qualified residents"
+    ],
+    "monitoring": {
+      "resettlement_action_plan": "Implemented with World Bank OP 4.12 compliance",
+      "livelihood_restoration_index": 85,
+      "satisfaction_survey_score": 78,
+      "compliance_status": "Compliant"
+    }
+  },
+  "stakeholder_engagement": {
+    "stakeholder_groups": [
+      {"group": "Local community leaders", "frequency": "Monthly", "method": "Committee meetings"},
+      {"group": "Government officials", "frequency": "Quarterly", "method": "Technical committee"},
+      {"group": "Artisanal miners", "frequency": "Bi-monthly", "method": "Cooperative meetings"},
+      {"group": "NGOs and CSOs", "frequency": "Quarterly", "method": "Multi-stakeholder forum"},
+      {"group": "Traditional authorities", "frequency": "Quarterly", "method": "Council meetings"},
+      {"group": "Religious leaders", "frequency": "As needed", "method": "Ad-hoc meetings"}
+    ],
+    "communication_materials": [
+      "Quarterly newsletter (English, Swahili, local languages)",
+      "Community notice board updates (monthly)",
+      "Radio programs (weekly)",
+      "School education programs",
+      "Open day at mine (annual)"
+    ]
+  },
+  "international_standards": {
+    "IFC_PS8": {
+      "full_name": "International Finance Corporation Performance Standard 8 - Cultural Heritage",
+      "status": "Compliant",
+      "assessments_completed": ["Archaeological survey", "Ethnographic assessment", "Burial site mapping"]
+    },
+    "UNGP": {
+      "full_name": "UN Guiding Principles on Business and Human Rights",
+      "status": "Aligned",
+      "actions": ["Human rights due diligence conducted", "Grievance mechanism operational", "Remediation process in place"]
+    },
+    "ICMM_position": {
+      "full_name": "International Council on Mining and Metals Position Statement on resettlement",
+      "status": "Compliant",
+      "actions": ["Livelihood restoration", "Independent monitoring", "World Bank OP compliance"]
+    }
+  }
+}

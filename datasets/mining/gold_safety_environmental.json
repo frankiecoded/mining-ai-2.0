@@ -1,0 +1,690 @@
+{
+  "title": "Gold Safety, Environmental & Regulatory Deep Knowledge",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Comprehensive safety protocols, environmental management, and regulatory compliance for gold mining.",
+  "underground_safety": {
+    "ground_control": {
+      "description": "Management of rock stability in underground workings",
+      "hazards": [
+        "Rockbursts (sudden violent failure of rock under high stress)",
+        "Roof falls (gravity-driven failure of unsupported ground)",
+        "Squeezing ground (slow closure of excavations)",
+        "Water inflow (flooding of workings)"
+      ],
+      "support_systems": [
+        {"type": "Rock bolts", "length_m": "1.8-3.6", "capacity_kn": "100-300", "pattern_m": "1.2 x 1.2 to 2.0 x 2.0"},
+        {"type": "Shotcrete", "thickness_mm": "50-200", "additive": "Fibers (steel or synthetic)", "application": "Immediate support"},
+        {"type": "Mesh", "size_mm": "100 x 100 or 150 x 150", "wire_diameter_mm": "4.5-6.0", "use": "Catch loose rock"},
+        {"type": "Steel sets", "type": "H or I beams", "spacing_m": "0.9-1.5", "use": "Heavy ground conditions"},
+        {"type": "Cable bolts", "length_m": "6-20", "capacity_kn": "200-400", "use": "Large-span openings"}
+      ],
+      "monitoring": {
+        "extensometers": "Measure ground movement",
+        "stress_cells": "Measure stress changes",
+        "seismic_monitoring": "Detect microseismic events (precursor to rockbursts)",
+        "convergence_measurements": "Monthly measurement of tunnel closure",
+        "radar_surveying": "3D mapping of excavations"
+      }
+    },
+    "ventilation": {
+      "description": "Supply of fresh air to underground workings",
+      "requirements": {
+        "fresh_air_m3_s_per_person": 0.3,
+        "minimum_velocity_m_s": 0.5,
+        "maximum_velocity_m_s": 8.0,
+        "dust_limit_mg_m3": 2,
+        "diesel_fumes_limit_ppm": 25,
+        "radon_limit_bq_m3": 300
+      },
+      "fans": {
+        "main_fan_type": "Axial or centrifugal",
+        "main_fan_capacity_m3_s": "50-200",
+        "main_fan_pressure_pa": "1000-3000",
+        "auxiliary_fans": "For development headings",
+        "booster_fans": "For deep areas"
+      },
+      "cooling": {
+        "depth_threshold_m": "800-1200",
+        "cooling_method": "Surface chillers + ice plants",
+        "ice_plant_capacity_t_day": "200-500",
+        "air_temperature_limit_wet_bulb_celsius": "27.5"
+      }
+    },
+    "refuge_chambers": {
+      "description": "Safe haven for miners during emergencies",
+      "capacity_persons": "8-24",
+      "survival_duration_hours": 36,
+      "supplies": ["Water", "First aid", "Communication system", "Self-rescuers (CO)", "Oxygen supply"],
+      "location_max_distance_m": "500-1000 from any working face",
+      "pressure": "Slightly positive to prevent smoke ingress"
+    },
+    "self_rescuers": {
+      "type": "Filtered self-rescuer (FSR)",
+      "co_limit_ppm": 50000,
+      "duration_minutes": 30,
+      "weight_kg": 1.5,
+      "carried_by": "All underground personnel at all times"
+    },
+    "fire_protection": {
+      "hazards": ["Lubricant fires", "Electrical fires", "Rubber belt fires", "Cable fires"],
+      "suppression": ["Sprinkler systems", "Foam", "Dry chemical", "CO2"],
+      "detection": ["Smoke detectors", "Heat detectors", "CO monitors", "Flame detectors"],
+      "firefighting_equipment": "Every 100m on main travel routes"
+    }
+  },
+  "hazardous_materials": {
+    "cyanide": {
+      "classification": "Acute toxicity (Category 2)",
+      "lc50_oral_mg_kg": 10,
+      "exposure_limits": {
+        "twa_tlv_ppm": 5,
+        "stel_ppm": 10,
+        "ceiling_ppm": 10
+      },
+      "health_effects": [
+        "Rapid unconsciousness (high dose)",
+        "Headache, dizziness, confusion (low dose)",
+        "Respiratory failure (high dose)",
+        "Cardiac arrest (high dose)"
+      ],
+      "first_aid": {
+        "inhalation": "Move to fresh air; give oxygen",
+        "skin_contact": "Remove contaminated clothing; wash with water 15 min",
+        "ingestion": "Do NOT induce vomiting; give amyl nitrite",
+        "antidote": "Hydroxocobalamin (Cyanokit) or sodium nitrite + sodium thiosulfate"
+      }
+    },
+    "mercury": {
+      "classification": "Acute toxicity (Category 2), reprotoxic",
+      "tlv_twa_mg_m3": 0.025,
+      "health_effects": [
+        "Tremors",
+        "Memory loss",
+        "Kidney damage",
+        "Birth defects"
+      ],
+      "regulatory_status": "Banned in ASGM under Minamata Convention"
+    },
+    "explosives": {
+      "types": {
+        "anfo": {
+          "full_name": "Ammonium Nitrate Fuel Oil",
+          "density_kg_m3": 850,
+          "velocity_of_detonation_m_s": 2500,
+          "energy_kj_kg": 850,
+          "water_resistance": "Low",
+          "applications": ["Dry blasting", "Production blasting"]
+        },
+        "emulsion": {
+          "full_name": "Emulsion explosives",
+          "density_kg_m3": 1100,
+          "velocity_of_detonation_m_s": 4000,
+          "energy_kj_kg": 1200,
+          "water_resistance": "High",
+          "applications": ["Wet holes", "Production blasting", "Underwater"]
+        },
+        "detonators": {
+          "types": ["Non-electric (Nonel)", "Electronic", "Electric"],
+          "delays_ms": [0, 25, 50, 100, 200, 500, 1000],
+          "electronic_advantages": ["Precise timing", "Programmable delays", "Better fragmentation"]
+        }
+      },
+      "transport": {
+        "vehicle_requirements": "Licensed explosive vehicle; placards",
+        "storage_requirements": "Licensed magazine; 250m from buildings",
+        "documentation": ["Transport permit", "End-user certificate", "Armed escort"]
+      }
+    }
+  },
+  "environmental_management": {
+    "water_management": {
+      "acid_mine_drainage": {
+        "description": "Acidic water from oxidation of sulfide minerals (pyrite)",
+        "formation": "2FeS2 + 7O2 + 2H2O → 2FeSO4 + 2H2SO4",
+        "ph_range": "2.5-4.5",
+        "metal_mobilization": ["Iron", "Manganese", "Copper", "Zinc", "Arsenic"],
+        "treatment": ["Lime neutralization", "Active wetlands", "Passive treatment systems"]
+      },
+      "zero_liquid_discharge": {
+        "description": "No process water released to environment",
+        "methods": ["Water recycling", "Evaporation ponds", "Tailings thickening"],
+        "recycle_rate_target": "85-95%"
+      }
+    },
+    "air_quality": {
+      "emission_sources": ["Crushing", "Grinding", "Truck haulage", "Blasting", "Stockpiles"],
+      "pollutants_monitored": ["PM10", "PM2.5", "NOx", "SO2", "CO", "O3", "HCN"],
+      "dust_control": ["Water sprays", "Chemical suppressants", "Enclosures", "Wind fences"],
+      "continuous_monitoring": "Fixed stations with real-time telemetry"
+    },
+    "biodiversity": {
+      "assessment": "Baseline survey before construction",
+      "mitigation_hierarchy": ["Avoid", "Minimize", "Restore", "Offset"],
+      "rehabilitation": {
+        "topsoil_conservation": "Strip and store before disturbance",
+        "revegetation": "Native species mix",
+        "timeline": "Start during operations, complete at closure",
+        "success_criteria": "Vegetation cover >80%, species diversity index >0.7"
+      }
+    },
+    "noise_and_vibration": {
+      "noise_limits_dba": {
+        "residential_area": 55,
+        "mine_boundary_day": 65,
+        "mine_boundary_night": 55,
+        "workplace": 85
+      },
+      "blast_vibration_limits": {
+        "residential_mm_s_peak_particle_velocity": 5,
+        "commercial_mm_s_peak_particle_velocity": 25,
+        "frequency_range_hz": "1-100"
+      },
+      "monitoring": "Seismographs at nearest receptor"
+    },
+    "waste_management": {
+      "solid_waste_classification": ["Hazardous", "Non-hazardous", "Special waste"],
+      "disposal_methods": ["Engineered landfills", "Contained storage", "Recycling"],
+      "tailings": {
+        "classification": "Special waste; highest level of management",
+        "design_standard": "GISTM compliance",
+        "monitoring_frequency": "Daily to annually depending on parameter"
+      }
+    }
+  },
+  "tailings_dam_safety": {
+    "description": "Comprehensive tailings storage facility management per GISTM and industry best practice",
+    "dam_types": {
+      "upstream": {
+        "description": "Embankment raised with tailings as the core; cheapest but highest risk",
+        "construction": "Starter embankment followed by raises using cycloned tailings",
+        "risk_level": "High",
+        "suitable_for": "Low seismicity regions only",
+        "seismic_vulnerability": "High (susceptible to liquefaction)",
+        "max_height_recommendation": "60m",
+        "notable_failures": ["Mount Polley (2014)", "Fundao (2015)", "Brumadinho (2019)"],
+        "governance_requirements": ["Independent review board", "Annual independent inspection", "Real-time monitoring"]
+      },
+      "downstream": {
+        "description": "Embankment raised with rockfill downstream of the core; most robust and expensive",
+        "construction": "Each raise supported by compacted fill placed downstream",
+        "risk_level": "Low",
+        "suitable_for": "All seismicity zones",
+        "seismic_vulnerability": "Low",
+        "max_height_recommendation": "Unlimited (engineered)",
+        "cost_premium": "30-50% more than upstream",
+        "advantages": ["Most stable configuration", "Best seismic resistance", "Longest design life"]
+      },
+      "centerline": {
+        "description": "Embankment raised with compacted fill along the centerline; moderate cost and risk",
+        "construction": "Each raise built on centerline of previous stage",
+        "risk_level": "Medium",
+        "suitable_for": "Moderate seismicity regions",
+        "seismic_vulnerability": "Medium",
+        "max_height_recommendation": "100m",
+        "balance": "Compromise between upstream and downstream in cost and safety"
+      }
+    },
+    "design_criterias": {
+      "freeboard_m": "minimum 1.0",
+      "freeboard_description": "Vertical distance between crest of dam and water level in reservoir",
+      "minimum_freeboard_m": 1.0,
+      "design_flood": "1 in 10,000 year flood (10,000-year ARI)",
+      "spillway_capacity": "1 in 10,000 year flood",
+      "seismic_design": "PMD 1 in 2,500 year event",
+      "pmd_description": "Probable Maximum Design earthquake with return period of 2,500 years",
+      "design_life": "Life of mine plus 100 years post-closure",
+      "consequence_category": "High (downstream population >1,000)",
+      "classification_system": "Global Industry Standard on Tailings Management (GISTM)",
+      "foundation_investigation": "Geotechnical investigation to 1.5x dam height",
+      "phreatic_surface_control": "Drains and piezometers to maintain stable phreatic surface"
+    },
+    "monitoring": {
+      "piezometers": {
+        "frequency": "weekly readings",
+        "type": "Standpipe and vibrating wire",
+        "purpose": "Measure pore water pressure within embankment",
+        "action_trigger": "Exceedance of design phreatic surface by 10%"
+      },
+      "inclinometers": {
+        "frequency": "monthly",
+        "purpose": "Measure lateral movement within embankment",
+        "action_trigger": "Movement exceeding 5mm per month"
+      },
+      "settlement": {
+        "frequency": "quarterly",
+        "method": "Survey monuments and GPS",
+        "purpose": "Measure vertical settlement of embankment crest",
+        "action_trigger": "Differential settlement exceeding 0.5% of height"
+      },
+      "seepage": {
+        "frequency": "daily",
+        "measurement": "Total flow rate and water quality",
+        "action_trigger": "Increase in seepage >10% from baseline or turbidity increase",
+        "response": "Investigate piping; consider emergency drawdown"
+      },
+      "seismic_monitoring": {
+        "frequency": "continuous (real-time)",
+        "sensors": "Accelerometers at foundation and crest",
+        "purpose": "Detect seismic events affecting dam stability"
+      },
+      "survey_monitoring": {
+        "frequency": "monthly",
+        "method": "InSAR satellite, total station, GPS",
+        "purpose": "Detect surface deformation"
+      }
+    },
+    "failure_modes": [
+      "Overtopping (water level exceeds freeboard)",
+      "Piping (internal erosion through embankment or foundation)",
+      "Slope instability (embankment failure due to excess pore pressure)",
+      "Liquefaction (saturated loose tailings lose strength during seismic event)",
+      "Foundation failure (failure of underlying geological formations)"
+    ],
+    "emergency_planning": {
+      "downstream_population": "Identify and map all downstream communities within dam break zone",
+      "evacuation_routes": "Primary and secondary evacuation routes with signage and maintenance",
+      "warning_systems": " sirens, SMS alerts, community radio, and dam break modelling",
+      "EMOE": "Emergency Mine Operating Procedure for tailings dam failure",
+      "drill_frequency": "Annual community evacuation drill",
+      "dam_break_modelling": "Modeled with HEC-RAS or similar; updated every 5 years",
+      "notification_chain": "Mine → Regulator → Emergency Services → Downstream communities"
+    },
+    "GISTM_compliance": {
+      "principles": [
+        "Accountable executive officer must be appointed",
+        "Tailings management must be aligned with social responsibility",
+        "Knowledge and understanding of tailings must be comprehensive",
+        "Design and operation must follow good practice and international standards",
+        "Operating must be within design and operating limits",
+        "Change management must be controlled",
+        "Emergency response must be planned and practiced"
+      ],
+      "requirements": [
+        "Independent Tailings Review Board (ITRB) established",
+        "Tailings Management Business Plan maintained and updated annually",
+        "Design Basis Document and Design Review completed by qualified engineer",
+        "Operating, Monitoring and Maintenance Plan in place",
+        "Decommissioning and Closure Plan developed and costed",
+        "Regular (minimum annual) independent inspections",
+        "Consequence Assessment completed and public disclosure",
+        "Incident reporting to Global Tailings Register"
+      ]
+    }
+  },
+  "rehabilitation_program": {
+    "description": "Progressive rehabilitation and mine closure program to restore land to agreed post-mining use",
+    "progressive_rehabilitation": {
+      "backfilling": {
+        "method": "Backfill waste rock into pit voids and underground workings",
+        "material": "Competent waste rock only; no acid-generating material at surface",
+        "compaction": "Compacted in lifts of 0.5m to prevent settlement",
+        "planning": "Concurrent with mining to minimize disturbed area"
+      },
+      "regrading": {
+        "description": "Reshape waste dumps and disturbed areas to stable slopes",
+        "slope_angles": "Maximum 30 degrees for waste dumps; 35 degrees for rock",
+        "benches": "Bench height 6-10m with berm width 3-5m for erosion control",
+        "drainage": "Diversion drains on all regraded surfaces"
+      },
+      "topsoil": {
+        "stripping": "Strip 150-300mm topsoil and store in designated areas",
+        "storage": "Stockpiles max 2m high; vegetated or covered to prevent erosion",
+        "replacement": "Replace topsoil on regraded areas prior to revegetation",
+        "preservation": "Maintain seed bank viability; avoid compaction of stored topsoil"
+      },
+      "revegetation": {
+        "species_selection": "Native grasses, shrubs, and trees appropriate to local biome",
+        "seed_source": "Locally sourced indigenous seed; provenance within 100km",
+        "establishment": "Hydroseeding or manual broadcasting; 20-30 kg seed per hectare",
+        "success_criteria": "Vegetation cover >80% within 3 years of planting",
+        "maintenance": "Weed control and supplementary watering for first 2 growing seasons"
+      }
+    },
+    "closure_planning": {
+      "timeline": "2-5 years post-mining",
+      "financial_provisions": "100% closure cost escrowed",
+      "closure_cost_estimate": "Reassessed every 2 years during operations",
+      "success_criteria": "Vegetation >80%, water quality <WHO limits",
+      "post_land_use": "Determined in consultation with local communities and government",
+      "relinquishment_criteria": "Demonstrate stability of environmental indicators for 3 consecutive years",
+      "residual_risk": "Document and transfer residual risk to appropriate authority"
+    },
+    "post_closure_monitoring": {
+      "frequency": "Annual for 10 years",
+      "parameters": ["Water quality", "Soil quality", "Vegetation cover", "Wildlife"],
+      "water_quality_targets": {
+        "ph": "6.5-8.5",
+        "tss_mg_l": "<25",
+        "cyanide_mg_l": "<0.2",
+        "arsenic_mg_l": "<0.01",
+        "iron_mg_l": "<0.3"
+      },
+      "reporting": "Annual closure monitoring report to regulator",
+      "contingency": "Additional intervention if success criteria not met"
+    },
+    "case_studies": [
+      {
+        "mine": "Geita Gold Mine (Tanzania)",
+        "closure_plan": "Progressive rehabilitation of waste dumps with native grassland; pit backfilling; water treatment",
+        "status": "Ongoing operations with progressive rehabilitation",
+        "lessons_learned": "Early engagement with communities critical for social license"
+      },
+      {
+        "mine": "Kibali Gold Mine (DRC)",
+        "closure_plan": "Comprehensive closure plan including biodiversity offsets and community transition programs",
+        "status": "Active mine with closure provisions",
+        "lessons_learned": "Biodiversity offsets require long-term commitment"
+      },
+      {
+        "mine": "North Mara Gold Mine (Tanzania)",
+        "closure_plan": "Waste dump rehabilitation; tailings dam reclamation; water treatment",
+        "status": "Progressive rehabilitation ongoing",
+        "lessons_learned": "Concurrent rehabilitation reduces final closure liability"
+      }
+    ]
+  },
+  "environmental_monitoring_program": {
+    "description": "Detailed environmental monitoring program covering air, water, noise, soil, and biodiversity",
+    "air_quality_monitoring": {
+      "stations": "2-4 perimeter + 1 background",
+      "parameters": ["PM10", "PM2.5", "SO2", "NOx", "HCN"],
+      "frequency": "Continuous or daily",
+      "limits": {
+        "pm10_ug_m3_24hr": 150,
+        "pm25_ug_m3_24hr": 65,
+        "so2_ug_m3_24hr": 350,
+        "no2_ug_m3_24hr": 200,
+        "hcn_ug_m3_8hr": 10
+      },
+      "equipment": ["Beta attenuation monitors", "Optical particle counters", "Electrochemical sensors"],
+      "reporting": "Monthly summary; exceedance alerts within 24 hours",
+      "data_management": "Centralized database with real-time dashboard"
+    },
+    "water_quality_monitoring": {
+      "surface_water": {
+        "frequency": "Monthly upstream/downstream",
+        "locations": "Upstream baseline + 2 downstream stations",
+        "parameters": ["pH", "TDS", "CN-", "As", "Fe", "Mn", "Cu", "Zn"],
+        "equipment": "Multi-parameter probes, grab samples for lab analysis"
+      },
+      "groundwater": {
+        "frequency": "Quarterly piezometers",
+        "locations": "Monitoring piezometers around process areas and downstream",
+        "parameters": ["pH", "TDS", "CN-", "As", "Fe", "Mn", "Cu", "Zn"],
+        "action_triggers": "Exceedance of baseline or drinking water guidelines"
+      },
+      "parameters": ["pH", "TDS", "CN-", "As", "Fe", "Mn", "Cu", "Zn"],
+      "frequency": "Monthly to quarterly",
+      "standards": "WHO Drinking Water Guidelines; National water quality standards",
+      "laboratory": "Accredited laboratory for all chemical analyses"
+    },
+    "noise_vibration_monitoring": {
+      "stations": "Nearest receptors",
+      "frequency": "During blasting events",
+      "limits": {
+        "residential_dba": 55,
+        "mine_boundary_day_dba": 65,
+        "mine_boundary_night_dba": 55,
+        "blast_vibration_ppv_mm_s": 5
+      },
+      "equipment": ["Class 1 sound level meters", "Seismographs (blasting)"],
+      "reporting": "Per event summary; monthly compilation"
+    },
+    "soil_monitoring": {
+      "frequency": "Annually",
+      "parameters": ["Heavy metals", "Cyanide residues", "pH"],
+      "locations": "Heap leach pads, tailings, waste dumps",
+      "action_triggers": "Exceedance of soil quality guidelines",
+      "laboratory": "ICP-MS for metals; colorimetric for cyanide"
+    },
+    "biodiversity_monitoring": {
+      "flora": "Annual transect surveys",
+      "fauna": "Camera traps, bird counts",
+      "aquatic": "Macroinvertebrate surveys",
+      "targets": "Maintain species diversity index >0.7",
+      "reporting": "Annual biodiversity report",
+      "partnerships": "Collaborate with local conservation authorities and universities"
+    }
+  },
+  "occupational_health_surveillance": {
+    "description": "Systematic health surveillance for all workers with potential exposure to occupational hazards",
+    "medical_examinations": {
+      "pre_employment": "Full medical examination including spirometry, audiometry, chest X-ray, blood panel",
+      "periodic": "Annual",
+      "exit": "Exit medical to document health status at end of employment",
+      "special": "As required for confined space, working at heights, respiratory protection",
+      "fitness_for_duty": "Assessment for underground, heavy vehicle, and safety-critical roles"
+    },
+    "biological_monitoring": {
+      "blood_lead": "Quarterly for exposed workers",
+      "blood_lead_threshold": "Action level at 20 ug/dL; removal at 50 ug/dL",
+      "urine_cyanide": "Monthly for cyanide workers",
+      "urine_cyanide_threshold": "Action level at 50 ug/L",
+      "audiometry": "Annual",
+      "spirometry": "Annual for dust-exposed workers",
+      "biological_exposure_index": "ACGIH BEI values used as reference"
+    },
+    "health_records": "Maintained for 40 years post-employment",
+    "confidentiality": "Individual results confidential; aggregate data anonymized",
+    "disease_prevention": [
+      "Respiratory protection program (fit testing, medical clearance, training)",
+      "Noise exposure program (engineering controls, PPE, audiometric monitoring)",
+      "Heat stress program (acclimatization, hydration, monitoring, work-rest cycles)",
+      "Chemical exposure program (LEV, PPE, health surveillance, SDS management)"
+    ]
+  },
+  "incident_investigation": {
+    "description": "Formal investigation process for all incidents, accidents, and near misses",
+    "classification": {
+      "fatal": "Any work-related death; immediate regulatory notification",
+      "lost_time": "Injury resulting in >1 day away from work",
+      "medical_treatment": "Injury requiring treatment beyond first aid",
+      "first_aid": "Minor injury treated on site with no lost time",
+      "near_miss": "Event with potential to cause injury or damage but did not"
+    },
+    "investigation_team": {
+      "composition": [
+        "Safety Manager (lead)",
+        "Operations Superintendent",
+        "Maintenance Supervisor",
+        "Worker representative",
+        "Human Resources representative"
+      ],
+      "timeline": "24-72 hours",
+      "tools": ["Root cause analysis", "5 Whys", "Fishbone diagram", "Fault tree"],
+      "report_format": "Standardized incident investigation report"
+    },
+    "corrective_actions": {
+      "tracking": "Action register with due dates",
+      "verification": "Close-out audit",
+      "effectiveness": "6-month review",
+      "ownership": "Assigned to named individual with accountability",
+      "escalation": "Uncompleted actions escalated to senior management weekly"
+    },
+    "reporting": "Internal (24hrs), Regulatory (as required), ICMM (quarterly)",
+    "learning": "Lessons shared via safety alerts and toolbox talks within 48 hours"
+  },
+  "community_relations": {
+    "description": "Comprehensive community engagement and social responsibility program",
+    "stakeholder_mapping": "Identify all affected communities",
+    "stakeholder_categories": ["Host communities", "Traditional authorities", "Government agencies", "NGOs", "Workers and families"],
+    "grievance_mechanism": "Formal process with response timelines",
+    "grievance_response": "Acknowledgment within 48 hours; resolution within 30 days",
+    "community_development": "CSR projects aligned with SDGs",
+    "csr_focus_areas": ["Education", "Health", "Water and sanitation", "Infrastructure", "Livelihoods"],
+    "local_employment": "Targets for local hiring",
+    "local_employment_target": "Minimum 60% of unskilled and semi-skilled positions",
+    "cultural_heritage": "Protection of sacred sites",
+    "heritage_assessment": "Cultural heritage impact assessment required before disturbance",
+    "conflict_resolution": "Mediation processes",
+    "mediation_partners": "Independent mediators, traditional leaders, government",
+    "FPIC": "Free, Prior and Informed Consent for new projects",
+    "FPIC_process": "Community consultation, informed consent, ongoing consent monitoring"
+  },
+  "legal_and_compliance": {
+    "description": "Key legal and regulatory obligations for mining operations",
+    "environmental_permits": "EIA, EPL, annual returns",
+    "environmental_permit_details": {
+      "EIA": "Environmental Impact Assessment required before construction",
+      "EPL": "Environmental Protection License; renewed annually",
+      "annual_returns": "Environmental performance report submitted to regulator"
+    },
+    "mining_licenses": "Exploration, mining, retention",
+    "mining_license_types": {
+      "exploration": "Prospecting and exploration license",
+      "mining": "Mining license for extraction and processing",
+      "retention": "Holds mining rights during periods of inactivity"
+    },
+    "labor_laws": "Employment contracts, working hours, leave",
+    "labor_law_details": {
+      "contracts": "Written employment contracts for all workers",
+      "working_hours": "Maximum 45 hours per week; 8 hours per shift",
+      "leave": "Annual leave, sick leave, maternity leave as per national legislation"
+    },
+    "tax_obligations": "Royalty, corporate tax, withholding, PAYE",
+    "tax_details": {
+      "royalty": "Percentage of gross revenue; varies by mineral and jurisdiction",
+      "corporate_tax": "Standard corporate tax rate applies",
+      "withholding": "Withholding tax on dividends, interest, and royalties",
+      "PAYE": "Pay As You Earn income tax deducted at source"
+    },
+    "reporting_requirements": "Annual environmental report, safety statistics, financial returns",
+    "reporting_details": {
+      "environmental": "Annual Environmental Performance Report to regulator",
+      "safety": "Quarterly safety statistics to ICMM and regulator",
+      "financial": "Annual financial returns to mining authority and tax authority"
+    }
+  },
+  "occupational_health": {
+    "dust_diseases": {
+      "silicosis": {
+        "causes": "Inhalation of crystalline silica dust",
+        "risk_processes": ["Drilling", "Crushing", "Grinding", "Tunneling"],
+        "silica_limit_mg_m3": 0.05,
+        "prevention": ["Wet drilling", "Enclosed cabs", "PPE", "Health surveillance"]
+      },
+      "coal_workers_pneumoconiosis": "Not applicable to gold mining but relevant for coal operations"
+    },
+    "noise_induced_hearing_loss": {
+      "threshold_db": 85,
+      "exposure_hours_per_day": 8,
+      "protection": ["Ear plugs (NRR 25-30)", "Ear muffs (NRR 25-35)", "Engineering controls"],
+      "audiometry": "Annual baseline and monitoring"
+    },
+    "heat_stress": {
+      "wet_bulb_threshold_celsius": 27.5,
+      "risk_conditions": ["Underground deep mining", "Surface in hot climates", "Heavy physical work"],
+      "prevention": ["Acclimatization (7-14 days)", "Rest cycles", "Hydration", "Cooling systems"],
+      "monitoring": "WBGT (Wet Bulb Globe Temperature) meters"
+    },
+    "whole_body_vibration": {
+      "limit_m_s2": 1.15,
+      "exposure_hours_per_day": 8,
+      "risk_equipment": ["Trucks", "Loaders", "Drills"],
+      "prevention": ["Seat suspension", "Maintained tyres", "Speed limits"]
+    }
+  },
+  "emergency_response": {
+    "plan_components": [
+      "Emergency contact list",
+      "Evacuation procedures",
+      "Assembly points",
+      "Headcount procedures",
+      "Medical response",
+      "Fire response",
+      "Chemical spill response",
+      "Ground fall response",
+      "Water inrush response",
+      "Communication systems"
+    ],
+    "communication": {
+      "primary": "Underground leaky feeder radio",
+      "secondary": "Hardwired telephone system",
+      "surface": "VHF/UHF radio",
+      "emergency_frequency": "Dedicated emergency channel",
+      "test_frequency": "Weekly"
+    },
+    "medical_facilities": {
+      "mine_site_clinic": "Staffed by paramedic; first aid and stabilization",
+      "nearest_hospital_km": "50-200",
+      "evacuation": "Helicopter for >100km; ambulance for <100km",
+      "defibrillators": "Every 200m on surface; every 500m underground"
+    },
+    "drills": {
+      "fire_drill": "Monthly",
+      "evacuation_drill": "Quarterly",
+      "medical_emergency_drill": "Quarterly",
+      "hazardous_material_spill_drill": "Annually",
+      "flood_inrush_drill": "Annually"
+    }
+  },
+  "regulatory_compliance": {
+    "international_standards": {
+      "iso_14001": "Environmental Management Systems",
+      "iso_45001": "Occupational Health and Safety Management",
+      "iso_14064": "Greenhouse Gas Accounting",
+      " Responsible_Jewellery_Council": "RJC Code of Practice",
+      "ICMM": "International Council on Mining and Metals principles",
+      "equator_principles": "Risk management framework for project finance",
+      "IFC_Performance_Standards": "Environmental and Social Sustainability"
+    },
+    "african_mining_charters": {
+      "tanzania": {
+        "ownership_indigenous_percent": "Minimum 10% to Tanzanians",
+        "local_content": "60% local procurement target",
+        "royalty_rate_percent": 4,
+        "environmental_bond": "Required for closure"
+      },
+      "kenya": {
+        "ownership_local_percent": "Minimum 20% to Kenyans",
+        "local_content": "70% local employment target",
+        "royalty_rate_percent": "2.5-5",
+        "environmental_impact_assessment": "Required for all mining"
+      },
+      "uganda": {
+        "ownership_local_percent": "Minimum 15% to Ugandans",
+        "local_content": "60% local employment target",
+        "royalty_rate_percent": "3-5"
+      },
+      "drc": {
+        "state_ownership_percent": "SOKIMO (10% carried interest)",
+        "royalty_rate_percent": "3.5-10",
+        "local_content": "Variable by province",
+        "unique_requirements": ["SISCOMINES certificate", "CEEC certificate"]
+      },
+      "zimbabwe": {
+        "ownership_indigenous_percent": "51% to indigenous Zimbabweans",
+        "royalty_rate_percent": "5-10",
+        "chrome_royalty_percent": 5,
+        "local_content": "High requirements"
+      }
+    }
+  },
+  "financial_knowledge": {
+    "all_in_sustaining_cost": {
+      "abbreviation": "AISC",
+      "description": "Full cost to produce one ounce of gold, including sustaining capital",
+      "components": ["Mining costs", "Milling costs", "G&A", "Royalties", "Sustaining capital", "Reclamation accrual"],
+      "typical_range_usd_per_oz": "800-1400",
+      "below_1000": "Low-cost producer",
+      "above_1200": "High-cost producer",
+      "margin": "Gold price minus AISC"
+    },
+    "cut_off_grade": {
+      "description": "Minimum grade at which ore is profitable to process",
+      "formula": "COG = (Cost per tonne) / (Recovery% × Gold price per tonne)",
+      "factors": ["Processing cost", "Mining cost", "Gold price", "Recovery rate", "Royalties"]
+    },
+    "mine_life_calculation": {
+      "formula": "Mine life = Reserves (tonnes) / Annual throughput (tonnes per year)",
+      "typical_gold_mine_life_years": "10-25",
+      "feasibility_study": "NI 43-101 or JORC compliant"
+    },
+    "capital_expenditure": {
+      "pre_production_million_usd": "50-500",
+      "sustaining_annual_million_usd": "20-100",
+      "categories": ["Mine development", "Process plant", "Infrastructure", "EPCM", "Working capital"]
+    }
+  }
+}

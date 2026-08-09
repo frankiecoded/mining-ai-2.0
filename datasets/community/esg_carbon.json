@@ -1,0 +1,188 @@
+{
+  "title": "ESG & Carbon Reporting Dataset",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Environmental, Social, and Governance metrics, carbon footprint data, and sustainability reporting.",
+  "environmental_metrics": {
+    "energy": {
+      "annual_consumption_mwh": 185000,
+      "energy_intensity_kwh_ton_ore": 32.1,
+      "renewable_share_percent": 15,
+      "grid_power_mwh": 157250,
+      "diesel_generation_mwh": 27750,
+      "solar_installation_mw": 5.0,
+      "energy_targets": {
+        "2026_reduction_from_2024": "8%",
+        "2030_reduction_from_2024": "25%",
+        "renewable_target_2030": "40%"
+      },
+      "initiatives": [
+        {"initiative": "Solar plant installation", "capacity_mw": 5, "annual_generation_mwh": 8500, "status": "Operational"},
+        {"initiative": "Mill variable speed drives", "energy_saving_mwh": 4200, "status": "Completed"},
+        {"initiative": "Conveyor regenerative braking", "energy_saving_mwh": 2800, "status": "In progress"},
+        {"initiative": "LED lighting conversion", "energy_saving_mwh": 850, "status": "Completed"}
+      ]
+    },
+    "water": {
+      "total_consumption_m3": 48000000,
+      "water_intensity_m3_ton_ore": 8.3,
+      "fresh_water_withdrawal_m3": 38000000,
+      "recycled_water_m3": 38000000,
+      "recycle_rate_percent": 50,
+      "discharge_m3": 8000000,
+      "water_targets": {
+        "recycle_rate_2027": "70%",
+        "fresh_water_reduction_2028": "30%"
+      }
+    },
+    "biodiversity": {
+      "site_area_ha": 2500,
+      "disturbed_area_ha": 850,
+      "conservation_areas_ha": 1200,
+      "rehabilitated_area_ha": 320,
+      "rehabilitation_rate_ha_year": 85,
+      "species_survey": {
+        "last_survey_date": "2026-03-15",
+        "species_identified": 245,
+        "threatened_species": 3,
+        "mitigation_measures": "Buffer zones; wildlife corridors; rehabilitation with native species"
+      }
+    },
+    "waste": {
+      "total_generated_tonnes": 125000,
+      "hazardous_tonnes": 850,
+      "non_hazardous_tonnes": 124150,
+      "recycled_percent": 35,
+      "landfill_percent": 45,
+      "incinerated_percent": 20,
+      "targets": {
+        "zero_waste_to_landfill_2030": true,
+        "hazardous_waste_reduction_2028": "50%"
+      }
+    },
+    "air_quality": {
+      "parameters_monitored": ["PM10", "PM2.5", "NOx", "SO2", "CO", "O3"],
+      "pm10_annual_average_ug_m3": 45,
+      "pm10_limit_ug_m3": 90,
+      "pm25_annual_average_ug_m3": 22,
+      "pm25_limit_ug_m3": 35,
+      "dust_suppression_measures": ["Water carts (8)", "Chemical suppressant", "Enclosed crushing", "Wind fences"]
+    }
+  },
+  "carbon_footprint": {
+    "scope_1_tonnes_co2e": 28500,
+    "scope_2_tonnes_co2e": 52000,
+    "scope_3_tonnes_co2e": 85000,
+    "total_tonnes_co2e": 165500,
+    "carbon_intensity_kg_co2_per_oz_gold": 29,
+    "scope_breakdown": {
+      "scope_1": {
+        "diesel_combustion": 18000,
+        "fuel_use_vehicles": 7500,
+        "process_emissions": 2000,
+        "fugitive_emissions": 1000
+      },
+      "scope_2": {
+        "grid_electricity": 48000,
+        "purchased_heating": 4000
+      },
+      "scope_3": {
+        "purchased_goods": 25000,
+        "transport_distribution": 15000,
+        "waste_disposal": 8000,
+        "employee_commuting": 12000,
+        "capital_goods": 10000,
+        "fuel_and_energy": 15000
+      }
+    },
+    "reduction_targets": {
+      "scope_1_reduction_2030": "42%",
+      "scope_2_reduction_2030": "65%",
+      "net_zero_target_year": 2050,
+      "science_based_target": "Aligned with 1.5°C pathway"
+    },
+    "carbon_offsets": {
+      "offsets_purchased_tonnes": 15000,
+      "offset_types": ["Reforestation", "Clean cookstoves", "Solar projects"],
+      "cost_per_tonne_usd": 25,
+      "certification": "Gold Standard / Verified Carbon Standard"
+    },
+    "monthly_carbon_data": [
+      {"month": "2026-01", "scope1": 2400, "scope2": 4350, "total": 6750},
+      {"month": "2026-02", "scope1": 2300, "scope2": 4200, "total": 6500},
+      {"month": "2026-03", "scope1": 2500, "scope2": 4500, "total": 7000},
+      {"month": "2026-04", "scope1": 2350, "scope2": 4300, "total": 6650},
+      {"month": "2026-05", "scope1": 2450, "scope2": 4400, "total": 6850},
+      {"month": "2026-06", "scope1": 2400, "scope2": 4350, "total": 6750}
+    ]
+  },
+  "governance": {
+    "board_composition": {
+      "total_directors": 9,
+      "independent_directors": 6,
+      "female_directors": 3,
+      "diversity_percent": 33,
+      "committees": ["Audit", "Risk", "Sustainability", "Remuneration", "Nominations"]
+    },
+    "ethics_and_compliance": {
+      "code_of_conduct": "Annual training completed by 100% of employees",
+      "whistleblower_reports_2026": 4,
+      "resolved": 4,
+      "average_resolution_days": 12,
+      "anti_corruption_policy": "Compliant",
+      "due_diligence_suppliers": "100% screened against sanctions lists"
+    },
+    "transparency": {
+      "eit_reporting": true,
+      "annual_report_published": true,
+      "sustainability_report": "GRI Standards",
+      "tcfd_disclosure": "Climate-related financial disclosure aligned",
+      "sasb_materiality_assessment": "Completed 2025"
+    }
+  },
+  "social_metrics": {
+    "employee_safety": {
+      "ltifr": 0.42,
+      "ltifr_target": 0.5,
+      "total_recordable_injuries": 8,
+      "fatalities": 0,
+      "near_miss_reports": 185,
+      "safety_training_hours": 12500,
+      "bbs_observations": 3500
+    },
+    "employee_wellbeing": {
+      "total_employees": 1250,
+      "female_employees_percent": 8,
+      "female_managers_percent": 12,
+      "local_employees_percent": 68,
+      "average_training_hours_per_employee": 45,
+      "employee_satisfaction_score": 78,
+      "turnover_rate_percent": 12
+    },
+    "community_investment": {
+      "total_investment_usd": 4000000,
+      "per_oz_invested": 70,
+      "programs": [
+        {"program": "Education", "investment_usd": 1200000, "beneficiaries": 5000},
+        {"program": "Healthcare", "investment_usd": 1000000, "beneficiaries": 8000},
+        {"program": "Water & Sanitation", "investment_usd": 800000, "beneficiaries": 12000},
+        {"program": "Livelihoods", "investment_usd": 600000, "beneficiaries": 2500},
+        {"program": "Infrastructure", "investment_usd": 400000, "beneficiaries": 15000}
+      ]
+    }
+  },
+  "sdg_alignment": {
+    "sdg_8": {"name": "Decent Work", "contribution": "1250 direct jobs; skills training programs"},
+    "sdg_9": {"name": "Industry, Innovation", "contribution": "Technology transfer; local procurement"},
+    "sdg_11": {"name": "Sustainable Communities", "contribution": "Infrastructure; community investment"},
+    "sdg_12": {"name": "Responsible Consumption", "contribution": "Recycling; waste reduction; water efficiency"},
+    "sdg_13": {"name": "Climate Action", "contribution": "Carbon reduction targets; renewable energy"},
+    "sdg_15": {"name": "Life on Land", "contribution": "Biodiversity management; rehabilitation"}
+  },
+  "rating_agencies": {
+    "MSCI_ESG": {"rating": "BBB", "trend": "Stable"},
+    "Sustainalytics": {"risk_rating": 28.5, "category": "Medium Risk"},
+    "CDP_climate": {"score": "B", "previous_score": "C"},
+    "ISS_quality_score": 65
+  }
+}

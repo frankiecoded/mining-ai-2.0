@@ -1,0 +1,1133 @@
+[
+  {
+    "id": "sop_gold_artisanal_001",
+    "category": "gold_mining",
+    "title": "Artisanal and Small-Scale Gold Mining (ASGM) Standard Operating Procedure",
+    "content": "SOP-AU-001: Artisanal and Small-Scale Gold Mining Operations\n\n1. Site Assessment and Preparation\n   - Conduct geological survey to identify alluvial or hard-rock gold deposits.\n   - Test soil samples for gold content using panning and assay analysis.\n   - Minimum viable grade: 0.5 g/t for hard rock, 0.3 g/m³ for alluvial.\n   - Map water sources for washing and processing operations.\n   - Assess environmental impact and prepare management plan.\n\n2. Excavation Methods\n   - Alluvial Mining: Use sluice boxes, jigging, or panning in riverbeds and floodplains.\n   - Hard Rock Mining: Shaft sinking or adit driving following quartz vein structures.\n   - Open Pit: Strip overburden, expose ore body, selectively mine high-grade zones.\n   - Maximum shaft depth for ASGM: 30 meters without mechanized ventilation.\n\n3. Ore Processing\n   - Crushing: Jaw crusher to reduce ore to <10mm particles.\n   - Grinding: Ball mill or stamp mill to <75 micron (200 mesh).\n   - Concentration: Gravity separation using sluice tables, jigs, or spiral concentrators.\n   - Amalgamation: Where permitted, use mercury amalgamation in controlled environment.\n   - Retort: All mercury amalgam must be processed through retort to recover mercury.\n   - Smelting: Melt concentrate in crucible at 1064°C (gold melting point).\n\n4. Environmental Compliance\n   - Zero mercury release to waterways. All mercury captured via retort system.\n   - Tailings deposited in lined ponds, minimum 100m from water sources.\n   - Reclamation plan: backfill pits, re-vegetate disturbed areas within 6 months.\n   - Water recycling: minimum 70% water recirculation in processing.\n\n5. Safety Requirements\n   - PPE: Hard hat, steel-toe boots, high-vis vest, gloves, dust mask.\n   - Underground: Gas detector for CO, H2S. Ventilation fan mandatory.\n   - First aid kit and emergency communication at all work sites.\n   - No child labor. All workers must be 18+ years.\n\n6. Gold Recovery and Accounting\n   - Weigh gold on certified scale (0.01g precision).\n   - Record daily recovery: date, location, method, grams recovered.\n   - Secure storage: locked safe with dual custody.\n   - Weekly reconciliation: recovery vs. grade control predictions.",
+    "tags": ["gold", "artisanal", "ASGM", "mercury", "alluvial", "hard_rock", "smelting"],
+    "region": "global",
+    "last_reviewed": "2026-01-15",
+    "revision": "3.0"
+  },
+  {
+    "id": "sop_gold_placer_002",
+    "category": "gold_mining",
+    "title": "Placer Gold Mining and Dredging Operations",
+    "content": "SOP-AU-002: Placer Gold Mining and Dredging\n\n1. Site Selection\n   - Identify paleochannels, terraces, and floodplain deposits with gold potential.\n   - Sample method: systematic test pitting at 50m intervals along strike.\n   - Bulk sampling: process minimum 10 tonnes to confirm grade continuity.\n   - Geological indicators: iron-stained gravels, quartz fragments, black sand concentrations.\n\n2. Dredging Operations\n   - Suction Dredge: 4-inch minimum for ASGM. Must have containment boom.\n   - Power Sluice: Set up at stream edge, feed material from excavated gravel.\n   - Highbanker: Used above waterline, recirculate water from settling pond.\n   - Dredging depth: maximum 2 meters below natural stream bed.\n\n3. Recovery Systems\n   - Primary: Sluice box with miners moss or carpet under expanded metal.\n   - Secondary: Concentrating table (shaker table) for fine gold recovery.\n   - Cleanup: Every 8 hours of operation or when riffles are 50% loaded.\n   - Gold capture rate target: >85% of gold in feed material.\n\n4. Environmental Protection\n   - Silt fencing downstream of all operations.\n   - Settling ponds: minimum 3-stage settling before water return.\n   - No operation within 50m of fish spawning habitat.\n   - Stream flow must be maintained for downstream users.\n\n5. Production Tracking\n   - Log: date, location, volume processed (m³), gold recovered (g), recovery method.\n   - Assay: every 100m³ processed, submit concentrate sample for grade verification.\n   - Revenue reporting per local mining authority requirements.",
+    "tags": ["gold", "placer", "dredging", "alluvial", "sluice", "recovery"],
+    "region": "global",
+    "last_reviewed": "2026-02-01",
+    "revision": "2.0"
+  },
+  {
+    "id": "sop_diamond_mining_001",
+    "category": "precious_stones",
+    "title": "Alluvial Diamond Mining Procedure",
+    "content": "SOP-DI-001: Alluvial Diamond Mining\n\n1. Exploration and Sampling\n   - Identify kimberlite indicator minerals (KIMs): garnet, ilmenite, chromite, zircon.\n   - Bulk sample: minimum 50 tonnes of gravel to confirm diamond presence.\n   - Microdiamond analysis: caustic dissolution of 10kg sample.\n   - Geological mapping of paleo-river channels and terrace deposits.\n\n2. Mining Method\n   - Strip overburden using excavator (typically 2-8m depth).\n   - Selective mining of gravel layers with highest KIM concentrations.\n   - Avoid clay layers (low diamond potential).\n   - Stockpile ore gravel separately from waste.\n\n3. Processing\n   - Scrubbing: tumble gravel in rotating drum to break clay.\n   - Screening: 2mm mesh to remove fine sand and clay.\n   - Dense Media Separation (DMS): float diamonds in ferrosilicon slurry.\n   - X-ray sorting: final recovery using diamond fluorescence detection.\n   - Hand sorting: final check on concentrate table.\n\n4. Diamond Recovery Metrics\n   - Target recovery: >90% of diamonds in ore feed.\n   - Size distribution: track carat weight by size fraction.\n   - Quality grading: color, clarity, carat, cut (4Cs).\n   - Stones >2ct: immediate secure storage and valuation.\n\n5. Security Protocol\n   - All diamonds weighed and numbered immediately upon recovery.\n   - Locked storage with dual-key access.\n   - Daily reconciliation: carats recovered vs expected from grade control.\n   - CCTV monitoring of processing plant.\n   - Background checks for all personnel with diamond access.",
+    "tags": ["diamonds", "alluvial", "kimberlite", "DMS", "recovery", "4Cs"],
+    "region": "East Africa",
+    "last_reviewed": "2026-01-20",
+    "revision": "2.5"
+  },
+  {
+    "id": "sop_ruby_emerald_001",
+    "category": "precious_stones",
+    "title": "Ruby and Emerald Mining Operations",
+    "content": "SOP-RE-001: Ruby and Emerald Mining\n\n1. Geological Indicators\n   - Ruby: Found in metamorphic marble and schist, often with spinel and phlogopite.\n   - Emerald: Found in pegmatite veins within mica schist or biotite schist.\n   - Indicator minerals: pyrope garnet, chromian diopside, chrome spinel.\n   - Host rock: always associated with Cr-bearing minerals.\n\n2. Mining Methods\n   - Open cast: excavation of weathered ore zones near surface.\n   - Tunnel mining: following gem-bearing veins underground.\n   - Artisanal: hand tools, chisels, and hammers for selective extraction.\n   - Critical: gems are brittle — no explosives near gem-bearing zones.\n\n3. Ore Processing\n   - Manual sorting: trained sorters identify gems by color, luster, and shape.\n   - Washing: cascade panning to concentrate heavy minerals.\n   - Screening: progressive size reduction to isolate gem material.\n   - No chemical processing for gem recovery — mechanical only.\n\n4. Quality Assessment\n   - Ruby: color (pigeon blood red = premium), clarity, carat weight.\n   - Emerald: color (vivid green), clarity (jardin acceptable), carat weight.\n   - Pre-qualification: visual inspection under 10x loupe.\n   - Professional grading: submit >2ct stones for laboratory certification.\n\n5. Valuation and Sales\n   - Price per carat varies 100x based on quality.\n   - Pigeon blood ruby: $50,000-$500,000/ct at auction.\n   - Colombian emerald: $5,000-$100,000/ct depending on quality.\n   - All gem sales documented with photographic record.\n   - Export permits required for international sales.",
+    "tags": ["ruby", "emerald", "precious_stones", "gem_mining", "grading", "valuation"],
+    "region": "East Africa",
+    "last_reviewed": "2026-02-15",
+    "revision": "1.5"
+  },
+  {
+    "id": "sop_gold_heap_leach_001",
+    "category": "gold_mining",
+    "title": "Heap Leach Gold Recovery Operation",
+    "content": "SOP-AU-003: Heap Leach Gold Recovery\n\n1. Ore Preparation\n   - Crush ore to -12mm (75% passing).\n   - Agglomerate fines with cement (5-8 kg/t) if clay content >15%.\n   - Layer leach pad with HDPE liner (minimum 1.5mm thickness).\n   - Build ore lifts: 6-10 meter height per lift.\n\n2. Leach Solution\n   - Cyanide solution: 100-500 ppm NaCN, pH 10.5-11.0.\n   - Application rate: 5-15 L/min per 1000 m².\n   - Drip emitters or sprinkler system for uniform distribution.\n   - Percolation rate: solution must drain through ore in 24-48 hours.\n\n3. Gold Recovery\n   - Pregnant solution (PLS) collected in main pond.\n   - Adsorption: activated carbon in carbon-in-column (CIC) system.\n   - Elution: strip gold from carbon at 110°C, 1% NaCN solution.\n   - Electrowinning: deposit gold on stainless steel cathodes.\n   - Smelting: melt cathode sludge at 1200°C, pour dore bars.\n   - Final product: 90-99% purity dore bar for refinery.\n\n4. Environmental Controls\n   - Cyanide destruction: alkaline chlorination or Caro's acid before discharge.\n   - Solution balance: minimize fresh water input (70% recirculation).\n   - Liner integrity monitoring: weekly visual inspection.\n   - Groundwater monitoring wells: upstream and downstream.\n   - Noise control: pumps and generators in enclosures.\n\n5. Production Metrics\n   - Extraction rate: target 70-90% gold recovery.\n   - Leach cycle: 60-120 days per lift.\n   - Cyanide consumption: 1-3 kg/t ore.\n   - Production tracking: daily PLS sampling for Au, Ag, Cu, Fe.",
+    "tags": ["gold", "heap_leach", "cyanide", "carbon", "electrowinning", "dore"],
+    "region": "global",
+    "last_reviewed": "2026-03-01",
+    "revision": "2.0"
+  },
+  {
+    "id": "sop_gold_mill_001",
+    "category": "gold_mining",
+    "title": "Gold Mill Processing Circuit Operation",
+    "content": "SOP-AU-004: Gold Mill Processing Circuit\n\n1. Crushing Circuit\n   - Primary: jaw crusher, CSS 150mm, throughput 200 tph.\n   - Secondary: cone crusher, CSS 25mm.\n   - Tertiary: VSI crusher for liberation optimization.\n   - Screening: triple-deck vibrating screen, 12mm/6mm/2mm cuts.\n\n2. Grinding Circuit\n   - SAG mill: 24ft x 12ft, 2000 kW, 75% critical speed.\n   - Ball mill: 18ft x 24ft, 3000 kW, steel ball charge 30-35%.\n   - Classification: hydrocyclone cluster, target P80 = 75 microns.\n   - Mill feed: 150 tph, 80% passing 12mm.\n\n3. Gold Extraction\n   - Gravity circuit: Knelson concentrator for free gold (>100 microns).\n   - CIL (Carbon-in-Leach): 8 tanks, 2-hour residence per tank.\n   - Cyanide dosage: 500-1000 g/t NaCN.\n   - Carbon loading: 20 g/L, screened weekly.\n   - Carbon advance: counter-current, 1 day per stage.\n\n4. Elution and Refining\n   - Zadra elution: 1% NaCN, 95°C, 12-hour cycle.\n   - Carbon regeneration: rotary kiln at 750°C.\n   - Electrowinning: 3-4 V cell, 2-3 V, 200-400 A.\n   - Smelting: induction furnace, 1200°C, flux addition.\n   - Dore bar: minimum 95% Au + Ag, weight and assay before shipment.\n\n5. Key Performance Indicators\n   - Recovery target: >93% (gravity + CIL combined).\n   - Cyanide consumption: 0.5-1.5 kg/t.\n   - Carbon consumption: 15-25 kg/t.\n   - Power consumption: 25-35 kWh/t.\n   - Water consumption: 0.8-1.2 m³/t.",
+    "tags": ["gold", "mill", "CIL", "gravity", "elution", "electrowinning", "dore"],
+    "region": "global",
+    "last_reviewed": "2026-03-15",
+    "revision": "3.0"
+  },
+  {
+    "id": "sop_safety_underground_001",
+    "category": "safety",
+    "title": "Underground Gold Mine Safety Protocol",
+    "content": "SOP-SAFE-020: Underground Gold Mine Safety\n\n1. Entry Procedures\n   - Shift briefing: review ground conditions, gas readings, blasting schedule.\n   - Equipment check: cap lamp, self-rescuer, gas detector, radio.\n   - Sign in at underground check-in station.\n   - Never work alone underground — minimum pairs system.\n\n2. Ground Control\n   - Inspect ground at face before starting work.\n   - Scale loose rock with scaling bar before bolting.\n   - Install rock bolts per ground control plan (typically 1.8m x 1.8m pattern).\n   - Shotcrete application where required (50-100mm thickness).\n   - Report any ground instability immediately.\n\n3. Atmospheric Monitoring\n   - Gas detection: O2 >19.5%, CO <25ppm, H2S <10ppm, CH4 <1%.\n   - Dust monitoring: respirable dust <2.5 mg/m³.\n   - Ventilation: minimum 0.5 m/s air velocity in working faces.\n   - Emergency ventilation: auxiliary fans for dead-end headings.\n\n4. Blasting Safety\n   - Evacuate all personnel from blast zone (minimum 300m).\n   - Sound warning: 1 minute continuous siren before detonation.\n   - Wait minimum 30 minutes after blast for ventilation.\n   - Test atmosphere before re-entry: gas readings must be within limits.\n   - Check for misfires before resuming work.\n\n5. Emergency Response\n   - Refuge chambers: maximum 500m travel distance from any working area.\n   - Self-rescuer: 60-minute oxygen supply, carry at all times.\n   - Emergency radio: Channel 1 for mine-wide communication.\n   - Rescue team: on standby surface, 15-minute response time.",
+    "tags": ["safety", "underground", "gold", "ventilation", "gas", "blasting"],
+    "region": "global",
+    "last_reviewed": "2026-01-10",
+    "revision": "5.0"
+  },
+  {
+    "id": "sop_rare_earth_001",
+    "category": "rare_earth",
+    "title": "Rare Earth Elements Mining and Processing",
+    "content": "SOP-REE-001: Rare Earth Elements Mining\n\n1. Target Minerals\n   - Bastnäsite (Ce,La)CO₃F: primary light rare earth source.\n   - Monazite (Ce,La,Th)PO₄: contains heavy rare earths + thorium.\n   - Xenotime YPO₄: heavy rare earth concentrate (Y, Dy, Er).\n   - Ion-adsorption clays: heavy REE in weathered granite (China, Myanmar).\n\n2. Mining Methods\n   - Open pit: conventional drill-blast-load for hard rock REE deposits.\n   - Dredging: alluvial monazite placer deposits (beach sands).\n   - In-situ leaching: ion-adsorption clays (ammonium sulfate solution).\n   - Artisanal: hand mining and panning for placer monazite.\n\n3. Processing\n   - Crushing and grinding: liberate REE minerals from gangue.\n   - Gravity separation: spiral and shaking table for heavy mineral concentrate.\n   - Magnetic separation: monazite is paramagnetic, separate from zircon.\n   - Flotation: selective flotation of bastnäsite from calcite/barite.\n   - Acid leaching: HCl or H₂SO₄ to dissolve REE from concentrate.\n   - Solvent extraction: separate individual rare earth elements.\n\n4. Thorium Management\n   - Monazite contains 5-10% ThO₂ — radioactive.\n   - Thorium must be separated and stored as NORM waste.\n   - Radiation monitoring for all workers in monazite processing.\n   - Disposal: licensed radioactive waste facility.\n\n5. Market Applications\n   - NdFeB magnets: motors, generators, wind turbines.\n   - Catalysts: fluid catalytic cracking, automotive catalytic converters.\n   - Phosphors: LED lighting, displays.\n   - Polishing: cerium oxide for glass polishing.\n   - Battery alloys: nickel-metal hydride batteries.",
+    "tags": ["rare_earth", "REE", "monazite", "bastnasite", "neodymium", "thorium"],
+    "region": "global",
+    "last_reviewed": "2026-02-20",
+    "revision": "1.5"
+  },
+  {
+    "id": "SOP-008",
+    "topic": "Cyanide Handling and Storage",
+    "category": "chemical_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel involved in the transport, storage, mixing, dosing, and disposal of sodium cyanide (NaCN) and potassium cyanide (KCN) at the mine site, including the heap leach pad, CIL plant, and assay laboratory.",
+    "objective": "Ensure safe handling, storage, and use of cyanide compounds to prevent worker exposure, environmental contamination, and cyanide-related incidents, in compliance with the International Cyanide Management Code (ICMC) and local regulations.",
+    "responsibilities": [
+      "Cyanide Plant Supervisor: oversees daily cyanide handling operations, ensures compliance with ICMC, maintains cyanide inventory logs.",
+      "HSE Manager: conducts risk assessments, ensures PPE availability, manages cyanide emergency response drills quarterly.",
+      "Lab Technician: controls cyanide dosing in process solutions, performs daily titration to verify NaCN concentration.",
+      "Storekeeper: manages cyanide receiving, stacking, and inventory in the dedicated cyanide storage facility.",
+      "All Personnel: complete cyanide awareness training before site access, carry personal gas detectors where required."
+    ],
+    "procedure_steps": [
+      "1. Receiving and Unloading: Inspect cyanide deliveries against shipping manifest. Verify container integrity — reject any damaged drums or bags. Unload using mechanical aids only (forklift with drum clamp). Never drop or throw cyanide containers.",
+      "2. Storage: Store in locked, dedicated cyanide storage facility with impermeable concrete floor and bund wall capable of containing 110% of largest container volume. Post hazard signs in English and local language. Keep away from acids, oxidizers, and moisture. Maintain temperature below 40°C.",
+      "3. Inventory Management: Maintain running inventory with batch numbers, quantities received, consumed, and remaining. Reconcile inventory weekly. Report discrepancies >2% to HSE Manager immediately.",
+      "4. Mixing and Dosing: Mix cyanide solution in enclosed mixing tank with local exhaust ventilation. Add NaCN to water, never water to cyanide. Target solution concentration: 100-500 ppm NaCN for leach operations. Use pH adjustment to maintain pH >10.5 to minimize HCN generation.",
+      "5. Personal Protective Equipment: Minimum PPE for cyanide handling: chemical-resistant suit (Tychem or equivalent), chemical-resistant gloves (nitrile, double layer), full-face respirator with CN/B/CO multipurpose cartridge, chemical-resistant boots, safety goggles under face shield.",
+      "6. Gas Monitoring: Install fixed HCN gas detectors at cyanide mixing area, storage facility, and heap leach pad perimeter. Personal 4-gas monitors (O₂, LEL, CO, H₂S) for all workers in cyanide zones. Alarm levels: HCN >5 ppm (TWA), >10 ppm (STEL).",
+      "7. Cyanide Destruction: Before any process water discharge, destroy residual cyanide using alkaline chlorination (pH >10, chlorine gas or hypochlorite) or Caro's acid (H₂SO₅). Verify cyanide destruction: free cyanide <1 mg/L, WAD cyanide <0.5 mg/L before discharge.",
+      "8. Spill Response: Activate cyanide spill alarm. Evacuate upwind. HAZMAT team responds with lime application to neutralize acid cyanide. Contain spill with absorbent berms. Collect contaminated material for cyanide destruction or licensed disposal.",
+      "9. First Aid for Cyanide Exposure: Remove victim from exposure area. Administer Cyanokit (hydroxocobalamin 5g IV) if available. If not, amyl nitrite inhalation followed by sodium nitrite/sodium thiosulfate protocol. Administer 100% oxygen. Immediate evacuation to hospital."
+    ],
+    "ppe_required": [
+      "Chemical-resistant suit (Tychem or equivalent)",
+      "Double-layer nitrile chemical-resistant gloves",
+      "Full-face respirator with CN/B/CO cartridge",
+      "Chemical-resistant rubber boots",
+      "Safety goggles with anti-fog coating",
+      "Personal 4-gas monitor (O₂, LEL, CO, H₂S)",
+      "Hard hat with chin strap",
+      "High-visibility vest"
+    ],
+    "hazards": [
+      "Hydrogen cyanide (HCN) gas generation from acid contact with cyanide compounds",
+      "Acute cyanide poisoning through inhalation, ingestion, or dermal absorption",
+      "Environmental release of cyanide to surface water or groundwater",
+      "Chemical incompatibility with acids (generates lethal HCN gas)",
+      "Oxidizer contact (risk of fire or explosion)",
+      "Confined space accumulation of HCN gas"
+    ],
+    "emergency_response": "Activate cyanide emergency response plan. Evacuate personnel upwind to assembly point. HAZMAT team in full SCBA to contain source. Administer Cyanokit to exposed persons. Decontaminate skin with copious water for 15 minutes. Contact emergency services and site medical officer. Report incident to regulatory authority within 2 hours. Preserve scene for investigation.",
+    "references": [
+      "International Cyanide Management Code (ICMC) 2021",
+      "ISO 18400 series — Soil quality sampling",
+      "Mine Health and Safety Act (MHSA) — Cyanide Regulations",
+      "EPA 40 CFR 261 — Hazardous Waste",
+      "WHO Cyanide in Drinking-water Guidelines",
+      "SDS for Sodium Cyanide (NaCN) and Potassium Cyanide (KCN)"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-01",
+        "author": "HSE Department",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-009",
+    "topic": "Mercury Retort Operation",
+    "category": "chemical_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel operating mercury retorts for the recovery of mercury from gold-mercury amalgam in ASGM and small-scale processing operations.",
+    "objective": "Safely operate mercury retorts to recover mercury from amalgam, minimize mercury vapor emissions, and prevent occupational exposure and environmental contamination.",
+    "responsibilities": [
+      "Retort Operator: operates the retort per this SOP, monitors temperature, manages condensation and mercury collection.",
+      "Plant Supervisor: ensures retort equipment is maintained, conducts pre-operation inspections, logs mercury recovery data.",
+      "HSE Officer: conducts air monitoring for mercury vapor, ensures PPE compliance, manages waste amalgam disposal.",
+      "Assay Lab: analyzes retorted gold for residual mercury content (<0.05% Hg target)."
+    ],
+    "procedure_steps": [
+      "1. Pre-Operation Inspection: Inspect retort body for cracks or corrosion. Verify condensation tube is clear and connected. Check temperature gauge calibration. Ensure ventilation system is operational. Confirm mercury collection vessel is in place and clean.",
+      "2. Amalgam Preparation: Weigh amalgam on precision scale. Record weight in mercury tracking log. Place amalgam in retort crucible — do not exceed 50% crucible capacity.",
+      "3. Retort Sealing: Seal retort lid with graphite gasket or fire clay. Ensure all bolts torqued evenly to prevent vapor leaks. Connect condensation tube to cooling water circuit.",
+      "4. Heating Cycle: Heat retort gradually — 10°C/min ramp rate to prevent thermal shock. Target temperature: 357°C (mercury boiling point). Hold at 357-400°C for 30-60 minutes depending on amalgam size. Monitor temperature continuously with thermocouple.",
+      "5. Mercury Recovery: Mercury vapor condenses in water-cooled tube and collects in receiving flask. Do not open retort until temperature drops below 50°C. Collect condensed mercury in sealed glass bottles with polyethylene liner.",
+      "6. Post-Operation: Weigh recovered mercury and retorted gold. Calculate recovery efficiency — target >98% mercury recovery. Record in mercury balance log. Store mercury in locked mercury storage cabinet.",
+      "7. Ventilation: Operate local exhaust ventilation (LEV) during entire heating cycle. Air velocity at retort opening: minimum 0.5 m/s. Mercury vapor TLV-TWA: 0.025 mg/m³.",
+      "8. Waste Management: Amalgam residues with >0.1% Hg must be re-retorted or sent to licensed mercury waste facility. Never dispose of mercury in regular waste streams. Mercury-contaminated materials classified as hazardous waste."
+    ],
+    "ppe_required": [
+      "Mercury-resistant chemical gloves (nitrile over neoprene)",
+      "Full-face air-purifying respirator with mercury vapor cartridge (OV/AG)",
+      "Chemical splash goggles",
+      "Leather or chemical-resistant apron over standard PPE",
+      "Steel-toe boots",
+      "Hard hat"
+    ],
+    "hazards": [
+      "Mercury vapor inhalation — acute and chronic neurological effects",
+      "Mercury skin absorption — dermal exposure risk",
+      "Mercury spill — persistent environmental contaminant",
+      "Thermal burns from hot retort surfaces",
+      "Fire risk from improper heating"
+    ],
+    "emergency_response": "Evacuate area if mercury spill occurs. Do not use vacuum cleaner — use mercury spill kit (sulfur powder, specialized absorbent). Ventilate area. For mercury vapor exposure: remove to fresh air, seek medical attention. Report all mercury spills >5ml to environmental officer. Decontaminate with mercury decontamination solution.",
+    "references": [
+      "Minamata Convention on Mercury",
+      "WHO Guidance for Reducing Mercury Pollution from ASGM",
+      "OSHA Mercury Standard 29 CFR 1910.1025",
+      "EPA Mercury Waste Regulations 40 CFR 261",
+      "UNEP Global Mercury Partnership — ASGM Guidelines"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-01",
+        "author": "HSE Department",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-010",
+    "topic": "Confined Space Entry",
+    "category": "workplace_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel entering or working in confined spaces at the mine site, including underground headings, storage tanks, vessels, bins, hoppers, silos, pipelines, manholes, and any space with limited means of entry/exit and not designed for continuous occupancy.",
+    "objective": "Establish a systematic permit-based process for safe entry into confined spaces to prevent fatalities from atmospheric hazards, engulfment, entrapment, or other physical/chemical dangers.",
+    "responsibilities": [
+      "Entry Supervisor: authorizes confined space entry permit, ensures atmospheric testing is completed, maintains communication with entrants.",
+      "Authorized Entrant: enters confined space per permit conditions, monitors personal atmospheric monitor, maintains communication with attendant.",
+      "Attendant (Hole Watch): remains outside confined space at all times during entry, maintains entrant count, activates emergency rescue if needed.",
+      "HSE Manager: reviews confined space inventory, approves entry procedures, conducts annual rescue drill.",
+      "Rescue Team: trained in confined space rescue, maintains rescue equipment, responds within 10 minutes."
+    ],
+    "procedure_steps": [
+      "1. Space Identification: Identify and classify all confined spaces on site. Post warning signs at all confined space entry points. Maintain confined space inventory register.",
+      "2. Pre-Entry Hazard Assessment: Entry Supervisor conducts Job Safety Analysis (JSA) specific to the confined space. Identify all potential hazards: atmospheric, physical, engulfment, configuration. Review historical incident data for the space.",
+      "3. Atmospheric Testing: Test atmosphere using calibrated 4-gas detector (O₂, LEL, CO, H₂S) before entry and continuously during occupancy. Oxygen: 19.5% - 23.5%. LEL: <10%. CO: <25 ppm. H₂S: <10 ppm. Test at top, middle, and bottom of space (gases stratify).",
+      "4. Isolation and Lockout: Lock out all energy sources (electrical, mechanical, hydraulic, pneumatic). Blank or disconnect all piping entering the space. Block gravity-fed systems. Verify zero energy state.",
+      "5. Ventilation: Mechanical ventilation before entry and continuous during occupancy. Supply air to bottom of space (heavier-than-air contaminants rise). Minimum air exchange: 20 air changes per hour.",
+      "6. Permit Issuance: Entry Supervisor issues confined space entry permit. Permit specifies: space ID, purpose, duration, hazards identified, controls in place, atmospheric test results, entrants, attendant, rescue provisions. Permit valid for one shift only.",
+      "7. Entry and Monitoring: Entrant wears full-body harness with retrieval line attached to mechanical retrieval device. Attendant maintains constant communication (voice, radio, or visual signal). Continuous atmospheric monitoring during entire entry.",
+      "8. Emergency Extraction: Attendant activates emergency response if entrant shows signs of distress. Rescue team deploys within 10 minutes. Never attempt rescue without proper equipment and training — additional fatalities are common in rescue attempts. Use mechanical retrieval system to extract unconscious entrant."
+    ],
+    "ppe_required": [
+      "Full-body harness with D-ring and retrieval line",
+      "Self-contained breathing apparatus (SCBA) or supplied-air respirator",
+      "Personal 4-gas monitor (worn continuously)",
+      "Intrinsically safe communication device",
+      "Hard hat with headlamp",
+      "Chemical-resistant gloves",
+      "Steel-toe boots with ankle support",
+      "Coveralls"
+    ],
+    "hazards": [
+      "Oxygen deficiency (<19.5%) — unconsciousness within minutes",
+      "Flammable gas or vapor accumulation (LEL >10%) — explosion risk",
+      "Hydrogen sulfide (H₂S) exposure — immediate danger at >100 ppm",
+      "Carbon monoxide (CO) exposure — from combustion sources",
+      "Engulfment by loose material (grain, sand, slurry)",
+      "Entrapment due to configuration or inward converging walls",
+      "Falls from height during entry/exit",
+      "Mechanical hazards from energized equipment"
+    ],
+    "emergency_response": "Attendant immediately notifies Entry Supervisor and activates site emergency alarm. Rescue team deploys with SCBA and retrieval equipment. Extract entrant using mechanical retrieval system. Administer first aid/CPR if needed. Do NOT enter without SCBA — multiple fatalities can occur. Activate EMS. Preserve scene for investigation.",
+    "references": [
+      "OSHA Permit-Required Confined Spaces 29 CFR 1910.146",
+      "ISO 23465 — Confined spaces safety",
+      "Mine Health and Safety Act — Confined Space Regulations",
+      "NFPA 350 — Guide for Safe Confined Space Entry and Work"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-01",
+        "author": "HSE Department",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-011",
+    "topic": "Working at Heights",
+    "category": "workplace_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel performing work at heights of 2 meters or above at the mine site, including work on headframes, conveyors, processing plant structures, tanks, silos, scaffolding, ladders, and any elevated work platform.",
+    "objective": "Prevent falls from height through systematic risk assessment, proper equipment selection, training, and fall protection systems in accordance with regulatory requirements.",
+    "responsibilities": [
+      "Work Supervisor: conducts height-specific risk assessment, selects appropriate fall protection system, ensures rescue plan is in place before work begins.",
+      "Worker: inspects personal fall arrest system before each use, wears harness correctly, maintains 100% tie-off.",
+      "HSE Officer: conducts annual harness inspections, reviews fall protection equipment, investigates all fall incidents and near-misses.",
+      "Maintenance Team: installs and inspects permanent anchor points, ensures guardrails on permanent structures are maintained."
+    ],
+    "procedure_steps": [
+      "1. Risk Assessment: Evaluate height of work, duration, frequency, surface conditions, weather (wind >40 km/h = stop work), and proximity to energized equipment or moving machinery. Classify work: routine (<2 hrs, <3m), complex (>2 hrs, >3m), or rescue scenario.",
+      "2. Fall Protection Hierarchy: (a) Eliminate the risk — perform work at ground level where possible. (b) Guardrails and edge protection for permanent/semi-permanent work areas. (c) Fall arrest system (harness + lanyard + anchor) for short-duration work. (d) Work positioning system for sustained work at height. (e) Safety nets as collective fall protection.",
+      "3. Equipment Inspection: Inspect harness for cuts, abrasion, chemical damage, UV degradation, stitching integrity. Check all D-rings, buckles, and connectors. Inspect lanyard shock absorber indicator (deployed = discard). Verify anchor point rated for 15 kN minimum (2 persons). Inspect lifeline for fraying, kinking, or chemical contamination.",
+      "4. Donning Harness: Put on harness over clothing, adjust all straps to fit snugly — two-finger rule at leg straps and chest. Connect lanyard to dorsal D-ring (fall arrest) or sternal D-ring (work positioning). Verify carabiners are locked (screw-lock or twist-lock).",
+      "5. Anchor Point Selection: Use designated certified anchor points rated to 15 kN. Never anchor to guardrails, pipes, or unverified structures. For horizontal lifelines, verify system is designed by competent person for anticipated fall forces. Maintain 100% tie-off — double lanyard technique when moving between anchors.",
+      "6. Access and Egress: Use fixed ladders with fall arrest rail where available. Portable ladders: 4:1 ratio, secured at top and bottom. Mobile elevated work platforms (MEWPs): complete operator training, use full-body harness with lanyard to MEWP anchor point. Scaffolding: only erect/modify by trained scaffold erectors.",
+      "7. Emergency Rescue Plan: Pre-plan rescue before commencing work. Identify rescue equipment: rescue pole, rescue kit, or MEWP rescue. Rescue must be initiated within 6 minutes of a fall to prevent suspension trauma. Designate rescue team members on-site during all height work.",
+      "8. Weather Monitoring: Stop work if wind exceeds 40 km/h (gusts). Stop work during lightning within 10km. Stop work in heavy rain or ice conditions on elevated surfaces. Resume only after conditions are verified safe by supervisor."
+    ],
+    "ppe_required": [
+      "Full-body fall arrest harness (EN 361 or ANSI Z359.11 rated)",
+      "Energy-absorbing lanyard or self-retracting lifeline (SRL)",
+      "Double-action carabiners with lock mechanism",
+      "Hard hat with chin strap (ANSI Z89.1 Type I or II)",
+      "Non-slip, steel-toe safety boots",
+      "High-visibility vest",
+      "Safety glasses"
+    ],
+    "hazards": [
+      "Falls from height — leading cause of mining fatalities",
+      "Suspension trauma after fall — can be fatal within 20 minutes",
+      "Falling objects striking workers below",
+      "Ladder collapse or displacement",
+      "Wind-induced instability on elevated structures",
+      "Electrical contact when working near powerlines",
+      "Structural failure of anchor points or platforms"
+    ],
+    "emergency_response": "Activate site emergency alarm. Initiate suspension trauma rescue — rescue fallen worker within 6 minutes. Do not cut harness straps — use rescue kit to support victim during extraction. Administer first aid, CPR if needed. Contact EMS. Report to HSE Manager. Preserve scene and equipment for investigation.",
+    "references": [
+      "OSHA Fall Protection 29 CFR 1926.501",
+      "ANSI/ASSE Z359.1 — Fall Protection Code",
+      "EN 361:2002 — Full body harnesses",
+      "ISO 10333 — Fall arrest systems",
+      "Mine Health and Safety Act — Working at Heights Regulation"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-01",
+        "author": "HSE Department",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-012",
+    "topic": "Electrical Safety and Lockout-Tagout (LOTO)",
+    "category": "workplace_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel working on, near, or in proximity to electrical equipment, circuits, or power distribution systems at the mine site, including plant maintenance, mobile equipment, overhead lines, and temporary power installations.",
+    "objective": "Prevent electrical injuries, electrocution, and arc flash incidents through systematic isolation, lockout-tagout procedures, and safe work practices for all electrical work on energized and de-energized equipment.",
+    "responsibilities": [
+      "Electrical Supervisor: authorizes LOTO permits, verifies de-energization, maintains electrical isolation register.",
+      "Authorized Electrician: performs LOTO on electrical equipment, tests for zero energy state, applies personal locks and tags.",
+      "Equipment Operator: verifies LOTO is applied before maintenance begins, does not attempt to operate locked-out equipment.",
+      "HSE Officer: conducts electrical safety audits, reviews LOTO compliance, investigates electrical incidents.",
+      "Competent Person: designs and approves electrical safety procedures for complex or high-voltage isolation."
+    ],
+    "procedure_steps": [
+      "1. Pre-Isolation Planning: Identify all energy sources: electrical, hydraulic, pneumatic, mechanical, gravitational, thermal, chemical. Review single-line diagrams and equipment schematics. Determine isolation points and LOTO device locations. Notify all affected operators and supervisors.",
+      "2. Shutdown Procedure: Perform orderly equipment shutdown per operating sequence. Allow rotating equipment to coast to complete stop. Verify zero-speed indicators. Confirm equipment is in a safe state.",
+      "3. Isolation: Open disconnect switches and circuit breakers at the point of isolation. Rack out draw-out circuit breakers. Remove fuses where applicable — store fuses in LOTO lockbox. Disconnect pneumatic and hydraulic energy sources. Block gravity-loaded components.",
+      "4. Lockout and Tagout: Apply personal padlock to each isolation device — one lock per person. Attach danger tag with: name, date, time, reason, expected duration. Use hasps for multiple locks. For group LOTO: group lockbox with master lock — each worker applies personal lock to lockbox.",
+      "5. Verify Zero Energy State: Attempt to start equipment — it must NOT respond. Test circuits with non-contact voltage tester, then confirm with multimeter. Test phase-to-phase and phase-to-ground. Verify hydraulic/pneumatic pressure is at zero (gauge reading). Verify mechanical energy is dissipated.",
+      "6. Work Execution: Perform maintenance/repair work per approved work method statement. Maintain safe approach distances for energized work (where energized work is approved by Electrical Supervisor). Use insulated tools rated for the voltage class. Wear arc flash PPE per NFPA 70E hazard analysis.",
+      "7. Re-Energization: Verify all tools and personnel are clear of equipment. Remove locks and tags — only the person who applied the lock may remove it (except under documented emergency procedure). Restore fuses and rack-in breakers. Energize in sequence per operating procedure. Verify normal operation.",
+      "8. Documentation: Complete LOTO permit with all lockout/re-energization times. Report any difficulties encountered. File LOTO records for 3-year minimum retention."
+    ],
+    "ppe_required": [
+      "Arc-rated clothing (minimum CAT 2, ATPV ≥ 8 cal/cm²)",
+      "Voltage-rated rubber insulating gloves with leather protectors",
+      "Arc-rated face shield or balaclava",
+      "Hard hat (non-conductive)",
+      "Safety glasses with side shields",
+      "Steel-toe electrical hazard rated boots",
+      "Insulated tools rated for system voltage",
+      "Non-conductive measuring instruments"
+    ],
+    "hazards": [
+      "Electrocution from contact with energized conductors",
+      "Arc flash and arc blast — temperatures exceeding 20,000°C",
+      "Burns from electrical arcs — thermal and UV radiation",
+      "Capacitor stored energy — residual charge after shutdown",
+      "Induced voltage on parallel circuits",
+      "Fall from height due to muscular contraction from shock",
+      "Secondary injuries from arc blast pressure wave"
+    ],
+    "emergency_response": "Do NOT touch victim if still in contact with energized source. De-energize circuit or use non-conductive object to separate victim from source. Call for emergency medical assistance immediately. Begin CPR if victim is unresponsive and not breathing. Use AED if available. Treat for arc flash burns — cool with clean water, cover with sterile dressing. Activate site emergency response.",
+    "references": [
+      "OSHA Lockout-Tagout 29 CFR 1910.147",
+      "NFPA 70E — Standard for Electrical Safety in the Workplace",
+      "IEEE C2 — National Electrical Safety Code (NESC)",
+      "IEC 60204 — Safety of machinery — Electrical equipment",
+      "Mine Electrical Safety regulations per jurisdiction"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-15",
+        "author": "Electrical Engineering & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-013",
+    "topic": "Hot Work Permit",
+    "category": "workplace_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All hot work activities at the mine site including welding, cutting, brazing, soldering, grinding, and any activity producing sparks, flames, or temperatures exceeding 200°C in proximity to combustible materials.",
+    "objective": "Control fire risks associated with hot work through a structured permit system, fire watch procedures, and area preparation requirements.",
+    "responsibilities": [
+      "Hot Work Applicant: identifies hazards, prepares the work area, provides fire extinguisher and fire watch, completes the hot work permit.",
+      "Area Supervisor (Issuer): inspects the work area, verifies fire prevention controls, issues the hot work permit, monitors compliance.",
+      "Fire Watch Person: monitors the area during and after hot work for sparks, smoldering materials, or fire. Maintains fire extinguisher and water hose access. Remains on watch for 60 minutes after hot work completion.",
+      "HSE Officer: audits hot work permits, investigates hot work incidents, conducts fire safety training."
+    ],
+    "procedure_steps": [
+      "1. Hot Work Identification: Determine if hot work is required — evaluate alternatives (cold mechanical fastening, adhesive bonding, pre-fabricated components). If hot work is necessary, identify specific activities: welding, cutting, grinding, brazing.",
+      "2. Area Inspection: Remove all combustible materials within 11-meter radius or cover with fire-resistant blankets/shields. Sweep floor area clear of dust, wood chips, and debris. Identify concealed combustibles in walls, ceilings, and below floor level. Check for flammable gas or vapor in the area using LEL meter — reading must be <10% LEL.",
+      "3. Fire Prevention Setup: Position fire extinguisher (minimum 4A:20B:C rating) within 3 meters of hot work. Have charged water hose or water spray available. Cover nearby fire alarms and sprinkler heads if direct spark exposure is possible (remove covers immediately after work). Protect flammable storage areas and fuel lines.",
+      "4. Permit Issuance: Complete hot work permit form specifying: work location, nature of work, duration, hazards identified, controls in place, name of fire watch, and issuer authorization. Permit valid for one shift only. Post permit at work location during hot work. No permit = no hot work.",
+      "5. During Hot Work: Maintain fire watch continuously during hot work. Monitor for sparks landing on or falling into concealed spaces. Watch for smoldering in insulation, debris, or structural members. Do not leave hot work unattended — not even briefly. Maintain communication between welder/cutter and fire watch.",
+      "6. Post-Hot Work Fire Watch: Continue fire watch for minimum 60 minutes after hot work completion. Check area with thermal imaging camera for hidden hot spots. Inspect adjacent spaces, walls, and ceilings for smoldering materials. Wet down any hot debris or slag.",
+      "7. Permit Closure: After fire watch period, Area Supervisor inspects area and closes hot work permit. Record completion time. File permit for 1-year retention.",
+      "8. Special Conditions: Hot work on or near fuel tanks, pipes, or vessels requires gas-free certification. Hot work in confined spaces requires separate confined space entry permit. No hot work during high wind (>30 km/h) unless enclosed shelter is provided. Hot work near explosive storage: minimum 50-meter exclusion zone."
+    ],
+    "ppe_required": [
+      "Welding helmet (auto-darkening, shade 10-13)",
+      "Welding gloves (leather, gauntlet style)",
+      "Leather apron or welding jacket",
+      "Steel-toe boots (non-melting uppers)",
+      "Safety glasses (under welding helmet)",
+      "Fire-resistant clothing (FRC) — minimum arc rating 4 cal/cm²",
+      "Hearing protection if grinding",
+      "Respiratory protection if ventilation is inadequate"
+    ],
+    "hazards": [
+      "Fire ignition from sparks contacting combustible materials",
+      "Burns from hot metal, slag, and equipment",
+      "Arc flash and UV radiation from welding",
+      "Toxic fume inhalation (welding fumes, coatings, galvanizing)",
+      "Explosion if hot work near flammable gas, vapor, or dust",
+      "Eye damage from arc flash or grinding sparks"
+    ],
+    "emergency_response": "Activate fire alarm if fire develops. Use fire extinguisher for incipient fires — aim at base of flames. Evacuate area if fire cannot be controlled. Activate site fire brigade. Call emergency services. Administer first aid for burns: cool with clean running water for 20 minutes, do not apply ice or creams. Cover with sterile dressing. Treat for smoke inhalation — provide oxygen if available.",
+    "references": [
+      "NFPA 51B — Standard for Fire Prevention During Welding, Cutting, and Hot Work",
+      "OSHA Hot Work Permit Requirements",
+      "OSHA 29 CFR 1910.252 — Welding, Cutting, and Brazing",
+      "Mine Safety and Health Administration (MSHA) hot work guidelines"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-15",
+        "author": "HSE Department",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-014",
+    "topic": "Excavation and Trenching",
+    "category": "earthworks",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All excavation and trenching activities at the mine site, including foundation pits, trenching for pipelines and cables, borrow pits, trial trenches, and any earth-cutting activity where personnel may enter the excavated area.",
+    "objective": "Prevent cave-ins, falls into excavations, and utility strikes through systematic planning, soil classification, protective systems, and safe access/egress procedures.",
+    "responsibilities": [
+      "Excavation Supervisor: classifies soil, designs protective system, issues excavation permit, ensures compliance with this SOP.",
+      "Equipment Operator: operates excavator within design limits, maintains safe distance from excavation edge, follows spotter directions.",
+      "Competent Person: conducts daily inspections of excavation and protective systems, authorizes personnel entry, monitors soil conditions.",
+      "Utility Locator: locates and marks all underground utilities before excavation commences.",
+      "HSE Officer: conducts pre-excavation risk assessment, monitors for atmospheric hazards in deep excavations."
+    ],
+    "procedure_steps": [
+      "1. Underground Utility Location: Contact utility locating service (call before you dig) minimum 72 hours before excavation. Mark all identified utility lines with appropriate color coding. Hand-dig (pothole) to physically verify utility locations within 1 meter of excavation area. Maintain utility location records.",
+      "2. Soil Classification: Classify soil as Type A (cohesive, unconfined compressive strength >1.5 tsf), Type B (cohesive, 0.5-1.5 tsf, or granular with slope of 34-45°), or Type C (least stable — granular, submerged, or cohesive with <0.5 tsf). Classify as Type C if any uncertainty exists (conservative approach).",
+      "3. Protective System Selection: Excavations >1.5m deep require protective system. Sloping/benching: Type A (3/4:1), Type B (1:1), Type C (1.5:1). Shoring: hydraulic or timber panels with cross-bracing per engineer design. Shielding: trench box or trench shield rated for soil type and depth. Trench box must extend minimum 0.45m above surrounding grade.",
+      "4. Excavation Layout: Establish exclusion zone around excavation — barricade with warning tape and signage. Keep spoil piles minimum 0.6m from excavation edge. Provide stable access ladder within 7.5m of worker location for excavations >1.2m deep. Ladder must extend 1.0m above ground level.",
+      "5. Atmospheric Testing: Test atmosphere in excavations >1.2m deep before entry and continuously during occupancy. Test for O₂, LEL, CO, H₂S. Oxygen: 19.5-23.5%. LEL: <10%. Ventilate if readings are outside limits. Consider heavier-than-air gas accumulation in deep excavations.",
+      "6. Water Management: Dewater excavation before entry if water accumulation is present. Use sump pump with discharge directed away from excavation. Monitor groundwater inflow rate. Stop work if water accumulation cannot be controlled. Never enter flooded excavation.",
+      "7. Excavation Inspection: Competent Person inspects excavation daily before each shift, after rain events, after any change in conditions, and after any event that could affect stability. Document inspection findings. Correct deficiencies before personnel entry.",
+      "8. Backfilling and Demobilization: Remove protective systems as backfill progresses — never ahead of backfill. Compact backfill in lifts (200-300mm). Restore surface conditions. Remove all equipment and materials. Close out excavation permit."
+    ],
+    "ppe_required": [
+      "Hard hat with chin strap",
+      "Steel-toe boots",
+      "High-visibility vest",
+      "Safety glasses",
+      "Personal 4-gas monitor (for deep excavations)",
+      "Hearing protection near heavy equipment"
+    ],
+    "hazards": [
+      "Cave-in / soil collapse — leading cause of excavation fatalities",
+      "Falls into open excavation",
+      "Striking underground utilities (gas, electric, water, communications)",
+      "Atmospheric hazards in deep excavations (H₂S, CO, O₂ deficiency)",
+      "Flooding from groundwater or utility strike",
+      "Mobile equipment striking personnel at excavation edge",
+      "Buried objects dislodged during excavation"
+    ],
+    "emergency_response": "Do NOT enter excavation to rescue — additional cave-in risk. Call emergency services. Use mechanical means (excavator bucket) to clear material if safe. Deploy trench rescue team if available. Administer first aid for crush injuries. Treat for hypothermia if subject to wet/cold conditions. Report incident and preserve scene for investigation.",
+    "references": [
+      "OSHA Excavation Standards 29 CFR 1926.650-652",
+      "AS 4678 — Earth-Retaining Structures",
+      "EN 996 — Piling Equipment — Safety",
+      "Mine excavation and earthworks safety guidelines"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-02-01",
+        "author": "Earthworks & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-015",
+    "topic": "Heavy Equipment Pre-Start Inspection",
+    "category": "equipment_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All mobile heavy equipment operated at the mine site, including haul trucks, excavators, loaders, graders, dozers, drills, water trucks, and light vehicles used on haul roads.",
+    "objective": "Ensure every piece of heavy equipment is inspected before each shift to identify mechanical defects, safety system failures, and potential hazards that could lead to accidents, injuries, or equipment damage.",
+    "responsibilities": [
+      "Equipment Operator: conducts thorough pre-start inspection using checklist, reports defects, does not operate equipment with safety-critical defects.",
+      "Maintenance Supervisor: reviews pre-start reports, prioritizes defect repairs, ensures defect tracking system is maintained.",
+      "Shift Supervisor: verifies all pre-start inspections are completed before authorizing shift start, addresses fleet-wide issues.",
+      "HSE Officer: audits pre-start compliance rates, investigates incidents where pre-start defects were a contributing factor."
+    ],
+    "procedure_steps": [
+      "1. Walk-Around Inspection: Complete 360-degree walk-around of equipment before entering cab. Check for fluid leaks (oil, hydraulic, coolant, fuel). Inspect tires: pressure, tread depth, cuts, bulges, lug nut tightness. Check tracks for tension, wear, and missing pads. Inspect mirrors, lights (head, tail, rotating beacons), horns, and backup alarm. Verify ROPS/FOPS structural integrity — no cracks, modifications, or missing bolts.",
+      "2. Engine Compartment: Check engine oil level via dipstick — add if low. Inspect coolant level in reservoir — do not open hot system. Check transmission fluid level. Inspect belts for cracks, tension, and alignment. Check air filter restriction indicator — replace if in red zone. Look for loose connections, cracked hoses, worn wires.",
+      "3. Cab Inspection: Check fire extinguisher — charged, accessible, inspection tag current. Verify seat belt functional and latches securely. Test all controls: steering, brakes (service and parking), throttle, transmission, hydraulic controls. Test all gauges and warning lights — start engine and verify normal readings. Adjust mirrors and seat.",
+      "4. Safety Systems Test: Test backup alarm — must sound when transmission placed in reverse. Test backup camera — display clear and functional. Test all lights: headlights, tail lights, work lights, rotating beacon, reverse lights. Test horn — audible at 50 meters. Test fire suppression system (if equipped) — pressure gauge in green zone. Test AED (if equipped) — status indicator green.",
+      "5. Fluid Levels: Engine oil — within operating range. Hydraulic fluid — check sight glass or dipstick. Coolant — check overflow reservoir. Fuel — verify sufficient for shift duration plus 20% reserve. DEF/AdBlue — check level if equipped. Windshield washer fluid — fill if needed.",
+      "6. Documentation: Complete pre-start checklist — sign and date. Report any safety-critical defects to Shift Supervisor immediately. Safety-critical defects: brakes, steering, fire suppression, ROPS/FOPS damage, lights (if night shift), backup alarm. Equipment with safety-critical defects: tag out and do not operate until repaired and re-inspected.",
+      "7. Defect Follow-Up: Maintenance enters defect into CMMS (Computerized Maintenance Management System). Priority classification: Safety-Critical (fix before next shift), Operational (fix within 48 hours), Cosmetic (schedule during planned maintenance). Operator signs off when defect is corrected.",
+      "8. Shift Handover: Incoming operator reviews outgoing operator's pre-start report. Verify no new defects since last inspection. Discuss any temporary repairs or operational restrictions."
+    ],
+    "ppe_required": [
+      "Hard hat",
+      "High-visibility vest or clothing",
+      "Steel-toe boots",
+      "Safety glasses",
+      "Hearing protection (if engine running in enclosed area)",
+      "Gloves (for checking fluids and components)"
+    ],
+    "hazards": [
+      "Operating equipment with defective brakes — runaway or collision",
+      "Operating with non-functional backup alarm — personnel struck during reversing",
+      "Low tire pressure or damaged tire — blowout risk",
+      "Fluid leaks on hot surfaces — fire risk",
+      "Defective steering — loss of control",
+      "ROPS/FOPS damage — reduced occupant protection in rollover",
+      "Non-functional lights — reduced visibility, especially at night"
+    ],
+    "emergency_response": "If defect is discovered during operation: safely stop equipment, engage parking brake, shut down engine, notify Shift Supervisor. If equipment becomes inoperable: activate warning lights, use radio to request assistance, remain in cab if in active traffic area. For breakdowns on haul road: place warning triangles, notify dispatch.",
+    "references": [
+      "MSHA 30 CFR Part 56/57 — Mobile Equipment Safety",
+      "ISO 19296 — Mining — Mobile equipment safety",
+      "Original Equipment Manufacturer (OEM) pre-start inspection manuals",
+      "Mine-specific mobile equipment safety management plan"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-15",
+        "author": "Maintenance & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-016",
+    "topic": "Blasting Crew Safety",
+    "category": "explosives_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel involved in blasting operations including drill crews, blasters, shot firers, explosive handlers, blast hole loaders, detonator operators, and anyone within the blast exclusion zone.",
+    "objective": "Ensure safe handling, storage, transportation, loading, initiation, and post-blast assessment of explosives and blasting accessories to prevent injuries, fatalities, flyrock incidents, and environmental damage.",
+    "responsibilities": [
+      "Blast Supervisor (Shot Firer): plans blast pattern, calculates charges, supervises loading and initiation, conducts all-clear and post-blast inspection. Licensed blaster per local regulations.",
+      "Drill Crew: drills blast holes to specified depth and inclination, cleans holes, maintains drill logs for blast design.",
+      "Explosive Handler: manages explosive magazine inventory, prepares charges per blast design, maintains chain of custody records.",
+      "Blast Guard: establishes exclusion zone, controls access, sounds warning signals, ensures all personnel are clear before detonation.",
+      "HSE Officer: verifies blast design safety factors, monitors environmental impacts (vibration, flyrock, dust), reviews incident reports."
+    ],
+    "procedure_steps": [
+      "1. Blast Planning: Blast Supervisor designs blast pattern based on: rock type, hole diameter, bench height, fragmentation requirements, vibration limits, and flyrock risk. Blast design includes: hole spacing, burden, stemming height, charge weight per hole, delay timing. Submit blast plan to HSE for review 24 hours before blast.",
+      "2. Explosive Transport: Transport explosives in approved magazine vehicle — locked, ventilated, no smoking signs posted. Detonators and explosives transported separately. Maximum transport speed: 25 km/h on mine roads. No passengers in explosive transport vehicle. Maintain transport log: origin, destination, quantity, time, driver.",
+      "3. Magazine Storage: Store explosives in licensed magazine — minimum 50m from any road, power line, or structure. Magazine to be locked when unattended. Maintain temperature below 50°C. Separate detonators from main charge by minimum distance or partition. Maintain daily inventory count. Magazine access: authorized personnel only.",
+      "4. Blast Hole Loading: Verify hole depth and condition (no water unless using water-resistant explosives). Load primer charge (boostered) at bottom of hole. Place main column charge. Calculate maximum charge per delay to control vibration: typically <15 kg per delay for sensitive structures. Stem hole with inert material (drill cuttings) — minimum 2x burden height.",
+      "5. Initiation System: Connect detonators per blast plan delay sequence. Use electric or non-electric initiation per design. Connect to blasting cable only after all personnel are clear. Test continuity of initiation system before final connection. Final connection: Blast Supervisor only.",
+      "6. Exclusion Zone and Warning: Establish exclusion zone: minimum 500m radius from blast (or as calculated based on charge weight). Remove all personnel and equipment from exclusion zone. Count heads — verify all personnel accounted for. Sound warning signal: 1 minute continuous siren. Wait 30 seconds after siren stops before initiating.",
+      "7. Detonation and Post-Blast: Initiate blast. Wait minimum 15 minutes (or per ventilation plan) before re-entry. Blast Supervisor conducts post-blast inspection: check for misfires, assess fragmentation, measure throw, inspect highwall stability. If misfire found: do not approach for 30 minutes. Follow misfire procedure.",
+      "8. Misfire Procedure: Mark misfire location. Exclude all personnel. Blast Supervisor develops misfire recovery plan. Typical approach: re-drill adjacent to misfire hole, load and blast to destroy misfire. Never pull detonator wires from misfire hole. Document misfire in blast log."
+    ],
+    "ppe_required": [
+      "Blast-resistant helmet with face shield",
+      "Hearing protection (minimum NRR 25)",
+      "Steel-toe boots",
+      "High-visibility vest",
+      "Blast-rated gloves",
+      "Safety glasses",
+      "Personal gas detector (for underground blasting)",
+      "Blast shield (for charging near face)"
+    ],
+    "hazards": [
+      "Premature detonation during loading or initiation",
+      "Flyrock beyond exclusion zone — can travel 500m+ with insufficient stemming",
+      "Misfires — undetonated explosives in muck pile",
+      "Blast vibration — structural damage to nearby infrastructure",
+      "Blast fumes — toxic NOx gases from ammonium nitrate detonation",
+      "Groundwater contamination from explosive residue",
+      "Electrostatic initiation of electric detonators"
+    ],
+    "emergency_response": "If unexploded charge encountered: evacuate area, establish 500m exclusion zone, notify Blast Supervisor and emergency services. Do NOT attempt to handle or move unexploded explosives. For injuries from blast: apply first aid for blast injuries (primary — overpressure; secondary — fragmentation; tertiary — displacement). Treat for hearing damage. Evacuate to medical facility. Report to regulatory authority.",
+    "references": [
+      "MSHA 30 CFR Part 75/77 — Blasting Safety",
+      "ANSI/ISEA Z49.1 — Blasting Safety Standard",
+      "Local Explosives Act and regulations",
+      "IOCM (International Operations Mine Committee) blasting guidelines",
+      "OEM blasting equipment manuals"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-02-01",
+        "author": "Blasting & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-017",
+    "topic": "Pump and Dewatering Operation",
+    "category": "operations",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel operating, maintaining, or working near dewatering pump systems at the mine site, including surface sumps, underground dewatering stations, and process water circuits.",
+    "objective": "Ensure safe and efficient operation of dewatering pumps to manage groundwater inflow, maintain dry working conditions, prevent flooding, and protect equipment from damage.",
+    "responsibilities": [
+      "Pump Operator: conducts pre-start checks, operates pumps per SOP, monitors performance, reports abnormalities, performs routine maintenance.",
+      "Maintenance Technician: performs scheduled maintenance, rebuilds pumps, manages spare parts inventory, installs new pump systems.",
+      "Shift Supervisor: coordinates dewatering activities with mining operations, monitors water levels, authorizes pump startup/shutdown.",
+      "HSE Officer: ensures electrical safety compliance for pump installations, reviews lockout-tagout procedures for pump maintenance."
+    ],
+    "procedure_steps": [
+      "1. Pre-Start Inspection: Verify pump and motor are secure — no loose bolts or foundation cracks. Check suction and discharge piping for leaks, blockages, and proper valve positions. Verify coupling guard is in place and secure. Check bearing lubrication level — oil level in sight glass or grease quantity. Verify electrical connections — no exposed wires, J-box sealed. Check priming system for self-priming pumps.",
+      "2. Priming and Startup: Open suction valve fully. Open discharge valve partially (50%) to reduce starting load. Prime pump if not self-priming — fill casing with water through priming port. Start motor — monitor current draw against nameplate rating. Gradually open discharge valve to desired flow. Verify no cavitation noise (rattling or rumbling).",
+      "3. Operation Monitoring: Check discharge pressure gauge — compare to design head. Monitor motor amp draw — should be stable, below nameplate maximum. Check bearing temperature — alarm if >80°C. Listen for cavitation, vibration, or unusual noises. Monitor sump water level — adjust pump speed or start/stop additional pumps as needed. Log all readings hourly.",
+      "4. Common Operating Issues: Cavitation: increase suction pressure (raise water level or lower pump), reduce flow rate, check for suction line blockages. Loss of prime: check foot valve, seals, suction line integrity. High vibration: check alignment, bearing wear, impeller balance, foundation bolts. Motor overload: reduce flow, check for mechanical binding, verify voltage supply.",
+      "5. Routine Maintenance: Daily: check oil level, listen for noise, record operating parameters. Weekly: check bearing temperature, inspect seals, verify alignment. Monthly: check impeller wear (measure clearances), inspect coupling, check motor insulation resistance. Quarterly: complete pump overhaul inspection — impeller, wear rings, bearings, mechanical seal.",
+      "6. Shutdown Procedure: Close discharge valve gradually. Stop motor. Close suction valve (if system requires isolation). Open drain valve to empty pump casing if freezing is possible. Disconnect power and apply LOTO if maintenance is planned. Record shutdown time and reason.",
+      "7. Dewatering Management: Maintain sump water levels below pump intake — prevent pump running dry (causes seal failure). Manage discharge water quality — test for suspended solids, pH, metals content before discharge. Divert contaminated water to treatment system. Maintain dewatering pumps in redundant configuration — minimum N+1.",
+      "8. Emergency Procedures: If pump fails and sump is rising: start standby pump immediately. If no standby available: deploy portable pump. If flooding imminent: evacuate area, notify Shift Supervisor. For electrical fault on pump: de-energize at MCC before approaching. For personnel in flooded area: initiate water rescue protocol."
+    ],
+    "ppe_required": [
+      "Hard hat",
+      "Safety glasses",
+      "Hearing protection (pumps typically operate >85 dBA)",
+      "Steel-toe boots (waterproof preferred)",
+      "High-visibility vest",
+      "Gloves for maintenance tasks",
+      "Electrical PPE for pump motor work per LOTO SOP"
+    ],
+    "hazards": [
+      "Drowning in flooded sump areas",
+      "Electrical shock from wet conditions and pump motors",
+      "Entanglement in rotating pump components (coupling, shaft)",
+      "High-pressure water injection from leaking fittings",
+      "Noise-induced hearing loss from pump operation",
+      "Slips and falls on wet surfaces around pump stations",
+      "H₂S accumulation in confined sump areas"
+    ],
+    "emergency_response": "For drowning risk: deploy flotation device, do not enter water without water rescue training. For electrical contact: de-energize before approach, treat victim for electrical shock. For entanglement: emergency stop, do not attempt to reverse rotation. Administer first aid. Call emergency services for serious injuries.",
+    "references": [
+      "Hydraulic Institute Standards for pump operation",
+      "MSHA electrical safety standards for wet locations",
+      "OEM pump operation and maintenance manuals",
+      "Mine dewatering management plan"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-02-15",
+        "author": "Operations & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-018",
+    "topic": "Laboratory Safety (Fire Assay and Acid Digestion)",
+    "category": "laboratory_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel working in or visiting the assay laboratory, including assay technicians, geologists, laboratory managers, cleaning staff, and maintenance personnel accessing the laboratory area.",
+    "objective": "Establish safe working practices for fire assay, acid digestion, and other analytical procedures to prevent chemical exposure, burns, fires, inhalation injuries, and sample contamination.",
+    "responsibilities": [
+      "Laboratory Manager: oversees laboratory safety, maintains chemical inventory, ensures SOP compliance, manages training records.",
+      "Assay Technician: performs fire assay and acid digestion per SOP, maintains work area, uses PPE, reports spills and near-misses.",
+      "Safety Officer: conducts laboratory risk assessments, manages chemical waste disposal, inspects fume hood performance.",
+      "Geologist: delivers samples per protocol, does not perform analytical procedures without laboratory training authorization."
+    ],
+    "procedure_steps": [
+      "1. General Laboratory Safety: No food, beverages, cosmetics, or personal items in laboratory. Wash hands before leaving laboratory. Access restricted to trained and authorized personnel only. Know location of: emergency shower, eyewash station, fire extinguisher, spill kit, first aid kit. Fume hoods: verify airflow indicator before starting work. Sash position: as low as practical during operation. Laboratory temperature: 18-25°C controlled.",
+      "2. Fire Assay Operation: Don full PPE before entering furnace area. Charge sample into fire clay cupels with appropriate flux (borax, litharge, sodium carbonate, flour). Place cupels in muffle furnace at 1000-1200°C. Use long-handled tongs for all furnace interactions. Maintain minimum 1-meter distance from furnace opening when not actively working. Allow cupels to cool minimum 15 minutes before handling. Lead fume: operate under fume extraction system — occupational exposure limit for lead: 0.05 mg/m³.",
+      "3. Acid Digestion: Perform all acid digestion under functioning fume hood. Use acid-resistant trays and containers (PTFE or polypropylene). Never heat acids in sealed containers. Add acid to sample — never add sample to acid. For aqua regia (3:1 HCl:HNO₃): prepare fresh, use within 8 hours. Handle concentrated acids: HCl, HNO₃, HF, H₂SO₄ — know specific hazards. HF requires specialized PPE: neoprene gloves, face shield, HF-specific antidone (Calcium Gluconate) on hand.",
+      "4. Chemical Handling: Store acids segregated from bases and oxidizers. Minimum 500ml of each acid in spill containment tray. Label all chemical containers with: name, concentration, date, hazard pictograms. Maintain Safety Data Sheet (SDS) binder accessible in laboratory. No chemicals stored on bench tops overnight.",
+      "5. Waste Management: Collect acid waste in designated acid waste carboys — segregated by type (hydrofluoric, nitric, mixed). Neutralize acid waste to pH 6-9 before drain disposal (if permitted by local regulation). Collect solid waste (cupels, slag, filters) in labeled hazardous waste containers. Arrange licensed hazardous waste disposal quarterly.",
+      "6. PPE Requirements: Fire Assay: heat-resistant gloves (300°C rated), face shield, heat-resistant apron, safety glasses, steel-toe boots. Acid Digestion: chemical splash goggles, face shield over goggles, neoprene or nitrile double-layer gloves, acid-resistant apron, chemical-resistant boots. General Lab: lab coat, safety glasses, closed-toe shoes, nitrile gloves.",
+      "7. Emergency Procedures: Acid splash on skin: flush with water for 20 minutes at emergency shower. Acid in eyes: flush at eyewash station for 15 minutes, hold eyelids open, seek immediate medical attention. HF exposure: apply Calcium Gluconate gel immediately, seek emergency medical attention — HF can cause delayed systemic fluoride poisoning. Fire: use CO₂ or dry chemical extinguisher — no water on metal fires. Spill: contain with acid-neutralizing absorbent, ventilate area.",
+      "8. Equipment Maintenance: Calibrate furnace temperature controllers monthly. Verify fume hood airflow: 0.4-0.5 m/s face velocity. Inspect eyewash and emergency shower weekly — flush for 3 minutes. Maintain acid storage cabinet with corrosive-resistant lining. Annual laboratory safety audit by independent assessor."
+    ],
+    "ppe_required": [
+      "Chemical splash goggles (ANSI Z87.1, indirect vent)",
+      "Face shield for acid work and furnace operations",
+      "Neoprene or double-layer nitrile gloves",
+      "Acid-resistant apron (for acid digestion)",
+      "Heat-resistant gloves and apron (for fire assay)",
+      "Lab coat (flame-resistant for fire assay area)",
+      "Steel-toe chemical-resistant boots",
+      "Respiratory protection if fume hood fails (acid gas cartridge)"
+    ],
+    "hazards": [
+      "Acid burns — concentrated HCl, HNO₃, HF, H₂SO₄ cause severe chemical burns",
+      "HF systemic toxicity — can be fatal through skin absorption without immediate treatment",
+      "Lead fume from fire assay — chronic lead poisoning",
+      "Thermal burns from muffle furnace (1200°C)",
+      "Toxic fume inhalation from acid digestion and fire assay",
+      "Chemical spills — corrosive and toxic exposure",
+      "Fire risk from flammable solvents and high-temperature furnaces"
+    ],
+    "emergency_response": "Activate laboratory emergency alarm. For acid burns: immediate water irrigation at emergency shower/eyewash for 20 minutes. For HF exposure: apply Calcium Gluconate gel to affected area and seek immediate emergency medical attention. For thermal burns: cool with water, do not apply ice. For toxic fume exposure: move to fresh air, administer oxygen if available. Call emergency services for serious exposures.",
+    "references": [
+      "OSHA Laboratory Standard 29 CFR 1910.1450",
+      "ACGIH TLVs for laboratory chemicals",
+      "NIOSH Manual of Analytical Methods",
+      "ASTM E1335 — Standard Guide for Fire Assay",
+      "ISO 11463 — Guidance on sample preparation for acid digestion"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-02-15",
+        "author": "Laboratory & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-019",
+    "topic": "Chemical Storage and Compatibility",
+    "category": "chemical_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All chemical storage areas at the mine site, including bulk chemical storage tanks, chemical warehouses, laboratory chemical stores, mobile chemical storage containers, and field chemical caches.",
+    "objective": "Ensure chemicals are stored safely, segregated by compatibility, and managed to prevent dangerous reactions, spills, fires, and exposure incidents.",
+    "responsibilities": [
+      "Chemical Storekeeper: manages day-to-day chemical storage operations, maintains inventory, ensures labels and SDS are current, conducts routine inspections.",
+      "HSE Manager: conducts chemical compatibility assessments, approves storage configurations, manages hazardous waste disposal, conducts training.",
+      "Procurement: orders chemicals in quantities that minimize storage duration, verifies supplier SDS accompany each delivery, checks regulatory compliance.",
+      "Emergency Response Team: trained in chemical spill response, maintains spill response equipment, conducts quarterly spill drills."
+    ],
+    "procedure_steps": [
+      "1. Chemical Inventory and Classification: Maintain master chemical inventory with: name, CAS number, quantity, location, hazard classification (GHS), storage requirements. Classify all chemicals per GHS: flammable, oxidizer, corrosive (acid/base), toxic, explosive, compressed gas. Review SDS for each chemical before storage assignment.",
+      "2. Segregation by Compatibility: Segregate incompatible chemicals — use physical barriers (fire-rated walls, separate cabinets) or minimum separation distances. Acids: store separately from bases. Oxidizers: store separately from flammables and combustibles. Flammables: store in approved flammable storage cabinet (FM/UL rated). Compressed gases: store upright, secured, separated by gas type (oxidizing gases away from flammable gases). Water-reactive chemicals: store in dry area away from water sources.",
+      "3. Storage Conditions: Temperature control: store chemicals within specified temperature range — typically 15-30°C. Ventilation: chemical storage areas must have adequate ventilation — minimum 6 air changes per hour. Humidity control: some chemicals (e.g., sodium cyanide) require dry storage. Light sensitivity: store light-sensitive chemicals in opaque containers or dark areas. Secondary containment: all bulk liquid storage must have secondary containment capable of holding 110% of largest vessel.",
+      "4. Labeling Requirements: All containers must be labeled with: chemical name, concentration, hazard pictograms, signal word (Danger/Warning), hazard statements, precautionary statements, supplier information. In-house labels must match SDS. Never store chemicals in unmarked or incorrectly labeled containers. Update labels if chemical is transferred to new container.",
+      "5. Bulk Chemical Storage: Cyanide storage: dedicated facility per ICMC requirements, locked, bunded, ventilated. Acid storage: acid-resistant lined cabinets or rooms, secondary containment, separate from cyanide. Flammable liquids: approved flammable storage room or cabinet, explosion-proof electrical, no ignition sources. Fuel storage: bunded area per local environmental regulations, spill containment, fire protection.",
+      "6. Spill Prevention and Response: Inspect storage areas daily for leaks, drips, corrosion, or container damage. Maintain spill response kits at each storage location — absorbent, neutralizer, containment booms, PPE. Report any spill >1 liter immediately. Contain and clean spills per environmental response SOP. Disposal of contaminated absorbent as hazardous waste.",
+      "7. Inventory Management: First-in-first-out (FIFO) chemical rotation. Minimum shelf life checks monthly. Dispose of expired or degraded chemicals per hazardous waste procedures. Reconcile inventory quarterly — report discrepancies. Reduce inventory to minimum practical quantities.",
+      "8. Training and Access Control: All personnel with chemical access: complete chemical safety awareness training (4 hours minimum). Chemical handlers: complete specific chemical training for chemicals they handle. Restricted access: chemical storage areas locked when unattended. Key/access control log maintained."
+    ],
+    "ppe_required": [
+      "Chemical splash goggles",
+      "Chemical-resistant gloves (material depends on chemical — consult SDS)",
+      "Chemical-resistant apron for bulk chemical handling",
+      "Steel-toe boots",
+      "Hard hat",
+      "Respiratory protection as specified by SDS or risk assessment",
+      "Face shield for splash risk activities"
+    ],
+    "hazards": [
+      "Chemical reaction between incompatible chemicals (acid + base, oxidizer + flammable)",
+      "Corrosive chemical burns from spills or contact",
+      "Fire from improperly stored flammable or oxidizer chemicals",
+      "Toxic gas generation from chemical incompatibility (e.g., acid + cyanide = HCN)",
+      "Environmental contamination from uncontained chemical spills",
+      "Pressure buildup in improperly vented containers",
+      "Degraded chemical containers causing uncontrolled release"
+    ],
+    "emergency_response": "Activate chemical spill response plan. Evacuate area upwind. Identify chemical from SDS. For acid spill: neutralize with sodium bicarbonate or acid spill absorbent. For flammable liquid: eliminate ignition sources, contain with absorbent, use CO₂ extinguisher if fire develops. For toxic chemical: evacuate, ventilate, HAZMAT response. Decontaminate exposed personnel per SDS first aid instructions. Report spills to environmental authorities as required.",
+    "references": [
+      "OSHA Hazard Communication Standard 29 CFR 1910.1200",
+      "GHS (Globally Harmonized System) — Rev. 9",
+      "NFPA 30 — Flammable and Combustible Liquids Code",
+      "EPA 40 CFR 264/265 — Hazardous Waste Storage",
+      "International Cyanide Management Code (for cyanide storage)",
+      "Local chemical safety regulations"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-15",
+        "author": "HSE Department",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-020",
+    "topic": "Radiation Protection (NORM and REE)",
+    "category": "radiation_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel working with Naturally Occurring Radioactive Material (NORM) and Rare Earth Elements (REE) at the mine site, including miners, processing plant operators, maintenance staff, and laboratory personnel handling monazite, xenotime, or thorium-bearing minerals.",
+    "objective": "Control exposure to ionizing radiation from NORM and REE minerals through monitoring, shielding, time/distance management, and waste disposal practices to maintain doses below regulatory limits.",
+    "responsibilities": [
+      "Radiation Safety Officer (RSO): manages radiation protection program, calibrates monitoring equipment, maintains dose records, conducts training.",
+      "Mine Manager: ensures resources for radiation protection program, ensures compliance with regulatory dose limits.",
+      "Processing Operator: follows radiation protection procedures during mineral handling, wears dosimeter, reports unusual readings.",
+      "HSE Officer: conducts radiation area surveys, manages waste disposal, audits compliance with this SOP."
+    ],
+    "procedure_steps": [
+      "1. Radiation Survey and Classification: Conduct baseline radiological survey of all ore bodies, stockpiles, and process streams. Classify areas: Supervised Areas (>1 mSv/year but <6 mSv/year) and Controlled Areas (>6 mSv/year). Mark areas with appropriate radiation warning signs. Update surveys quarterly or when ore sources change.",
+      "2. Dose Limits: Occupational dose limit: 20 mSv/year averaged over 5 years (ICRP recommendation). ALARA principle: keep doses as low as reasonably achievable. Extremity dose limit: 500 mSv/year for hands. Emergency dose: 250 mSv above background (dose to be avoided). Members of public: 1 mSv/year.",
+      "3. Personal Dosimetry: All personnel in NORM/REE areas: wear TLD (thermoluminescent) or OSL (optically stimulated luminescence) dosimeter on torso. Extremity dosimeter (ring badge) for handlers of monazite concentrates. Dosimeters read monthly. Dose results recorded in individual dose record. Investigate any reading >75% of annual limit.",
+      "4. Area Monitoring: Use calibrated survey meter (e.g., Ludlum 9-3 with NaI detector) for gamma dose rate measurements. Alpha/beta contamination surveys for processing areas. Radon measurements in enclosed spaces with radon-emitting minerals (thorium-bearing). Action levels: gamma >2.5 μSv/h = restricted access; alpha contamination >0.4 Bq/cm² = decontamination required.",
+      "5. Time and Distance Controls: Minimize time in radiation areas — rotate workers to distribute dose. Maintain maximum distance from radioactive sources — inverse square law applies. Use remote handling tools for monazite concentrates. Shielding: lead barriers or concrete walls for high-dose areas.",
+      "6. Thorium and Uranium Waste Management: Thorium residues from monazite processing: classify as NORM waste. Store in dedicated NORM waste facility with monitoring. Disposal: licensed radioactive waste disposal facility. Water discharge: verify radioactivity below regulatory limits before any discharge. Decay-in-storage: where applicable, store until activity levels meet clearance levels.",
+      "7. Contamination Control: Designate controlled areas with contamination monitoring at exit points. Contamination monitoring: use pancake GM probe for alpha/beta contamination. Decontamination procedures for personnel and equipment. Personal decontamination: wash with soap and water — do not use solvents that enhance skin absorption. Equipment decontamination: chemical or mechanical cleaning, verification survey.",
+      "8. Training and Records: Radiation protection training: 8 hours initial, 4 hours annual refresher. Training topics: radiation biology, protection principles (time, distance, shielding), dosimetry, emergency procedures. Maintain individual dose records for 30 years after last exposure. Annual radiation protection report to regulatory authority."
+    ],
+    "ppe_required": [
+      "Personal dosimeter (TLD or OSL badge) — worn at all times in NORM areas",
+      "Extremity dosimeter (ring badge) for monazite handlers",
+      "Disposable coveralls to prevent contamination spread",
+      "Nitrile gloves (double layer for monazite handling)",
+      "Respiratory protection if radon or dust levels require (half-face with P100 filter minimum)",
+      "Safety glasses",
+      "Hard hat",
+      "Steel-toe boots"
+    ],
+    "hazards": [
+      "External gamma radiation exposure from NORM minerals",
+      "Internal exposure from inhalation of radioactive dust (monazite, xenotime)",
+      "Radon and thoron gas accumulation in enclosed spaces",
+      "Alpha contamination on skin — external hazard is low, internal is high if ingested",
+      "Chronic low-dose radiation exposure — increased cancer risk",
+      "NORM scale buildup on processing equipment — concentrated radioactive material"
+    ],
+    "emergency_response": "For radiation contamination of personnel: remove contaminated clothing, bag and label as NORM waste. Wash skin with soap and water. Do not abrade skin. Contamination survey — decontaminate until below action levels. For high exposure event: record dose, seek medical evaluation. For radon alarm: evacuate area, ventilate, investigate source. Report to regulatory authority within required timeframe.",
+    "references": [
+      "ICRP Publication 103 — Recommendations of the ICRP",
+      "IAEA Safety Standards GSR Part 3 — Radiation Protection and Safety",
+      "OSHA NORM Guidelines",
+      "Local radiation safety regulations",
+      "NORM III — Management of Naturally Occurring Radioactive Material (IAEA)"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-02-20",
+        "author": "Radiation Safety & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-021",
+    "topic": "Noise Monitoring and Hearing Conservation",
+    "category": "occupational_health",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel at the mine site, including surface operations, underground, processing plant, maintenance workshops, and office areas adjacent to noise sources.",
+    "objective": "Prevent occupational noise-induced hearing loss through systematic noise monitoring, engineering controls, hearing protection, and audiometric surveillance.",
+    "responsibilities": [
+      "HSE Officer: conducts noise surveys, maintains noise monitoring equipment, manages audiometric testing program, ensures hearing protection compliance.",
+      "Shift Supervisor: ensures workers wear hearing protection in designated areas, reports changes in equipment that may alter noise levels, maintains area noise signage.",
+      "Worker: wears hearing protection as required, reports symptoms of hearing damage (tinnitus, difficulty understanding speech), participates in audiometric testing.",
+      "Maintenance Engineer: implements engineering controls to reduce noise at source, maintains silencers and noise barriers, upgrades equipment with quieter alternatives."
+    ],
+    "procedure_steps": [
+      "1. Noise Survey: Conduct comprehensive noise survey using calibrated sound level meter (Class 1 or Class 2). Measure A-weighted equivalent continuous sound level (LAeq) and peak sound pressure level (LCpeak) at each operator position. Survey all areas: drilling, blasting, crushing, grinding, ventilation fans, compressors, workshops. Update survey annually or when equipment changes.",
+      "2. Noise Classification: Hearing Conservation Zone: LAeq >85 dBA (8-hour TWA) or LCpeak >135 dB — hearing protection mandatory. High Noise Zone: LAeq >100 dBA — hearing protection mandatory, restricted access. Extreme Noise Zone: LCpeak >140 dB — dual hearing protection (plugs + muffs), access limited to essential personnel. Areas <85 dBA: hearing protection recommended but not mandatory.",
+      "3. Engineering Controls: Prioritize noise reduction at source: vibration dampening mounts, acoustic enclosures, silencers on exhaust systems, low-noise equipment procurement. Noise barriers: concrete walls, acoustic panels, berms between noise sources and personnel areas. Maintenance: regular lubrication and alignment reduces noise from rotating equipment. Substitution: replace high-noise equipment with quieter alternatives where feasible.",
+      "4. Hearing Protection Selection: Earplugs: disposable foam (NRR 33) or reusable pre-molded (NRR 25-30). Earmuffs: over-ear muffs (NRR 25-30). Dual protection (plugs + muffs): required for >100 dBA areas — adds approximately 5 dB to higher NRR rating. Selection based on comfort, fit, and compatibility with other PPE (hard hat, safety glasses).",
+      "5. Audiometric Testing: Baseline audiogram: within 6 months of hire for all personnel. Annual audiogram: to detect Standard Threshold Shift (STS). STS: average shift of 10 dB or more at 2000, 3000, and 4000 Hz in either ear compared to baseline. If STS detected: refit hearing protection, retrain, consider reassignment from high-noise area. Audiometric records maintained for duration of employment + 30 years.",
+      "6. Noise Monitoring Equipment: Maintain calibrated sound level meters — calibrate before and after each survey. Maintain noise dosimeters for personal exposure assessment — wear for full shift. Dosimeters: measure TWA exposure over 8-hour shift. Calibration record: log all calibration data with date, technician, and results.",
+      "7. Signage and Awareness: Post hearing protection required signs at zone boundaries. Display noise level information at key locations. Conduct hearing conservation awareness training annually — noise effects, protection use, audiometric testing. Toolbox talks: monthly discussion of noise-related topics.",
+      "8. Recordkeeping and Compliance: Maintain noise survey records. Maintain audiometric testing records. Maintain hearing protection issuance records. Report noise-induced hearing loss cases to regulatory authority. Target: zero new noise-induced hearing loss cases per year."
+    ],
+    "ppe_required": [
+      "Hearing protection as required by zone classification",
+      "Earplugs (foam or reusable) — minimum NRR 25",
+      "Earmuffs (over-ear) — minimum NRR 25",
+      "Dual hearing protection for extreme noise zones",
+      "Standard mining PPE in addition to hearing protection"
+    ],
+    "hazards": [
+      "Noise-induced hearing loss (NIHL) — permanent, irreversible",
+      "Tinnitus — persistent ringing in the ears",
+      "Communication interference in high-noise areas — increased accident risk",
+      "Non-auditory effects of noise: stress, fatigue, reduced concentration",
+      "Impulse noise from blasting — immediate acoustic trauma risk"
+    ],
+    "emergency_response": "For acoustic trauma (sudden hearing loss after blast or loud noise): seek immediate medical evaluation — treatment within 24-48 hours improves recovery prospects. For tinnitus or hearing changes: report to HSE, arrange audiometric evaluation. For all noise-related health concerns: document, investigate, and implement corrective measures.",
+    "references": [
+      "OSHA Occupational Noise Exposure 29 CFR 1910.95",
+      "NIOSH Criteria for a Recommended Standard: Occupational Noise Exposure",
+      "ISO 1999:2013 — Acoustics — Noise-induced hearing loss",
+      "ANSI S12.6 — Methods for Measurement of Hearing Protector Attenuation",
+      "Local occupational health noise regulations"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-15",
+        "author": "Occupational Health & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-022",
+    "topic": "Dust Suppression and Monitoring",
+    "category": "environmental_health",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All dust-generating activities at the mine site, including drilling, blasting, loading, hauling, crushing, screening, stockpiling, and windblown dust from waste dumps and haul roads.",
+    "objective": "Minimize airborne respirable dust exposure to workers and nearby communities through systematic dust suppression, monitoring, and engineering controls to maintain concentrations below occupational exposure limits.",
+    "responsibilities": [
+      "Environmental Officer: conducts dust monitoring, maintains monitoring equipment, manages dust suppression systems, reports results to regulatory authority.",
+      "Haul Road Coordinator: manages road condition and dust suppression on haul roads, coordinates water truck scheduling.",
+      "Crushing Plant Operator: operates dust suppression systems on crushing and screening circuits, monitors baghouse/filtration performance.",
+      "HSE Officer: reviews dust monitoring results, ensures worker exposure is below OEL, manages respiratory protection program."
+    ],
+    "procedure_steps": [
+      "1. Dust Source Identification: Map all dust-generating sources: drilling, blasting, haul roads, crushing, conveyors, stockpiles, waste dumps. Classify sources as controllable (haul roads, crushing, material handling) or semi-controllable (wind erosion, blasting). Prioritize suppression efforts based on proximity to workers and communities.",
+      "2. Respirable Dust Exposure Limits: Respirable coal dust: 1.5 mg/m³ (OSHA PEL) or 1.2 mg/m³ (NIOSH REL). Respirable crystalline silica: 0.05 mg/m³ (OSHA PEL for quartz). Total dust: 10 mg/m³ (OSHA). Mine-specific OEL may be lower — use most stringent standard. Action level: 50% of OEL — initiate additional controls.",
+      "3. Dust Monitoring Methods: Personal sampling: gravimetric respirable dust sampler worn in worker breathing zone. Stationary monitoring: high-volume samplers at fixed locations (site boundary, crusher, stockpile). Real-time monitoring: optical dust monitors (e.g., TSI DustTrak) for immediate feedback. Silica analysis: filter samples analyzed by XRD for crystalline silica content.",
+      "4. Haul Road Dust Suppression: Water truck application: apply 2-4 liters per square meter, frequency based on traffic and weather. Chemical suppressants: calcium chloride or polymer emulsion for persistent dust. Road maintenance: grade and compact haul roads regularly to reduce fine material. Speed limits: 30 km/h in dust-prone areas to reduce tire-generated dust.",
+      "5. Processing Plant Controls: Wet suppression: spray water at transfer points, crusher feed, and discharge. Baghouse filtration: maintain differential pressure monitoring, clean or replace bags per schedule. Enclosure: enclose conveyor transfer points and crushers where feasible. Local exhaust ventilation: install LEV at dust generation points.",
+      "6. Blasting Dust Control: Pre-wet blast area before blasting — water application 2-4 hours before blast. Emulsion explosives produce less dust than ANFO. Reduce blast fragmentation size to minimize post-blast handling. Delay blasting to reduce peak dust generation.",
+      "7. Stockpile and Waste Dump Management: Water spraying on active stockpiles during dry conditions. Wind fences or barriers around exposed stockpiles. Re-vegetate inactive stockpiles and waste dumps. Cover fine material stockpiles with tarps or enclosures where practical.",
+      "8. Community Monitoring: Install particulate monitors at site boundary facing nearest community. Report results monthly to regulatory authority. Community complaint response: investigate within 24 hours, implement additional controls if exceedances confirmed. Maintain public complaint log."
+    ],
+    "ppe_required": [
+      "P100 half-face respirator (minimum) in dusty operations",
+      "P100 disposable dust mask for light dust exposure",
+      "Safety glasses with side shields",
+      "Hard hat",
+      "High-visibility vest",
+      "Hearing protection as per Noise SOP",
+      "Gloves"
+    ],
+    "hazards": [
+      "Silicosis from chronic respirable crystalline silica exposure",
+      "Coal workers' pneumoconiosis (black lung) from coal dust",
+      "Reduced visibility from high dust levels — vehicle collision risk",
+      "Community health impacts from fugitive dust emissions",
+      "Respiratory irritation and asthma exacerbation",
+      "Eye and skin irritation from airborne particulates"
+    ],
+    "emergency_response": "For acute dust exposure: move person to clean air, monitor for respiratory distress. If breathing difficulty develops: administer oxygen, seek medical attention. For dust-related visibility reduction on haul roads: reduce vehicle speed, increase water truck frequency. For community complaints: investigate, implement additional controls, communicate with affected parties.",
+    "references": [
+      "OSHA Respirable Crystalline Silica 29 CFR 1926.1153",
+      "OSHA Coal Mine Dust 30 CFR Part 74",
+      "NIOSH Criteria Document: Crystalline Silica",
+      "ISO 7708 — Air quality — Particle size fraction definitions",
+      "Local air quality regulations"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-02-01",
+        "author": "Environmental & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-023",
+    "topic": "Fire Extinguisher Inspection and Maintenance",
+    "category": "fire_safety",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All portable and wheeled fire extinguishers at the mine site, including those in buildings, mobile equipment, workshops, magazines, offices, and outdoor locations.",
+    "objective": "Ensure all fire extinguishers are maintained in serviceable condition and ready for immediate use through regular inspection, maintenance, and hydrostatic testing.",
+    "responsibilities": [
+      "Fire Warden: conducts monthly visual inspections of fire extinguishers in assigned areas, reports deficiencies, ensures extinguishers are accessible.",
+      "Maintenance Technician: conducts annual maintenance inspection (discharge/recharge or internal examination), hydrostatic testing, and documentation.",
+      "HSE Officer: manages fire extinguisher inventory, ensures compliance with inspection schedule, conducts training on extinguisher use, arranges external servicing.",
+      "All Personnel: know location and use of nearest fire extinguisher, do not tamper with or obstruct extinguishers, report missing or damaged extinguishers immediately."
+    ],
+    "procedure_steps": [
+      "1. Monthly Visual Inspection (by Fire Warden): Verify extinguisher is in designated location, not moved or obstructed. Check pressure gauge — needle must be in the green (operable) zone. Inspect for physical damage: dents, corrosion, leaking, cracked hose. Verify safety pin and tamper seal are intact. Check instruction label is legible and facing outward. Record inspection on monthly inspection tag — sign and date.",
+      "2. Annual Maintenance Inspection (by Maintenance Technician): Remove extinguisher from service. Perform external examination: check for corrosion, damage, legible labels, condition of hose and nozzle. Check operating mechanism — lever, handle, valve assembly. Weigh or measure agent charge — must be within ±10% of marked weight (for stored-pressure types). For stored-pressure: check pressure gauge reading. Verify emergency discharge and recharge capability. Record all findings on maintenance tag and in fire extinguisher register.",
+      "3. Hydrostatic Testing: Schedule hydrostatic test per NFPA 10 requirements: Class ABC dry chemical: every 12 years. Class CO₂: every 12 years. Class K (wet chemical): every 5 years. Class D (special): per manufacturer recommendation. Extinguishers that fail hydrostatic test must be destroyed — do not attempt repair. Use only licensed hydrostatic testing facility.",
+      "4. Recharging: Recharge extinguishers immediately after any use (even partial). Use only manufacturer-approved agents — never substitute. Recharging must be performed by trained technician with proper equipment. After recharge: weigh, pressurize (stored-pressure types), and update maintenance record. Place back in service within 24 hours.",
+      "5. Placement Requirements: Maximum travel distance: 23 meters (75 feet) for Class A hazards, 15 meters (50 feet) for Class B hazards. Mount extinguishers: handle height 0.9-1.5 meters above floor. Wheeled extinguishers: located at strategic points near high-hazard areas. Visibility: clear line of sight or appropriate signage. Access: do not lock in rooms without emergency access provisions.",
+      "6. Extinguisher Types by Hazard Area: Class A (water, foam): offices, workshops, general areas. Class B (CO₂, dry chemical, foam): fuel storage, flammable liquid areas, vehicle workshops. Class C (dry chemical, CO₂): electrical rooms, motor control centers. Class D (dry powder): metalworking areas, titanium/magnesium machining. Class K (wet chemical): kitchens, dining facilities. ABC (multipurpose dry chemical): general use throughout site.",
+      "7. Training: All personnel: annual fire extinguisher use training (P.A.S.S. — Pull, Aim, Squeeze, Sweep). Fire wardens: additional training on fire extinguisher types, inspection procedures, and fire response. Training documented with date, trainer, and attendees. Refresher training: when extinguisher types change or new hazards identified.",
+      "8. Recordkeeping: Maintain fire extinguisher register: location, type, size, serial number, manufacture date, last inspection, last maintenance, next hydrostatic test date. Monthly inspection tags: signed and dated. Annual maintenance records: filed with fire safety documentation. Hydrostatic test certificates: retained for life of extinguisher."
+    ],
+    "ppe_required": [
+      "Safety glasses during maintenance",
+      "Gloves when handling extinguishers",
+      "Hearing protection when testing high-pressure CO₂ extinguishers",
+      "Standard site PPE when conducting inspections in operational areas"
+    ],
+    "hazards": [
+      "Non-functional fire extinguisher during fire emergency",
+      "Agent discharge under pressure — injury from nozzle whip",
+      "CO₂ extinguisher discharge in confined space — asphyxiation risk",
+      "Corrosion or leakage of stored-pressure extinguisher",
+      "Wrong extinguisher type used on fire (e.g., water on electrical or metal fire)"
+    ],
+    "emergency_response": "If fire extinguisher fails during use: evacuate area, activate fire alarm, use alternative extinguisher or hose. If extinguisher damage or leakage found during inspection: remove from service immediately, replace with spare. If extinguisher accidentally discharged: evacuate area, ventilate, recharge or replace. Report any fire extinguisher failure to HSE Manager.",
+    "references": [
+      "NFPA 10 — Standard for Portable Fire Extinguishers",
+      "OSHA Fire Extinguisher Requirements 29 CFR 1910.157",
+      "ANSI/UL 711 — Rating and Testing of Fire Extinguishers",
+      "Local fire code requirements",
+      "Manufacturer maintenance manuals"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-15",
+        "author": "Fire Safety & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-024",
+    "topic": "First Aid Response",
+    "category": "emergency_response",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All personnel at the mine site, including surface and underground operations, processing plant, workshops, offices, and remote field locations. Applies to all medical emergencies from minor injuries to life-threatening conditions.",
+    "objective": "Provide immediate, effective first aid to injured or ill persons at the mine site to preserve life, prevent deterioration, and promote recovery until professional medical care is available.",
+    "responsibilities": [
+      "First Aider (trained): provides immediate first aid at the scene, activates emergency response, communicates patient condition to incoming EMS.",
+      "Shift Supervisor: activates site emergency response, secures the scene, ensures first aid kit availability, coordinates ambulance dispatch.",
+      "HSE Manager: manages first aid training program, maintains first aid equipment inventory, reviews all first aid incidents, ensures compliance with regulatory first aid requirements.",
+      "Site Medical Officer (if available): provides advanced first aid, medical triage, coordinates patient evacuation to hospital, manages medical records."
+    ],
+    "procedure_steps": [
+      "1. Scene Assessment and Safety: Assess scene for ongoing hazards — do not become a second victim. Make scene safe before approaching patient (de-energize equipment, control traffic, extinguish fire). Wear appropriate PPE — gloves minimum, face shield for blood/body fluid exposure risk. Activate site emergency response if scene requires additional resources.",
+      "2. Primary Survey (DRABC): Danger — check for dangers to rescuer and patient. Response — check patient responsiveness (shout and gently shake). Airway — open airway using head tilt-chin lift (jaw thrust if spinal injury suspected). Breathing — look, listen, feel for breathing for 10 seconds. Circulation — check for severe bleeding, skin color, temperature.",
+      "3. Cardiac Arrest / CPR: If unresponsive and not breathing normally: begin CPR immediately. Compression-to-ventilation ratio: 30:2 (trained rescuer) or compression-only (untrained). Compression rate: 100-120 per minute. Compression depth: 5-6 cm for adults. Use AED as soon as available — follow device prompts. Continue CPR until patient recovers, EMS arrives, or rescuer is physically unable to continue.",
+      "4. Severe Bleeding Control: Apply direct pressure with sterile dressing or clean cloth. If bleeding not controlled: apply tourniquet 5-7 cm above wound (for limb injuries only). Elevate injured limb above heart level if possible. Apply pressure dressing if direct pressure insufficient. For impaled objects: do not remove — stabilize in place with bulky dressing.",
+      "5. Burns First Aid: Thermal burns: cool with cool (not ice cold) running water for 20 minutes. Remove clothing and jewelry from burned area — do not remove adhered clothing. Cover with sterile, non-adherent dressing. Do not apply creams, oils, or home remedies. Chemical burns: flush with copious water for minimum 20 minutes. Remove contaminated clothing. Electrical burns: ensure power source is off before touching patient. Check for entry and exit wounds.",
+      "6. Fractures and Musculoskeletal Injuries: Immobilize suspected fractures using splints — padded, immobilize joint above and below fracture. Check distal circulation, sensation, and movement (CSM) before and after splinting. For suspected spinal injury: do not move patient — maintain manual in-line stabilization. Apply ice wrapped in cloth to reduce swelling (20 minutes on, 20 minutes off).",
+      "7. Eye Injuries: Chemical splash: flush eye with clean water or saline for minimum 15 minutes — hold eyelids open. Seek immediate medical attention. Foreign body: do not rub eye. Irrigate with water. If foreign body cannot be flushed, cover eye with eye shield and seek medical attention. Impact injury: do not apply pressure. Cover eye with sterile shield and seek medical attention.",
+      "8. Emergency Communication: Activate site emergency response by radio or phone. Provide: location (GPS coordinates or specific location description), nature of injury/illness, number of patients, current patient condition, assistance needed. Assign someone to meet ambulance and guide to patient location."
+    ],
+    "ppe_required": [
+      "Disposable nitrile gloves (minimum)",
+      "Face shield or goggles for blood/body fluid exposure risk",
+      "CPR pocket mask or face shield for rescue breathing",
+      "High-visibility vest (for roadside emergencies)",
+      "Standard site PPE for scene access"
+    ],
+    "hazards": [
+      "Delayed first aid leading to preventable death or disability",
+      "Blood-borne pathogen exposure during first aid (HIV, Hepatitis B/C)",
+      "Secondary injury to rescuer from unsafe scene",
+      "Improper first aid technique causing further patient harm",
+      "Delayed EMS response due to remote mine location"
+    ],
+    "emergency_response": "Activate site emergency response system. Call emergency services. Provide ongoing first aid until EMS arrival. Prepare patient information: name, age, medical conditions, allergies, medications, mechanism of injury. Arrange medical evacuation: road ambulance or air ambulance for remote locations. Document all first aid provided for medical and regulatory records.",
+    "references": [
+      "OSHA First Aid Standard 29 CFR 1910.151",
+      "American Red Cross First Aid/CPR/AED Guidelines",
+      "Mine Emergency Medical Services requirements",
+      "ISO 18589 — First aid kit standard",
+      "Local emergency medical regulations"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-15",
+        "author": "HSE & Medical",
+        "changes": "Initial release"
+      }
+    ]
+  },
+  {
+    "id": "SOP-025",
+    "topic": "Environmental Spill Response",
+    "category": "environmental",
+    "version": "1.0",
+    "effective_date": "2026-01-01",
+    "scope": "All spill response activities at the mine site for spills of fuels, lubricants, chemicals, process solutions, cyanide solutions, acids, and any substance that could contaminate soil, surface water, or groundwater.",
+    "objective": "Provide a rapid, effective response to spills and releases of hazardous substances to minimize environmental damage, worker exposure, and regulatory non-compliance.",
+    "responsibilities": [
+      "First Responder (initial): discovers or responds to spill, contains spill at source if safe to do so, activates spill response alarm, initiates initial containment.",
+      "Spill Response Team: trained HAZMAT responders, deploys spill containment and cleanup equipment, manages spill remediation, oversees waste disposal.",
+      "Environmental Officer: assesses environmental impact, reports spills to regulatory authority as required, manages site remediation, maintains spill records.",
+      "Site Manager: authorizes major spill response expenditures, communicates with regulators and community, oversees incident investigation."
+    ],
+    "procedure_steps": [
+      "1. Immediate Response (First Responder): Assess spill: identify substance, approximate quantity, direction of flow, potential for waterway contact. Alert area personnel — sound alarm if spill is >5 liters or involves hazardous material. If safe: stop the source (close valve, plug leak, right overturned container). Contain: deploy spill berms, absorbent booms, or soil around spill perimeter to prevent spread. Do NOT attempt to contain spills involving unknown, highly toxic, or corrosive materials — evacuate area.",
+      "2. Notification and Activation: Notify Shift Supervisor and Spill Response Team immediately. For spills >100 liters or spills reaching waterways: activate site emergency response and notify Environmental Officer. For reportable spills: contact regulatory authority within required timeframe (typically 1-24 hours depending on jurisdiction and severity). Activate upstream/downstream water monitoring.",
+      "3. Spill Classification: Minor spill: <10 liters, contained on site, no waterway contact. Handled by first responder with spill kit. Medium spill: 10-200 liters, contained on site, no waterway contact. Spill Response Team deploys. Major spill: >200 liters, or any spill reaching waterway, or involving cyanide/critical chemical. Full emergency response, regulatory notification, potential site evacuation.",
+      "4. Containment and Recovery: Absorbent application: apply absorbent granules or pads to spill — work from outside perimeter inward. Skimming: for floating oils/fuels on water — deploy skimmers and absorbent booms. Pumping: for large liquid spills — use portable pumps to transfer to temporary storage tanks. Soil removal: excavate contaminated soil — remove to depth of contamination confirmed by field testing.",
+      "5. Waterway Protection: If spill may reach waterway: deploy absorbent booms across watercourse. Activate diversion berms to redirect clean water around spill. Install containment at waterway entry points. Sample water upstream and downstream of spill. Notify downstream water users if waterway is affected.",
+      "6. Decontamination: Personnel decontamination: wash with appropriate solvent or detergent depending on substance. Equipment decontamination: clean and survey before returning to service. Vehicle decontamination: wash down before leaving contaminated area. Area decontamination: remove all visible contamination, then sample to confirm clean.",
+      "7. Waste Disposal: Collect contaminated absorbent, soil, and materials in labeled hazardous waste containers. Characterize waste per regulatory requirements ( TCLP testing for metals, pH, ignitability). Dispose of through licensed hazardous waste contractor. Maintain waste manifests and disposal records. For cyanide spills: treat with cyanide destruction before disposal.",
+      "8. Post-Spill Actions: Document spill: date, time, location, substance, quantity, cause, response actions, environmental impact. Conduct root cause analysis for spills >50 liters or all cyanide spills. Implement corrective actions to prevent recurrence. Update spill response plan if deficiencies identified. Report final spill report to regulatory authority per requirements. Conduct post-incident debrief with spill response team."
+    ],
+    "ppe_required": [
+      "Chemical-resistant suit (Level C minimum for unknown or hazardous spills)",
+      "Chemical-resistant gloves (nitrile or neoprene — consult SDS)",
+      "Full-face respirator with appropriate cartridges (chemical-specific)",
+      "Chemical-resistant boots",
+      "Safety goggles (under respirator facepiece or standalone for minor spills)",
+      "Hard hat",
+      "High-visibility vest"
+    ],
+    "hazards": [
+      "Acute chemical exposure from spill contents",
+      "Environmental contamination of surface water and groundwater",
+      "Fire or explosion from flammable liquid spills",
+      "Slip hazards from spilled liquids on roadways and working surfaces",
+      "Vapor inhalation in low-lying or confined areas",
+      "Soil contamination requiring long-term remediation",
+      "Regulatory penalties and community impact from uncontrolled spills"
+    ],
+    "emergency_response": "Activate site emergency response for major spills. Evacuate upwind and uphill from spill. For personnel exposure: remove contaminated clothing, flush affected skin with water for 15 minutes, seek medical attention. For cyanide spill: follow Cyanide Handling SOP emergency procedures. For flammable liquid spill: eliminate ignition sources, evacuate area, deploy foam if fire risk is high. Contact environmental regulatory authority for reportable spills.",
+    "references": [
+      "OSHA Hazardous Waste Operations 29 CFR 1910.120 (HAZWOPER)",
+      "EPA Spill Prevention, Control, and Countermeasure (SPCC) Rule 40 CFR 112",
+      "EPA Comprehensive Environmental Response, Compensation, and Liability Act (CERCLA)",
+      "Local environmental protection regulations",
+      "International Cyanide Management Code — spill response provisions"
+    ],
+    "revision_history": [
+      {
+        "version": "1.0",
+        "date": "2026-01-15",
+        "author": "Environmental & HSE",
+        "changes": "Initial release"
+      }
+    ]
+  }
+]

@@ -1,0 +1,1296 @@
+{
+  "metadata": {
+    "dataset_name": "Grade Control and Reconciliation Knowledge Base",
+    "version": "2.1.0",
+    "description": "Comprehensive grade control, sampling, estimation, reconciliation, and quality assurance dataset for mineral resource operations",
+    "applicable_commodities": ["Au", "Cu", "Ag", "Zn", "Pb", "Fe", "Ni", "Co", "PGE"],
+    "last_updated": "2026-01-15",
+    "classification": "production_reference"
+  },
+  "blast_hole_sampling": {
+    "grid_patterns": {
+      "production": "10x10m or 12.5x12.5m",
+      "definition": "5x5m or 7.5x7.5m",
+      "reconnaissance": "25x25m or 50x50m",
+      "detailed": "3.5x3.5m or 2.5x2.5m",
+      "notes": "Pattern selection depends on geological complexity, nugget effect, and commodity type. High-nugget deposits (Au) require tighter spacing. Base metal deposits may tolerate wider spacing due to larger mineralised envelopes."
+    },
+    "drill_hole_types": {
+      "production": {
+        "diameter_range_mm": "105 to 165",
+        "typical_diameter_mm": 127,
+        "depth_range_m": "5 to 35",
+        "typical_depth_m": 15,
+        "collar_accuracy_m": "0.5",
+        "survey_method": "downhole gyroscope or north-seeking gyro",
+        "drill_consumables": "Tungsten carbide button bits"
+      },
+      "definition": {
+        "diameter_range_mm": "64 to 89",
+        "typical_diameter_mm": 76,
+        "depth_range_m": "10 to 80",
+        "typical_depth_m": 30,
+        "collar_accuracy_m": "0.15",
+        "survey_method": "north-seeking gyro or electronic multi-shot",
+        "drill_consumables": "Diamond core bits (surface set or impregnated)"
+      }
+    },
+    "sampling_methods": {
+      "chip_sampling": {
+        "description": "Systematic collection of rock chips from blast hole cuttings or face mappings",
+        "applicable_settings": ["production_drilling", "face_sampling", "trenching"],
+        "sample_mass_range_kg": "1.0 to 2.5",
+        "collection_method": "Continuous riffle or grid-based chip collection from blow cuttings at regular intervals during drilling",
+        "interval": "Every 1 to 2 metres or every 3 to 5 metres of face advance",
+        "advantages": ["Large sample volume improves representivity for nuggety ores", "Low cost per sample", "Rapid field turnaround", "Can be collected during normal production drilling"],
+        "disadvantages": ["Potential for preferential sampling of harder lithologies", "Dilution from drilling fluids possible", "Operator bias in chip collection", "Less precise than channel samples"],
+        "quality_measures": [
+          "Calibrated chip trays for consistent interval lengths",
+          "Duplicate sampling at 1:20 ratio",
+          "Photographic record of chip boards",
+          "GPS coordinates of sample collection points",
+          "Sterilisation of collection tools between samples"
+        ]
+      },
+      "rinse_sampling": {
+        "description": "Collection of fine fraction from drill water circulation during blast hole drilling",
+        "applicable_settings": ["wet_drilling", "alluvial_deposits", "weathered_ore_zones"],
+        "sample_mass_range_g": "200 to 500",
+        "collection_method": "Filtered from drilling return water using settling tanks or fine mesh screens",
+        "mesh_size_microns": "75 to 150",
+        "advantages": ["Captures fine fraction that may be lost in chip sampling", "Rapid method for near-surface weathered material", "Good for alluvial or saprolitic material"],
+        "disadvantages": ["May lose coarse fraction", "Water turbidity affects recovery", "Not suitable for hard rock fresh material", "Potential loss of soluble minerals"],
+        "quality_measures": [
+          "Standardised mesh size for all holes",
+          "Consistent settling time of 30 minutes minimum",
+          "Wash-down protocols to prevent cross-contamination",
+          "Regular mesh replacement"
+        ]
+      },
+      "auger_sampling": {
+        "description": "Hand-operated or machine auger collection from soft or weathered material in blast holes",
+        "applicable_settings": ["weathered_oxide_zone", "lateritic_deposits", "soft_sediments", "soil_geochemistry"],
+        "sample_mass_range_g": "500 to 2000",
+        "auger_diameter_mm": "50 to 100",
+        "depth_range_m": "0 to 15",
+        "collection_method": "Continuous or interval sampling using hand auger or machine-mounted auger with core barrel",
+        "advantages": ["Provides continuous sample through soft zones", "Minimal equipment requirement", "Preserves stratigraphic information in saprolite", "Low dust generation"],
+        "disadvantages": ["Labour intensive", "Limited depth capability", "Not suitable for competent rock", "Sample may be disturbed"],
+        "quality_measures": [
+          "Clean auger flight between holes",
+          "Depth measurement verification with tape",
+          "Interval bags clearly labelled with hole ID, depth, and date",
+          "Storage in cool dry conditions before dispatch"
+        ]
+      },
+      "channel_sampling": {
+        "description": "Continuous channels cut perpendicular to geological features using chisel or diamond saw",
+        "applicable_settings": ["face_mapping", "underground_stopes", "trenching", "exposed_outcrops"],
+        "channel_width_mm": "100",
+        "channel_depth_mm": "50",
+        "channel_length_m": "0.5 to 3.0",
+        "collection_method": "Dust-free diamond saw cutting with vacuum extraction, or pneumatic chisel",
+        "advantages": ["Most representative surface sampling method", "Continuous coverage eliminates selective bias", "Well-defined sample volume", "Industry standard for underground grade control"],
+        "disadvantages": ["Slow and expensive", "Requires exposed face", "Dust management needed", "Surface preparation required"],
+        "quality_measures": [
+          "Constant channel width maintained with guides",
+          "Fresh surface exposed before sampling",
+          "No preferential following of mineralised zones",
+          "Sample recovery weighing and reconciliation",
+          "Photographic record of each channel"
+        ]
+      }
+    },
+    "assay_methods": {
+      "fire_assay": {
+        "detection_limit": "0.01 g/t Au",
+        "upper_limit": "10,000 g/t Au",
+        "turnaround": "24-48 hrs",
+        "precision": "5-10% RSD",
+        "applicable_elements": ["Au", "Ag", "PGE"],
+        "sample_weight_g": 30,
+        "flux_composition": "Litharge (PbO), soda ash (Na2CO3), borax (Na2B4O7), flour (C source), silica (SiO2)",
+        "cupellation_temperature_C": 1000,
+        "parting_acid": "Dilute nitric acid (HNO3)",
+        "description": "Lead collection fire assay followed by gravimetric or AAS finish. Industry standard for precious metals. Inquart technique used when Cu or Ni exceeds 2%.",
+        "advantages": ["Most accurate method for precious metals", "Large sample mass (25-50g) improves representivity for nuggety ores", "Widely accepted by all major reporting codes", "Handles complex matrices"],
+        "disadvantages": ["Limited to precious metals", "Cannot determine full geochemical suite", "Expensive per sample", "Labour intensive"]
+      },
+      "AAS": {
+        "full_name": "Atomic Absorption Spectroscopy",
+        "detection_limit_varies": {
+          "Cu": "0.5 ppm",
+          "Zn": "0.2 ppm",
+          "Pb": "1.0 ppm",
+          "Ni": "0.5 ppm",
+          "Co": "1.0 ppm",
+          "Fe": "10 ppm",
+          "Mn": "2 ppm",
+          "Ag": "0.1 ppm"
+        },
+        "turnaround": "24-72 hrs",
+        "precision": "3-8% RSD",
+        "applicable_elements": ["Cu", "Zn", "Pb", "Ni", "Co", "Fe", "Mn", "Ag", "Cd", "Cr"],
+        "techniques": ["Flame AAS", "Graphite Furnace AAS (GFAAS)", "Hydride Generation AAS"],
+        "sample_preparation": "Acid digestion (HNO3, HCl, HF, HClO4) or fusion with lithium metaborate",
+        "description": "Element-specific absorption of light by ground-state atoms in a flame or graphite furnace. Flame AAS is the workhorse for base metals in grade control laboratories.",
+        "advantages": ["Rapid analysis", "Good precision for base metals", "Low detection limits with GFAAS", "Well-established method"],
+        "disadvantages": ["Sequential analysis (one element at a time)", "Matrix interferences require careful calibration", "Cannot analyse refractory minerals", "Limited dynamic range compared to ICP"]
+      },
+      "ICP_MS": {
+        "full_name": "Inductively Coupled Plasma Mass Spectrometry",
+        "detection_limit_ppb": {
+          "Au": "0.1",
+          "Ag": "1",
+          "Cu": "5",
+          "Zn": "10",
+          "Pb": "5",
+          "Ni": "5",
+          "Co": "2",
+          "PGE": "0.5",
+          "Re": "0.1"
+        },
+        "turnaround": "3-7 days",
+        "precision": "2-5% RSD",
+        "applicable_elements": "Periodic table (most elements)",
+        "plasma_temperature_K": "6000 to 10000",
+        "sample_flow_rate_ml_min": "0.1 to 0.4",
+        "description": "Multi-element analysis using argon plasma to ionise atoms followed by mass-to-charge separation. Provides full geochemical suite in a single run.",
+        "advantages": ["Multi-element capability", "Extremely low detection limits", "Wide dynamic range (9 orders of magnitude)", "Isotope ratio measurements possible"],
+        "disadvantages": ["Expensive instrumentation", "Matrix effects and spectral interferences", "Requires clean laboratory environment", "High operating costs (argon consumption)"]
+      },
+      "XRF": {
+        "full_name": "X-Ray Fluorescence Spectroscopy",
+        "types": ["Wavelength Dispersive XRF (WDXRF)", "Energy Dispersive XRF (EDXRF)", "Portable/Handheld XRF"],
+        "detection_limit_ppm": "1 to 100 depending on element",
+        "turnaround": "Minutes (handheld) to hours (WDXRF)",
+        "precision": "1-3% RSD for major elements",
+        "applicable_elements": "Elements with Z > 11 (Na to U)",
+        "sample_preparation": "Pressed pellets or fused glass beads for WDXRF; surface preparation for handheld",
+        "description": "Non-destructive technique measuring secondary X-rays emitted when sample is irradiated. Handheld units used for rapid field screening. WDXRF used in laboratory for major and minor elements.",
+        "advantages": ["Non-destructive", "Rapid analysis", "Minimal sample preparation (handheld)", "Multi-element capability", "Low per-sample cost"],
+        "disadvantages": ["Cannot detect light elements (H, C, N, O, Li)", "Surface representivity issues with handheld", "Matrix effects require correction", "Lower precision than wet chemistry for trace elements"]
+      },
+      "LECO_combustion": {
+        "full_name": "LECO Carbon-Sulfur Analyser",
+        "method": "Infrared detection of CO2 and SO2 after combustion in pure O2",
+        "detection_limit_C": "0.001%",
+        "detection_limit_S": "0.001%",
+        "turnaround": "Minutes per sample",
+        "combustion_temperature_C": "2800",
+        "description": "High-frequency induction furnace combustion with infrared cell detection for total carbon and sulfur. Used for refractory gold ores (carbonaceous material) and sulfide deportment studies.",
+        "advantages": ["Very rapid", "High precision", "Minimal sample preparation", "Essential for refractory gold assessment"],
+        "disadvantages": ["Cannot distinguish organic from inorganic carbon without additional thermal treatment", "Limited to C and S", "Calibration standards required"]
+      }
+    },
+    "sample_preparation": {
+      "drying": {
+        "temperature_C": 105,
+        "duration_hours": "12 to 24",
+        "equipment": "Industrial tray dryers or rotary dish dryers",
+        "notes": "Samples must be oven-dried to constant weight. Temperature must not exceed 110°C to avoid mineral alteration. Air drying acceptable for non-hygroscopic samples.",
+        "quality_checks": [
+          "Loss on drying (LOD) recorded",
+          "Samples checked for caking",
+          "Temperature log maintained"
+        ]
+      },
+      "crushing": {
+        "primary": {
+          "equipment": "Jaw crusher",
+          "output_size_mm": "< 10",
+          "description": "Reduces sample to < 10mm chips"
+        },
+        "secondary": {
+          "equipment": "Roll crusher or cone crusher",
+          "output_size_mm": "< 2",
+          "description": "Further reduction to < 2mm for pulverising"
+        },
+        "cleaning_protocol": "Crush barren quartz or sample from previous batch between each sample to prevent cross-contamination",
+        "chromium_steel_plates": true
+      },
+      "pulverising": {
+        "equipment": "Ring mill (stainless steel or tungsten carbide ring and puck)",
+        "target_p80_microns": "75",
+        "maximum_iron_contamination_ppm": "50",
+        "pulverising_time_seconds": "120",
+        "charge_weight_g": "1000 to 1500",
+        "description": "Sample is pulverised to P80 of 75 microns (200 mesh) for assay. Ring mill preferred for base metals; ceramic or agate mills for trace element work.",
+        "quality_checks": [
+          "Sieve analysis at 1:50 ratio to verify grind size",
+          "Ring and puck inspection for wear",
+          "Iron contamination check with blank",
+          "Sound monitoring for correct charge weight"
+        ]
+      },
+      "sub_sampling": {
+        "method": "Riffle splitting or cone and quartering",
+        "splitter_type": "Jones riffle splitter (for < 2mm material)",
+        "minimum_charge_g": 250,
+        "target_assay_charge_g": "30 to 50",
+        "description": "Representative sub-sample obtained by mechanical splitting. Minimum 3 stages of splitting recommended to achieve assay charge from 1kg pulp.",
+        "quality_checks": [
+          "Splitter cleaned between samples",
+          "Visual inspection for preferential segregation",
+          "Weight reconciliation of all splits"
+        ]
+      }
+    },
+    "quality_control": {
+      "standards": {
+        "ratio": "1 per 20 samples",
+        "certified_reference_materials": [
+          {"code": "OREAS 251", "commodity": "Au", "certified_grade_g_t": "0.54", "matrix": "Silicate"},
+          {"code": "OREAS 253", "commodity": "Au", "certified_grade_g_t": "3.56", "matrix": "Silicate"},
+          {"code": "OREAS 453", "commodity": "Cu", "certified_grade_pct": "1.25", "matrix": "Massive sulfide"},
+          {"code": "OREAS 900", "commodity": "Multi", "certified_grade_varies": true, "matrix": "Various"},
+          {"code": "CANMET BL-4a", "commodity": "Au", "certified_grade_g_t": "26.5", "matrix": "Quartz vein"},
+          {"code": "WMS-1", "commodity": "Au", "certified_grade_g_t": "18.4", "matrix": "Sulfide"},
+          {"code": "FID", "commodity": "Au", "certified_grade_g_t": "9.88", "matrix": "Massive sulfide"},
+          {"code": "XRF_1", "commodity": "Cu", "certified_grade_pct": "0.89", "matrix": "Silicate"}
+        ],
+        "control_chart_method": "Shewhart charts with Western Electric rules",
+        "alert_limit": "2 standard deviations",
+        "action_limit": "3 standard deviations",
+        "notes": "Standards must be from different supplier or batch than previous quarter to avoid laboratory bias. At least 3 different CRMs used per quarter."
+      },
+      "blanks": {
+        "ratio": "1 per 20 samples",
+        "types": {
+          "inprocedural_blank": "Pulverised barren quartz inserted into sample preparation stream",
+          "field_blank": "Barren material carried to field and processed through entire workflow",
+          "reagent_blank": "Digestion reagents processed without sample"
+        },
+        "maximum_acceptable_background_ppb": {
+          "Au": "5",
+          "Cu": "50",
+          "Ag": "10",
+          "Zn": "20",
+          "Pb": "10"
+        },
+        "notes": "Blanks monitor contamination in sample preparation and analysis. Elevated blank results trigger investigation and potential re-preparation of affected batch."
+      },
+      "duplicates": {
+        "ratio": "1 per 20 samples",
+        "types": {
+          "field_duplicate": "Second sample collected from same blast hole at same interval",
+          "prep_duplicate": "Second split of same prepared pulp sent for analysis",
+          "lab_duplicate": "Laboratory re-analysis of same pulp",
+          "coarse_duplicate": "Second split of crushed material before pulverising"
+        },
+        "acceptance_criteria": {
+          "relative_difference_pct": "15 for Au, 20 for base metals at 95% confidence",
+          "precision_relative_standard_deviation": "< 10% for Au, < 15% for base metals"
+        },
+        "precision_assessment": "Comparing difference between duplicates against expected analytical precision"
+      },
+      "control_charts": [
+        {
+          "type": "Shewhart",
+          "description": "Individual measurement chart with mean and control limits at 1, 2, and 3 standard deviations",
+          "application": "Real-time monitoring of assay results",
+          "rules": ["1 point beyond 3-sigma = action", "2 of 3 consecutive points beyond 2-sigma = warning", "4 of 5 consecutive points beyond 1-sigma = trend", "8 consecutive points on one side of mean = shift"]
+        },
+        {
+          "type": "CUSUM",
+          "full_name": "Cumulative Sum Control Chart",
+          "description": "Accumulates deviations from target value to detect small sustained shifts",
+          "application": "Detecting systematic laboratory drift",
+          "advantage": "More sensitive than Shewhart for detecting small persistent changes",
+          "mask_values": [4, 1, 4, 1, 4]
+        },
+        {
+          "type": "EWMA",
+          "full_name": "Exponentially Weighted Moving Average",
+          "description": "Gives decreasing weight to older observations using exponential smoothing",
+          "application": "Monitoring for gradual process changes",
+          "smoothing_parameter_lambda": "0.2 to 0.3",
+          "advantage": "Effective for detecting small shifts while retaining information from recent data"
+        },
+        {
+          "type": "Youden_plot",
+          "description": "Graphical comparison of results from two independent laboratories or methods",
+          "application": "Inter-laboratory bias detection",
+          "criteria": "Points should cluster around the 45-degree line if no bias exists"
+        },
+        {
+          "type": "Radmacher_chart",
+          "description": "Plots coefficient of variation against grade to assess precision across the grade range",
+          "application": "Checking constant vs proportional variance"
+        }
+      ]
+    }
+  },
+  "grade_models": {
+    "estimation_methods": {
+      "ordinary_kriging": {
+        "full_name": "Ordinary Kriging (OK)",
+        "description": "Best linear unbiased estimator (BLUE) that uses weighted average of nearby samples with weights derived from variogram model. Assumes constant but unknown mean within the search neighbourhood.",
+        "mathematical_basis": "Minimises estimation variance E{[Z*(x) - Z(x)]^2} subject to constraint that weights sum to 1",
+        "advantages": [
+          "Provides estimation variance (kriging variance) as measure of confidence",
+          "BLUE under specified model assumptions",
+          "Accounts for spatial correlation via variogram",
+          "Handles irregular sample distributions",
+          "Smooth estimates suitable for planning",
+          "Industry standard method"
+        ],
+        "disadvantages": [
+          "May oversmooth extreme values (high grade or low grade)",
+          "Requires valid variogram model",
+          "Assumes stationarity within search neighbourhood",
+          "Can produce negative estimates for bounded variables",
+          "Sensitivity to variogram model misspecification",
+          "May not honour data exactly (not an exact interpolator at data points if neighbourhood is restricted)"
+        ],
+        "parameters": {
+          "variogram_model": "Spherical, exponential, or Gaussian model fitted to experimental variogram",
+          "search_ellipsoid": {
+            "semi_axes": "Defined by variogram range in major, minor, and vertical directions",
+            "minimum_samples": "8 to 12",
+            "maximum_samples": "12 to 24",
+            "sectorisation": "Typically 2 to 4 sectors to ensure directional coverage"
+          },
+          "block_model_size": "10x10x10m open pit, 5x5x5m underground",
+          "discretisation": "3x3x3 or 5x5x5 points within each block for numerical integration",
+          "neighbourhood_search": {
+            "ellipsoid_ratio_from_variogram": true,
+            "minimum_search_radius_m": 5,
+            "octant_search": "2D: 4 sectors, 3D: 8 sectors"
+          }
+        }
+      },
+      "inverse_distance_weighting": {
+        "full_name": "Inverse Distance Weighting (IDW)",
+        "description": "Deterministic interpolation where weights are inversely proportional to distance raised to a power. Simple to implement but lacks statistical framework.",
+        "formula": "Z*(x) = Σ(wi * Zi) / Σ(wi), where wi = 1/di^p",
+        "power_values": {
+          "Au": 2,
+          "Cu": 2,
+          "Fe": 3,
+          "Zn": 2,
+          "Pb": 2,
+          "Ag": 2,
+          "Ni": 2,
+          "Co": 3
+        },
+        "advantages": [
+          "Simple to implement and understand",
+          "No variogram modelling required",
+          "Always produces positive estimates",
+          "Computationally fast",
+          "Good for preliminary estimates",
+          "Can be applied directly in most software"
+        ],
+        "disadvantages": [
+          "No measure of estimation uncertainty",
+          "Results depend on arbitrary power selection",
+          "Cannot account for anisotropy without modification",
+          "Does not consider sample clustering",
+          "Tends to create bull's-eye patterns around data points",
+          "Not statistically optimal",
+          "Power value selection is subjective"
+        ]
+      },
+      "nearest_neighbour": {
+        "full_name": "Nearest Neighbour (NN)",
+        "description": "Assigns the value of the closest sample to each block centre. Non-averaging method that preserves grade variability.",
+        "advantages": [
+          "Simple and fast computation",
+          "Preserves grade variability and grade tonnage curves",
+          "Does not smooth grades",
+          "Useful for comparisons with other methods",
+          "Good for highly variable deposits"
+        ],
+        "disadvantages": [
+          "No smoothing effect may overestimate selectivity",
+          "Discontinuous grade model",
+          "No estimation variance",
+          "Highly sensitive to sample locations",
+          "Does not use information from multiple samples"
+        ],
+        "use_cases": [
+          "Comparison benchmark for other estimation methods",
+          "Highly variable deposits with strong nugget effect",
+          "Initial feasibility studies",
+          "Quick grade model for preliminary pit design"
+        ]
+      },
+      "multiple_indicator_kriging": {
+        "full_name": "Multiple Indicator Kriging (MIK)",
+        "description": "Non-parametric geostatistical method that estimates the proportion of blocks above a series of grade thresholds using indicator variables and indicator variograms.",
+        "advantages": [
+          "Does not assume a specific distribution",
+          "Handles multi-modal grade distributions",
+          "Provides local grade histograms",
+          "Can model complex grade distributions",
+          "Useful for deposits with mixed populations"
+        ],
+        "disadvantages": [
+          "Computationally intensive",
+          "Requires multiple variogram models (one per threshold)",
+          "Results depend on threshold selection",
+          "Can produce inconsistent cumulative distributions",
+          "Less commonly available in commercial software"
+        ],
+        "use_cases": [
+          "Deposits with mixed geological populations",
+          "Deposits with skewed grade distributions",
+          "When conditional simulation is not feasible",
+          "Coal quality estimation",
+          "Gemstone deposits"
+        ]
+      },
+      "discrete_kriging": {
+        "full_name": "Discrete Kriging (DK)",
+        "description": "Variation of MIK that uses a smaller number of thresholds and applies rank-order statistics to build local histograms.",
+        "advantages": [
+          "Simpler than MIK",
+          "Preserves local grade distributions",
+          "Computationally more efficient than MIK"
+        ],
+        "disadvantages": [
+          "Less rigorous than MIK",
+          "Threshold selection affects results"
+        ]
+      },
+      "ordinary_cokriging": {
+        "full_name": "Ordinary Cokriging (OCK)",
+        "description": "Extension of ordinary kriging that uses spatial correlation between a primary variable (hard to measure) and secondary variables (easier to measure, better sampled).",
+        "advantages": [
+          "Uses information from correlated secondary variables",
+          "Improves estimates where primary data is sparse",
+          "Accounts for cross-correlation between variables"
+        ],
+        "disadvantages": [
+          "Requires cross-variogram modelling",
+          "More complex implementation",
+          "Requires co-located samples of both variables"
+        ],
+        "use_cases": [
+          "Au estimation using As or pathfinder geochemistry",
+          "Cu estimation using alteration indices",
+          "Using grade control data to improve resource model"
+        ]
+      }
+    },
+    "variography": {
+      "types": [
+        {
+          "name": "Spherical",
+          "equation": "γ(h) = C₀ + C × [1.5(h/a) - 0.5(h/a)³] for h ≤ a; γ(h) = C₀ + C for h > a",
+          "description": "Most commonly used model. Reaches sill at finite range a. Has linear behaviour near origin.",
+          "applicability": "Default model for most mineral deposits"
+        },
+        {
+          "name": "Exponential",
+          "equation": "γ(h) = C₀ + C × [1 - exp(-3h/a)]",
+          "description": "Approaches sill asymptotically. Practical range (95% of sill) used as effective range. Steeper near origin than spherical.",
+          "applicability": "Deposits with gradual grade transitions"
+        },
+        {
+          "name": "Gaussian",
+          "equation": "γ(h) = C₀ + C × [1 - exp(-3h²/a²)]",
+          "description": "Parabolic behaviour near origin indicating very smooth grade variation. Practical range at 95% of sill.",
+          "applicability": "Smoothly varying deposits (e.g., coal, some base metals)"
+        },
+        {
+          "name": "Linear",
+          "equation": "γ(h) = C₀ + C × (h/a)",
+          "description": "No sill reached within the data support. Indicates non-stationary or trend behaviour.",
+          "applicability": "Trending deposits, short-range data"
+        },
+        {
+          "name": "Power",
+          "equation": "γ(h) = C₀ + C × h^w where 0 < w < 2",
+          "description": "No sill. Exponent w controls curvature. w=1 is linear model.",
+          "applicability": "Fractal-like grade distributions"
+        },
+        {
+          "name": "Nugget",
+          "equation": "γ(h) = C₀ if h > 0; γ(h) = 0 if h = 0",
+          "description": "Pure nugget effect with no spatial continuity. Represents random variability at the sample support.",
+          "applicability": "Highly irregular deposits, sampling error assessment"
+        }
+      ],
+      "parameters": {
+        "nugget": {
+          "symbol": "C₀",
+          "description": "Micro-scale variability and/or measurement error. Represents discontinuity at the origin of the variogram.",
+          "interpretation": "High nugget (>50% of sill) indicates poor spatial continuity and limits estimation accuracy",
+          "typical_values": {
+            "Au": "20-60% of sill",
+            "Cu": "10-30% of sill",
+            "Fe": "5-15% of sill"
+          }
+        },
+        "sill": {
+          "symbol": "C₀ + C",
+          "description": "Variance level at which variogram levels off. Should approximate sample variance for stationary data.",
+          "interpretation": "Total variance of the data. If experimental variogram exceeds sill, indicates non-stationarity.",
+          "estimation": "Calculated from sample variance or estimated from variogram plateau"
+        },
+        "range": {
+          "symbol": "a",
+          "description": "Distance at which variogram reaches the sill. Beyond this distance, samples are uncorrelated.",
+          "interpretation": "Defines the search radius for kriging. Samples beyond range are statistically independent.",
+          "typical_values_m": {
+            "Au_vein_deposits": "20 to 100",
+            "Cu_porphyry": "100 to 500",
+            "Fe_banded_ironstone": "50 to 200",
+            "Zn_Pb_VMS": "50 to 300"
+          }
+        },
+        "anisotropy": {
+          "types": ["Geometric", "Zonal", "Geometric-Zonal"],
+          "description": "Variation of variogram parameters with direction. Geometric anisotropy varies range; zonal anisotropy varies sill."
+        }
+      },
+      "directions": {
+        "major_axis": {
+          "description": "Direction of maximum spatial continuity",
+          "determination": "From geological trend, structural data, or variogram surface plotting",
+          "typical_values": "Azimuth: 0-360°, Dip: 0-90°"
+        },
+        "minor_axis": {
+          "description": "Direction of minimum horizontal spatial continuity, perpendicular to major axis",
+          "determination": "Perpendicular to major axis in horizontal plane",
+          "typical_values": "Azimuth: major_axis + 90°"
+        },
+        "vertical_axis": {
+          "description": "Direction of continuity in the vertical dimension",
+          "determination": "From vertical variograms on drill hole data",
+          "typical_values": "Usually shorter range than horizontal due to geological layering"
+        }
+      },
+      "experimental_variogram": {
+        "lag_distance": "Set at average sample spacing or multiple thereof",
+        "number_of_pairs": "Minimum 30 pairs per lag for reliable estimate",
+        "bandwidth": "Half-width of search cylinder perpendicular to lag direction",
+        "tolerance": "Angular tolerance (typically 22.5° for directional variograms)",
+        "robust_estimators": ["Matheron", "Cressie-Hawkins", "Dowd", "Genton"],
+        "outlier_handling": "Samples contributing to extreme semi-variance values flagged and investigated"
+      },
+      "cross_validation": {
+        "method": "Leave-one-out cross validation where each sample is estimated from remaining samples",
+        "metrics": [
+          "Mean Standardised Error (MSE) should be close to 0",
+          "Root Mean Square Standardised Error (RMSSE) should be close to 1",
+          "Mean Absolute Error (MAE)",
+          "Correlation between estimated and actual values"
+        ],
+        "acceptance_criteria": "RMSSE between 0.9 and 1.1 indicates appropriate variogram model and search parameters"
+      }
+    },
+    "block_model_parameters": {
+      "typical_sizes": {
+        "open_pit": "10x10x10m",
+        "underground": "5x5x5m",
+        "large_open_pit": "15x15x15m",
+        "small_scale_open_pit": "7.5x7.5x7.5m",
+        "stope_planning": "5x5x5m or 10x10x10m",
+        "dilution_control": "5x5x5m"
+      },
+      "elevation_increment": "5m (bench height)",
+      "coordinate_system": "Local mine grid or national grid (UTM)",
+      "attribute_fields": [
+        "Rock type code",
+        "Lithology code",
+        "Alteration type",
+        "Grade (g/t or %)",
+        "Density (t/m³)",
+        "Moisture content (%)",
+        "Hardness (Bond Work Index)",
+        "Recovery factor",
+        "Waste/ore classification",
+        "Mining method",
+        "Processing route",
+        "Economic value ($)",
+        "Estimation variance",
+        "Number of composites used",
+        "Distance to nearest sample",
+        "Kriging efficiency"
+      ],
+      "density_modelling": {
+        "methods": ["Regression from grade", "Domain-specific fixed values", "Regression from assay data", "Downhole density logging"],
+        "typical_ranges": {
+          "waste_silicate": "2.55 to 2.70",
+          "oxide_ore": "2.60 to 2.80",
+          "sulfide_ore": "3.00 to 4.50",
+          "massive_sulfide": "4.00 to 5.00",
+          "BIF": "3.40 to 3.60"
+        }
+      },
+      "compositing": {
+        "method": "Regular compositing to fixed lengths (e.g., 2m, 5m, 10m)",
+        "length_preference": "Equal to or integer multiple of block model bench height",
+        "top_composite_handling": "Short composites merged with adjacent if > 50% of nominal length; otherwise discarded",
+        "sliver_handling": "Composites < 50% of nominal length discarded or merged with adjacent"
+      }
+    }
+  },
+  "reconciliation": {
+    "levels": {
+      "level_0_operational": {
+        "name": "Operational Reconciliation",
+        "description": "Daily reconciliation of blast hole sampling results against grade control model predictions for each blast pattern",
+        "timeframe": "Daily to weekly",
+        "compares": "Blast hole assay results vs predicted grade from grade control model",
+        "purpose": "Immediate feedback on model accuracy and blast design"
+      },
+      "level_1_mine_to_mill": {
+        "name": "Level 1: Mine to Mill",
+        "description": "Comparing grade control model predictions to actual plant head grade after processing",
+        "timeframe": "Weekly to monthly",
+        "compares": "Grade control model grade and tonnage vs plant head grade from sampling or mass balance",
+        "purpose": "Assess accuracy of grade control model in predicting what enters the processing plant",
+        "key_challenges": [
+          "Blend of material from multiple blocks",
+          "Stockpile mixing and grade changes",
+          "Sampling differences between grade control and plant",
+          "Time lag between mining and processing",
+          "Moisture content differences"
+        ]
+      },
+      "level_2_mill_to_refinery": {
+        "name": "Level 2: Mill to Refinery",
+        "description": "Comparing concentrate grade and recovery from the processing plant to refined metal produced at the smelter/refinery",
+        "timeframe": "Monthly to quarterly",
+        "compares": "Plant concentrate production (grade, recovery) vs smelter/refinery metal production",
+        "purpose": "Assess metallurgical recovery accuracy and smelter treatment",
+        "key_parameters": [
+          "Concentrate grade",
+          "Metal recovery",
+          "Payable metal in concentrate",
+          "Treatment charges",
+          "Refining charges",
+          "Penalties for deleterious elements"
+        ]
+      },
+      "level_3_reserve_to_actual": {
+        "name": "Level 3: Reserve to Actual Production",
+        "description": "Comparing the original resource/reserve model estimates to total actual production over the life of mine",
+        "timeframe": "Annual to life-of-mine",
+        "compares": "Resource model and reserve estimate vs cumulative actual production",
+        "purpose": "Evaluate the overall accuracy and reliability of the resource model",
+        "key_areas": [
+          "Tonnage variance",
+          "Grade variance",
+          "Metal content variance",
+          "Mining loss",
+          "Dilution",
+          "Spatial distribution of variance",
+          "Geological domain interpretation"
+        ]
+      },
+      "level_4_model_validation": {
+        "name": "Level 4: Model Validation",
+        "description": "Comparison of original geological model against all available data including production data, to validate or refine the model",
+        "timeframe": "Life-of-mine",
+        "compares": "Original resource model vs updated model incorporating production data",
+        "purpose": "Continuous improvement of geological understanding and model accuracy"
+      }
+    },
+    "metrics": {
+      "tonnage_reconciliation": {
+        "formula": "Actual tonnes / Planned tonnes × 100",
+        "unit": "%",
+        "target": "100%",
+        "acceptable_range": "90% to 110%"
+      },
+      "grade_reconciliation": {
+        "formula": "Actual grade / Planned grade × 100",
+        "unit": "%",
+        "target": "100%",
+        "acceptable_range": "85% to 115%"
+      },
+      "metal_reconciliation": {
+        "formula": "Actual metal contained / Planned metal contained × 100",
+        "unit": "%",
+        "target": "100%",
+        "acceptable_range": "80% to 120%"
+      },
+      "recovery_reconciliation": {
+        "formula": "Actual recovery / Budgeted recovery × 100",
+        "unit": "%",
+        "target": "100%",
+        "acceptable_range": "95% to 105%"
+      },
+      "dilution_factor": {
+        "formula": "Total tonnes mined / Ore tonnes mined",
+        "target": "1.0 to 1.15 for open pit",
+        "acceptable_range": "1.0 to 1.30"
+      },
+      "mining_loss": {
+        "formula": "(Planned ore tonnes - Actual ore tonnes) / Planned ore tonnes × 100",
+        "target": "< 5%",
+        "acceptable_range": "0% to 8%"
+      }
+    },
+    "acceptable_variations": {
+      "tonnage": "±10%",
+      "grade": "±15%",
+      "metal": "±20%",
+      "recovery": "±5%",
+      "daily_grade": "±25%",
+      "weekly_grade": "±15%",
+      "monthly_grade": "±10%",
+      "quarterly_grade": "±7%",
+      "annual_grade": "±5%",
+      "life_of_mine_grade": "±3%"
+    },
+    "common_causes_of_variance": [
+      {
+        "category": "Geological",
+        "causes": [
+          "Variability in geological interpretation between resource model and grade control",
+          "Unidentified fault displacement affecting ore continuity",
+          "Changes in alteration style or intensity not captured in model",
+          "Inclusion of waste in ore domains or exclusion of ore from domains",
+          "Nugget effect causing grade variability beyond model resolution",
+          "Mixed geological populations within estimation domains",
+          "Variation in mineralogy affecting metallurgical recovery"
+        ]
+      },
+      {
+        "category": "Sampling",
+        "causes": [
+          "Differences in sample support (blast hole vs RC vs diamond core)",
+          "Sample preparation errors (crushing, pulverising, splitting)",
+          "Analytical bias between laboratories",
+          "Selective sampling of specific lithologies",
+          "Sample contamination in the field or laboratory",
+          "Incorrect sample compositing lengths",
+          "Representativeness issues with chip samples in nuggety ore"
+        ]
+      },
+      {
+        "category": "Mining",
+        "causes": [
+          "Dilution from blast hole deviation",
+          "Overbreak or underbreak of stope walls",
+          "Incorrect blast design causing ore/waste mixing",
+          "Selective mining not matching grade control boundaries",
+          "Stockpile management and re-handling effects",
+          "Grade control model not updated in time for mining",
+          "Bench floor irregularities causing ore loss",
+          "Fogging or smearing at ore/waste contacts"
+        ]
+      },
+      {
+        "category": "Processing",
+        "causes": [
+          "Plant feed blend differing from planned sequence",
+          "Metallurgical recovery variations due to ore type changes",
+          "Process plant upsets or maintenance downtime",
+          "Changes in reagent suite or operating parameters",
+          "Particle size distribution variations in mill feed",
+          "Moisture content differences affecting head grade calculation"
+        ]
+      },
+      {
+        "category": "Statistical",
+        "causes": [
+          "Small number of samples in reconciliation period",
+          "Extreme values (outliers) distorting averages",
+          "Different averaging methods (arithmetic vs weighted)",
+          "Volume-variance effects between sample and block supports",
+          "Change of support correction not applied",
+          "Regression effects in grade estimation"
+        ]
+      }
+    ],
+    "reconciliation_workflow": {
+      "daily": "Grade control data updated, blast pattern reconciliation initiated",
+      "weekly": "Blast-by-blast reconciliation report, grade control model updates",
+      "monthly": "Full Level 1 reconciliation with plant data, stockpile reconciliation",
+      "quarterly": "Level 2 reconciliation, resource model review, variogram updates",
+      "annually": "Level 3 and Level 4 reconciliation, reserve statement update",
+      "life_of_mine": "Complete reconciliation study, model validation report"
+    }
+  },
+  "quality_assurance": {
+    "geological_logging": {
+      "code_of_practice": "Geological logging must follow the site Geological Standard Operating Procedure (GSOP) which defines coding schemes, logging intervals, and description requirements. Logging should be performed by qualified geologists with a minimum of 2 years site experience.",
+      "parameters": [
+        "Rock type (lithology)",
+        "Structural features (foliation, veining, faults)",
+        "Alteration type and intensity",
+        "Mineralogy (primary and secondary)",
+        "Grain size and texture",
+        "Degree of oxidation/weathering",
+        "Moisture content",
+        "Geotechnical features (RQD, fracture frequency, joint sets)",
+        "Mineralisation style",
+        "Ore/waste boundary observations"
+      ],
+      "logging_standards": {
+        "interval": "1m or 2m intervals, continuous",
+        "codes": "Standardised numeric codes (e.g., 01=Granite, 02=Porphyry, etc.)",
+        "descriptions": "Free text with minimum 50 words per metre for significant zones",
+        "photographs": "Every 5m or at significant changes",
+        "quality_audit": "Monthly peer review of logging accuracy"
+      }
+    },
+    "sample_tracking": {
+      "chain_of_custody": {
+        "description": "Documented trail from sample collection through preparation and analysis to final result",
+        "documentation": [
+          "Sample collection forms (GPS coordinates, date, collector, interval)",
+          "Sample bags with unique tamper-evident tags",
+          "Transport manifests with signatures",
+          "Laboratory receipt confirmation",
+          "Preparation batch records",
+          "Assay certificates"
+        ],
+        "retention_period": "Minimum 5 years from date of collection",
+        "digital_tracking": "Barcode or QR code system with database backend"
+      },
+      "sample_numbering": {
+        "format": "[Project Code]-[Year]-[Drill Hole Number]-[From]-[To]",
+        "example": "KGM-2026-DH001-15-17",
+        "rules": [
+          "Unique across entire project",
+          "Never reused even after hole abandonment",
+          "Sequential within drill holes",
+          "Prefix identifies project",
+          "Year component prevents ambiguity across decades"
+        ]
+      },
+      "sample_storage": {
+        "pulp_storage": "Retained in labelled containers in climate-controlled facility",
+        "chip_storage": "Chip trays with photographic archive",
+        "retention_period_years": 5,
+        "disposal_authority": "Chief Geologist sign-off required"
+      }
+    },
+    "laboratory_standards": {
+      "ISO_17025": {
+        "full_name": "ISO/IEC 17025:2017 - General requirements for the competence of testing and calibration laboratories",
+        "relevance": "International standard for laboratory accreditation ensuring technical competence and quality management",
+        "key_requirements": [
+          "Documented quality management system",
+          "Competent technical staff with demonstrated qualifications",
+          "Validated test methods",
+          "Calibrated equipment",
+          "Traceable reference standards",
+          "Participation in proficiency testing programs",
+          "Measurement uncertainty estimation",
+          "Corrective action procedures"
+        ],
+        "accreditation_bodies": ["NATA (Australia)", "UKAS (UK)", "A2LA (USA)", "SANAS (South Africa)", "COFRAC (France)"]
+      },
+      "NADCAP": {
+        "full_name": "National Aerospace and Defense Contractors Accreditation Program",
+        "relevance": "Specialised accreditation for specific testing disciplines, often required by major mining companies",
+        "applicable_areas": ["Chemical processing", "Testing", "Non-destructive testing"]
+      },
+      "proficiency_testing": {
+        "frequency": "Minimum quarterly",
+        "providers": ["ASCTS (Australasian Society for Coal Sample Testing)", "GeoPT", "IRMM", "FAMLP"],
+        "acceptance_criteria": "Z-score within ±2 for each analyte",
+        "action_on_failure": "Investigation within 5 working days, corrective action within 20 working days"
+      },
+      "method_validation": {
+        "requirements": [
+          "Limit of detection (LOD) and limit of quantitation (LOQ) established",
+          "Precision (repeatability and reproducibility) determined",
+          "Accuracy verified against certified reference materials",
+          "Linearity range defined",
+          "Matrix effects evaluated",
+          "Robustness testing"
+        ]
+      }
+    },
+    "data_management": {
+      "database_systems": ["AcQuire GIM Suite", "Leapfrog Edge", "Datamine Studio RM", "Vulcan MineSuite", "Maptek Evolution"],
+      "backup_frequency": "Daily incremental, weekly full",
+      "data_validation": "Automated range checks, geological consistency checks, duplicate analysis",
+      "audit_trail": "All data modifications logged with user, timestamp, and reason"
+    }
+  },
+  "software_tools": [
+    {
+      "name": "Vulcan",
+      "developer": "Seequent (Bentley Systems)",
+      "speciality": "3D geological modelling, resource estimation, mine design",
+      "key_features": ["Implicit modelling", "Variography tools", "Block modelling", "Grade control integration"],
+      "platform": "Windows",
+      "user_base": "Open pit and underground mines"
+    },
+    {
+      "name": "Datamine",
+      "developer": "Datamine Solutions",
+      "speciality": "Resource estimation, mine planning, grade control",
+      "key_features": ["Studio RM", "Studio 3D", "Grade control module", "Stope optimiser"],
+      "platform": "Windows",
+      "user_base": "Underground and open pit mines"
+    },
+    {
+      "name": "Surpac",
+      "developer": "Seequent (Bentley Systems)",
+      "speciality": "Geological modelling, resource estimation, mine design",
+      "key_features": ["String-based modelling", "Block modelling", "Variography", "Mining design tools"],
+      "platform": "Windows",
+      "user_base": "Broad mining industry"
+    },
+    {
+      "name": "GEOVIA Whittle",
+      "developer": "Dassault Systèmes GEOVIA",
+      "speciality": "Pit optimisation and strategic mine planning",
+      "key_features": ["Lerchs-Grossmann algorithm", "Pit shell generation", "Phase design", "Sensitivity analysis"],
+      "platform": "Windows",
+      "user_base": "Open pit mine planners"
+    },
+    {
+      "name": "Leapfrog",
+      "developer": "Seequent (Bentley Systems)",
+      "speciality": "Implicit 3D geological modelling, resource estimation",
+      "key_features": ["Rapid model building", "Implicit modelling engine", "Integration with Leapfrog Edge", "Real-time updates"],
+      "platform": "Windows, Cloud",
+      "user_base": "Exploration and resource geologists"
+    },
+    {
+      "name": "Maptek",
+      "developer": "Maptek Pty Ltd",
+      "speciality": "Drillhole data management, geological modelling, grade control",
+      "key_features": ["Vulcan integration", "Domain modelling", "Variography", "Block model estimation"],
+      "platform": "Windows",
+      "user_base": "Open pit and underground mines"
+    },
+    {
+      "name": "Gems",
+      "developer": "Kamsoft (K-Mine)",
+      "speciality": "Grade control and reconciliation",
+      "key_features": ["Blast hole management", "Reconciliation reporting", "Stockpile tracking", "Plant feed monitoring"],
+      "platform": "Windows",
+      "user_base": "Grade control departments"
+    },
+    {
+      "name": "MineSuite",
+      "developer": "Koala Mining Solutions",
+      "speciality": "Mine-to-mill reconciliation and production tracking",
+      "key_features": ["Real-time tracking", "Dispatch integration", "Grade control reconciliation", "Production dashboards"],
+      "platform": "Windows",
+      "user_base": "Operations and planning teams"
+    },
+    {
+      "name": "Rapid",
+      "developer": "Rapid International",
+      "speciality": "Geostatistical analysis and resource estimation",
+      "key_features": ["Variography", "Kriging", "Simulation", "Validation"],
+      "platform": "Windows",
+      "user_base": "Resource geologists"
+    },
+    {
+      "name": "ISATIS",
+      "developer": "Geovariances",
+      "speciality": "Advanced geostatistics and spatial analysis",
+      "key_features": ["Indicator kriging", "Conditional simulation", "Multivariate geostatistics", "Non-stationary models"],
+      "platform": "Windows, Linux",
+      "user_base": "Research and advanced resource estimation"
+    },
+    {
+      "name": "SGeMS",
+      "developer": "Stanford Center for Reservoir Forecasting",
+      "speciality": "Open-source geostatistical software",
+      "key_features": ["Multiple kriging types", "Conditional simulation", "LUC (local uniform conditioning)", "Scriptable"],
+      "platform": "Cross-platform",
+      "user_base": "Academia and research"
+    },
+    {
+      "name": "PyGeostat",
+      "developer": "University of Alberta",
+      "speciality": "Python-based geostatistical library",
+      "key_features": ["Variogram modelling", "Kriging", "Simulation", "Open source"],
+      "platform": "Cross-platform (Python)",
+      "user_base": "Researchers and data scientists"
+    }
+  ],
+  "reporting_standards": {
+    "JORC_2012": {
+      "full_name": "Australasian Code for Reporting of Exploration Results, Mineral Resources and Ore Reserves (JORC Code 2012)",
+      "governing_body": "Joint Ore Reserves Committee (JORC) of the Australasian Institute of Mining and Metallurgy, Australian Institute of Geoscientists, and Minerals Council of Australia",
+      "applicable_jurisdictions": ["Australia", "New Zealand", "Papua New Guinea", "Indonesia", "Various international operations"],
+      "key_definitions": {
+        "Exploration_Results": "Data and information produced by exploration which may be used to indicate the existence of a mineral resource or ore reserve",
+        "Mineral_Resource": "A concentration or occurrence of material of economic interest in or on the Earth's crust in such form, grade or quality and quantity that there are reasonable prospects for eventual economic extraction",
+        "Ore_Reserve": "The economically mineable part of a Measured and/or Indicated Mineral Resource",
+        "Modifying_Factors": "Considerations used to convert Mineral Resources to Ore Reserves including mining, metallurgical, economic, marketing, legal, environmental, social and government factors"
+      },
+      "resource_categories": {
+        "Inferred": "Quantity and grade estimated on the basis of limited geological evidence and sampling. Low confidence.",
+        "Indicated": "Quantity, grade or quality estimated with sufficient confidence to allow Mine Planning and evaluation of economic viability.",
+        "Measured": "Quantity, grade or quality estimated with confidence sufficient to allow Mine Planning and evaluation of economic viability."
+      },
+      "competent_person": {
+        "requirements": "A minerals industry Competent Person must be a Fellow or Member of the Australasian Institute of Mining and Metallurgy or Australian Institute of Geoscientists",
+        "experience": "Minimum 5 years experience in the style of mineralisation or deposit type under consideration",
+        "responsibility": "Personally responsible for the information in the public report"
+      },
+      "reporting_requirements": [
+        "Clear statement of assumptions and criteria",
+        "Description of geological interpretation",
+        "Estimation methodology and parameters",
+        "Density and recovery assumptions",
+        "Mining and metallurgical assumptions",
+        "Economic analysis including sensitivity",
+        "Tonnage and grade at specified cut-off grades",
+        "Classification criteria and rationale",
+        "Quality assurance and quality control information",
+        "Competent Person statement"
+      ]
+    },
+    "NI_43_101": {
+      "full_name": "National Instrument 43-101: Standards of Disclosure for Mineral Projects",
+      "governing_body": "Canadian Securities Administrators (CSA)",
+      "applicable_jurisdictions": ["Canada", "International operations listed on Canadian exchanges"],
+      "key_definitions": {
+        "Technical_Report": "A report prepared under NI 43-101 by a Qualified Person that provides detailed scientific and technical information about a mineral project",
+        "Mineral_Resource": "A concentration or occurrence of diamonds, natural solid inorganic material, or natural solid fossilized organic material in or on the Earth's crust in such form and grade and in such quantity that there are reasonable prospects for the eventual economic extraction of the mineral or minerals",
+        "Mineral_Reserve": "The economically mineable portion of a Measured and/or Indicated Mineral Resource"
+      },
+      "qualified_person": {
+        "requirements": "An engineer or geoscientist with at least 5 years of experience in mineral exploration, mine development or mine operations, relevant to the style of mineralization",
+        "accreditation": "Must be a member in good standing of a professional organization in a Canadian province or territory",
+        "responsibility": "Responsible for the preparation or supervision of the preparation of the technical report"
+      },
+      "reporting_categories": {
+        "Inferred": "That part of a Mineral Resource for which quantity and grade or quality can be estimated on the basis of geological evidence and limited sampling",
+        "Indicated": "That part of a Mineral Resource for which quantity, grade or quality, are estimated or can be inferred with a level of confidence sufficient to allow Mine Planning",
+        "Measured": "That part of a Mineral Resource for which quantity, grade or quality, are estimated or can be inferred with a high level of confidence"
+      },
+      "technical_report_triggers": [
+        "Filing of a prospectus or similar offering document",
+        "Acquisition of a material property",
+        "Material change in Mineral Resource or Mineral Reserve estimates",
+        "Commencement of commercial production",
+        "Material adverse change in mineral properties"
+      ],
+      "reporting_requirements": [
+        "Executive summary",
+        "Property description and location",
+        "Accessibility, climate, local resources and infrastructure",
+        "History of the property",
+        "Geological setting and mineralisation",
+        "Deposit types",
+        "Exploration work",
+        "Drill hole data interpretation",
+        "Mineral resource estimate",
+        "Mineral reserve estimate",
+        "Mining methods",
+        "Metallurgical studies",
+        "Environmental studies and permitting",
+        "Capital and operating costs",
+        "Economic analysis",
+        "Adjacent properties",
+        "Interpretation and conclusions",
+        "Recommendations",
+        "References",
+        "QP certification and statement"
+      ]
+    },
+    "SAMREC": {
+      "full_name": "South African Code for Reporting of Mineral Resources and Mineral Reserves (The SAMREC Code)",
+      "governing_body": "South African Mineral Resources Committee (SAMREC) of the Chamber of Mines of South Africa",
+      "applicable_jurisdictions": ["South Africa", "Namibia", "Botswana", "Zimbabwe", "Other African jurisdictions"],
+      "key_definitions": {
+        "Mineral_Resource": "A concentration or occurrence of material of economic interest in or on the Earth's crust in such form, grade or quality and quantity that there are reasonable prospects for eventual economic extraction",
+        "Ore_Reserve": "The economically mineable part of a Measured and/or Indicated Mineral Resource, including diluting materials and allowances for losses, which may occur when the material is mined"
+      },
+      "competent_person": {
+        "requirements": "Must be registered with a recognised professional body (ECSA, SACNASP, or equivalent)",
+        "experience": "Minimum 5 years relevant experience",
+        "registration": "Must hold Pr.Eng, Pr.Sci.Nat, Pr.Sci.Min, or equivalent"
+      },
+      "resource_categories": {
+        "Inferred": "Estimate based on limited geological evidence and sampling",
+        "Indicated": "Estimate based on detailed sampling and testing sufficient for Mine Planning",
+        "Measured": "Estimate based on detailed sampling and testing with high confidence"
+      }
+    },
+    "AUSIMM_code": {
+      "full_name": "AusIMM Code for Reporting of Exploration Results, Mineral Resources and Ore Reserves (2014)",
+      "governing_body": "Australasian Institute of Mining and Metallurgy (AusIMM)",
+      "applicable_jurisdictions": ["Primarily Australia, widely used internationally"],
+      "note": "The AusIMM Code is aligned with the JORC Code and provides additional guidance specific to AusIMM members",
+      "key_guidance_areas": [
+        "Grade control and reconciliation",
+        "Metallurgical testing",
+        "Mining method selection",
+        "Environmental and social considerations"
+      ]
+    },
+    "other_codes": {
+      "CIM": {
+        "full_name": "Canadian Institute of Mining, Metallurgy and Petroleum (CIM) Definition Standards",
+        "note": "Underpins NI 43-101 reporting in Canada"
+      },
+      "UNFC": {
+        "full_name": "United Nations Framework Classification for Resources",
+        "note": "International classification system for energy and mineral resources"
+      },
+      "PERC": {
+        "full_name": "Pan-European Reserves and Resources Reporting Committee",
+        "note": "European reporting standard aligned with JORC and CRIRSCO"
+      },
+      "CRIRSCO": {
+        "full_name": "Committee for Mineral Reserves International Reporting Standards",
+        "note": "International template for mineral resource and reserve reporting codes"
+      }
+    }
+  },
+  "grade_control_best_practices": {
+    "planning": [
+      "Establish grade control philosophy document before mining commences",
+      "Define cut-off grades based on economic analysis including mining, processing, and refining costs",
+      "Set up sampling grid patterns appropriate for geological complexity",
+      "Establish QA/QC protocols before production drilling begins",
+      "Train all personnel in grade control procedures"
+    ],
+    "execution": [
+      "Update grade control model after every 5 to 10 blast patterns",
+      "Maintain minimum 2-week advance of grade control ahead of mining",
+      "Blend high-grade and low-grade material to maintain consistent mill feed",
+      "Track grade control predictions against actual mining results",
+      "Investigate all significant reconciliation variances immediately"
+    ],
+    "reporting": [
+      "Generate daily grade control reports for mining team",
+      "Weekly reconciliation summary for management",
+      "Monthly comprehensive grade control and reconciliation report",
+      "Quarterly resource model review and update",
+      "Annual reserve statement and life-of-mine reconciliation"
+    ],
+    "continuous_improvement": [
+      "Benchmark grade control performance against industry standards",
+      "Conduct annual review of sampling methods and equipment",
+      "Implement new technologies (XRF, hyperspectral, AI) as they become available",
+      "Participate in inter-laboratory comparison programs",
+      "Document lessons learned and best practices"
+    ]
+  },
+  "cut_off_grade_optimization": {
+    "methods": {
+      "break_even": {
+        "formula": "COG = (Mining cost + Processing cost + G&A) / (Metal price × Recovery - Refining cost)",
+        "description": "Grade at which revenue equals total cost. No profit or loss.",
+        "applicability": "Quick assessment, feasibility studies"
+      },
+      "marginal": {
+        "formula": "COG = Marginal mining cost / (Metal price × Recovery - Processing cost - Refining cost)",
+        "description": "Grade above which incremental tonnes contribute positive value",
+        "applicability": "Pit floor and push-back design"
+      },
+      "optimal": {
+        "method": "Lane's algorithm or Whittle software",
+        "description": "Maximises NPV by considering mining, processing, and refining capacity constraints",
+        "parameters": ["Mining rate", "Processing rate", "Refining rate", "Discount rate", "Metal price"],
+        "applicability": "Strategic mine planning, pit optimisation"
+      }
+    },
+    "factors_affecting_cog": [
+      "Metal price fluctuations",
+      "Processing recovery variations",
+      "Mining cost changes",
+      "Currency exchange rates",
+      "Royalty and tax changes",
+      "Capital expenditure requirements",
+      "Discount rate and project life",
+      "Mining method selection",
+      "Waste-to-ore ratio (strip ratio)"
+    ]
+  },
+  "sensitivity_analysis": {
+    "variables_to_test": [
+      "Metal price (±20%, ±40%)",
+      "Processing recovery (±5%, ±10%)",
+      "Mining cost (±15%, ±30%)",
+      "Processing cost (±15%, ±30%)",
+      "Discount rate (8%, 10%, 12%, 15%)",
+      "Exchange rate (±10%, ±20%)",
+      "Cut-off grade (±2 g/t, ±5 g/t)"
+    ],
+    "reporting": "Spider diagrams, tornado charts, sensitivity tables",
+    "acceptable_ranges": "NPV remains positive across reasonable sensitivity range"
+  },
+  "nugget_effect_management": {
+    "description": "High-nugget effect deposits (typically Au, Sn, W) present significant grade control challenges due to extreme short-range variability",
+    "strategies": [
+      "Tighter blast hole spacing (5x5m or 7.5x7.5m)",
+      "Larger sample masses (minimum 30g fire assay)",
+      "High-density diamond drilling for grade control",
+      "Bulk sampling programs to validate grade control predictions",
+      "Use of nearest neighbour estimation to preserve variability",
+      "Conditional simulation to assess grade uncertainty",
+      "Blending strategies to reduce mill feed variability",
+      "Geometallurgical approaches to understand recovery variability",
+      "Coggan variogram analysis with multiple data supports"
+    ],
+    "statistical_measures": [
+      "Coefficient of variation (CV) > 100% indicates high nugget effect",
+      "Nugget-to-sill ratio > 50% suggests significant short-range variability",
+      "Histogram analysis for bi-modal or multi-modal distributions",
+      "Probability plots for distribution characterisation"
+    ]
+  },
+  "geometallurgy": {
+    "description": "Integration of geometrical, mineralogical, and metallurgical data into the resource model to predict processing behaviour and recovery",
+    "key_parameters": [
+      "Mineral abundance and liberation size",
+      "Bond Ball Mill Work Index (BWI)",
+      "Bond Rod Mill Work Index (RWI)",
+      "Abrasion Index (Ai)",
+      "SAG Mill Index (SPI or SAGD)",
+      "Flotation kinetics parameters",
+      "Leach kinetics (for gold operations)",
+      "Clay content and swelling indices",
+      "Preg-robbing potential (for gold operations)",
+      "Cyanide consumption",
+      "Consumption of reagents",
+      "Magnetic susceptibility",
+      "Heavy minerals content",
+      "Degree of oxidation",
+      "Textural classification"
+    ],
+    "block_model_integration": [
+      "Assign geometallurgical domains to each block",
+      "Populate blocks with metallurgical parameters",
+      "Predict recovery at the block level",
+      "Use recovery-adjusted block values for mine planning",
+      "Update metallurgical model with production data"
+    ],
+    "domains": {
+      "hard_ore": {"BWI_range": "18 to 25 kWh/t", "recovery_impact": "Lower throughput, potentially higher recovery"},
+      "soft_ore": {"BWI_range": "10 to 16 kWh/t", "recovery_impact": "Higher throughput, standard recovery"},
+      "oxide_ore": {"recovery_impact": "Higher recovery in some processes, lower in others"},
+      "mixed_ore": {"recovery_impact": "Variable, requires blending or selective processing"},
+      "transitional_ore": {"recovery_impact": "Intermediate recovery characteristics"}
+    }
+  },
+  "references": {
+    "standards": [
+      "JORC Code 2012 - Australasian Code for Reporting of Exploration Results, Mineral Resources and Ore Reserves",
+      "NI 43-101 - Canadian Securities Administrators",
+      "SAMREC Code - South African Mineral Resources Committee",
+      "CIM Definition Standards - Canadian Institute of Mining",
+      "ISO 17025:2017 - General requirements for laboratory competence"
+    ],
+    "textbooks": [
+      "Journel, A.G. and Huijbregts, C.J. (1978) Mining Geostatistics. Academic Press.",
+      "Clark, I. and Harper, W.V. (2007) Practical Geostatistics 2000. Ecosse North America.",
+      "Isaaks, E.H. and Srivastava, R.M. (1989) An Introduction to Applied Geostatistics. Oxford University Press.",
+      "Viereck, L.G. and Parker, H.M. (1987) 'The Geological Control of the Nugget Effect', Geostatistical Natural Resources Modelling.",
+      "Pitard, F.F. (1993) Pierre Gy's Sampling Theory and Sampling Practice. CRC Press.",
+      "Loeber, G.J. and Stretton, J.N. (1997) Grade Control and Reconciliation. AusIMM Monograph.",
+      "Bertacchi, P. and Driussi, C. (2010) Mine-to-mill Reconciliation. CRC Press."
+    ],
+    "organisations": [
+      "AusIMM - Australasian Institute of Mining and Metallurgy",
+      "CIM - Canadian Institute of Mining, Metallurgy and Petroleum",
+      "SME - Society for Mining, Metallurgy, and Exploration",
+      "IMM - Institute of Materials, Minerals and Mining (UK)",
+      "ISRM - International Society for Rock Mechanics"
+    ]
+  }
+}

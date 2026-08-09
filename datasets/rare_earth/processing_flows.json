@@ -1,0 +1,374 @@
+{
+  "title": "Rare Earth Processing Flows & Separation Chemistry",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Detailed processing flowsheets, separation chemistry, and operational parameters for rare earth element extraction and purification.",
+  "processing_flowsheets": {
+    "monazite_processing": {
+      "feed_material": "Heavy mineral concentrate (5-8% REO)",
+      "steps": [
+        {
+          "step": 1,
+          "name": "Crushing and Grinding",
+          "equipment": "Ball mill",
+          "parameters": {
+            "target_p80_microns": 53,
+            "media": "Steel balls",
+            "water_ratio": "60% solids"
+          },
+          "purpose": "Liberalize mineral grains"
+        },
+        {
+          "step": 2,
+          "name": "Gravity Separation",
+          "equipment": "Spiral concentrators + shaking table",
+          "parameters": {
+            "feed_rate tph": 15,
+            "cut_point_sg": 4.2,
+            "recovery_percent": 85
+          },
+          "purpose": "Concentrate heavy minerals"
+        },
+        {
+          "step": 3,
+          "name": "Magnetic Separation",
+          "equipment": "High-intensity magnetic separator (1.5-2.0T)",
+          "parameters": {
+            "field_strength_tesla": 1.8,
+            "feed_rate_tph": 8
+          },
+          "purpose": "Separate paramagnetic REE minerals from diamagnetic gangue"
+        },
+        {
+          "step": 4,
+          "name": "Acid Leaching",
+          "equipment": "Agitated tank (GRP/steel lined)",
+          "parameters": {
+            "acid": "HCl or H2SO4",
+            "concentration_molar": "6-8M HCl",
+            "temperature_C": 80,
+            "retention_time_hours": 4,
+            "solid_ratio": "40% solids"
+          },
+          "purpose": "Dissolve REE minerals"
+        },
+        {
+          "step": 5,
+          "name": "Impurity Removal",
+          "equipment": "Settling tanks + filter press",
+          "parameters": {
+            "removal_targets": ["Iron (Fe)", "Aluminum (Al)", "Titanium (Ti)"],
+            "reagents": ["Sodium hydroxide", "Sodium sulfide"]
+          },
+          "purpose": "Remove non-REE impurities"
+        },
+        {
+          "step": 6,
+          "name": "Solvent Extraction",
+          "equipment": "Mixer-settler battery (200+ stages)",
+          "parameters": {
+            "extractant": "D2EHPA (di-2-ethylhexyl phosphoric acid)",
+            "diluent": "Kerosene (ShellSol T)",
+            "aqueous_to_organic_ratio": "1:1 to 1:3",
+            "stages_per_cut": "10-30",
+            "temperature_C": "40-50"
+          },
+          "purpose": "Separate individual REE from mixed concentrate"
+        },
+        {
+          "step": 7,
+          "name": "Precipitation",
+          "equipment": "Precipitation tanks",
+          "parameters": {
+            "reagent": "Oxalic acid (for heavy REEs) or Sodium hydroxide (for light REEs)",
+            "pH": "1.5-2.5",
+            "temperature_C": "60-80"
+          },
+          "purpose": "Precipitate individual REE oxalates or hydroxides"
+        },
+        {
+          "step": 8,
+          "name": "Calcination",
+          "equipment": "Rotary kiln",
+          "parameters": {
+            "temperature_C": "900-1000",
+            "atmosphere": "Air or inert",
+            "retention_time_hours": 4
+          },
+          "purpose": "Convert to REE oxides"
+        }
+      ],
+      "reagent_consumption": {
+        "HCl_kg_per_ton_ore": 500,
+        "D2EHPA_kg_per_ton_ore": 15,
+        "Kerosene_kg_per_ton_ore": 20,
+        "NaOH_kg_per_ton_ore": 300,
+        "Oxalic_acid_kg_per_ton_ore": 50
+      }
+    },
+    "bastnasite_processing": {
+      "feed_material": "Bastnasite concentrate (30-70% REO)",
+      "steps": [
+        {
+          "step": 1,
+          "name": "Crushing and Grinding",
+          "parameters": {"target_p80_microns": 40}
+        },
+        {
+          "step": 2,
+          "name": "Flotation",
+          "parameters": {
+            "collector": "Hydroxamic acid (500 g/t)",
+            "frother": "MIBC (30 g/t)",
+            "pH": 9.0,
+            "depressant": "Sodium silicate (2 kg/t)",
+            "recovery_percent": 85
+          }
+        },
+        {
+          "step": 3,
+          "name": "Roasting",
+          "parameters": {
+            "temperature_C": 500,
+            "atmosphere": "Oxidizing",
+            "purpose": "Decompose carbonate and fluoride"
+          }
+        },
+        {
+          "step": 4,
+          "name": "Acid Leaching",
+          "parameters": {
+            "acid": "HCl 6M",
+            "temperature_C": 80,
+            "retention_time_hours": 3
+          }
+        },
+        {
+          "step": 5,
+          "name": "Solvent Extraction",
+          "parameters": {
+            "extractant": "D2EHPA",
+            "purpose": "Separate La-Ce-Pr-Nd"
+          }
+        }
+      ]
+    },
+    "ion_clay_processing": {
+      "feed_material": "Weathered clay (0.05-0.3% REO)",
+      "steps": [
+        {
+          "step": 1,
+          "name": "In-situ Leaching",
+          "parameters": {
+            "leachant": "Ammonium sulfate (30-50 g/L)",
+            "flow_rate_m3_per_hour": 20,
+            "leach_time_days": 60,
+            "pH": 5.5,
+            "recovery_percent": 70
+          }
+        },
+        {
+          "step": 2,
+          "name": "Pond Collection",
+          "parameters": {
+            "pond_volume_m3": 5000,
+            "residence_time_days": 5
+          }
+        },
+        {
+          "step": 3,
+          "name": "RE Precipitation",
+          "parameters": {
+            "reagent": "Magnesium oxide (MgO)",
+            "pH": "6.5-7.0",
+            "recovery_percent": 95
+          }
+        },
+        {
+          "step": 4,
+          "name": "Further Processing",
+          "parameters": {
+            "method": "Same as monazite/bastnasite SX"
+          }
+        }
+      ]
+    }
+  },
+  "separation_chemistry": {
+    "solvent_extraction_circuit": {
+      "circuit_design": "Mixed extractor-settler battery with reflux",
+      "typical_stages": {
+        "scrubbing": "5-15 stages",
+        "extraction": "10-30 stages per cut",
+        "stripping": "3-10 stages",
+        "total_stages": "150-300 per circuit"
+      },
+      "extractants": {
+        "D2EHPA": {
+          "full_name": "Di-2-ethylhexyl phosphoric acid",
+          "concentration_percent": "20-30 in kerosene",
+          "selectivity": "Ce > La > Nd > Pr > Sm > Heavy REE",
+          "operating_pH": "1.0-3.0",
+          "temperature_C": "40-50",
+          "loading_capacity_g_L": "15-25 REO"
+        },
+        "PC88A": {
+          "full_name": "2-ethylhexyl phosphonic acid mono-2-ethylhexyl ester",
+          "concentration_percent": "20-25 in kerosene",
+          "selectivity": "Nd > Pr > Ce > La (reversed selectivity vs D2EHPA)",
+          "operating_pH": "2.5-4.0",
+          "advantage": "Better Nd/Pr separation factor"
+        },
+        "EHEHPA": {
+          "full_name": "2-ethylhexyl phosphonic acid mono-2-ethylhexyl ester",
+          "concentration_percent": "1.0-1.5 M in kerosene",
+          "selectivity": "Tb > Dy > Ho > Er > Y",
+          "operating_pH": "2.0-4.0",
+          "application": "Heavy REE separation"
+        },
+        "Aliquat_336": {
+          "full_name": "Methyl trioctyl ammonium chloride",
+          "concentration_percent": "15-25 in kerosene",
+          "selectivity": "Y over heavy REE",
+          "operating_pH": "1.0-2.0",
+          "application": "Yttrium separation"
+        }
+      },
+      "separation_factors": {
+        "Ce_La_D2EHPA": 2.5,
+        "Nd_Pr_D2EHPA": 1.8,
+        "Nd_Pr_PC88A": 4.5,
+        "Dy_Y_EHEHPA": 2.8,
+        "La_Nd_D2EHPA": 3.2
+      },
+      "operational_parameters": {
+        "aqueous_flow_rate_m3_h": 5,
+        "organic_flow_rate_m3_h": 3,
+        "mixer_speed_rpm": 300,
+        "settler_residence_time_min": 10,
+        "temperature_C": "40-50",
+        "continuous_operation": true
+      }
+    },
+    "precipitation_chemistry": {
+      "oxalate_precipitation": {
+        "reagent": "Oxalic acid (H2C2O4)",
+        "reaction": "2REE³⁺ + 3H2C2O4 → REE₂(C2O4)₃ + 6H⁺",
+        "pH": "1.5-2.5",
+        "temperature_C": "60-80",
+        "retention_time_hours": 2,
+        "recovery_percent": 99,
+        "selectivity": "Heavy REE precipitate preferentially"
+      },
+      "carbonate_precipitation": {
+        "reagent": "Sodium carbonate (Na2CO3)",
+        "reaction": "2REE³⁺ + 3Na2CO3 → REE₂(CO3)₃ + 6Na⁺",
+        "pH": "6.5-7.5",
+        "temperature_C": "50-70",
+        "recovery_percent": 95,
+        "application": "Light REE recovery"
+      },
+      "hydroxide_precipitation": {
+        "reagent": "Sodium hydroxide (NaOH)",
+        "reaction": "REE³⁺ + 3NaOH → REE(OH)₃ + 3Na⁺",
+        "pH": "9-11",
+        "recovery_percent": 98,
+        "application": "Bulk REE precipitation"
+      }
+    },
+    "calcination_products": {
+      "REE_oxides": {
+        "La2O3": "Lanthanum oxide",
+        "CeO2": "Cerium oxide",
+        "Nd2O3": "Neodymium oxide",
+        "Pr6O11": "Praseodymium oxide",
+        "Sm2O3": "Samarium oxide",
+        "Eu2O3": "Europium oxide",
+        "Gd2O3": "Gadolinium oxide",
+        "Tb4O7": "Terbium oxide",
+        "Dy2O3": "Dysprosium oxide",
+        "Y2O3": "Yttrium oxide"
+      },
+      "calcination_parameters": {
+        "temperature_C": "900-1000",
+        "time_hours": "4-6",
+        "atmosphere": "Air",
+        "kiln_type": "Rotary or static"
+      }
+    }
+  },
+  "environmental_management": {
+    "radioactive_waste": {
+      "sources": ["Thorium in monazite (5-10% ThO2)", "Uranium in monazite (0.2-0.5% U3O8)", "Decay products"],
+      "management": [
+        "Lined tailings impoundment",
+        "Radon ventilation in processing buildings",
+        "Personal dosimetry for workers",
+        "Quarterly environmental monitoring",
+        "Annual regulatory reporting"
+      ],
+      "limits": {
+        "dose_limit_mSv_year": 1,
+        "radon_Bq_m3": 200,
+        "tailings_Bq_kg": 1000
+      }
+    },
+    "acid_waste": {
+      "sources": ["Leach solutions", "Scrub solutions", "Spent organics"],
+      "treatment": [
+        "Neutralization with lime (CaCO3 → Ca(OH)2)",
+        "Precipitation of metal hydroxides",
+        "Settling and filtration",
+        "Water recycling (>90% target)"
+      ],
+      "discharge_limits": {
+        "pH": "6.5-8.5",
+        "TSS_mg_L": 50,
+        "REE_mg_L": 10,
+        "fluoride_mg_L": 10
+      }
+    },
+    "organic_waste": {
+      "sources": ["Spent kerosene", "Degraded extractant", "Contaminated solvents"],
+      "management": [
+        "Regeneration of spent organic phase",
+        "Incineration at licensed facility",
+        "Soil and groundwater monitoring"
+      ]
+    }
+  },
+  "quality_control": {
+    "product_specifications": {
+      "REE_oxides": {
+        "purity_percent": ">99%",
+        "impurity_limits": {
+          "Fe_ppm": "<50",
+          "Si_ppm": "<100",
+          "Ca_ppm": "<50",
+          "other_REE_ppm": "<100 (except paired elements)"
+        },
+        "packaging": "Double polyethylene bags in steel drums",
+        "labeling": "Product name, batch, grade, date, net weight"
+      },
+      "REE_metals": {
+        "purity_percent": ">99.5%",
+        "forms": ["Ingots", "Alloys", "Powders", "Master alloys"],
+        "testing": "ICP-OES analysis, spark test, microstructure"
+      },
+      "REE_magnets": {
+        "NdFeB_specifications": {
+          "BHmax_MGOe": "40-55",
+          "Hci_kOe": ">12",
+          "Br_kG": "10-15",
+          "max_operating_temperature_C": "80-200 (grade dependent)"
+        },
+        "testing": ["Demagnetization curve", "Temperature coefficient", "Coercivity"]
+      }
+    },
+    "batch_testing": {
+      "sample_frequency": "Every batch",
+      "tests": ["ICP-OES/OES", "XRF", "Moisture content", "Particle size"],
+      "documentation": "Certificate of Analysis (CoA) for each batch"
+    }
+  }
+}

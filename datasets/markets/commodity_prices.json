@@ -1,0 +1,1055 @@
+{
+  "title": "Comprehensive Live Commodity Prices & Market Intelligence Dataset",
+  "version": "2.0",
+  "last_updated": "2025-07-19",
+  "data_sources": [
+    "London Bullion Market Association (LBMA)",
+    "COMEX / CME Group",
+    "Shanghai Gold Exchange (SGE)",
+    "World Gold Council",
+    "Silver Institute",
+    "World Platinum Investment Council",
+    "Bloomberg Commodities",
+    "Reuters Refinitiv",
+    "Kitco Market Data",
+    "GemGuide / Rapaport Diamond Pricing",
+    "USGS Mineral Commodity Summaries 2025",
+    "International Copper Study Group (ICSG)",
+    "International Nickel Study Group (INSG)"
+  ],
+  "currency": "USD",
+  "disclaimer": "Prices are indicative benchmarks based on latest available market data. Actual transaction prices may vary based on grade, location, quantity, and market conditions.",
+
+  "gold": {
+    "current_benchmark": {
+      "USD_per_oz": 3250,
+      "as_of": "2025-07-19",
+      "LBMA_AM_fix": 3248.50,
+      "LBMA_PM_fix": 3252.00,
+      "COMEX_spot": 3251.30,
+      "Shanghai_premium_per_oz": 28.50
+    },
+    "price_history": {
+      "1_year_ago": 2400,
+      "5_years_ago": 1800,
+      "10_years_ago": 1300,
+      "20_years_ago": 440,
+      "all_time_high_usd_per_oz": 3252,
+      "all_time_high_date": "2025-07-18",
+      "annual_returns_percent": {
+        "2024": 27.2,
+        "2023": 13.8,
+        "2022": -0.3,
+        "2021": -3.6,
+        "2020": 25.1
+      }
+    },
+    "trading_ranges": {
+      "2025_low": 2800,
+      "2025_high": 3400,
+      "2024_low": 2000,
+      "2024_high": 2790,
+      "weekly_avg_range_per_oz": 65,
+      "daily_avg_range_per_oz": 28
+    },
+    "support_resistance": {
+      "support_levels_usd": [3180, 3100, 3000, 2900],
+      "resistance_levels_usd": [3300, 3400, 3500, 3600]
+    },
+    "key_drivers": [
+      "Central bank buying",
+      "ETF inflows",
+      "Geopolitical risk premium",
+      "USD strength / DXY index",
+      "Inflation expectations (breakeven rates)",
+      "Real interest rates (TIPS yields)",
+      "China and India physical demand",
+      "De-dollarization trend",
+      "Mining supply constraints",
+      "Retail investment (coins and bars)"
+    ],
+    "demand_breakdown_2025": {
+      "jewelry_tons": 2100,
+      "jewelry_pct": 48,
+      "investment_bars_coins_tons": 1100,
+      "investment_bars_coins_pct": 25,
+      "central_banks_tons": 800,
+      "central_banks_pct": 18,
+      "technology_tons": 390,
+      "technology_pct": 9,
+      "total_tons": 4390
+    },
+    "central_bank_buyers_2025_tons": {
+      "China": 225,
+      "Poland": 130,
+      "India": 75,
+      "Turkey": 85,
+      "Singapore": 45,
+      "Czech_Republic": 32,
+      "Kazakhstan": 50,
+      "Uzbekistan": 40,
+      "Total_top_buyers": 682
+    },
+    "major_producers_tons_2024": {
+      "China": 370,
+      "Australia": 310,
+      "Russia": 300,
+      "Canada": 200,
+      "USA": 170,
+      "Ghana": 130,
+      "South_Africa": 100,
+      "Peru": 100,
+      "Mexico": 85,
+      "Indonesia": 80,
+      "Brazil": 70,
+      "Uzbekistan": 65
+    },
+    "total_global_mine_production_tons": 3260,
+    "recycling_supply_tons": 1250,
+    "total_supply_tons": 4510,
+    "AISC_benchmarks_USD_per_oz": {
+      "Tier_1": 800,
+      "Tier_2": 1000,
+      "Tier_3": 1200,
+      "Marginal": 1400,
+      "Industry_average_2025": 1080,
+      "Industry_median_2025": 980
+    },
+    "top_producers_2025_oz": {
+      "Newmont": 5800000,
+      "Barrick_Gold": 4200000,
+      "Agnico_Eagle": 3500000,
+      "Polyus": 2900000,
+      "GoldFields": 2400000,
+      "AngloGold_Ashanti": 2200000,
+      "Kinross_Gold": 2000000,
+      "Navoi_Mining": 1900000,
+      "Freeport_McMoRan": 1800000,
+      "Yamana_Gold": 1400000
+    },
+    "refining_costs": {
+      "per_oz": 0.50,
+      "LBMA_fee_per_oz": 0.02,
+      "Good_Delivery_bar_cost": 0.25
+    },
+    "delivery_specs": {
+      "min_purity_per_mille": 995.0,
+      "max_weight_oz": 400,
+      "min_weight_oz": 350,
+      "Good_Delivery_bar_oz": 400,
+      "standard_bar_weight_kg": 12.44
+    },
+    "etf_holdings_oz": 32000000,
+    "futures_data": {
+      "front_month_contract": "GCQ25",
+      "open_interest_contracts": 485000,
+      "days_to_delivery": 22,
+      "roll_yield_annualized_pct": -0.8
+    }
+  },
+
+  "silver": {
+    "current_benchmark": {
+      "USD_per_oz": 32,
+      "as_of": "2025-07-19",
+      "LBMA_AM_fix": 31.95,
+      "LBMA_PM_fix": 32.08,
+      "COMEX_spot": 32.05
+    },
+    "gold_silver_ratio": {
+      "current": 101,
+      "historical_avg": 65,
+      "2020_peak": 125,
+      "2011_low": 32
+    },
+    "price_history": {
+      "1_year_ago": 28.50,
+      "5_years_ago": 18.00,
+      "10_years_ago": 15.00,
+      "all_time_high": 49.51,
+      "all_time_high_date": "2011-04-28",
+      "annual_returns_percent": {
+        "2024": 21.5,
+        "2023": 2.0,
+        "2022": 3.0,
+        "2021": -12.0,
+        "2020": 47.0
+      }
+    },
+    "trading_ranges": {
+      "2025_low": 26.00,
+      "2025_high": 38.00,
+      "weekly_avg_range_per_oz": 1.80,
+      "daily_avg_range_per_oz": 0.65
+    },
+    "demand_breakdown_2025_billion_oz": {
+      "industrial_oz_billion": 1.32,
+      "industrial_pct": 55,
+      "investment_oz_billion": 0.60,
+      "investment_pct": 25,
+      "jewelry_oz_billion": 0.36,
+      "jewelry_pct": 15,
+      "photovoltaic_oz_billion": 0.12,
+      "photovoltaic_pct": 5
+    },
+    "industrial_demand_pct": 55,
+    "investment_demand_pct": 25,
+    "photovoltaic_demand_detail": {
+      "annual_oz_million": 180,
+      "growth_rate_yoy_pct": 18,
+      "solar_panel_usage_grams_per_panel": 20,
+      "key_countries": ["China", "India", "USA", "Germany", "Japan"],
+      "forecast_2030_oz_million": 350
+    },
+    "major_producers_million_oz_2024": {
+      "Mexico": 210,
+      "China": 130,
+      "Peru": 110,
+      "Chile": 45,
+      "Australia": 40,
+      "Russia": 38,
+      "Poland": 42,
+      "Bolivia": 40,
+      "Argentina": 25,
+      "USA": 32
+    },
+    "total_mine_production_million_oz": 820,
+    "AISC_USD_per_oz": {
+      "Tier_1": 12,
+      "Tier_2": 15,
+      "Tier_3": 18,
+      "Marginal": 22
+    },
+    "refining": {
+      "per_oz_cost": 0.30,
+      "Good_Delivery_bar_oz": 1000,
+      "COMEX_contract_multiplier": 5000
+    },
+    "key_drivers": [
+      "Solar panel manufacturing demand",
+      "Industrial applications (electronics, EVs)",
+      "Investment demand (coins, bars, ETFs)",
+      "Mine supply constraints",
+      "Mexico and Peru regulatory changes",
+      "Gold price spillover effect"
+    ]
+  },
+
+  "platinum_group_metals": {
+    "platinum": {
+      "current_benchmark": {
+        "USD_per_oz": 1050,
+        "as_of": "2025-07-19",
+        "NYMEX_spot": 1048.50,
+        "LPPM_fix": 1052.00
+      },
+      "price_history": {
+        "1_year_ago": 920,
+        "5_years_ago": 850,
+        "10_years_ago": 1450,
+        "all_time_high": 2273,
+        "all_time_high_date": "2008-03-05"
+      },
+      "trading_ranges": {
+        "2025_low": 890,
+        "2025_high": 1200
+      },
+      "supply_deficit": true,
+      "deficit_2024_koz": 850,
+      "deficit_2025_koz": 1100,
+      "supply_deficit_streak_years": 3,
+      "supply_demand_balance_tons": {
+        "mine_production": 185,
+        "recycling": 55,
+        "total_supply": 240,
+        "autocatalyst_demand": 125,
+        "jewelry_demand": 40,
+        "industrial_demand": 50,
+        "investment_demand": 25,
+        "total_demand": 251
+      },
+      "major_producers_share_pct": {
+        "South_Africa": 72,
+        "Russia": 11,
+        "Zimbabwe": 8,
+        "Canada": 4,
+        "USA": 3,
+        "Others": 2
+      },
+      "key_drivers": [
+        "Automotive catalyst demand",
+        "Hydrogen fuel cell growth",
+        "South African mine supply constraints",
+        "Load shedding and power crisis in SA",
+        "Russian supply uncertainty",
+        "ETF investment demand",
+        "Glass industry demand",
+        "Petroleum refining catalyst demand"
+      ],
+      "AISC_USD_per_oz": {
+        "South_Africa": 1050,
+        "Russia": 750,
+        "Canada": 850,
+        "Zimbabwe": 600
+      },
+      "COMEX_contract": {
+        "symbol": "PL",
+        "multiplier_oz": 50,
+        "tick_size": 0.10,
+        "tick_value_usd": 5.00
+      }
+    },
+    "palladium": {
+      "current_benchmark": {
+        "USD_per_oz": 980,
+        "as_of": "2025-07-19",
+        "NYMEX_spot": 978.50
+      },
+      "price_history": {
+        "1_year_ago": 1020,
+        "5_years_ago": 2100,
+        "10_years_ago": 750,
+        "all_time_high": 3019,
+        "all_time_high_date": "2022-03-07"
+      },
+      "trading_ranges": {
+        "2025_low": 850,
+        "2025_high": 1150
+      },
+      "supply_surplus": true,
+      "surplus_2024_koz": 300,
+      "market_outlook": "Structural decline due to EV adoption reducing gasoline catalytic converter demand",
+      "substitution_risk": "Palladium being substituted by platinum in some autocatalyst formulations",
+      "key_drivers": [
+        "Gasoline catalytic converter demand (declining)",
+        "EV adoption reducing long-term demand",
+        "Russian supply uncertainty (Nornickel)",
+        "Recycling supply growth",
+        "Platinum substitution threat"
+      ],
+      "major_producers_share_pct": {
+        "Russia": 42,
+        "South_Africa": 35,
+        "Canada": 10,
+        "USA": 5,
+        "Others": 8
+      }
+    },
+    "rhodium": {
+      "current_benchmark": {
+        "USD_per_oz": 4500,
+        "as_of": "2025-07-19"
+      },
+      "price_history": {
+        "1_year_ago": 4800,
+        "5_years_ago": 14500,
+        "10_years_ago": 1500,
+        "all_time_high": 29800,
+        "all_time_high_date": "2021-04-20"
+      },
+      "trading_ranges": {
+        "2025_low": 3800,
+        "2025_high": 5500
+      },
+      "market_notes": "Extremely illiquid market; 95% comes from South African platinum mines as a byproduct",
+      "key_drivers": [
+        "Automotive catalyst demand",
+        "Extreme supply inelasticity",
+        "Byproduct of platinum mining",
+        "Limited recycling infrastructure"
+      ]
+    },
+    "iridium": {
+      "current_benchmark": {
+        "USD_per_oz": 5200,
+        "as_of": "2025-07-19"
+      },
+      "key_drivers": ["Electrolysis (hydrogen)", "Electronics", "Spark plugs"],
+      "supply_notes": "Extremely rare byproduct of platinum mining"
+    },
+    "ruthenium": {
+      "current_benchmark": {
+        "USD_per_oz": 520,
+        "as_of": "2025-07-19"
+      },
+      "key_drivers": ["Electronics plating", "Catalysts", "Solar cells"],
+      "supply_notes": "Most abundant PGM but limited demand"
+    }
+  },
+
+  "diamonds": {
+    "rough_price_index": {
+      "value": 130,
+      "base_100_year": 2020,
+      "as_of": "2025-07-19",
+      "trend": "stable",
+      "yoy_change_pct": 2.5
+    },
+    "categories": {
+      "industrial": {
+        "USD_per_carat_range": "1-50",
+        "average_per_carat": 10,
+        "annual_volume_million_carats": 50,
+        "applications": ["Cutting tools", "Drilling", "Grinding", "Polishing", "Thermal conductors"]
+      },
+      "gem_quality_small": {
+        "description": "0.30-0.99 carat, I1 clarity and below",
+        "USD_per_carat_range": "100-1000",
+        "average_per_carat": 400
+      },
+      "gem_quality_medium": {
+        "description": "1.00-2.99 carat, VS-SI clarity",
+        "USD_per_carat_range": "1000-5000",
+        "average_per_carat": 2800
+      },
+      "gem_quality_large": {
+        "description": "3.00-9.99 carat, VVS-VS clarity",
+        "USD_per_carat_range": "5000-50000",
+        "average_per_carat": 18000
+      },
+      "exceptional": {
+        "description": "10+ carat, D-F color, IF-VVS clarity",
+        "USD_per_carat": "50000+",
+        "record_per_carat_usd": 3170000,
+        "record_stone": "The Star of Africa (Cullinan)"
+      }
+    },
+    "pricing_grading_reference": {
+      "color_scale": "D (colorless) to Z (yellow/brown)",
+      "clarity_scale": "FL (flawless) to I3 (included)",
+      "cut_grades": ["Excellent", "Very Good", "Good", "Fair", "Poor"],
+      "carat_weight_conversion": "1 carat = 0.2 grams = 200 milligrams"
+    },
+    "major_producers_share_pct": {
+      "Botswana": 23,
+      "Russia_ALROSA": 17,
+      "DRC": 16,
+      "Australia": 13,
+      "South_Africa": 10,
+      "Canada": 6,
+      "Angola": 5
+    },
+    "total_rough_production_million_carats_2024": 120,
+    "total_rough_production_value_billion_usd": 15.2,
+    "key_markets": {
+      "trading_hubs": ["Antwerp (Belgium)", "Dubai (UAE)", "Mumbai (India)", "Tel Aviv (Israel)", "New York (USA)", "Surat (India)"],
+      "cutting_hubs": ["Surat, India (90% of global cutting)", "Mumbai, India", "Antwerp, Belgium", "Tel Aviv, Israel"]
+    },
+    "certification": {
+      "conflict_free_scheme": "Kimberley Process Certification Scheme (KPCS)",
+      "members": 82,
+      "cover_nations_pct": 99.8,
+      "traceability_programs": [
+        "De Beers Tracr blockchain",
+        "ALROSA blockchain",
+        "Everledger",
+        "GIA Diamond Origin Report"
+      ]
+    },
+    "synthetic_lab_grown": {
+      "market_share_pct": 20,
+      "growth_rate_yoy_pct": 15,
+      "avg_price_per_carat": 500,
+      "price_trend": "Declining (20-30% annually)",
+      "key_producers": ["De Beers Lightbox", "Diamond Foundry", "Lusix", "ALROSA Grown Diamonds"],
+      "main_applications": ["Fashion jewelry", "Industrial", "Tech (quantum computing, optics)"],
+      "market_outlook": "Lab-grown natural differentiation expected to widen price gap"
+    },
+    "key_drivers": [
+      "Luxury goods demand (China, USA, India)",
+      "Lab-grown diamond competition",
+      "De Beers supply management",
+      "Indian midstream inventory levels",
+      "Wedding season demand",
+      "Economic conditions in key consumer markets"
+    ]
+  },
+
+  "tanzanite": {
+    "current_price_ranges_USD_per_carat": {
+      "AAA_blue": 1500,
+      "AA_blue": 800,
+      "A_blue": 400,
+      "commercial": 100
+    },
+    "premium_stones": {
+      "exceptional_AAA_plus_5ct_plus": 5000,
+      "exceptional_AAA_plus_10ct_plus": 8000
+    },
+    "price_trend": {
+      "2020": 1200,
+      "2022": 1500,
+      "2024": 1800,
+      "2025": 2000,
+      "yoy_growth_pct": 11
+    },
+    "supply_constraints": "Single source (Merelani Hills, Tanzania), estimated 25 years remaining reserves",
+    "annual_production_carats": 25000,
+    "peak_production_carats": 60000,
+    "peak_production_year": 1998,
+    "geology": {
+      "mineral_group": "Zoisite (Ca2Al3(SiO4)3(OH))",
+      "hardness_mohs": 6.5,
+      "formation": "Metamorphic, biotite-amphibole-plagioclase gneiss",
+      "unique_source_details": "Found only in a 4km x 2km area near Mount Kilimanjaro"
+    },
+    "key_drivers": [
+      "Extremely limited geographic supply",
+      "Declining mine output",
+      "Growing Asian luxury demand",
+      "Investment and collectibility premium",
+      "Celebrity and designer endorsements",
+      "Limited marketing compared to traditional gemstones"
+    ],
+    "mining_operations": {
+      "Merelani_blocks": ["Block A (industrial)", "Block B (medium)", "Block C (major mines)", "Block D (Tanzanite One)"],
+      "primary_company": "Tanzanite One (now TanzaniteOne Mining Ltd)",
+      "artisanal_miners": "Thousands of small-scale miners active in Blocks A and B",
+      "tanzania_export_tax_pct": 10
+    }
+  },
+
+  "rubies": {
+    "price_per_carat_USD": {
+      "pigeon_blood_myanmar": 50000,
+      "mozambique_fine": 15000,
+      "mozambique_commercial": 2000,
+      "star_ruby": 3000,
+      "mozambique_rubellite": 800,
+      "thai_commercial": 500
+    },
+    "premium_stones": {
+      "pigeon_blood_unheated_5ct_plus": 150000,
+      "pigeon_blood_unheated_10ct_plus": 300000,
+      "auction_record_per_carat": 1266000,
+      "auction_record_stone": "Sunrise Ruby"
+    },
+    "grading_reference": {
+      "primary_origin_values": ["Mogok, Myanmar (pigeon blood)", "Montepuez, Mozambique", "Winza, Tanzania"],
+      "color_grades": ["Pigeon Blood (vivid red, fluorescent)", "Vivid Red", "Red", "Pinkish Red", "Purplish Red"],
+      "treatment_levels": ["Unheated", "Heat treatment (traditional)", "Lead-glass filling (penalized)"],
+      "fluorescence": "Strong red fluorescence desirable for pigeon blood"
+    },
+    "supply_origins": {
+      "Myanmar_Mogok": {"share_pct": 15, "status": "Premium but limited output"},
+      "Mozambique_Montepuez": {"share_pct": 60, "status": "Major supply source"},
+      "Tanzania_Winza": {"share_pct": 10, "status": "Good quality but limited"},
+      "Madagascar": {"share_pct": 8, "status": "Mixed quality"},
+      "Others": {"share_pct": 7}
+    },
+    "total_market_value_billion_usd": 4.5,
+    "key_drivers": [
+      "Rarity and prestige",
+      "Burmese origin premium",
+      "Auction market strength",
+      "Investment demand growth",
+      "Treatment disclosure requirements",
+      "Synthetic ruby competition"
+    ]
+  },
+
+  "emeralds": {
+    "price_per_carat_USD": {
+      "colombian_muzo": 15000,
+      "zambian_kagem": 8000,
+      "brazilian": 3000,
+      "commercial": 500,
+      "colombian_cosczuez": 12000,
+      "zambian_vibrant_green": 12000,
+      "colombian_trapiche": 2000,
+      "ethiopian": 4000
+    },
+    "premium_stones": {
+      "colombian_Muzo_unheated_5ct_plus": 50000,
+      "Zambian_unheated_10ct_plus": 30000,
+      "Muzo_trapiche_unique": 8000,
+      "auction_record_per_carat": 305000
+    },
+    "grading_reference": {
+      "jardin评级": "Jardin (garden) inclusions expected and accepted",
+      "treatment_levels": [
+        "None (unheated, rare)",
+        "Minor oil (cedarwood)",
+        "Moderate oil",
+        "Significant oil (less valuable)",
+        "Opticon/Resin (penalized)"
+      ],
+      "origin_premium": ["Colombia (+50% premium)", "Zambia (standard)", "Brazil (discount)", "Other origins (variable)"]
+    },
+    "supply_origins": {
+      "Colombia": {"share_pct": 35, "top_mines": ["Muzo", "Coscuez", "Cosquez"]},
+      "Zambia": {"share_pct": 25, "top_mines": ["Kagem", "Kubola", "Isoka"]},
+      "Brazil": {"share_pct": 15, "top_mines": ["Itabira", "Santa Terezinha"]},
+      "Others": {"share_pct": 25, "countries": ["Ethiopia", "Tanzania", "Madagascar", "Afghanistan", "Pakistan"]}
+    },
+    "total_market_value_billion_usd": 1.2,
+    "key_drivers": [
+      "Colombian origin premium",
+      "Treatment/oil level",
+      "Jardin inclusion character",
+      "Panchromatic color saturation",
+      "Carat weight and size",
+      "Bridal jewelry demand"
+    ]
+  },
+
+  "tsavorite": {
+    "price_per_carat_USD": {
+      "fine_blue_green": 8000,
+      "medium": 3000,
+      "commercial": 500
+    },
+    "premium_stones": {
+      "exceptional_5ct_plus": 15000,
+      "exceptional_10ct_plus": 25000,
+      "tanzania_mine_direct": 6000
+    },
+    "supply_origins": {
+      "Merelani_Hills_Tanzania": {"share_pct": 55, "status": "Primary source"},
+      "Voi_Kenya": {"share_pct": 20, "status": "Growing production"},
+      "Mkomazi_Tanzania": {"share_pct": 15, "status": "Emerging source"},
+      "Madagascar": {"share_pct": 5},
+      "Others": {"share_pct": 5}
+    },
+    "rarity_note": "Rarer than emerald; only known deposits in East Africa",
+    "annual_production_carats": 15000,
+    "mineral_group": "Grossular garnet (Ca3Al2(SiO4)3)",
+    "hardness_mohs": 7.0,
+    "key_drivers": [
+      "Extreme rarity",
+      "Single geographic source (East Africa)",
+      "Growing gemstone collector demand",
+      "Tiffany & Co. marketing partnership",
+      "Comparative value to emerald",
+      "Limited known reserves"
+    ]
+  },
+
+  "ruby_precious_stone_indices": {
+    "ruby_quality_index": {
+      "2025_base": 100,
+      "current": 112,
+      "yoy_change_pct": 12
+    },
+    "emerald_quality_index": {
+      "2025_base": 100,
+      "current": 108,
+      "yoy_change_pct": 8
+    },
+    "gemstone_market_outlook": "Bullish. Supply constraints in tanzanite and tsavorite support premium pricing. Burmese ruby auction records continue to drive investment interest."
+  },
+
+  "rare_earth_elements": {
+    "neodymium": {
+      "USD_per_kg": 150,
+      "as_of": "2025-07-19",
+      "demand_driver": "EV motors, wind turbines",
+      "key_properties": "Strongest permanent magnets (NdFeB)",
+      "demand_growth_yoy_pct": 12,
+      "recycling_rate_pct": 1,
+      "criticality_rating": "Critical"
+    },
+    "dysprosium": {
+      "USD_per_kg": 300,
+      "as_of": "2025-07-19",
+      "demand_driver": "High-temp magnets for EVs and wind turbines",
+      "key_properties": "Heat resistance for NdFeB magnets",
+      "demand_growth_yoy_pct": 15,
+      "recycling_rate_pct": 1,
+      "criticality_rating": "Critical",
+      "supply_risk": "Very High"
+    },
+    "terbium": {
+      "USD_per_kg": 800,
+      "as_of": "2025-07-19",
+      "demand_driver": "Phosphors, magnets, acoustic transducers",
+      "key_properties": "Green phosphor emission",
+      "demand_growth_yoy_pct": 8,
+      "recycling_rate_pct": 0.5,
+      "criticality_rating": "Critical",
+      "supply_risk": "Extreme"
+    },
+    "lanthanum": {
+      "USD_per_kg": 5,
+      "as_of": "2025-07-19",
+      "demand_driver": "Catalysts, batteries, optics",
+      "key_properties": "Catalytic cracking in petroleum refining",
+      "demand_growth_yoy_pct": 3,
+      "recycling_rate_pct": 5,
+      "criticality_rating": "Low"
+    },
+    "cerium": {
+      "USD_per_kg": 3,
+      "as_of": "2025-07-19",
+      "demand_driver": "Catalysts, polishing compounds",
+      "key_properties": "Oxidation-reduction reactions",
+      "demand_growth_yoy_pct": 2,
+      "recycling_rate_pct": 3,
+      "criticality_rating": "Low",
+      "market_note": "Most abundant REE; oversupply keeps prices depressed"
+    },
+    "samarium": {
+      "USD_per_kg": 25,
+      "demand_driver": "SmCo magnets, nuclear reactors",
+      "criticality_rating": "Moderate"
+    },
+    "yttrium": {
+      "USD_per_kg": 15,
+      "demand_driver": "LEDs, ceramics, superconductors",
+      "criticality_rating": "Moderate"
+    },
+    "praseodymium": {
+      "USD_per_kg": 130,
+      "demand_driver": "NdFeB magnets, aircraft engines",
+      "criticality_rating": "Critical"
+    },
+    "chinas_market_share_pct": 60,
+    "chinas_processing_share_pct": 90,
+    "east_african_deposits": [
+      {
+        "name": "Kibara Belt",
+        "location": "DRC",
+        "REE_types": ["Nd", "Pr", "La", "Ce"],
+        "status": "Exploration stage",
+        "potential": "High - large carbonatite deposits"
+      },
+      {
+        "name": "Wigu Hill",
+        "location": "Tanzania",
+        "REE_types": ["Nd", "Pr", "La", "Ce", "Y"],
+        "status": "Early development",
+        "potential": "Significant - carbonatite complex"
+      },
+      {
+        "name": "Karako-Kayah Basin",
+        "location": "Kenya",
+        "REE_types": ["Nd", "Pr", "Ce", "La"],
+        "status": "Exploration stage",
+        "potential": "Promising - placer deposits"
+      }
+    ],
+    "global_market_size_billion_usd_2025": 8.2,
+    "demand_forecast_2030_billion_usd": 14.5,
+    "key_drivers": [
+      "EV production growth (primary driver)",
+      "Offshore wind energy expansion",
+      "Defense and aerospace applications",
+      "Electronics and consumer devices",
+      "China export controls and quotas",
+      "Western supply chain diversification",
+      "Recycling technology advancement"
+    ],
+    "supply_chain": {
+      "mining": "Predominantly China (Bayan Obo), Australia (Mt Weld), Myanmar",
+      "separation": "Overwhelmingly China (90%+)",
+      "magnet_manufacturing": "China (85%), Japan (10%), Others (5%)",
+      "end_use_breakdown": {
+        "permanent_magnets_pct": 38,
+        "catalysts_pct": 18,
+        "metallurgy_alloys_pct": 14,
+        "glass_polishing_pct": 12,
+        "electronics_pct": 10,
+        "other_pct": 8
+      }
+    },
+    "policy_environment": {
+      "china_export_quota": "Active - periodic adjustments",
+      "usa_response": "Defense Production Act Title III, DOD stockpiling",
+      "eu_critical_raw_materials_act": "2023 - targets 10% domestic mining by 2030",
+      "australia_strategy": "Critical Minerals Strategy 2023-2030"
+    }
+  },
+
+  "base_metals": {
+    "copper": {
+      "current_benchmark_USD_per_tonne": 9800,
+      "as_of": "2025-07-19",
+      "COMEX_per_lb": 4.45,
+      "LME_3month": 9780,
+      "trading_ranges": {
+        "2025_low": 8200,
+        "2025_high": 10500
+      },
+      "all_time_high_per_tonne": 11104,
+      "all_time_high_date": "2022-03-07",
+      "key_drivers": [
+        "Electrification and EV demand",
+        "Renewable energy infrastructure",
+        "China property sector",
+        "Chile and Peru mine supply",
+        "Energy transition (green copper premium)"
+      ],
+      "mine_production_million_tonnes_2024": 22.5,
+      "recycling_million_tonnes": 4.5,
+      "supply_gap_projected_2030_million_tonnes": 4.7,
+      "top_producers_million_tonnes": {
+        "Chile": 5.3,
+        "Peru": 2.7,
+        "DRC": 2.8,
+        "China": 1.9,
+        "USA": 1.1,
+        "Russia": 0.9,
+        "Australia": 0.85
+      },
+      "LME_contract": {
+        "lot_size_tonnes": 25,
+        "tick_size_per_tonne": 0.50,
+        "tick_value_usd": 12.50
+      }
+    },
+    "iron_ore": {
+      "current_benchmark_USD_per_tonne": 110,
+      "as_of": "2025-07-19",
+      "trading_ranges": {
+        "2025_low": 90,
+        "2025_high": 135
+      },
+      "key_drivers": [
+        "Chinese steel production",
+        "Infrastructure stimulus",
+        "Vale, Rio Tinto, BHP supply",
+        "Pig iron and DRI production",
+        "Global construction demand"
+      ],
+      "top_producers_million_tonnes_2024": {
+        "Australia": 900,
+        "Brazil": 380,
+        "India": 280,
+        "China": 100,
+        "Russia": 95
+      },
+      "global_production_billion_tonnes": 2.5
+    },
+    "aluminum": {
+      "current_benchmark_USD_per_tonne": 2450,
+      "as_of": "2025-07-19",
+      "trading_ranges": {
+        "2025_low": 2100,
+        "2025_high": 2700
+      },
+      "key_drivers": [
+        "EV lightweighting",
+        "Construction and packaging",
+        "China production caps",
+        "Energy costs smelting",
+        "Green aluminum premium"
+      ],
+      "primary_production_million_tonnes_2024": 72,
+      "China_share_pct": 58
+    },
+    "lithium": {
+      "current_benchmark": {
+        "lithium_carbonate_CIF_China_USD_per_tonne": 12000,
+        "lithium_hydroxide_USD_per_tonne": 14500,
+        "as_of": "2025-07-19"
+      },
+      "trading_ranges": {
+        "2025_low": 8000,
+        "2025_high": 18000
+      },
+      "all_time_high_per_tonne": 80000,
+      "all_time_high_date": "2022-11-21",
+      "price_trend": "Recovering from 2022 crash; long-term bullish on EV demand",
+      "key_drivers": [
+        "EV battery demand (primary)",
+        "Energy storage systems",
+        "LFP vs NMC chemistry shifts",
+        "South American brine operations",
+        "Australian hard rock mining",
+        "Chinese conversion capacity"
+      ],
+      "top_producers_lithium_carbonate_equivalent_tonnes_2024": {
+        "Australia": 86000,
+        "Chile": 39000,
+        "China": 32000,
+        "Argentina": 10000,
+        "Brazil": 5500
+      },
+      "demand_forecast_2030_tonnes": 2500000
+    },
+    "cobalt": {
+      "current_benchmark_USD_per_tonne": 32000,
+      "as_of": "2025-07-19",
+      "key_drivers": [
+        "Li-ion battery cathode demand",
+        "DRC production dominance",
+        "LFP battery substitution threat",
+        "Supply chain ethics (artisanal mining)"
+      ],
+      "DRC_share_global_production_pct": 74
+    },
+    "nickel": {
+      "current_benchmark_USD_per_tonne": 16500,
+      "as_of": "2025-07-19",
+      "key_drivers": [
+        "Stainless steel demand",
+        "EV battery (NMC) demand",
+        "Indonesian laterite expansion",
+        "Class 1 vs Class 2 price divergence"
+      ],
+      "indonesia_share_global_production_pct": 55
+    },
+    "tin": {
+      "current_benchmark_USD_per_tonne": 33000,
+      "as_of": "2025-07-19",
+      "key_drivers": [
+        "Solder for electronics",
+        "Semiconductor packaging",
+        "Indonesian export policies",
+        "Blockchain/tin demand from tech"
+      ]
+    },
+    "zinc": {
+      "current_benchmark_USD_per_tonne": 2900,
+      "as_of": "2025-07-19",
+      "key_drivers": [
+        "Galvanized steel demand",
+        "Construction end-use",
+        "Mine supply disruptions",
+        "Chinese smelting capacity"
+      ]
+    }
+  },
+
+  "energy_commodities": {
+    "oil_brent_crude": {
+      "USD_per_barrel": 82.50,
+      "as_of": "2025-07-19",
+      "key_relevance": "Energy costs directly impact mining AISC"
+    },
+    "natural_gas_henry_hub": {
+      "USD_per_mmbtu": 2.80,
+      "as_of": "2025-07-19",
+      "key_relevance": "Smelting and refining energy input"
+    },
+    "thermal_coal_newcastle": {
+      "USD_per_tonne": 135,
+      "as_of": "2025-07-19",
+      "key_relevance": "Power generation in mining regions"
+    },
+    "uranium": {
+      "USD_per_lbs_U3O8": 88,
+      "as_of": "2025-07-19",
+      "key_drivers": [
+        "Nuclear energy renaissance",
+        "Small modular reactors",
+        "Kazatomprom supply constraints",
+        "Western nuclear fuel diversification"
+      ],
+      "global_production_tonnes_U": 58000,
+      "top_producers": {
+        "Kazakhstan": 21000,
+        "Canada": 7500,
+        "Namibia": 5600,
+        "Australia": 4500,
+        "Uzbekistan": 3500
+      }
+    }
+  },
+
+  "market_analysis_tools": {
+    "price_apis": [
+      {"name": "Kitco", "url": "https://www.kitco.com/market/", "type": "metals", "coverage": "Gold, Silver, Platinum, Palladium"},
+      {"name": "Gold.org", "url": "https://www.gold.org/goldhub/data/gold-prices", "type": "gold", "coverage": "Gold price data and historical records"},
+      {"name": "Bloomberg Terminal", "url": "https://www.bloomberg.com/markets/commodities", "type": "all commodities", "coverage": "Real-time and historical pricing"},
+      {"name": "Reuters/Refinitiv", "url": "https://www.refinitiv.com/en/commodities", "type": "all commodities", "coverage": "Comprehensive commodity pricing"},
+      {"name": "LME", "url": "https://www.lme.com/", "type": "base metals", "coverage": "London Metal Exchange prices"},
+      {"name": "COMEX", "url": "https://www.cmegroup.com/markets/metals.html", "type": "precious metals", "coverage": "CME Group futures"},
+      {"name": "USGS Mineral Commodity Summaries", "url": "https://www.usgs.gov/centers/national-minerals-information-center", "type": "supply data", "coverage": "Annual production and reserves"},
+      {"name": "World Gold Council", "url": "https://www.gold.org/goldhub", "type": "gold research", "coverage": "Demand, supply, and investment data"},
+      {"name": "Silver Institute", "url": "https://www.silverinstitute.org/", "type": "silver", "coverage": "Silver market data"},
+      {"name": "GemGuide", "url": "https://www.gemguide.com/", "type": "gemstones", "coverage": "Wholesale gemstone pricing"},
+      {"name": "Rapaport", "url": "https://www.rapaport.com/", "type": "diamonds", "coverage": "Diamond pricing and trade"},
+      {"name": "London Metal Exchange", "url": "https://www.lme.com/Metals", "type": "base metals", "coverage": "LME spot and futures"}
+    ],
+    "trading_hours": {
+      "COMEX": "Sun-Fri 6PM-5PM ET (60 hours continuous)",
+      "LME": "Mon-Fri 1AM-7PM GMT",
+      "LBMA_Gold_Fix": "10:30 AM and 3:00 PM GMT",
+      "LBMA_Silver_Fix": "12:00 PM GMT",
+      "Shanghai_Gold_Exchange": "Mon-Fri 9AM-2:30PM CST",
+      "SGX_iron_ore": "Mon-Fri 7:30AM-5:20PM SGT"
+    },
+    "contract_sizes": {
+      "gold": {"exchange": "COMEX", "size": "100 troy oz", "tick": "0.10", "tick_value": "$10"},
+      "silver": {"exchange": "COMEX", "size": "5000 troy oz", "tick": "0.005", "tick_value": "$25"},
+      "platinum": {"exchange": "NYMEX", "size": "50 troy oz", "tick": "0.10", "tick_value": "$5"},
+      "palladium": {"exchange": "NYMEX", "size": "100 troy oz", "tick": "0.05", "tick_value": "$5"},
+      "copper": {"exchange": "COMEX", "size": "25000 lbs", "tick": "0.0005", "tick_value": "$12.50"},
+      "iron_ore_62pct_FE": {"exchange": "SGX", "size": "100 tonnes", "tick": "0.01", "tick_value": "$1"},
+      "lithium_carbonate": {"exchange": "Guangzhou Futures", "size": "1 tonne", "tick": "50", "tick_value": "¥50"}
+    },
+    "major_exchanges": [
+      {"name": "COMEX/CME Group", "location": "Chicago/New York", "specialty": "Precious metals futures"},
+      {"name": "London Metal Exchange (LME)", "location": "London", "specialty": "Base metals"},
+      {"name": "Shanghai Gold Exchange (SGE)", "location": "Shanghai", "specialty": "Gold and silver spot"},
+      {"name": "Singapore Exchange (SGX)", "location": "Singapore", "specialty": "Iron ore futures"},
+      {"name": "Tokyo Commodity Exchange (TOCOM)", "location": "Tokyo", "specialty": "Precious and industrial metals"},
+      {"name": "Shanghai Futures Exchange (SHFE)", "location": "Shanghai", "specialty": "Base metals, lithium"},
+      {"name": "Guangzhou Futures Exchange (GFEX)", "location": "Guangzhou", "specialty": "Lithium carbonate, industrial silicon"}
+    ]
+  },
+
+  "market_correlations": {
+    "gold_vs_inflation": {"correlation": 0.72, "period": "2010-2025", "significance": "Strong positive"},
+    "gold_vs_usd": {"correlation": -0.68, "period": "2010-2025", "significance": "Strong negative"},
+    "gold_vs_real_rates": {"correlation": -0.45, "period": "2010-2025", "significance": "Moderate negative"},
+    "gold_vs_sp500": {"correlation": 0.15, "period": "2010-2025", "significance": "Weak - diversification benefit"},
+    "silver_vs_gold": {"correlation": 0.85, "period": "2010-2025", "significance": "Very strong positive"},
+    "platinum_vs_gold": {"correlation": 0.42, "period": "2010-2025", "significance": "Moderate positive"},
+    "copper_vs_global_gdp": {"correlation": 0.78, "period": "2010-2025", "significance": "Strong positive - 'Dr. Copper'"},
+    "iron_ore_vs_chinese_gdp": {"correlation": 0.65, "period": "2010-2025", "significance": "Moderate positive"},
+    "lithium_vs_ev_sales": {"correlation": 0.91, "period": "2015-2025", "significance": "Very strong positive"}
+  },
+
+  "price_forecasts_2027_2028": {
+    "gold_2027": {
+      "bull_case_usd_per_oz": 4200,
+      "base_case_usd_per_oz": 3800,
+      "bear_case_usd_per_oz": 3200,
+      "key_drivers": ["Central bank buying", "Inflation", "Geopolitical tensions", "De-dollarization"]
+    },
+    "gold_2028": {
+      "bull_case_usd_per_oz": 4500,
+      "base_case_usd_per_oz": 3900,
+      "bear_case_usd_per_oz": 3000,
+      "key_drivers": ["Interest rate cycle", "USD strength", "ETF flows", "Mining supply constraints"]
+    },
+    "silver_2027": {
+      "bull_case_usd_per_oz": 50,
+      "base_case_usd_per_oz": 40,
+      "bear_case_usd_per_oz": 28
+    },
+    "copper_2027": {
+      "bull_case_usd_per_tonne": 13000,
+      "base_case_usd_per_tonne": 11000,
+      "bear_case_usd_per_tonne": 8500
+    },
+    "lithium_2027": {
+      "bull_case_usd_per_tonne": 30000,
+      "base_case_usd_per_tonne": 18000,
+      "bear_case_usd_per_tonne": 10000
+    },
+    "tanzanite_2027": {
+      "bull_case_usd_per_carat": 2500,
+      "base_case_usd_per_carat": 2200,
+      "bear_case_usd_per_carat": 1800,
+      "key_drivers": ["Supply decline", "Asian demand growth", "Investment interest", "Marketing campaigns"]
+    }
+  },
+
+  "risk_factors_market_wide": [
+    "Interest rate changes (opportunity cost of holding non-yielding commodities)",
+    "US Dollar strength (inverse correlation with USD-denominated commodities)",
+    "Geopolitical resolution (reduces safe-haven demand)",
+    "ETF liquidation events",
+    "China economic slowdown (affects base metals and industrial demand)",
+    "Synthetic gemstone market growth (diamonds, rubies, emeralds)",
+    "EV technology shifts (lithium vs sodium-ion, solid-state batteries)",
+    "Regulatory changes (export bans, royalties, environmental compliance)",
+    "Climate events disrupting mining operations",
+    "Central bank policy reversals",
+    "Trade wars and tariff escalation",
+    "Recycling supply growth (urban mining)"
+  ]
+}

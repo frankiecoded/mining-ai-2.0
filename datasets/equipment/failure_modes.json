@@ -1,0 +1,316 @@
+{
+  "title": "Equipment Failure Modes & Root Cause Analysis",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Comprehensive failure mode database with root causes, corrective actions, and prevention strategies for all mining equipment.",
+  "haul_trucks": {
+    "CAT_797F": {
+      "engine_system": [
+        {
+          "failure_mode": "Turbocharger failure",
+          "symptoms": ["Loss of power", "Black smoke from exhaust", "Oil in intake piping", "Unusual whining noise"],
+          "root_causes": ["Oil contamination", "Foreign object damage", "Bearing wear", "Oil supply restriction"],
+          "mean_time_between_failures_hours": 8000,
+          "corrective_actions": ["Replace turbocharger assembly", "Flush oil system", "Replace oil filter", "Inspect oil lines"],
+          "prevention": ["Regular oil analysis (500hr intervals)", "Keep air filters clean", "Avoid rapid throttle changes when cold", "Monitor oil pressure"],
+          "cost_per_failure_usd": 45000,
+          "downtime_hours": 24
+        },
+        {
+          "failure_mode": "Injector nozzle failure",
+          "symptoms": ["Rough idle", "White smoke", "Power loss", "Increased fuel consumption", "Knocking sound"],
+          "root_causes": ["Carbon buildup", "Nozzle erosion", "Fuel contamination", "Incorrect injection timing"],
+          "mean_time_between_failures_hours": 4000,
+          "corrective_actions": ["Replace injector nozzle", "Clean fuel system", "Check injection timing", "Replace fuel filters"],
+          "prevention": ["Use quality diesel fuel", "Regular fuel filter changes", "Fuel additive treatment", "Injection system calibration"],
+          "cost_per_failure_usd": 8500,
+          "downtime_hours": 8
+        },
+        {
+          "failure_mode": "Cylinder liner scoring",
+          "symptoms": ["Excessive oil consumption", "Blue smoke", "Low compression", "Loss of power"],
+          "root_causes": ["Dust ingestion", "Insufficient lubrication", "Overheating", "Piston ring failure"],
+          "mean_time_between_failures_hours": 15000,
+          "corrective_actions": ["Engine overhaul", "Replace liners, pistons, rings", "Hone cylinders"],
+          "prevention": ["Air filter maintenance", "Oil analysis monitoring", "Operating temperature management", "Proper warm-up procedures"],
+          "cost_per_failure_usd": 185000,
+          "downtime_hours": 72
+        }
+      ],
+      "drivetrain": [
+        {
+          "failure_mode": "Torque converter overheating",
+          "symptoms": ["High transmission temperature", "Sluggish response", "Automatic derating", "Transmission fault codes"],
+          "root_causes": ["Low transmission fluid", "Converter clutch wear", "Excessive retarding duty", "Cooler blockage"],
+          "mean_time_between_failures_hours": 6000,
+          "corrective_actions": ["Check fluid level and condition", "Inspect cooler", "Replace converter clutch", "Flush transmission system"],
+          "prevention": ["Monitor transmission temperature", "Maintain fluid level", "Avoid prolonged retarding", "Regular fluid analysis"],
+          "cost_per_failure_usd": 35000,
+          "downtime_hours": 16
+        },
+        {
+          "failure_mode": "Final drive failure",
+          "symptoms": ["Grinding noise", "Oil leak from hub", "Excessive wheel play", "Overheating hub"],
+          "root_causes": ["Bearing fatigue", "Oil contamination", "Seal failure", "Overloading"],
+          "mean_time_between_failures_hours": 12000,
+          "corrective_actions": ["Replace final drive assembly", "Replace bearings and seals", "Flush and refill oil"],
+          "prevention": ["Regular oil sampling", "Monitor hub temperature", "Avoid overloading", "Proper tyre inflation"],
+          "cost_per_failure_usd": 65000,
+          "downtime_hours": 36
+        }
+      ],
+      "electrical_system": [
+        {
+          "failure_mode": "Alternator failure",
+          "symptoms": ["Battery warning light", "Low voltage", "Electrical system faults", "Engine stalling"],
+          "root_causes": ["Bearing wear", "Diode failure", "Voltage regulator fault", "Wiring damage"],
+          "mean_time_between_failures_hours": 5000,
+          "corrective_actions": ["Replace alternator", "Check wiring harness", "Test voltage regulator"],
+          "prevention": ["Regular belt inspection", "Electrical system checks", "Keep terminals clean"],
+          "cost_per_failure_usd": 4500,
+          "downtime_hours": 4
+        }
+      ],
+      "body_and_structural": [
+        {
+          "failure_mode": "Dump body floor plate wear",
+          "symptoms": ["Visible thinning", "Holes developing", "Material packing", "Increased noise"],
+          "root_causes": ["Abrasive ore", "Impact loading", "Wet sticky material", "Improper dumping technique"],
+          "mean_time_between_failures_hours": 18000,
+          "corrective_actions": ["Wear plate replacement", "Hardfacing overlay", "Full floor plate replacement"],
+          "prevention": ["Monitor floor thickness", "Proper loading technique", "Wear-resistant liners", "Regular inspection"],
+          "cost_per_failure_usd": 25000,
+          "downtime_hours": 24
+        }
+      ]
+    }
+  },
+  "drill_rigs": {
+    "Sandvik_DD421iJ": {
+      "hydraulic_system": [
+        {
+          "failure_mode": "Feed cylinder seal failure",
+          "symptoms": ["Oil leak from cylinder", "Loss of feed pressure", "Slow penetration", "Erratic feed movement"],
+          "root_causes": ["Seal wear", "Contaminated hydraulic oil", "Cylinder rod scoring", "Excessive pressure spikes"],
+          "mean_time_between_failures_hours": 3000,
+          "corrective_actions": ["Replace cylinder seals", "Polish or replace rod", "Flush hydraulic system", "Replace filter elements"],
+          "prevention": ["Hydraulic oil analysis", "Rod seal inspection", "Maintain oil cleanliness", "Avoid pressure spikes"],
+          "cost_per_failure_usd": 8500,
+          "downtime_hours": 8
+        },
+        {
+          "failure_mode": "Hydraulic pump failure",
+          "symptoms": ["Loss of system pressure", "Unusual noise from pump", "Overheating", "Slow system response"],
+          "root_causes": ["Cavitation", "Oil contamination", "Bearing failure", "Seizure from overheating"],
+          "mean_time_between_failures_hours": 8000,
+          "corrective_actions": ["Replace hydraulic pump", "Flush entire system", "Replace all filters", "Test system pressures"],
+          "prevention": ["Maintain oil level", "Regular filter changes", "Monitor pump temperature", "Avoid cavitation conditions"],
+          "cost_per_failure_usd": 28000,
+          "downtime_hours": 16
+        }
+      ],
+      "drill_steel_system": [
+        {
+          "failure_mode": "Drill bit gauge wear",
+          "symptoms": ["Undersized holes", "Increased penetration time", "Difficulty pulling out of hole", "Rough drilling"],
+          "root_causes": ["Abrasive ground conditions", "Excessive rotation speed", "Improper bit selection", "Bit damage fromprevious blast"],
+          "mean_time_between_failures_hours": 500,
+          "corrective_actions": ["Replace drill bit", "Adjust rotation speed", "Verify bit type for ground conditions"],
+          "prevention": ["Monitor bit wear", "Match bit to rock type", "Optimize drilling parameters", "Inspect bit before use"],
+          "cost_per_failure_usd": 3500,
+          "downtime_hours": 1
+        },
+        {
+          "failure_mode": "Drill rod thread failure",
+          "symptoms": ["Rod disconnects in hole", "Thread damage", "Water leak at joints", "Difficulty making/breaking joints"],
+          "root_causes": ["Over-torquing", "Contamination", "Metal fatigue", "Improper handling"],
+          "mean_time_between_failures_hours": 2000,
+          "corrective_actions": ["Replace drill rod", "Inspect all rod threads", "Re-cut threads if possible"],
+          "prevention": ["Proper torque settings", "Thread lubrication", "Handle with care", "Regular thread inspection"],
+          "cost_per_failure_usd": 6500,
+          "downtime_hours": 4
+        }
+      ]
+    }
+  },
+  "crushers": {
+    "Metso_HP500": {
+      "crushing_chamber": [
+        {
+          "failure_mode": "Bowl liner packing",
+          "symptoms": ["High power draw", "Reduced capacity", "Coarse product", "Chamber blockage"],
+          "root_causes": ["Wet/sticky feed", "Excessive fines in feed", "Incorrect CSS setting", "Liner wear pattern"],
+          "mean_time_between_failures_hours": 1500,
+          "corrective_actions": ["Adjust CSS", "Reduce feed rate", "Install anti-stick liners", "Wash feed if possible"],
+          "prevention": ["Monitor CSS daily", "Control feed moisture", "Use liner spray", "Optimize CSS for feed type"],
+          "cost_per_failure_usd": 5000,
+          "downtime_hours": 4
+        },
+        {
+          "failure_mode": "Mantle liner breakage",
+          "symptoms": ["Sudden noise change", "Metal in product", "Vibration increase", "Capacity drop"],
+          "root_causes": ["Fatigue cracking", "Impact from tramp metal", "Overloading", "Poor liner quality"],
+          "mean_time_between_failures_hours": 10000,
+          "corrective_actions": ["Stop feed immediately", "Remove tramp metal", "Replace mantle liner", "Check concave"],
+          "prevention": ["Install metal detector", "Monitor liner thickness", "Avoid overfeeding", "Use quality liners"],
+          "cost_per_failure_usd": 35000,
+          "downtime_hours": 12
+        }
+      ],
+      "hydraulic_system": [
+        {
+          "failure_mode": "Tramp release failure",
+          "symptoms": ["Inability to open CSS", "Hydraulic leak", "Uncontrolled CSS adjustment", "Fault codes"],
+          "root_causes": ["Hydraulic cylinder seal failure", "Valve malfunction", "Oil contamination", "Accumulator failure"],
+          "mean_time_between_failures_hours": 5000,
+          "corrective_actions": ["Inspect hydraulic cylinders", "Test valve operation", "Check accumulators", "Flush system"],
+          "prevention": ["Regular hydraulic testing", "Oil analysis", "Accumulator pre-charge checks", "Valve exercising"],
+          "cost_per_failure_usd": 18000,
+          "downtime_hours": 8
+        }
+      ]
+    }
+  },
+  "mills": {
+    "Metso_DM5600_Ball_Mill": {
+      "rotating_equipment": [
+        {
+          "failure_mode": "Trunnion bearing failure",
+          "symptoms": ["High bearing temperature", "Vibration increase", "Oil pressure drop", "Metal in oil sample"],
+          "root_causes": ["Bearing fatigue", "Oil contamination", "Misalignment", "Overloading", "Insufficient lubrication"],
+          "mean_time_between_failures_hours": 25000,
+          "corrective_actions": ["Shut down mill", "Replace bearing", "Inspect journal", "Realign mill"],
+          "prevention": ["Oil analysis every 500hr", "Monitor bearing temperature", "Vibration analysis", "Maintain oil level"],
+          "cost_per_failure_usd": 125000,
+          "downtime_hours": 96
+        },
+        {
+          "failure_mode": "Liner bolt failure",
+          "symptoms": ["Liner lifting", "Noise increase", "Liner damage", "Material leakage"],
+          "root_causes": ["Bolt fatigue", "Over-torquing", "Liner wear-through", "Corrosion", "Impact damage"],
+          "mean_time_between_failures_hours": 4000,
+          "corrective_actions": ["Stop mill", "Replace liner section", "Install new bolts", "Inspect adjacent liners"],
+          "prevention": ["Regular bolt torque checks", "Monitor liner thickness", "Use lock nuts", "Inspect during shutdowns"],
+          "cost_per_failure_usd": 8000,
+          "downtime_hours": 8
+        }
+      ],
+      "grinding_circuit": [
+        {
+          "failure_mode": "Classifier overflow coarsening",
+          "symptoms": ["Coarse P80", "Cyclone roping", "Increased circulating load", "Poor downstream recovery"],
+          "root_causes": ["Cyclone blockage", "Worn vortex finder", "Incorrect feed pressure", "Pump speed too low"],
+          "mean_time_between_failures_hours": 1000,
+          "corrective_actions": ["Check cyclone internals", "Adjust pump speed", "Inspect vortex finder", "Check feed density"],
+          "prevention": ["Monitor cyclone pressure", "Track P80 regularly", "Maintain pump efficiency", "Regular cyclone inspection"],
+          "cost_per_failure_usd": 3000,
+          "downtime_hours": 2
+        }
+      ]
+    }
+  },
+  "conveyors": {
+    "Overland_Conveyor": {
+      "belt_system": [
+        {
+          "failure_mode": "Belt splice failure",
+          "symptoms": ["Belt tear at splice", "Alignment loss", "Material spillage", "Belt break"],
+          "root_causes": ["Splice degradation", "Misalignment", "Impact damage", "Improper installation", "Contamination"],
+          "mean_time_between_failures_hours": 20000,
+          "corrective_actions": ["Emergency splice repair", "Belt vulcanization", "Section replacement"],
+          "prevention": ["Regular splice inspection", "Monitor belt tension", "Impact idlers at loading", "Protect from weather"],
+          "cost_per_failure_usd": 35000,
+          "downtime_hours": 12
+        },
+        {
+          "failure_mode": "Belt mistracking",
+          "symptoms": ["Belt edge damage", "Spillage off side", "Uneven wear", "Guide idler contact"],
+          "root_causes": ["Incorrect loading", "Structural misalignment", "Idler seizure", "Belt splice skew", "Wind loading"],
+          "mean_time_between_failures_hours": 2000,
+          "corrective_actions": ["Adjust training idlers", "Check loading point", "Verify structure", "Realign belt"],
+          "prevention": ["Install tracking devices", "Regular idler inspection", "Proper loading chute design", "Wind guards"],
+          "cost_per_failure_usd": 2500,
+          "downtime_hours": 2
+        },
+        {
+          "failure_mode": "Idler failure (seizure)",
+          "symptoms": ["Heat detection on idler", "Belt wear groove", "Friction noise", "Belt damage"],
+          "root_causes": ["Bearing failure", "Lack of lubrication", "Contamination", "Corrosion"],
+          "mean_time_between_failures_hours": 15000,
+          "corrective_actions": ["Replace idler assembly", "Check belt for damage", "Install thermal monitoring"],
+          "prevention": ["IR temperature scanning", "Sealed for life bearings", "Lubrication schedule", "Regular inspection"],
+          "cost_per_failure_usd": 800,
+          "downtime_hours": 0.5
+        }
+      ],
+      "drive_system": [
+        {
+          "failure_mode": "Motor winding failure",
+          "symptoms": ["Motor overload trip", "Burning smell", "Insulation resistance drop", "Vibration"],
+          "root_causes": ["Overloading", "Voltage imbalance", "Overheating", "Contamination", "Age degradation"],
+          "mean_time_between_failures_hours": 40000,
+          "corrective_actions": ["Replace motor", "Inspect VSD", "Check alignment", "Test insulation"],
+          "prevention": ["Regular insulation testing", "Monitor motor temperature", "Avoid overloading", "Keep ventilation clear"],
+          "cost_per_failure_usd": 55000,
+          "downtime_hours": 36
+        }
+      ]
+    }
+  },
+  "pumps": {
+    "Slurry_Pump": {
+      "wet_end": [
+        {
+          "failure_mode": "Impeller wear",
+          "symptoms": ["Reduced head/flow", "Increased motor amps", "Vibration", "Pressure drop"],
+          "root_causes": ["Abrasive slurry", "High solids concentration", "Incorrect impeller material", "Excessive speed"],
+          "mean_time_between_failures_hours": 3000,
+          "corrective_actions": ["Replace impeller", "Check volute liner", "Adjust speed", "Verify material selection"],
+          "prevention": ["Monitor performance curve", "Track impeller hours", "Use wear-resistant materials", "Optimize speed"],
+          "cost_per_failure_usd": 12000,
+          "downtime_hours": 6
+        },
+        {
+          "failure_mode": "Mechanical seal failure",
+          "symptoms": ["Leakage at seal", "Water loss", "Bearing damage", "Slurry ingress"],
+          "root_causes": ["Seal face wear", "Thermal shock", "Abrasive particles", "Misalignment"],
+          "mean_time_between_failures_hours": 5000,
+          "corrective_actions": ["Replace seal assembly", "Inspect shaft sleeve", "Check alignment"],
+          "prevention": ["Flush water pressure", "Monitor seal water flow", "Maintain clean flush", "Regular alignment"],
+          "cost_per_failure_usd": 8500,
+          "downtime_hours": 4
+        }
+      ]
+    }
+  },
+  "failure_data_summary": {
+    "mtbf_targets": {
+      "haul_truck": 12000,
+      "drill_rig": 5000,
+      "crusher": 8000,
+      "ball_mill": 20000,
+      "conveyor": 15000,
+      "pump": 6000
+    },
+    "cost_impact_analysis": {
+      "unplanned_downtime_cost_per_hour": {
+        "haul_truck": 8500,
+        "drill_rig": 6200,
+        "crusher": 12000,
+        "ball_mill": 18000,
+        "conveyor": 15000,
+        "pump": 4500
+      },
+      "planned_maintenance_cost_ratio": "1:4 (planned vs unplanned)",
+      "reliability_improvement_target": "15% MTBF improvement per year"
+    },
+    "root_cause_categories": {
+      "operator_error": "25% of failures",
+      "maintenance_deficiency": "30% of failures",
+      "design_limitation": "15% of failures",
+      "environmental_factors": "10% of failures",
+      "material_defects": "10% of failures",
+      "foreign_object_damage": "10% of failures"
+    }
+  }
+}

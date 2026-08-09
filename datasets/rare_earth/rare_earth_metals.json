@@ -1,0 +1,246 @@
+{
+  "title": "Rare Earth Elements & Critical Minerals Mining Intelligence",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Comprehensive knowledge base for rare earth element (REE) mining, processing, and market intelligence with focus on East/Central African deposits.",
+  "rare_earth_elements": [
+    {
+      "symbol": "La",
+      "name": "Lanthanum",
+      "category": "Light REE",
+      "primary_uses": ["Catalysts (fluid catalytic cracking)", "Hybrid vehicle batteries", "Optical glass", "Camera lenses"],
+      "market_price_usd_per_kg": 5.2,
+      "demand_trend": "stable",
+      "scarcity": "moderate",
+      "key_deposits_east_africa": ["Karagwe-Ankole Belt (Tanzania/Uganda)", "Kibara Belt (DRC)"],
+      "processing_difficulty": "moderate",
+      "separation_method": "Solvent extraction using D2EHPA",
+      "environmental_concerns": ["Radioactive thorium/uranium co-products", "Acid mine drainage", "Fluoride waste"]
+    },
+    {
+      "symbol": "Ce",
+      "name": "Cerium",
+      "category": "Light REE",
+      "primary_uses": ["Catalytic converters", "Glass polishing", "Fuel cells", "Flame retardants"],
+      "market_price_usd_per_kg": 3.8,
+      "demand_trend": "stable",
+      "scarcity": "abundant",
+      "key_deposits_east_africa": ["Kibara Belt (DRC)", "Buganda-Toro Belt (Uganda)"],
+      "processing_difficulty": "moderate",
+      "separation_method": "Selective precipitation and solvent extraction",
+      "environmental_concerns": ["Radioactive waste streams", "High chemical consumption"]
+    },
+    {
+      "symbol": "Nd",
+      "name": "Neodymium",
+      "category": "Light REE",
+      "primary_uses": ["Permanent magnets (NdFeB)", "Electric vehicle motors", "Wind turbines", "Headphones", "MRI machines"],
+      "market_price_usd_per_kg": 72.5,
+      "demand_trend": "increasing",
+      "scarcity": "scarce",
+      "key_deposits_east_africa": ["Kibara Belt (DRC)", "Wigu Hill (Tanzania)", "Karako-Kayah (Kenya)"],
+      "processing_difficulty": "high",
+      "separation_method": "Multi-stage solvent extraction",
+      "environmental_concerns": ["Radioactive waste", "High acid consumption", "Water contamination"]
+    },
+    {
+      "symbol": "Pr",
+      "name": "Praseodymium",
+      "category": "Light REE",
+      "primary_uses": ["Permanent magnets (NdFeB)", "Aircraft engines", "Glass coloring", "Ceramics"],
+      "market_price_usd_per_kg": 68.0,
+      "demand_trend": "increasing",
+      "scarcity": "scarce",
+      "key_deposits_east_africa": ["Kibara Belt (DRC)", "Wigu Hill (Tanzania)"],
+      "processing_difficulty": "high",
+      "separation_method": "Co-extraction with Neodymium then separation",
+      "environmental_concerns": ["Same as Nd processing"]
+    },
+    {
+      "symbol": "Sm",
+      "name": "Samarium",
+      "category": "Light REE",
+      "primary_uses": ["SmCo permanent magnets", "Nuclear reactor control rods", "Cancer treatment (Sm-153)", "Precision-guided weapons"],
+      "market_price_usd_per_kg": 15.0,
+      "demand_trend": "stable",
+      "scarcity": "moderate",
+      "key_deposits_east_africa": ["Karako-Kayah (Kenya)", "Kibara Belt (DRC)"],
+      "processing_difficulty": "high",
+      "separation_method": "Solvent extraction (Versatic acid)",
+      "environmental_concerns": ["Radioactive waste", "Complex waste streams"]
+    },
+    {
+      "symbol": "Eu",
+      "name": "Europium",
+      "category": "Heavy REE",
+      "primary_uses": ["LED phosphors", "Anti-counterfeiting luminescence", "Fluorescent lamps", "MRI contrast agents"],
+      "market_price_usd_per_kg": 280.0,
+      "demand_trend": "stable",
+      "scarcity": "very scarce",
+      "key_deposits_east_africa": ["Kibara Belt (DRC)", "Tunduru (Tanzania)"],
+      "processing_difficulty": "very high",
+      "separation_method": "Multi-stage solvent extraction with D2EHPA/D3EHPA",
+      "environmental_concerns": ["Extremely high chemical consumption", "Radioactive waste"]
+    },
+    {
+      "symbol": "Gd",
+      "name": "Gadolinium",
+      "category": "Heavy REE",
+      "primary_uses": ["MRI contrast agents", "Nuclear shielding", "Data storage", "Magnetostrictive alloys"],
+      "market_price_usd_per_kg": 95.0,
+      "demand_trend": "increasing",
+      "scarcity": "scarce",
+      "key_deposits_east_africa": ["Kibara Belt (DRC)", "Luzon (Tanzania)"],
+      "processing_difficulty": "very high",
+      "separation_method": "Solvent extraction with DEHPA",
+      "environmental_concerns": ["Radioactive waste", "High chemical costs"]
+    },
+    {
+      "symbol": "Tb",
+      "name": "Terbium",
+      "category": "Heavy REE",
+      "primary_uses": ["Phosphors (green)", "Solid-state devices", "Magnetostrictive alloys (Terfenol-D)", "Naval sonar"],
+      "market_price_usd_per_kg": 850.0,
+      "demand_trend": "increasing",
+      "scarcity": "extremely scarce",
+      "key_deposits_east_africa": ["Kibara Belt (DRC)", "Wigu Hill (Tanzania)"],
+      "processing_difficulty": "very high",
+      "separation_method": "Multi-stage solvent extraction with EHEHPA",
+      "environmental_concerns": ["Extremely high chemical consumption", "Radioactive waste"]
+    },
+    {
+      "symbol": "Dy",
+      "name": "Dysprosium",
+      "category": "Heavy REE",
+      "primary_uses": ["Permanent magnet additives (high temp stability)", "Data storage", "Lasers", "Nuclear reactors"],
+      "market_price_usd_per_kg": 720.0,
+      "demand_trend": "increasing",
+      "scarcity": "extremely scarce",
+      "key_deposits_east_africa": ["Kibara Belt (DRC)", "Wigu Hill (Tanzania)", "Karako-Kayah (Kenya)"],
+      "processing_difficulty": "very high",
+      "separation_method": "Multi-stage solvent extraction",
+      "environmental_concerns": ["Extreme chemical consumption", "Radioactive waste"]
+    },
+    {
+      "symbol": "Y",
+      "name": "Yttrium",
+      "category": "Heavy REE",
+      "primary_uses": ["LED phosphors", "Yttria stabilizers (thermal coatings)", "Superconductors", "Laser crystals"],
+      "market_price_usd_per_kg": 35.0,
+      "demand_trend": "increasing",
+      "scarcity": "moderate",
+      "key_deposits_east_africa": ["Kibara Belt (DRC)", "Tunduru (Tanzania)", "Karako-Kayah (Kenya)"],
+      "processing_difficulty": "high",
+      "separation_method": "Solvent extraction with D2EHPA",
+      "environmental_concerns": ["Radioactive waste", "Acid consumption"]
+    }
+  ],
+  "processing_methods": {
+    "mining": {
+      "open_pit": "Most REE deposits mined via open pit; low strip ratios preferred (<3:1).",
+      "underground": "Used for deeper, high-grade veins. Room-and-pillar preferred for stability.",
+      "placer": "Alluvial monazite/xenotime sands in Tanzania, Kenya, Mozambique coast."
+    },
+    "beneficiation": {
+      "crushing": "Jaw crusher → cone crusher → ball mill to -200 mesh (75 microns).",
+      "gravity_separation": "Spiral concentrators and shaking tables for heavy mineral concentration.",
+      "magnetic_separation": "High-intensity magnetic separation (1.5-2.0T) for paramagnetic REE minerals.",
+      "flotation": "Fatty acid collectors (hydroxamic acids) at pH 8-10 for monazite, bastnasite, xenotime.",
+      "leaching": "Hot acid leach (HCl 6-8M or H2SO4 4-6M) at 60-90°C for 2-6 hours."
+    },
+    "separation": {
+      "solvent_extraction": "Primary method for REE separation. Uses D2EHPA, PC88A, EHEHPA, Aliquat 336 in kerosene diluent.",
+      "selective_precipitation": "pH control precipitation. Nd/Pr separation at pH 3.0, heavy REEs at pH 4.5-5.0.",
+      "ion_exchange": "Used for high-purity separations (>99.99%). Slow but very selective."
+    },
+    "refining": {
+      "reduction": "REE oxides reduced with calcium metal or molten salt electrolysis to produce metal.",
+      "alloying": "NdFeB magnets: Nd + Fe + B in vacuum induction furnace at 1350-1450°C.",
+      "purification": "Zone refining and vacuum distillation for electronic-grade metals."
+    }
+  },
+  "east_african_deposits": [
+    {
+      "location": "Kibara-Kivu Belt",
+      "countries": ["DRC", "Rwanda", "Burundi"],
+      "minerals": ["Cassiterite (tin)", "Coltan (tantalite)", "Monazite", "Xenotime"],
+      "grades": "0.1-0.5% REO (rare earth oxide)",
+      "estimated_resources_tons": 15000000,
+      "status": "Active artisanal mining; some industrial exploration",
+      "infrastructure": "Road access from Kigali; limited power; river transport on Ruzizi",
+      "key_risks": ["Artisanal mining conflicts", "DRC instability", "Radioactive waste management"]
+    },
+    {
+      "location": "Wigu Hill",
+      "country": "Tanzania",
+      "minerals": ["Monazite", "Bastnasite", "Xenotime"],
+      "grades": "2-6% REO",
+      "estimated_resources_tons": 85000,
+      "status": "Historical production; under exploration",
+      "infrastructure": "Road from Dar es Salaam (600km); limited rail; grid power nearby",
+      "key_risks": ["Environmental permits", "Community agreements", "Processing costs"]
+    },
+    {
+      "location": "Tunduru District",
+      "country": "Tanzania",
+      "minerals": ["Monazite (beach sands)", "Zircon", "Ilmenite", "Rutile"],
+      "grades": "1-4% REO in heavy mineral concentrate",
+      "estimated_resources_tons": 2500000,
+      "status": "Artisanal mining active; exploration ongoing",
+      "infrastructure": "Road from Dar es Salaam (450km); limited power; airstrip available",
+      "key_risks": ["Radioactive content in monazite", "Export restrictions", "Community resettlement"]
+    },
+    {
+      "location": "Karako-Kayah Basin",
+      "country": "Kenya",
+      "minerals": ["Monazite", "Xenotime", "Apatite"],
+      "grades": "1.5-3.5% REO",
+      "estimated_resources_tons": 400000,
+      "status": "Exploration phase; geological surveys completed",
+      "infrastructure": "Road from Nairobi (350km); grid power; airstrip",
+      "key_risks": ["Water scarcity", "Community consent", "Processing infrastructure"]
+    },
+    {
+      "location": "Kasese District",
+      "country": "Uganda",
+      "minerals": ["Coltan", "Cassiterite", "Monazite (trace)"],
+      "grades": "0.2-1.8% REO",
+      "estimated_resources_tons": 200000,
+      "status": "Active mining (coltan focus); REE as by-product",
+      "infrastructure": "Road from Kampala (400km); hydroelectric power (Bujagali); rail under construction",
+      "key_risks": ["Environmental degradation", "Artisanal mining conflicts", "Radioactive waste"]
+    },
+    {
+      "location": "Ruvuma Basin",
+      "country": "Tanzania",
+      "minerals": ["Monazite", "Ilmenite", "Rutile"],
+      "grades": "2-5% REO",
+      "estimated_resources_tons": 1800000,
+      "status": "Exploration; some licensed operations",
+      "infrastructure": "Road from Dar es Salaam (500km); limited rail; port access at Mtwara",
+      "key_risks": ["Infrastucture gaps", "Permitting delays", "Market access"]
+    }
+  ],
+  "market_intelligence": {
+    "global_production_2025_tons": 350000,
+    "china_dominance_percent": 60,
+    "top_producers": [
+      {"country": "China", "share": 60},
+      {"country": "Myanmar", "share": 12},
+      {"country": "Australia", "share": 8},
+      {"country": "India", "share": 5},
+      {"country": "Russia", "share": 4},
+      {"country": "Others", "share": 11}
+    ],
+    "strategic_importance": "Critical for clean energy (EVs, wind), defense, electronics, and medical technology.",
+    "supply_chain_risks": ["China export controls", "Radioactive waste disposal", "Energy-intensive processing", "Environmental compliance"],
+    "recycling_opportunity": "Urban mining of electronics (magnets, batteries) growing at 15% CAGR."
+  },
+  "safety_protocols": {
+    "radioactive_materials": "All REE ores contain thorium/uranium. Handle as NORM (Naturally Occurring Radioactive Material). Monitor with Geiger counter. Limit exposure to 1 mSv/year.",
+    "chemical_handling": "Use PPE: acid-resistant gloves, goggles, respirator, face shield. HF exposure requires calcium gluconate gel on-site.",
+    "dust_control": "Wet drilling, dust extraction, N95/P100 respirators mandatory in crushing/grinding areas.",
+    "waste_management": "Radioactive tailings in lined impoundments. Acid wastewater neutralized before discharge. Zero discharge preferred.",
+    "emergency_response": "Spill kits for acids/bases. Eyewash stations within 10m of chemical handling. Emergency shower within 15m."
+  }
+}

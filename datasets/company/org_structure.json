@@ -1,0 +1,12 @@
+[
+  {
+    "id": "org_chart",
+    "category": "company",
+    "title": "Organizational Structure",
+    "content": "Mine Organizational Structure:\n\nBoard of Directors\n  - Chairman\n  - 4 Independent Non-Executive Directors\n  - 1 Executive Director (CEO)\n\nExecutive Committee\n  - CEO / General Manager (Overall mine responsibility)\n  - Chief Financial Officer (Finance, procurement, IT)\n  - Chief Operating Officer (Mining, processing, maintenance)\n  - Chief Safety Officer (Safety, health, environment)\n  - Chief Geologist (Exploration, resource estimation, grade control)\n\nDepartments and Key Roles:\n\n1. Exploration Department\n   - Chief Geologist (HOD)\n   - Senior Geologists (2)\n   - Mine Geologists (4)\n   - Geological Technician (6)\n   - Drill and Blast Engineers (2)\n\n2. Mining Department\n   - Mining Manager (HOD)\n   - Shift Bosses (6, two per shift)\n   - Underground Supervisors (8)\n   - Miners/Operators (120)\n   - Truck Drivers (40)\n   - Blasting Crew (12)\n\n3. Processing Department\n   - Plant Manager (HOD)\n   - Metallurgical Engineers (2)\n   - Process Operators (30)\n   - Laboratory Technicians (6)\n   - Maintenance Fitters (10)\n\n4. Maintenance Department\n   - Maintenance Manager (HOD)\n   - Mechanical Engineers (3)\n   - Electrical Engineers (2)\n   - Instrumentation Technicians (4)\n   - Fitters and Boilermakers (20)\n   - Electricians (12)\n\n5. Safety Department\n   - Safety Manager (HOD)\n   - Safety Officers (4)\n   - First Aid Personnel (8)\n   - Environmental Scientists (2)\n\n6. Finance Department\n   - Financial Manager (HOD)\n   - Accountants (4)\n   - Procurement Officers (3)\n   - HR Officers (4)\n   - IT Support (3)\n\nTotal workforce: ~1,240 (including contractors)\nBEE Level: Level 2\nCommunity Investment: 1% of net profit after tax",
+    "tags": ["company", "organization", "structure", "departments", "roles", "workforce"],
+    "applicable_departments": ["all"],
+    "last_reviewed": "2026-01-01",
+    "revision": "2.0"
+  }
+]

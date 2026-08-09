@@ -1,0 +1,2043 @@
+{
+  "metadata": {
+    "title": "Comprehensive Mining Geotechnical Engineering Dataset",
+    "version": "1.0.0",
+    "author": "AI Geotechnical Engineering Dataset",
+    "last_updated": "2026-07-19",
+    "classification": "Engineering Reference Data",
+    "applicable_standards": [
+      "ISRM Suggested Methods",
+      "ASTM Standards for Rock Mechanics",
+      "SANDIA Report on Ground Control",
+      "Australian Geomechanics Society Guidelines",
+      "ICOLD Dam Safety Guidelines"
+    ],
+    "units": "SI (metric)",
+    "regions_covered": ["East Africa", "West Africa", "Southern Africa", "West Australia", "Canada", "South America"]
+  },
+  "rock_mass_classification": {
+    "RMR_system": {
+      "full_name": "Rock Mass Rating (Bieniawski 1989)",
+      "parameters": [
+        "UCS_uniaxial_compressive_strength",
+        "RQD_rock_quality_designation",
+        "joint_spacing",
+        "joint_condition",
+        "groundwater_conditions",
+        "joint_orientation_adjustment"
+      ],
+      "rating_scales": {
+        "UCS_MPa": {
+          "ratings": [
+            {"range_MPa": ">250", "rating": 15},
+            {"range_MPa": "100-250", "rating": 12},
+            {"range_MPa": "50-100", "rating": 7},
+            {"range_MPa": "25-50", "rating": 4},
+            {"range_MPa": "5-25", "rating": 2},
+            {"range_MPa": "1-5", "rating": 1},
+            {"range_MPa": "<1", "rating": 0}
+          ],
+          "max_rating": 15
+        },
+        "RQD_percent": {
+          "ratings": [
+            {"range": "90-100%", "rating": 20},
+            {"range": "75-90%", "rating": 17},
+            {"range": "50-75%", "rating": 13},
+            {"range": "25-50%", "rating": 8},
+            {"range": "<25%", "rating": 3}
+          ],
+          "max_rating": 20
+        },
+        "joint_spacing_mm": {
+          "ratings": [
+            {"range": ">2000", "rating": 20, "description": "Very wide spacing"},
+            {"range": "600-2000", "rating": 15, "description": "Wide spacing"},
+            {"range": "200-600", "rating": 10, "description": "Moderate spacing"},
+            {"range": "60-200", "rating": 8, "description": "Close spacing"},
+            {"range": "<60", "rating": 5, "description": "Very close spacing"}
+          ],
+          "max_rating": 20
+        },
+        "joint_condition": {
+          "ratings": [
+            {"condition": "Very rough, unweathered, no separation, unjointed walls", "rating": 30},
+            {"condition": "Slightly rough, separation <1mm, slightly weathered walls", "rating": 25},
+            {"condition": "Slightly rough, separation <1mm, highly weathered walls", "rating": 20},
+            {"condition": "Slickensided, gouge <5mm, separation 1-5mm, continuous joints", "rating": 10},
+            {"condition": "Soft gouge >5mm, separation >5mm, continuous joints", "rating": 0}
+          ],
+          "max_rating": 30
+        },
+        "groundwater": {
+          "ratings": [
+            {"condition": "Completely dry", "rating": 15},
+            {"condition": "Damp (minor seepage)", "rating": 10},
+            {"condition": "Wet (moderate inflow)", "rating": 7},
+            {"condition": "Dripping (heavy inflow)", "rating": 4},
+            {"condition": "Flowing (under pressure)", "rating": 0}
+          ],
+          "max_rating": 15
+        },
+        "orientation_adjustment": {
+          "tunneling_adjustments": [
+            {"condition": "Very favorable", "rating": 0},
+            {"condition": "Favorable", "rating": -2},
+            {"condition": "Fair", "rating": -5},
+            {"condition": "Unfavorable", "rating": -10},
+            {"condition": "Very unfavorable", "rating": -12}
+          ],
+          "mining_adjustments": [
+            {"condition": "Very favorable", "rating": 0},
+            {"condition": "Favorable", "rating": -2},
+            {"condition": "Fair", "rating": -7},
+            {"condition": "Unfavorable", "rating": -15},
+            {"condition": "Very unfavorable", "rating": -22}
+          ],
+          "max_total_adjustment": -60
+        },
+        "total_max_rating": 100
+      },
+      "classes": {
+        "I_very_good_rock": {
+          "range": "81-100",
+          "description": "Very good rock mass",
+          "average_stand_up_time": ">20 years for spans >15m",
+          "cohesion_kPa": ">400",
+          "friction_angle_deg": ">45",
+          "typical_rocks": ["massive granite", "unweathered basalt", "competent quartzite"],
+          "excavation_behavior": "Stable for very long periods, no support required for typical spans"
+        },
+        "II_good_rock": {
+          "range": "61-80",
+          "description": "Good rock mass",
+          "average_stand_up_time": "1 year for 10m span, 10 years for 5m span",
+          "cohesion_kPa": "300-400",
+          "friction_angle_deg": "40-45",
+          "typical_rocks": ["slightly weathered granite", "massive gabbro", "sound limestone"],
+          "excavation_behavior": "Very stable, minimal support needed for openings up to 10m span"
+        },
+        "III_fair_rock": {
+          "range": "41-60",
+          "description": "Fair rock mass",
+          "average_stand_up_time": "1 week for 5m span, 10 days for 2.5m span",
+          "cohesion_kPa": "200-300",
+          "friction_angle_deg": "35-40",
+          "typical_rocks": ["weathered granite", "foliated schist", "bedded sandstone"],
+          "excavation_behavior": "Stable for a few days in spans of 5-10m, intermittent support needed"
+        },
+        "IV_poor_rock": {
+          "range": "21-40",
+          "description": "Poor rock mass",
+          "average_stand_up_time": "10 hours for 2.5m span, 5 hours for 1.5m span",
+          "cohesion_kPa": "100-200",
+          "friction_angle_deg": "25-35",
+          "typical_rocks": ["highly weathered granite", "sheared schist", "weak shale"],
+          "excavation_behavior": "Very poor behavior, immediate support required, significant deformation expected"
+        },
+        "V_very_poor_rock": {
+          "range": "<20",
+          "description": "Very poor rock mass",
+          "average_stand_up_time": "<30 minutes for 2.5m span",
+          "cohesion_kPa": "<100",
+          "friction_angle_deg": "<25",
+          "typical_rocks": ["completely weathered rock", "fault gouge", "crushed zone"],
+          "excavation_behavior": "Extremely poor, continuous support and reinforcement required, heavy deformation"
+        }
+      }
+    },
+    "Q_system": {
+      "full_name": "Q-System (Barton, Lien, Lunde 1974)",
+      "formula": "Q = (RQD/Jn) x (Jr/Ja) x (Jw/SRF)",
+      "description": "Quantitative rock mass quality assessment for tunnel and cavern design",
+      "parameters": {
+        "RQD": {
+          "description": "Rock Quality Designation (%)",
+          "values": [
+            {"range": "0-25%", "value": 5, "label": "Very poor"},
+            {"range": "25-50%", "value": 25, "label": "Poor"},
+            {"range": "50-75%", "value": 50, "label": "Fair"},
+            {"range": "75-90%", "value": 75, "label": "Good"},
+            {"range": "90-100%", "value": 95, "label": "Excellent"}
+          ]
+        },
+        "Jn_joint_set_number": {
+          "description": "Number of joint sets",
+          "values": [
+            {"description": "Massive, few joints", "value": 0.5},
+            {"description": "One joint set", "value": 2},
+            {"description": "One joint set + random", "value": 3},
+            {"description": "Two joint sets", "value": 4},
+            {"description": "Two joint sets + random", "value": 6},
+            {"description": "Three joint sets", "value": 9},
+            {"description": "Three joint sets + random", "value": 12},
+            {"description": "Four or more joint sets", "value": 15},
+            {"description": "Crushed rock, earth-like", "value": 20}
+          ]
+        },
+        "Jr_joint_roughness_number": {
+          "description": "Joint roughness number",
+          "values": [
+            {"description": "Completely undulating, persistent slickensides", "value": 0.5},
+            {"description": "Undulating, slickensided", "value": 1.0},
+            {"description": "Planar, smooth, persistent", "value": 1.5},
+            {"description": "Undulating, rough", "value": 2.0},
+            {"description": "Stepped, rough", "value": 3.0}
+          ]
+        },
+        "Ja_joint_alteration_number": {
+          "description": "Joint alteration number",
+          "values": [
+            {"description": "Tightly healed, hard, non-softening, impermeable filling", "value": 0.75},
+            {"description": "Unaltered joint walls, surface staining only", "value": 1.0},
+            {"description": "Slightly altered, non-softening mineral coatings, sandy particles", "value": 2.0},
+            {"description": "Silty/clayey coatings, low friction clay (montmorillonite)", "value": 4.0},
+            {"description": "Soft clay fillings, swells in water", "value": 8.0},
+            {"description": "Highly decomposed/fault gouge clay fillings", "value": 12.0}
+          ]
+        },
+        "Jw_water_reduction_factor": {
+          "description": "Water reduction factor",
+          "values": [
+            {"description": "Dry, minor inflow <5 L/min", "value": 1.0},
+            {"description": "Medium inflow, 5-25 L/min, moderate pressure", "value": 0.66},
+            {"description": "Large inflow, 25-125 L/min, significant pressure", "value": 0.5},
+            {"description": "Very large inflow >125 L/min, high pressure", "value": 0.33},
+            {"description": "Exceptionally high inflow, continuous, flooding", "value": 0.2},
+            {"description": "Exceptionally high inflow under very high pressure", "value": 0.1}
+          ]
+        },
+        "SRF_stress_reduction_factor": {
+          "description": "Stress Reduction Factor",
+          "values": [
+            {"condition": "Multiple shear zones in competent rock, clay-free", "value": 2.5},
+            {"condition": "Single shear zone in competent rock, clay-free", "value": 5.0},
+            {"condition": "Loose, open joints, heavily jointed, sugar cube rock", "value": 10.0},
+            {"condition": "Highly stressed, moderate squeeze, RMR <55", "value": 5.0},
+            {"condition": "Very high stress, severe squeeze, RMR >55", "value": 10.0},
+            {"condition": "Sudden rock burst, massive rock under extreme stress", "value": 15.0},
+            {"condition": "Squeezing, moderate depth", "value": 5.0},
+            {"condition": "Squeezing, great depth", "value": 10.0}
+          ]
+        }
+      },
+      "classes": {
+        "extremely_good": {
+          "range": ">400",
+          "description": "Exceptionally good rock mass quality",
+          "typical_applications": "Major underground openings without support",
+          "equivalent_RMR": ">90",
+          "equivalent_GSI": ">85"
+        },
+        "very_good": {
+          "range": "100-400",
+          "description": "Extremely good rock mass",
+          "typical_applications": "Large caverns, underground power stations",
+          "equivalent_RMR": "80-90",
+          "equivalent_GSI": "75-85"
+        },
+        "good": {
+          "range": "40-100",
+          "description": "Very good rock mass",
+          "typical_applications": "Stable underground openings with minimal support",
+          "equivalent_RMR": "70-80",
+          "equivalent_GSI": "65-75"
+        },
+        "fair": {
+          "range": "10-40",
+          "description": "Good to fair rock mass",
+          "typical_applications": "Underground openings requiring moderate support",
+          "equivalent_RMR": "55-70",
+          "equivalent_GSI": "50-65"
+        },
+        "poor": {
+          "range": "4-10",
+          "description": "Fair to poor rock mass",
+          "typical_applications": "Underground openings requiring heavy support",
+          "equivalent_RMR": "45-55",
+          "equivalent_GSI": "40-50"
+        },
+        "very_poor": {
+          "range": "1-4",
+          "description": "Poor rock mass",
+          "typical_applications": "Difficult ground conditions, heavy support required",
+          "equivalent_RMR": "30-45",
+          "equivalent_GSI": "25-40"
+        },
+        "extremely_poor": {
+          "range": "0.1-1",
+          "description": "Very poor rock mass",
+          "typical_applications": "Extremely difficult conditions, steel sets, shotcrete",
+          "equivalent_RMR": "15-30",
+          "equivalent_GSI": "15-25"
+        },
+        "basically_incompetent": {
+          "range": "<0.1",
+          "description": "Basically incompetent rock mass",
+          "typical_applications": "Equivalent to soil, requires soil mechanics treatment",
+          "equivalent_RMR": "<15",
+          "equivalent_GSI": "<15"
+        }
+      },
+      "empirical_relations": {
+        "tunnel_span_ELSR": "ELS = 2.0 + 0.15 * Q^(1/3) for ELS in meters",
+        "tunnel_span_quality": "Q = (2 + Q^(1/3))^2 for equivalent unsupported span",
+        "support_pressure": "P = (2/3) * Q^(-1/3) * JRC * ln(200/Q) for joint roughness correction",
+        "equivalent_dimension": "De = 5.657 * Q^(-0.37) for unsupported openings"
+      },
+      "chart_correlations": {
+        "permanent_excavation": {
+          "crown_friction": "P_crown = 0.06 + 2.8*(Q/(Q+1))^0.5 - 0.05*(Q/(Q+1)) for crown friction factor",
+          "support_pressure": "P_i = 2/3 * Q^(-1/3) * JRC^(-0.33) * ln(200/Q)"
+        },
+        "temporary_excavation": {
+          "maximum_span": "ELS_max = 2.0 + 0.15 * Q^(1/3)",
+          "support_pressure": "P_i = 1.0/3 * Q^(-1/3) * JRC^(-0.33) * ln(200/Q)"
+        }
+      }
+    },
+    "GSI": {
+      "full_name": "Geological Strength Index (Hoek, Marinos, Marinos 2000)",
+      "description": "Visual estimation of rock mass properties based on geological observation",
+      "purpose": "Estimate reduction in strength of intact rock mass based on geological conditions",
+      "applicable_range": "GSI 10-90 for typical rock masses",
+      "chart_structure": {
+        "blocky": {
+          "description": "Very well interlocked, undisturbed rock mass consisting of cubical blocks",
+          "geological_description": "Massive, few joints, intact rock blocks",
+          "typical_GSI_range": "70-90",
+          "typical_rocks": ["massive granite", "massive basalt", "thick-bedded limestone"]
+        },
+        "very_blocky": {
+          "description": "Interlocked, disturbed rock mass with multifaceted angular blocks",
+          "geological_description": "Multiple joint sets, moderate weathering",
+          "typical_GSI_range": "50-75",
+          "typical_rocks": ["jointed granite", "bedded sandstone", "metamorphic rocks"]
+        },
+        "blocky_disturbed": {
+          "description": "Folded, folded-rotated and/or faulted rock mass with angular blocks",
+          "geological_description": "Multiple intersecting discontinuities, some weathering, clay infilling",
+          "typical_GSI_range": "35-60",
+          "typical_rocks": ["sheared schist", "faulted gneiss", "interbedded sediments"]
+        },
+        "disintegrated": {
+          "description": "Poorly interlocked, heavily broken rock mass with rounded fragments",
+          "geological_description": "Highly weathered, heavily sheared, clay-rich material",
+          "typical_GSI_range": "10-40",
+          "typical_rocks": ["fault gouge", "highly weathered granite", "crushed volcanic rock"]
+        }
+      },
+      "chart_surface": {
+        "very_good": {
+          "description": "Very rough, fresh, unweathered joint surfaces",
+          "surface_friction_angle_deg": "45-50",
+          "cohesion_effect": "Minimal reduction from intact rock"
+        },
+        "good": {
+          "description": "Rough, slightly weathered, iron-stained surfaces",
+          "surface_friction_angle_deg": "35-45",
+          "cohesion_effect": "Moderate reduction from intact rock"
+        },
+        "fair": {
+          "description": "Smooth, moderately weathered, altered joint surfaces",
+          "surface_friction_angle_deg": "25-35",
+          "cohesion_effect": "Significant reduction from intact rock"
+        },
+        "poor": {
+          "description": "Slickensided, highly weathered, soft clay-coated surfaces",
+          "surface_friction_angle_deg": "15-25",
+          "cohesion_effect": "Severe reduction from intact rock"
+        },
+        "very_poor": {
+          "description": "Clay-gouged, slickensided, residual soil-like material",
+          "surface_friction_angle_deg": "<15",
+          "cohesion_effect": "Near-total loss of intact rock strength"
+        }
+      },
+      "empirical_correlations": {
+        "mi_parameter": "GSI = 28 + 0.7 * mi (approximate for mi between 10 and 30)",
+        "cohesion": "c = [1 + 0.2*(GSI/100)^2] * ci * (exp(-1 - 0.1*(GSI/100)^3))",
+        "friction_angle": "phi = arctan[sinh((GSI - 100) * 0.003) / 0.5]",
+        "deformation_modulus": "Em = 10^((GSI - 10)/40) * Ei^(GSI/100) GPa",
+        "reduced_tensile_strength": "sigma_t = sigma_ci * (GSI - 100) / (80 * 100)"
+      },
+      "quality_corrections": {
+        "weathering_correction": "Reduce GSI by 5-10 for heavily weathered joint surfaces",
+        "clay_filling_correction": "Reduce GSI by 5-15 for clay-filled discontinuities",
+        "water_correction": "Reduce GSI by 5-10 for wet/flowing conditions",
+        "anisotropy_correction": "Reduce GSI by 5-15 for strongly foliated/bedded rocks"
+      },
+      "limitations": [
+        "Not suitable for very blocky or massive rock masses",
+        "Cannot account for specific joint orientations",
+        "Requires experienced geological observer for reliable estimation",
+        "May overestimate strength in high-stress environments",
+        "Does not account for time-dependent degradation"
+      ]
+    }
+  },
+  "slope_stability": {
+    "open_pit_slopes": {
+      "bench_parameters": {
+        "bench_height": {
+          "coal": {
+            "range": "15-30m",
+            "typical": "20m",
+            "maximum_recommended": "30m",
+            "considerations": "Determined by mining method, equipment size, coal seam thickness"
+          },
+          "hard_rock": {
+            "range": "10-15m",
+            "typical": "12m",
+            "maximum_recommended": "18m",
+            "considerations": "Controlled by blasting, rock mass quality, joint orientations"
+          },
+          "soft_rock": {
+            "range": "5-10m",
+            "typical": "8m",
+            "maximum_recommended": "12m",
+            "considerations": "Limited by strength, weathering, water content"
+          },
+          "overburden": {
+            "range": "8-15m",
+            "typical": "10m",
+            "maximum_recommended": "15m",
+            "considerations": "Depends on material type, compaction, moisture content"
+          }
+        },
+        "bench_angle": {
+          "coal": {
+            "range": "35-45°",
+            "typical": "40°",
+            "design_target": "38-42° for stability"
+          },
+          "hard_rock": {
+            "range": "45-65°",
+            "typical": "55°",
+            "design_target": "50-60° for stability"
+          },
+          "soft_rock": {
+            "range": "30-40°",
+            "typical": "35°",
+            "design_target": "32-38° for stability"
+          },
+          "overburden": {
+            "range": "25-35°",
+            "typical": "30°",
+            "design_target": "28-32° for stability"
+          }
+        },
+        "overall_slope_angle": {
+          "coal": {
+            "range": "28-35°",
+            "typical": "32°",
+            "deep_pit_design": "28-30° for depths >150m"
+          },
+          "hard_rock": {
+            "range": "35-50°",
+            "typical": "42°",
+            "deep_pit_design": "38-42° for depths >200m"
+          },
+          "soft_rock": {
+            "range": "25-35°",
+            "typical": "30°",
+            "deep_pit_design": "25-30° for depths >100m"
+          }
+        },
+        "catch_bench_width": {
+          "formula": "Minimum 3m + 0.5 x bench_height",
+          "typical_values": {
+            "coal_20m_bench": "13m",
+            "hard_rock_12m_bench": "9m",
+            "soft_rock_8m_bench": "7m"
+          },
+          "purpose": "Catch falling rock and debris from benches above",
+          "maintenance": "Regular scaling and clearing required"
+        },
+        "berm_width": {
+          "safety_berm": "Minimum 2.5m wide at top of crest",
+          "equipment_berm": "6-10m for mining equipment access",
+          "haul_road_berm": "Minimum 4.5m for haul roads"
+        }
+      },
+      "design_methods": {
+        "empirical_methods": {
+          "angle_of_repose": {
+            "description": "Natural slope angle of broken material",
+            "coal": "33-37°",
+            "hard_rock": "35-42°",
+            "soft_rock": "28-33°",
+            "soil": "25-35°"
+          },
+          "rock_slopemeter": {
+            "description": "Empirical method based on rock mass quality",
+            "formula": "Slope angle = f(RMR, height, groundwater)",
+            "reference": "Stacey (2006)"
+          }
+        },
+        "limit_equilibrium_methods": {
+          "method_of_slices": {
+            "bishop_simplified": {
+              "description": "Simplified Bishop method, circular failure surfaces",
+              "accuracy": "Good for circular failures",
+              "assumptions": "Interslice forces are horizontal, moment equilibrium"
+            },
+            "janbu_simplified": {
+              "description": "Janbu simplified method, non-circular surfaces",
+              "accuracy": "Good for non-circular failures",
+              "assumptions": "Interslice forces horizontal, force equilibrium"
+            },
+            "morgenstern_price": {
+              "description": "Morgenstern-Price method, rigorous analysis",
+              "accuracy": "Most accurate limit equilibrium method",
+              "assumptions": "Full force and moment equilibrium"
+            },
+            "spencer": {
+              "description": "Spencer method, constant interslice force angle",
+              "accuracy": "Very accurate, iterative approach",
+              "assumptions": "Constant interslice force direction"
+            }
+          },
+          "wedge_analysis": {
+            "description": "Three-dimensional wedge stability analysis",
+            "software": ["DIPS", "SWEDGE", "SLIDE3"],
+            "applications": "Joint-controlled wedge failures in open pits",
+            "required_data": "Joint orientations, persistence, friction, cohesion"
+          },
+          "kinematic_analysis": {
+            "description": "Stereo-plot based analysis of failure potential",
+            "tools": ["DIPS", "stereonet software"],
+            "failure_modes_checked": ["planar", "wedge", "toppling"],
+            "input_data": "Joint set orientations, slope orientation, friction angle"
+          }
+        },
+        "numerical_methods": {
+          "finite_element_method": {
+            "software": ["RS2/Phase2", "PLAXIS", "ABAQUS"],
+            "applications": "Stress-strain analysis, deformation prediction",
+            "advantages": "Can model complex geometry and material behavior",
+            "limitations": "Computational intensive, requires expertise"
+          },
+          "finite_difference_method": {
+            "software": ["FLAC", "FLAC3D", "UDEC"],
+            "applications": "Large deformation analysis, time-dependent behavior",
+            "advantages": "Handles large deformations, explicit time stepping",
+            "limitations": "May be overly conservative for small deformations"
+          },
+          "discrete_element_method": {
+            "software": ["UDEC", "3DEC", "PFC"],
+            "applications": "Jointed rock masses, blocky failures",
+            "advantages": "Models discontinuous rock mass behavior",
+            "limitations": "Requires detailed joint characterization"
+          }
+        }
+      },
+      "failure_modes": {
+        "circular_failure": {
+          "description": "Failure surface approximates circular arc in plan view",
+          "conditions": {
+            "rock_mass_quality": "Very poor to poor (RMR < 40, Q < 1)",
+            "material_type": "Soil-like material, highly weathered rock, weak sedimentary rocks",
+            "structural_control": "No dominant structural features controlling failure",
+            "depth": "Usually shallow (< 30m) for soils, deeper for weak rock",
+            "water_conditions": "Often triggered or exacerbated by high pore pressures"
+          },
+          "kinematic_criteria": {
+            "failure_surface": "Rotational, approximately circular in cross-section",
+            "displacement_pattern": "Toppling or rotational movement at head of slide",
+            "scarp_features": "Tension cracks at crest, bulging at toe"
+          },
+          "prevention_measures": {
+            "drainage": "Install horizontal drains, pumping wells, surface water management",
+            "flattening": "Reduce overall slope angle, create wider catch benches",
+            "retaining_structures": "Gravity walls, reinforced soil structures",
+            "ground_improvement": "Soil cement, grouting, soil nailing",
+            "monitoring": "Inclinometers, extensometers, piezometers",
+            "key_design_parameters": "Minimum safety factor of 1.3 for temporary, 1.5 for permanent slopes"
+          }
+        },
+        "wedge_failure": {
+          "description": "Failure of a wedge-shaped block defined by two or more intersecting discontinuities",
+          "conditions": {
+            "joint_sets": "Minimum two prominent joint sets intersecting",
+            "intersection_line": "Plunge of intersection line must daylight on slope face",
+            "discontinuity_properties": "Low friction angle and/or cohesion on failure planes",
+            "geometry": "Wedge height must be sufficient for failure to be kinematically possible",
+            "water_conditions": "Water pressure on joint planes reduces effective stress"
+          },
+          "kinematic_criteria": {
+            "intersection_line": "Plunge of intersection must be less than slope face dip",
+            "wedge_apex": "Wedge apex must be above the intersection line",
+            "sliding_planes": "At least one plane must dip in same direction as slope"
+          },
+          "prevention_measures": {
+            "slope_reorientation": "Rotate slope face to reduce daylighting of wedge",
+            "flattening": "Reduce slope angle below intersection line plunge",
+            "rock_bolting": "Install rock bolts through wedge into stable rock",
+            "cable_bolting": "Deep cable anchors for large wedges",
+            "shotcrete": "Shotcrete to prevent ravelling and maintain wedge integrity",
+            "drainage": "Drill drainage holes to reduce water pressure",
+            "key_design_parameters": "Factor of safety > 1.3 for temporary, > 1.5 for permanent wedges"
+          }
+        },
+        "planar_failure": {
+          "description": "Sliding of a block along a single dominant discontinuity plane",
+          "conditions": {
+            "discontinuity_orientation": "Continuous, persistent discontinuity dipping into excavation",
+            "dip_angle": "Dip must be less than slope angle but greater than friction angle",
+            "persistence": "Discontinuity must extend through entire potential failure block",
+            "daylighting": "Discontinuity must daylight on the slope face",
+            "lateral_restraints": "Lateral boundaries must be free for block to move"
+          },
+          "kinematic_criteria": {
+            "dip_vs_slope": "Discontinuity dip < slope face dip",
+            "dip_vs_friction": "Discontinuity dip > friction angle of discontinuity",
+            "strike_vs_slope": "Strike within 20° of slope face strike",
+            "daylighting": "Discontinuity must daylight on slope face"
+          },
+          "prevention_measures": {
+            "slope_reorientation": "Rotate slope face away from discontinuity dip direction",
+            "flattening": "Reduce slope angle below discontinuity dip",
+            "rock_bolting": "Install fully grouted rock bolts perpendicular to failure plane",
+            "cable_bolting": "Use tensioned cable anchors for large planar failures",
+            "drainage": "Horizontal drains to reduce water pressure on failure plane",
+            "key_design_parameters": "Minimum safety factor of 1.3 for temporary, 1.5 for permanent"
+          }
+        },
+        "toppling_failure": {
+          "description": "Overturning of rock columns or blocks about a base pivot point",
+          "conditions": {
+            "discontinuity_orientation": "Steeply dipping discontinuities dipping into the slope face",
+            "layer_thickness": "Thinly bedded or columnar jointed rock masses",
+            "joint_spacing": "Close spacing relative to layer thickness",
+            "base_friction": "Low friction on base of toppling columns",
+            "water_conditions": "Water can increase driving moment"
+          },
+          "kinematic_criteria": {
+            "layer_dip": "Dip of discontinuities into slope face, typically > 60°",
+            "daylighting": "Base of toppling column must daylight on slope face",
+            "layer_thickness": "Width-to-height ratio < 1/3 for toppling to occur",
+            "friction_angle": "Friction angle of base < dip of column base"
+          },
+          "prevention_measures": {
+            "slope_flattening": "Reduce slope angle to below friction angle of base",
+            "rock_bolting": "Install rock bolts to prevent rotation",
+            "grounding": "Install concrete buttresses at toe to prevent rotation",
+            "drainage": "Reduce water pressure to minimize driving moment",
+            "mesh_and_shotcrete": "Prevent ravelling and maintain interlocking",
+            "key_design_parameters": "Factor of safety against toppling > 1.5"
+          }
+        }
+      }
+    },
+    "stability_analysis_parameters": {
+      "factor_of_safety_requirements": {
+        "temporary_slope": "1.3",
+        "permanent_slope": "1.5",
+        "critical_infrastructure": "2.0",
+        "failure_consequence_high": "1.5",
+        "failure_consequence_medium": "1.3",
+        "failure_consequence_low": "1.2"
+      },
+      "shear_strength_parameters": {
+        "mohr_coulomb": {
+          "cohesion": "c' (effective cohesion in kPa)",
+          "friction_angle": "phi' (effective friction angle in degrees)",
+          "note": "Parameters should be effective stress parameters for long-term stability"
+        },
+        "hoek_brown": {
+          "parameters": ["m_b", "s", "a"],
+          "description": "Empirical failure criterion for rock masses",
+          "formula": "sigma_1 = sigma_3 + sigma_ci * (m_b * sigma_3 / sigma_ci + s)^a"
+        }
+      },
+      "pore_pressure_parameters": {
+        "piezometric_surface": "Water table or piezometric surface for groundwater conditions",
+        "pore_pressure_ratio": "ru = u / (gamma * z), typically 0.1-0.3",
+        "residual_excess_pore_pressure": "For rapidly loaded soils and weak rocks"
+      }
+    }
+  },
+  "ground_support": {
+    "rock_bolts": {
+      "types": {
+        "fully_grouted_rebar": {
+          "description": "Steel rebar fully encapsulated in cement grout",
+          "typical_diameters_mm": [16, 20, 22, 25],
+          "typical_lengths_m": [1.8, 2.1, 2.4, 3.0, 3.6, 4.2],
+          "yield_load_kN": "120-250 kN depending on diameter",
+          "ultimate_tensile_strength_MPa": "500-600 MPa",
+          "applications": "Primary support in underground openings, slope stabilization",
+          "installation": "Drill hole, insert bolt with grout cartridge, spin to break cartridge",
+          "performance_rating": "Excellent for ground control, low cost, high reliability",
+          "limitations": "Cannot be tensioned, requires skilled installation"
+        },
+        "friction_bolts_split_set": {
+          "description": "Slotted steel tube that expands against drill hole walls",
+          "typical_diameters_mm": [39, 42, 47],
+          "typical_lengths_m": [1.8, 2.1, 2.4, 3.0],
+          "friction_force_per_meter_kN": "25-40 kN/m",
+          "installation": "Drive into undersized drill hole using drifters",
+          "applications": "Temporary support, spot bolting, soft ground",
+          "performance_rating": "Quick installation, immediate support, lower capacity",
+          "limitations": "Not suitable for corrosive environments, lower capacity than grouted bolts"
+        },
+        "swellex_bolts": {
+          "description": "Inflatable steel bolt expanded by high-pressure water",
+          "typical_diameters_mm": [36, 39, 42],
+          "typical_lengths_m": [1.8, 2.1, 2.4, 3.0],
+          "friction_force_per_meter_kN": "30-50 kN/m",
+          "installation": "Insert into drill hole, inflate with 300-500 bar water pressure",
+          "applications": "Immediate support in difficult ground, rehabilitation",
+          "performance_rating": "Immediate full load capacity, good in fractured ground",
+          "limitations": "Higher cost, requires specialized equipment"
+        },
+        "cable_bolts": {
+          "description": "High-strength steel cables grouted into drill holes",
+          "cable_diameters_mm": [15.2, 15.9, 17.8, 28.6],
+          "typical_lengths_m": [6, 9, 12, 15, 20, 30],
+          "ultimate_tensile_strength_kN": "260-600 kN depending on cable type",
+          "grout_type": "Portland cement grout, water/cement ratio 0.35-0.40",
+          "applications": "Deep reinforcement, crown support, large caverns, slope stabilization",
+          "installation": "Drill, insert cable, grout, stress if required",
+          "performance_rating": "Very high capacity, deep reinforcement capability",
+          "limitations": "Higher cost, requires specialized equipment and skilled labor"
+        },
+        "mechanical_anchor_bolts": {
+          "description": "Expansion shell or resin-anchored bolts with face plate",
+          "typical_diameters_mm": [16, 20, 22],
+          "typical_lengths_m": [1.5, 1.8, 2.1, 2.4],
+          "preload_capacity_kN": "80-150 kN",
+          "installation": "Drill hole, insert bolt, tighten nut to apply preload",
+          "applications": "Immediate support, rock fall protection, temporary support",
+          "performance_rating": "Immediate load capacity, can be tensioned",
+          "limitations": "Anchorage may fail in weak or fractured rock"
+        },
+        "resin_bolts": {
+          "description": "Bolts anchored with resin cartridges",
+          "typical_diameters_mm": [16, 20, 22],
+          "typical_lengths_m": [1.8, 2.1, 2.4, 3.0],
+          "resin_cartridge_types": ["standard", "fast-set", "slow-set"],
+          "installation": "Drill hole, insert resin cartridges, spin bolt to break and mix resin",
+          "applications": "Primary ground support, rehabilitation, stoping",
+          "performance_rating": "High capacity, fast installation, good in most conditions",
+          "limitations": "Temperature sensitive, requires proper mixing"
+        }
+      },
+      "design_parameters": {
+        "bolt_spacing": {
+          "methodology": "Design based on tributary area method or numerical modeling",
+          "tributary_area": "Bolt load = Unit weight x Tributary area x Height of loose zone",
+          "typical_spacing_m": "1.0-2.0m grid pattern",
+          "spot_bolting": "Additional bolts at intersections, fault zones, weak ground",
+          "pattern_bolting": "Regular grid pattern for systematic support"
+        },
+        "bolt_length": {
+          "rule_of_thumb": "1/3 to 1/2 of excavation span",
+          "minimum_length": "1.8m for most underground applications",
+          "deep_reinforcement": "6-20m cable bolts for large excavations",
+          "factor_of_safety": "2.0 for permanent support, 1.5 for temporary"
+        },
+        "grout_properties": {
+          "cement_type": "Portland cement, ASTM Type I or II",
+          "water_cement_ratio": "0.35-0.45 by weight",
+          "grout_strength_28day": "25-35 MPa",
+          "grout_flow": "150-250mm slump",
+          "additives": "Accelerators, retarders, anti-washout agents as needed"
+        },
+        "face_plate": {
+          "plate_size_mm": "150x150 to 200x200",
+          "plate_thickness_mm": "6-10mm",
+          "bolt_pretension": "50-100 kN for mechanical bolts",
+          "bearing_capacity": "Must be sufficient for expected ground loads"
+        }
+      }
+    },
+    "shotcrete": {
+      "mix_design": {
+        "normal_shotcrete": {
+          "cement_content_kg_m3": "350-450",
+          "water_cement_ratio": "0.40-0.50",
+          "sand_aggregate_ratio": "1:3 to 1:4",
+          "aggregate_size_mm": "10-16 maximum",
+          "fiber_reinforcement": "Steel or synthetic fibers 25-60 kg/m3",
+          "accelerator_type": "Alkali-free accelerators preferred",
+          "accelerator_dosage_percent": "3-6% by weight of cement",
+          "compressive_strength_28day_MPa": "25-35 MPa",
+          "flexural_strength_MPa": "3-5 MPa",
+          "thickness_range_mm": "50-300mm typical",
+          "application_rate_m3_hr": "3-8 m3/hr depending on equipment"
+        },
+        "steel_fiber_reinforced_shotcrete": {
+          "fiber_type": "Cold-drawn steel wire fibers",
+          "fiber_length_mm": "25-65mm",
+          "fiber_diameter_mm": "0.4-0.8mm",
+          "fiber_dosage_kg_m3": "25-60 kg/m3",
+          "aspect_ratio": "40-80",
+          "tensile_strength_improvement": "20-40% over unreinforced",
+          "ductility_improvement": "Significant improvement in post-peak behavior",
+          "applications": "Primary support in poor ground, seismic zones"
+        },
+        "synthetic_fiber_reinforced_shotcrete": {
+          "fiber_type": "Polypropylene or macro synthetic fibers",
+          "fiber_length_mm": "30-64mm",
+          "fiber_dosage_kg_m3": "6-12 kg/m3",
+          "advantages": "Corrosion resistant, lighter weight, better workability",
+          "limitations": "Lower stiffness and strength than steel fiber",
+          "applications": "Corrosive environments, temporary support, fire protection"
+        },
+        "wet_mix_process": {
+          "description": "Pre-mixed concrete pumped to nozzle, air added at nozzle",
+          "advantages": "Better quality control, less dust, higher production rates",
+          "equipment": "Shotcrete machine, nozzle, compressor, mixer",
+          "typical_output": "5-15 m3/hr",
+          "rebound_percent": "5-15% typical"
+        },
+        "dry_mix_process": {
+          "description": "Dry ingredients conveyed to nozzle, water added at nozzle",
+          "advantages": "Simpler equipment, lower capital cost",
+          "limitations": "More dust, lower quality control, higher rebound",
+          "rebound_percent": "10-25% typical",
+          "applications": "Small jobs, remote locations"
+        }
+      },
+      "application_methods": {
+        "robotic_application": {
+          "description": "Robotic arm with nozzle for mechanized application",
+          "advantages": "Consistent quality, higher production, safer",
+          "equipment": ["Shotcrete robot", "concrete pump", "nozzle"],
+          "production_rate_m3_hr": "8-15",
+          "applications": "Large excavations, high production requirements"
+        },
+        "manual_application": {
+          "description": "Operator-controlled nozzle for manual application",
+          "advantages": "Flexible, lower capital cost",
+          "limitations": "Less consistent, higher labor requirement, safety concerns",
+          "production_rate_m3_hr": "2-6",
+          "applications": "Small excavations, rehabilitation, spot repairs"
+        },
+        "preprocessing": {
+          "surface_preparation": "Remove loose material, clean surface, install mesh if required",
+          "waterproofing": "Apply waterproof membrane if groundwater present",
+          "reinforcement_installation": "Wire mesh, fiber, or steel reinforcement as required"
+        }
+      },
+      "quality_control": {
+        "thickness_measurement": "End-cover gauges, coring, ultrasonic testing",
+        "strength_testing": "Core sampling, rebound hammer, pull-out tests",
+        "bond_strength": "Pull-off tests, shear tests on interfaces",
+        "inspection_frequency": "Every 10-20m of advance, after each shift"
+      }
+    },
+    "mesh": {
+      "specifications": {
+        "welded_wire_mesh": {
+          "wire_diameter_mm": "4-6mm typical",
+          "mesh_opening_mm": "100x100, 150x150, 200x200",
+          "roll_width_m": "1.2-2.4m",
+          "roll_length_m": "15-30m",
+          "tensile_strength_MPa": "450-550 MPa",
+          "applications": "Shotcrete reinforcement, surface containment",
+          "installation": "Lapped at joints, secured with rock bolts or shotcrete"
+        },
+        "chain_link_mesh": {
+          "wire_diameter_mm": "2.5-4.0mm",
+          "mesh_opening_mm": "50x50, 75x75, 100x100",
+          "applications": "Rock fall containment, temporary support",
+          "advantages": "Flexible, conforms to irregular surfaces",
+          "limitations": "Lower strength than welded mesh"
+        },
+        "fiber_mesh": {
+          "description": "Synthetic or steel fibers added to shotcrete",
+          "fiber_type": ["steel", "polypropylene", "glass"],
+          "dosage_kg_m3": "25-60 steel, 6-12 synthetic",
+          "advantages": "No installation required, distributed reinforcement",
+          "limitations": "Lower tensile capacity than mesh for equivalent weight"
+        }
+      },
+      "design_considerations": {
+        "loading_conditions": "Dead load of loose rock, dynamic loads from blasting",
+        "mesh_spacing": "Determined by rock mass quality and expected loading",
+        "overlap_details": "Minimum 300mm overlap, secured with tie wire",
+        "corrosion_protection": "Hot-dip galvanized or PVC-coated in corrosive environments"
+      }
+    },
+    "cables": {
+      "types": {
+        "7_wire_strand": {
+          "description": "Standard 7-wire steel strand cable",
+          "diameter_mm": "15.2mm",
+          "ultimate_strength_kN": "260 kN",
+          "breaking_strength_kN": "260 kN",
+          "elastic_modulus_GPa": "195 GPa",
+          "applications": "General underground support, slope stabilization"
+        },
+        "19_wire_strand": {
+          "description": "19-wire strand for higher capacity",
+          "diameter_mm": "17.8mm",
+          "ultimate_strength_kN": "350 kN",
+          "breaking_strength_kN": "350 kN",
+          "applications": "Heavy-duty support, large excavations"
+        },
+        "thread_bar": {
+          "description": "Threaded steel bar for tensioned applications",
+          "diameter_mm": "25-32mm",
+          "ultimate_strength_kN": "400-600 kN",
+          "applications": "Slope stabilization, dam anchors, tensioned support"
+        },
+        "grouted_anchor": {
+          "description": "Cable or bar grouted into rock with grout bond length",
+          "free_length": "Length between anchor head and grouted section",
+          "bond_length": "Length of grouted section to develop full capacity",
+          "applications": "High-capacity anchoring, slope stabilization"
+        }
+      },
+      "installation": {
+        "drilling": {
+          "hole_diameter_mm": "51-76mm typical",
+          "hole_tolerance": "plus or minus 5mm on diameter",
+          "hole_length_accuracy": "plus or minus 100mm on length",
+          "drilling_method": "Rotary or rotary-percussion"
+        },
+        "grouting": {
+          "grout_type": "Portland cement grout",
+          "water_cement_ratio": "0.35-0.40",
+          "grout_strength_MPa": "30-40 MPa at 28 days",
+          "grouting_method": "Tremie or pressure grouting",
+          "grout_coverage": "Complete encapsulation of cable"
+        },
+        "stressing": {
+          "prestress_force_kN": "50-75% of ultimate capacity",
+          "stressing_method": "Hydraulic jack on anchor head",
+          "lock_off_load": "Stress applied to anchor head after grout cures",
+          "overstressing": "5-10% above design load to test anchorage"
+        },
+        "protection": {
+          "corrosion_protection": ["grout encapsulation", "grease coating", "HDPE sheathing", "galvanizing"],
+          "double_corrosion_protection": "Grout + sheathing for permanent anchors",
+          "inspection": "Load testing at installation and periodically thereafter"
+        }
+      }
+    },
+    "support_classes_by_RMR": {
+      "class_I_RMR_81_100": {
+        "rock_mass_quality": "Very good rock",
+        "support_requirements": {
+          "bolting": "Spot bolts only at intersections and fault zones",
+          "bolt_spacing": "2.0-3.0m grid where required",
+          "shotcrete": "None or thin layer (25-50mm) for surface stabilization",
+          "mesh": "None or light fiber mesh with shotcrete",
+          "cables": "None"
+        },
+        "estimated_cost": "$50-100/m2",
+        "stand_up_time": ">20 years for 10m span"
+      },
+      "class_II_RMR_61_80": {
+        "rock_mass_quality": "Good rock",
+        "support_requirements": {
+          "bolting": "Pattern bolting at 2.0m x 2.0m grid",
+          "bolt_type": "Fully grouted rebar, 20mm diameter, 2.4m long",
+          "shotcrete": "50-75mm shotcrete with fiber reinforcement",
+          "mesh": "Light wire mesh in poor areas",
+          "cables": "None"
+        },
+        "estimated_cost": "$100-200/m2",
+        "stand_up_time": "1-10 years for 10m span"
+      },
+      "class_III_RMR_41_60": {
+        "rock_mass_quality": "Fair rock",
+        "support_requirements": {
+          "bolting": "Pattern bolting at 1.5m x 1.5m grid",
+          "bolt_type": "Fully grouted rebar, 22mm diameter, 3.0m long",
+          "shotcrete": "75-100mm steel fiber reinforced shotcrete",
+          "mesh": "Welded wire mesh, 100x100mm, 5mm wire",
+          "cables": "Cable bolts in crown for spans >10m"
+        },
+        "estimated_cost": "$200-350/m2",
+        "stand_up_time": "1 week to 1 year for 5m span"
+      },
+      "class_IV_RMR_21_40": {
+        "rock_mass_quality": "Poor rock",
+        "support_requirements": {
+          "bolting": "Pattern bolting at 1.2m x 1.2m grid with face plates",
+          "bolt_type": "Fully grouted rebar or resin bolts, 22mm diameter, 3.6m long",
+          "shotcrete": "100-150mm steel fiber reinforced shotcrete with mesh",
+          "mesh": "Heavy welded wire mesh, 150x150mm, 6mm wire",
+          "cables": "Cable bolts at 2.0m x 2.0m grid, 6-9m long"
+        },
+        "estimated_cost": "$350-600/m2",
+        "stand_up_time": "10 hours to 1 week for 2.5m span"
+      },
+      "class_V_RMR_below_20": {
+        "rock_mass_quality": "Very poor rock",
+        "support_requirements": {
+          "bolting": "Pattern bolting at 1.0m x 1.0m grid with face plates and straps",
+          "bolt_type": "Resin or swellex bolts, 22mm diameter, 4.2m long",
+          "shotcrete": "150-200mm steel fiber reinforced shotcrete with heavy mesh",
+          "mesh": "Heavy welded wire mesh, double layer",
+          "cables": "Cable bolts at 1.5m x 1.5m grid, 9-12m long",
+          "steel_sets": "HEB 160-200 steel sets at 0.75-1.0m spacing if required",
+          "lagging": "Timber or shotcrete lagging between sets"
+        },
+        "estimated_cost": "$600-1000/m2",
+        "stand_up_time": "<30 minutes for 2.5m span without support"
+      }
+    }
+  },
+  "underground_design": {
+    "pillar_design": {
+      "room_and_pillar": {
+        "description": "System of rooms excavated with pillars left for support",
+        "design_methods": {
+          "tributary_area": {
+            "formula": "Pillar stress = gamma x H x (A_pillar + A_room) / A_pillar",
+            "safety_factor": "Factor of safety = Pillar strength / Pillar stress",
+            "typical_safety_factor": "1.5-2.0 for coal, 2.0-3.0 for hard rock",
+            "limitations": "Does not account for stress concentration at pillar edges"
+          },
+          "pressure_arch": {
+            "formula": "Pillar load = gamma x H x (B + L/2)^2 / (B x L)",
+            "safety_factor": "2.0-3.0",
+            "applications": "Wide pillars, deep mining"
+          },
+          "numerical_modeling": {
+            "method": "Finite difference or finite element analysis",
+            "software": ["FLAC3D", "Phase2", "UDEC"],
+            "applications": "Complex geometries, variable material properties"
+          }
+        },
+        "pillar_sizing": {
+          "width_to_height_ratio": "Minimum 1.5:1 for stable pillars",
+          "optimal_ratio": "2:1 to 3:1 for long-term stability",
+          "maximum_extraction_ratio": "60-80% depending on depth and rock mass quality",
+          "pillar_width": "Minimum 6m for coal, 5m for hard rock",
+          "pillar_length": "Typically 1.5-3.0 times pillar width"
+        },
+        "pillar_strength": {
+          "formula_obrien": "S = S1 x (0.778 + 0.222 x W/H)",
+          "formula_holland": "S = S1 x (0.778 + 0.222 x W/H)^0.5",
+          "formula_obrien_enhanced": "S = S1 x (0.778 + 0.222 x W/H)^n where n = 0.3-0.5",
+          "input_parameters": {
+            "S1": "Strength of unit pillar (UCS of rock mass)",
+            "W": "Pillar width",
+            "H": "Pillar height",
+            "n": "Strength exponent, typically 0.3-0.5"
+          }
+        }
+      },
+      "stope_and_pillar": {
+        "description": "Large excavations (stopes) with pillars for regional stability",
+        "stope_span": {
+          "determining_factors": "Rock mass quality, stress conditions, mining method",
+          "maximum_span_formula": "Span = 2.5 x Q^0.33 (for unsupported span in meters)",
+          "supported_span": "Span = 2.5 x Q^0.33 + 1.0 (for supported span)",
+          "typical_ranges": {
+            "good_rock": "15-25m unsupported span",
+            "fair_rock": "8-15m unsupported span",
+            "poor_rock": "4-8m unsupported span",
+            "very_poor_rock": "<4m unsupported span"
+          }
+        },
+        "pillar_sizing": {
+          "regional_pillars": "Typically 15-30m wide for regional stability",
+          "panel_pillars": "8-15m wide for panel stability",
+          "extraction_ratio": "50-80% depending on rock mass quality and depth",
+          "crown_pillar": "Minimum thickness = 0.2 x stope span for safety"
+        },
+        "design_criteria": {
+          "factor_of_safety": "1.5-2.0 for stope walls, 2.0-3.0 for pillars",
+          "stress_concentration": "Maximum stress < 0.4 x UCS of rock mass",
+          "deformation_limit": "Crown convergence < 1-2% of span",
+          "seismic_criteria": "Design for M 3.0-4.0 seismic event if applicable"
+        }
+      }
+    },
+    "stope_dimensions": {
+      "open_stoping": {
+        "description": "Large open excavations with minimal backfill",
+        "typical_dimensions": {
+          "stope_length": "30-100m",
+          "stope_width": "10-30m (orebody controlled)",
+          "stope_height": "15-40m",
+          "pillar_width": "10-20m between stopes"
+        },
+        "design_parameters": {
+          "maximum_stope_span": "Determined by rock mass quality",
+          "crown_pillar_thickness": "0.2 x stope span minimum",
+          "wall_angle": "Typically vertical or sub-vertical",
+          "extraction_sequence": "Primary-secondary or primary-secondary-tertiary"
+        },
+        "support_requirements": {
+          "crown_support": "Cable bolts 9-15m long, grouted and tensioned",
+          "wall_support": "Rock bolts 2.4-3.6m long, pattern 1.5m x 1.5m",
+          "shotcrete": "100-150mm SFRS in poor ground",
+          "backfill": "Cemented rock fill or paste fill for secondary stopes"
+        }
+      },
+      "cut_and_fill": {
+        "description": "Stoping method with fill placed after each excavation slice",
+        "typical_dimensions": {
+          "stope_length": "30-100m (along strike)",
+          "stope_width": "Full orebody width (5-30m)",
+          "lift_height": "3-5m per mining lift",
+          "total_height": "20-50m per stope"
+        },
+        "design_parameters": {
+          "maximum_stope_span": "Determined by rock mass quality, typically 8-15m",
+          "fill_placement": "Each lift filled before next excavation",
+          "fill_type": ["cemented rock fill", "hydraulic fill", "paste fill"],
+          "fill_strength": "0.5-2.0 MPa UCS depending on application"
+        },
+        "support_requirements": {
+          "crown_support": "Rock bolts and shotcrete on exposed crown",
+          "wall_support": "Pattern bolting on stope walls before fill",
+          "fill_stability": "Fill must be self-supporting at stope walls",
+          "access": "Slusher or LHD extraction through fill"
+        },
+        "advantages": [
+          "Selective mining of irregular orebodies",
+          "Good recovery (80-95%)",
+          "Fill provides ground support",
+          "Adaptable to varying orebody geometry"
+        ],
+        "limitations": [
+          "High cost per tonne",
+          "Labor intensive",
+          "Fill requirements increase cost",
+          "Lower production rates"
+        ]
+      },
+      "sublevel_caving": {
+        "description": "Mass mining method with ore extracted from sublevels, waste cave from above",
+        "typical_dimensions": {
+          "sublevel_spacing": "15-25m vertical",
+          "drift_spacing": "10-20m along strike",
+          "drawpoint_spacing": "10-15m",
+          "production_blast_round": "3-5m pull"
+        },
+        "design_parameters": {
+          "fragmentation": "Target P80 = 200-400mm for efficient drawing",
+          "draw_control": "Systematic draw to minimize dilution",
+          "cave_propagation": "Monitor cave front advance using seismic methods",
+          "dilution": "20-40% typical, depends on ore-waste contact"
+        },
+        "support_requirements": {
+          "drift_support": "Pattern bolting 1.5m x 1.5m, 3.0m long bolts",
+          "shotcrete": "100-150mm SFRS in weak ground",
+          "drawpoint_support": "Heavy support, cable bolts, steel arches if required",
+          "dynamic_loading": "Design for blast-induced and seismic loads"
+        },
+        "advantages": [
+          "High production rates (10,000-30,000 tpd)",
+          "Low cost per tonne",
+          "Mechanized operation",
+          "Suitable for large, steeply dipping orebodies"
+        ],
+        "limitations": [
+          "High dilution",
+          "Lower recovery (50-70%)",
+          "Orebody geometry must be suitable",
+          "Requires careful draw control"
+        ]
+      },
+      "sublevel_open_stoping": {
+        "description": "Combination of sublevel development and open stoping",
+        "typical_dimensions": {
+          "sublevel_spacing": "15-25m",
+          "stope_length": "30-60m",
+          "stope_width": "10-25m (orebody controlled)",
+          "stope_height": "Sublevel spacing to full orebody height"
+        },
+        "design_parameters": {
+          "maximum_stope_span": "Determined by rock mass quality and stress",
+          "pillar_dimensions": "10-20m between stopes",
+          "extraction_ratio": "60-80%",
+          "blast_design": "Ring drilling or longhole drilling"
+        }
+      }
+    },
+    "mine_opening_sizing": {
+      "decline": {
+        "description": "Ramp access from surface to underground workings",
+        "dimensions": {
+          "width": "5.0-6.0m for single lane, 7.0-8.0m for dual lane",
+          "height": "4.5-5.5m clear height",
+          "gradient": "1:7 (14.3%) maximum, 1:10 (10%) typical",
+          "turning_radius": "15-20m minimum"
+        },
+        "support_requirements": {
+          "good_rock": "Pattern bolting 2.0m x 2.0m, 2.4m long bolts",
+          "fair_rock": "Pattern bolting 1.5m x 1.5m, 3.0m long bolts + 100mm shotcrete",
+          "poor_rock": "Pattern bolting 1.2m x 1.2m, 3.6m long bolts + 150mm shotcrete + mesh",
+          "very_poor_rock": "Heavy support with steel sets, cable bolts, 200mm shotcrete"
+        },
+        "design_criteria": {
+          "traffic_capacity": "Design for 200-400 truck passes per day",
+          "ventilation": "Adequate for equipment and personnel",
+          "drainage": "Sumps every 200m, pump capacity for worst-case inflow",
+          "lighting": "Minimum 50 lux at road surface"
+        }
+      },
+      "level_development": {
+        "description": "Horizontal openings on each mining level",
+        "dimensions": {
+          "main_lode_drift": "5.0-6.0m wide, 4.5-5.5m high",
+          "access_drift": "4.5-5.5m wide, 4.0-5.0m high",
+          "crosscut": "4.0-5.0m wide, 4.0-5.0m high",
+          "haulage_drift": "5.5-6.5m wide, 5.0-6.0m high"
+        },
+        "support_requirements": {
+          "determined_by": "Rock mass quality, stress conditions, mining method",
+          "typical_support": "Rock bolts, shotcrete, mesh as required",
+          "long_term_support": "Cable bolts, heavy shotcrete for permanent openings"
+        },
+        "layout_design": {
+          "pillar_between_levels": "Minimum 5m vertical pillar between level developments",
+          "pillar_between_stopes": "10-20m horizontal pillar between parallel stopes",
+          "intersection_angle": "90° preferred, minimum 60° for intersections"
+        }
+      },
+      "shaft": {
+        "description": "Vertical or near-vertical opening for personnel, material, and ore",
+        "dimensions": {
+          "circular_shaft_diameter": "5.0-8.0m",
+          "rectangular_shaft": "4.0 x 6.0m to 6.0 x 8.0m",
+          "depth_range": "100-3000m",
+          "concrete_lining_thickness": "300-600mm"
+        },
+        "design_criteria": {
+          "concrete_lining": "Designed for hydrostatic and earth pressures",
+          "shaft_sinking_rate": "3-5m per day in good rock",
+          "ground_support_during_sinking": "Steel sets, shotcrete, or concrete lining",
+          "water_management": "Grouting ahead of shaft, internal drainage"
+        }
+      }
+    },
+    "numerical_modeling": {
+      "software": {
+        "FLAC3D": {
+          "developer": "Itasca Consulting Group",
+          "type": "Finite Difference Method (3D)",
+          "applications": "Stress analysis, deformation, time-dependent behavior",
+          "material_models": ["Mohr-Coulomb", "Hoek-Brown", "Ubiquitous-joint", "Cysoil", "PWmodel"],
+          "advantages": "Large deformation capability, explicit time stepping",
+          "typical_mesh_size": "10,000-500,000 elements",
+          "computational_time": "Hours to days depending on model complexity"
+        },
+        "RS2_Phase2": {
+          "developer": "Rocscience Inc.",
+          "type": "Finite Element Method (2D)",
+          "applications": "Excavation design, support design, slope stability",
+          "material_models": ["Mohr-Coulomb", "Hoek-Brown", "Ubiquitous-joint", "Cam-Clay", "Generalized Hoek-Brown"],
+          "advantages": "User-friendly, powerful analysis, good visualization",
+          "typical_mesh_size": "5,000-50,000 elements",
+          "computational_time": "Minutes to hours"
+        },
+        "UDEC": {
+          "developer": "Itasca Consulting Group",
+          "type": "Universal Distinct Element Code (2D)",
+          "applications": "Jointed rock masses, blocky failures, underground openings",
+          "material_models": ["Mohr-Coulomb", "elastic", "softening"],
+          "advantages": "Models discontinuous behavior, block interactions",
+          "typical_mesh_size": "1,000-50,000 blocks",
+          "computational_time": "Minutes to hours"
+        },
+        "3DEC": {
+          "developer": "Itasca Consulting Group",
+          "type": "3D Distinct Element Code",
+          "applications": "3D jointed rock mass behavior, complex geometries",
+          "material_models": ["Mohr-Coulomb", "elastic", "softening"],
+          "advantages": "3D block interaction modeling, large deformation",
+          "typical_mesh_size": "1,000-100,000 blocks",
+          "computational_time": "Hours to days"
+        },
+        "PLAXIS": {
+          "developer": "Bentley Systems",
+          "type": "Finite Element Method (2D/3D)",
+          "applications": "Geotechnical engineering, soil and rock mechanics",
+          "material_models": ["Mohr-Coulomb", "Hardening Soil", "Soft Soil Creep", "Hoek-Brown"],
+          "advantages": "Soil-specific features, consolidation analysis",
+          "typical_mesh_size": "5,000-100,000 elements",
+          "computational_time": "Minutes to hours"
+        },
+        "Map3D": {
+          "developer": "MAP3D Inc.",
+          "type": "Boundary Element Method (3D)",
+          "applications": "Stress analysis, subsidence prediction, large-scale modeling",
+          "material_models": ["elastic", "elasto-plastic"],
+          "advantages": "Large models with fewer elements, stress analysis",
+          "typical_mesh_size": "100-10,000 elements",
+          "computational_time": "Minutes to hours"
+        }
+      },
+      "applications": [
+        "Underground excavation design and support optimization",
+        "Open pit slope stability analysis",
+        "Pillar design and extraction sequencing",
+        "Rock mass characterization and property estimation",
+        "Stress redistribution and induced stress analysis",
+        "Time-dependent behavior and creep analysis",
+        "Dynamic analysis for seismic events",
+        "Thermo-mechanical analysis for deep mining",
+        "Back-analysis of measured deformations",
+        "Optimization of mining sequences"
+      ],
+      "modeling_best_practices": {
+        "geometry_simplification": "Simplify geometry while maintaining key features",
+        "boundary_conditions": "Apply far-field stress and displacement boundaries appropriately",
+        "material_properties": "Use realistic, calibrated material properties",
+        "mesh_density": "Finer mesh near excavations, coarser in far field",
+        "validation": "Compare model results with field measurements",
+        "sensitivity_analysis": "Vary key parameters to assess model sensitivity",
+        "documentation": "Document all assumptions, inputs, and results"
+      }
+    }
+  },
+  "instrumentation": {
+    "extensometers": {
+      "multi_point_borehole_extensometer": {
+        "description": "Measures rock mass deformation at multiple depths in a borehole",
+        "typical_number_of_anchors": "3-8 per borehole",
+        "borehole_diameter_mm": "48-76mm",
+        "measurement_range_mm": "plus or minus 50 to plus or minus 250mm per anchor",
+        "accuracy_mm": "plus or minus 0.01-0.05mm",
+        "resolution_mm": "0.001mm",
+        "anchor_types": ["mechanical", "grouted", "resin"],
+        "rod_types": ["fiberglass", "steel", "invar"],
+        "applications": [
+          "Tunnel convergence monitoring",
+          "Stope wall deformation",
+          "Slope movement detection",
+          "Dam foundation monitoring"
+        ],
+        "installation": "Drill borehole, install anchors at predetermined depths, grout in place, connect to readout",
+        "reading_frequency": "Daily during mining, weekly after mining, monthly for long-term",
+        "alert_thresholds": {
+          "yellow": "Rate of movement > 0.5mm/day",
+          "orange": "Rate of movement > 1.0mm/day",
+          "red": "Rate of movement > 2.0mm/day or total movement > design limit"
+        }
+      },
+      "rod_extensometer": {
+        "description": "Simple mechanical extensometer using rods in borehole",
+        "typical_length_m": "3-30m",
+        "accuracy_mm": "plus or minus 0.1mm",
+        "applications": "Surface slope monitoring, dam abutment monitoring",
+        "advantages": "Simple, reliable, no electronics",
+        "limitations": "Manual readings only, limited number of measurement points"
+      },
+      "magnetic_extensometer": {
+        "description": "Uses magnetic rings anchored in borehole with probe",
+        "typical_number_of_magnets": "5-15 per borehole",
+        "measurement_range": "Unlimited vertical movement",
+        "accuracy_mm": "plus or minus 1-2mm",
+        "advantages": "Multiple measurement points, no rods required",
+        "limitations": "Lower accuracy than rod extensometers"
+      }
+    },
+    "inclinometers": {
+      "in_place_inclinometer": {
+        "description": "Continuously monitoring inclinometer installed in borehole",
+        "measurement_range": "plus or minus 15-30° from vertical",
+        "accuracy_mm_per_25m": "plus or minus 5-10mm",
+        "resolution_mm": "0.01mm",
+        "borehole_diameter_mm": "70-100mm",
+        "sensor_types": ["MEMS", "accelerometer", "tilt meter"],
+        "applications": [
+          "Slope movement monitoring",
+          "Landslide monitoring",
+          "Embankment settlement",
+          "Deep excavation wall movement"
+        ],
+        "installation": "Lower inclinometer probe into grooved casing, grout annulus",
+        "reading_frequency": "Continuous or daily readings",
+        "alert_thresholds": {
+          "yellow": "Movement rate > 1mm/day",
+          "orange": "Movement rate > 5mm/day",
+          "red": "Movement rate > 10mm/day or cumulative movement > 50mm"
+        }
+      },
+      "probe_inclinometer": {
+        "description": "Portable probe lowered through inclinometer casing",
+        "measurement_range": "plus or minus 53° from vertical",
+        "accuracy_mm_per_25m": "plus or minus 2-5mm",
+        "resolution_mm": "0.005mm",
+        "casing_types": ["grooved", "flexible", "rigid"],
+        "applications": "Periodic slope movement monitoring",
+        "advantages": "Portable, can monitor multiple boreholes",
+        "limitations": "Requires manual readings, not continuous"
+      }
+    },
+    "piezometers": {
+      "vibrating_wire_piezometer": {
+        "description": "Piezometer using vibrating wire technology for pore pressure measurement",
+        "range_kPa": "0-2000 kPa",
+        "accuracy_percent_FS": "plus or minus 0.1-0.5%",
+        "resolution_kPa": "0.01 kPa",
+        "response_time": "Near instantaneous",
+        "temperature_compensation": "Built-in thermistor",
+        "applications": [
+          "Groundwater level monitoring",
+          "Pore pressure measurement in dams",
+          "Pore pressure monitoring in slopes",
+          "Consolidation monitoring"
+        ],
+        "installation": "Place in borehole with filter pack and seal",
+        "reading_frequency": "Daily to continuous",
+        "alert_thresholds": {
+          "yellow": "Pore pressure increase > 10% of overburden pressure",
+          "orange": "Pore pressure increase > 25% of overburden pressure",
+          "red": "Pore pressure increase > 50% of overburden pressure"
+        }
+      },
+      "standpipe_piezometer": {
+        "description": "Simple standpipe installed in borehole with water level measurement",
+        "range_m": "0-100m below surface",
+        "accuracy_mm": "plus or minus 1-5mm",
+        "response_time": "Depends on permeability of formation",
+        "applications": "Long-term groundwater monitoring, regional water table",
+        "advantages": "Simple, reliable, no electronics",
+        "limitations": "Slow response in low permeability materials"
+      },
+      "electric_piezometer": {
+        "description": "Pore pressure transducer with electrical output",
+        "range_kPa": "0-1000 kPa",
+        "accuracy_percent_FS": "plus or minus 0.25-0.5%",
+        "applications": "Automated monitoring, data logging systems"
+      }
+    },
+    "convergence_monitors": {
+      "optical_survey": {
+        "description": "Total station survey of convergence targets",
+        "accuracy_mm": "plus or minus 1-2mm",
+        "measurement_points": "Fixed targets on tunnel walls",
+        "survey_frequency": "Weekly to monthly",
+        "applications": [
+          "Tunnel convergence monitoring",
+          "Cavern deformation monitoring",
+          "Stoping area convergence",
+          "Long-term ground movement"
+        ]
+      },
+      "tape_convergence": {
+        "description": "Invar tape measurement between convergence points",
+        "accuracy_mm": "plus or minus 0.1-0.5mm",
+        "measurement_range_m": "1-30m",
+        "applications": "Short-term convergence monitoring during development",
+        "advantages": "Simple, portable, reliable",
+        "limitations": "Manual readings, requires access to both points"
+      },
+      "automatic_total_station": {
+        "description": "Automated robotic total station for continuous convergence monitoring",
+        "accuracy_mm": "plus or minus 1mm",
+        "measurement_points": "Up to 100+ prisms per station",
+        "reading_frequency": "Continuous or hourly",
+        "data_transmission": "Radio or cellular to surface",
+        "applications": "Critical infrastructure monitoring, real-time deformation tracking"
+      },
+      "lidar_scanning": {
+        "description": "3D laser scanning of excavation surfaces",
+        "accuracy_mm": "plus or minus 1-5mm",
+        "point_density": "1-10mm resolution",
+        "scan_time_minutes": "5-30 per scan",
+        "applications": [
+          "Detailed excavation profile monitoring",
+          "Volume calculations",
+          "Rockfall risk assessment",
+          "As-built verification"
+        ]
+      }
+    },
+    "seismic_monitoring": {
+      "microseismic_system": {
+        "description": "Array of geophones to detect and locate microseismic events",
+        "geophone_types": ["uniaxial", "triaxial", "broadband"],
+        "frequency_range_Hz": "1-10,000 Hz",
+        "dynamic_range_dB": "100-120 dB",
+        "number_of_sensors": "8-64 channels typical",
+        "location_accuracy_m": "plus or minus 5-50m depending on array geometry",
+        "applications": [
+          "Rockburst monitoring and prediction",
+          "Cave propagation monitoring",
+          "Fault reactivation detection",
+          "Blast monitoring and fragmentation estimation"
+        ],
+        "data_processing": {
+          "event_detection": "STA/LTA algorithm, neural network detection",
+          "location_algorithm": "Geiger method, double-difference, grid search",
+          "magnitude_calculation": "Local magnitude (ML) or moment magnitude (Mw)",
+          "source_parameters": ["moment tensor", "source radius", "stress drop", "energy"]
+        },
+        "alert_thresholds": {
+          "yellow": "Increased seismicity rate, events approaching critical level",
+          "orange": "Significant energy release, multiple events in short time",
+          "red": "Large energy release, potential rockburst imminent"
+        }
+      },
+      "strong_motion_system": {
+        "description": "High-g accelerometers for strong ground motion",
+        "acceleration_range_g": "plus or minus 2-4g",
+        "frequency_range_Hz": "0.5-200 Hz",
+        "resolution_bits": "24-bit",
+        "applications": "Ground motion from large seismic events, blast vibration"
+      },
+      "surface_seismic_array": {
+        "description": "Surface geophone array for regional monitoring",
+        "geophone_spacing_m": "100-1000m",
+        "monitoring_radius_km": "5-50km",
+        "applications": "Induced seismicity, regional tectonic activity"
+      }
+    },
+    "alert_thresholds": {
+      "alert_level_1_normal": {
+        "description": "Normal operating conditions",
+        "monitoring_frequency": "Standard schedule",
+        "response": "No special action required"
+      },
+      "alert_level_2_advisory": {
+        "description": "Abnormal conditions detected",
+        "trigger_criteria": [
+          "Movement rate > 0.5mm/day",
+          "Pore pressure increase > 10% of overburden",
+          "Convergence rate exceeding predicted values",
+          "Increased seismicity rate"
+        ],
+        "monitoring_frequency": "Increased to daily or more frequent",
+        "response": "Investigate cause, review design, prepare contingency plan"
+      },
+      "alert_level_3_warning": {
+        "description": "Conditions approaching design limits",
+        "trigger_criteria": [
+          "Movement rate > 2mm/day",
+          "Pore pressure increase > 25% of overburden",
+          "Convergence approaching design limit",
+          "Large seismic event (> M 3.0)"
+        ],
+        "monitoring_frequency": "Continuous monitoring",
+        "response": "Implement contingency measures, consider evacuation",
+        "personnel_action": "Notify all relevant personnel, prepare for evacuation"
+      },
+      "alert_level_4_critical": {
+        "description": "Imminent failure conditions",
+        "trigger_criteria": [
+          "Movement rate > 10mm/day",
+          "Pore pressure increase > 50% of overburden",
+          "Convergence exceeding design limit",
+          "Multiple large seismic events in short period"
+        ],
+        "monitoring_frequency": "Real-time monitoring",
+        "response": "Evacuate personnel, shut down equipment, implement emergency plan",
+        "personnel_action": "Immediate evacuation, emergency response team activated"
+      }
+    }
+  },
+  "case_studies": [
+    {
+      "name": "Geita Gold Mine, Tanzania",
+      "location": "Geita Region, Northwestern Tanzania",
+      "mine_type": "Open pit transitioning to underground",
+      "operator": "AngloGold Ashanti",
+      "rock_type": "Archean greenstone belt - banded iron formation, basalt, rhyolite",
+      "rock_mass_quality": {
+        "RMR_range": "45-75",
+        "Q_range": "1.5-12",
+        "GSI_range": "45-65",
+        "UCS_range_MPa": "80-250",
+        "RQD_range_percent": "40-85"
+      },
+      "geology": {
+        "host_rock": "Banded iron formation (BIF) and associated volcanic rocks",
+        "ore_type": "BIF-hosted gold mineralization",
+        "alteration": "Silicification, carbonate, chlorite",
+        "structure": "Multiple joint sets, some fault zones, shearing along contacts"
+      },
+      "slope_design": {
+        "overall_slope_angle": "35-42°",
+        "bench_height": "12-15m",
+        "bench_angle": "55-65°",
+        "catch_bench_width": "8-12m",
+        "overall_slope_height": "300-400m",
+        "design_method": "Kinematic analysis, limit equilibrium, numerical modeling"
+      },
+      "underground_design": {
+        "mining_method": "Sublevel open stoping with cemented rock fill",
+        "stope_dimensions": "30m x 15m x 20m (L x W x H)",
+        "pillar_dimensions": "12m between stopes",
+        "level_spacing": "20m vertical",
+        "development_width": "5.0m x 5.0m",
+        "support_system": "Rock bolts 2.4-3.0m, shotcrete 75-125mm, cable bolts in crown"
+      },
+      "key_lessons": [
+        "BIF requires careful blast design to control overbreak",
+        "Water management critical in open pit transitions",
+        "Rock mass variability requires adaptive support design",
+        "Instrumentation essential for monitoring transition zone",
+        "Ground conditions improve at depth in fresh rock zones"
+      ],
+      "challenges": [
+        "High rainfall (1200-2000mm annually) affects slope stability",
+        "Weathered zone extends 30-50m below surface",
+        "Multiple joint sets create complex wedge failure potential",
+        "Transition from open pit to underground requires careful pillar design"
+      ]
+    },
+    {
+      "name": "Kibali Gold Mine, DRC",
+      "location": "Ituri Province, Northeastern DRC",
+      "mine_type": "Underground with open pit",
+      "operator": "AngloGold Ashanti / Barrick Gold",
+      "rock_type": "Archean greenstone belt - volcanic and intrusive rocks",
+      "rock_mass_quality": {
+        "RMR_range": "40-70",
+        "Q_range": "1-8",
+        "GSI_range": "40-60",
+        "UCS_range_MPa": "60-200",
+        "RQD_range_percent": "35-80"
+      },
+      "geology": {
+        "host_rock": "Volcanic and intrusive rocks, BIF",
+        "ore_type": "Shear-zone hosted gold mineralization",
+        "alteration": "Silicification, sericitization, pyritization",
+        "structure": "Major shear zones, multiple joint sets, faulting"
+      },
+      "slope_design": {
+        "overall_slope_angle": "32-38°",
+        "bench_height": "10-12m",
+        "bench_angle": "50-60°",
+        "catch_bench_width": "8-10m"
+      },
+      "underground_design": {
+        "mining_method": "Sublevel open stoping, cut-and-fill in narrow zones",
+        "stope_dimensions": "25m x 12m x 20m (L x W x H)",
+        "pillar_dimensions": "10-15m between stopes",
+        "level_spacing": "20m vertical",
+        "development_width": "4.8m x 4.8m",
+        "support_system": "Rock bolts 2.4m, shotcrete 100mm, cable bolts in poor ground"
+      },
+      "key_lessons": [
+        "Shear zones require heavy support and careful sequencing",
+        "Water ingress significant in deeper workings",
+        "High-stress conditions at depth (>300m) require stress management",
+        "Backfill essential for regional stability in multi-lift stoping",
+        "Seismic monitoring critical for rockburst potential"
+      ],
+      "challenges": [
+        "Complex structural geology with multiple shear zones",
+        "High ambient temperature at depth",
+        "Water inflow up to 500 L/min in some areas",
+        "Seismic activity associated with major structures"
+      ]
+    },
+    {
+      "name": "North Mara Gold Mine, Tanzania",
+      "location": "Tarime District, Northwestern Tanzania",
+      "mine_type": "Open pit and underground",
+      "operator": "Barrick Gold",
+      "rock_type": "Archean greenstone belt - mafic and ultramafic volcanic rocks",
+      "rock_mass_quality": {
+        "RMR_range": "42-68",
+        "Q_range": "1.2-7",
+        "GSI_range": "42-58",
+        "UCS_range_MPa": "70-180",
+        "RQD_range_percent": "40-75"
+      },
+      "geology": {
+        "host_rock": "Mafic and ultramafic volcanic rocks",
+        "ore_type": "Shear-zone and stockwork gold mineralization",
+        "alteration": "Carbonate, chlorite, talc",
+        "structure": "Shear zones, faults, multiple joint sets"
+      },
+      "slope_design": {
+        "overall_slope_angle": "33-39°",
+        "bench_height": "12-15m",
+        "bench_angle": "50-60°",
+        "catch_bench_width": "8-12m"
+      },
+      "underground_design": {
+        "mining_method": "Sublevel open stoping, longhole open stoping",
+        "stope_dimensions": "20m x 10m x 15m (L x W x H)",
+        "pillar_dimensions": "10-12m between stopes",
+        "level_spacing": "15m vertical",
+        "development_width": "4.5m x 4.5m",
+        "support_system": "Rock bolts 2.4m, shotcrete 75-100mm, spot cable bolts"
+      },
+      "key_lessons": [
+        "Talc-rich zones require special attention to support",
+        "Community relations important for surface operations",
+        "Oxidized zone requires different mining approach than fresh rock",
+        "Haul road design critical for deep pit operations",
+        "Water management key to maintaining slope stability"
+      ],
+      "challenges": [
+        "Talc and chlorite-rich alteration reduces rock mass strength",
+        "Community encroachment on mining lease",
+        "High rainfall affecting slope stability",
+        "Transition from oxide to fresh rock requires mining method changes"
+      ]
+    },
+    {
+      "name": "Bulyanhulu Mine, Tanzania",
+      "location": "Shinyanga Region, Northwestern Tanzania",
+      "mine_type": "Underground",
+      "operator": "Barrick Gold",
+      "rock_type": "Archean greenstone belt - banded iron formation and volcanic rocks",
+      "rock_mass_quality": {
+        "RMR_range": "48-72",
+        "Q_range": "2-10",
+        "GSI_range": "48-62",
+        "UCS_range_MPa": "100-280",
+        "RQD_range_percent": "50-85"
+      },
+      "geology": {
+        "host_rock": "Banded iron formation (BIF) and associated volcanic rocks",
+        "ore_type": "BIF-hosted and shear-zone gold mineralization",
+        "alteration": "Silicification, carbonate, chlorite",
+        "structure": "Shear zones, multiple joint sets, some faulting"
+      },
+      "slope_design": {
+        "overall_slope_angle": "36-42°",
+        "bench_height": "12-15m",
+        "bench_angle": "55-65°",
+        "catch_bench_width": "8-12m"
+      },
+      "underground_design": {
+        "mining_method": "Sublevel open stoping with paste fill",
+        "stope_dimensions": "30m x 15m x 25m (L x W x H)",
+        "pillar_dimensions": "12-15m between stopes",
+        "level_spacing": "25m vertical",
+        "development_width": "5.0m x 5.5m",
+        "support_system": "Rock bolts 3.0m, shotcrete 100-150mm, cable bolts 9-12m in crown"
+      },
+      "key_lessons": [
+        "BIF rock mass is generally competent but brittle",
+        "Paste fill improves stability in sequential mining",
+        "Deep mining (>1000m) requires stress management strategies",
+        "Crown pillar design critical for multi-level mining",
+        "Seismic monitoring essential for deep, high-stress conditions"
+      ],
+      "challenges": [
+        "High vertical stress at depth (>30 MPa)",
+        "Rockburst potential in brittle BIF",
+        "Water inflow from adjacent formations",
+        "Complex orebody geometry requiring flexible mining method"
+      ]
+    },
+    {
+      "name": "Kabwe Zinc Mine, Zambia",
+      "location": "Central Province, Zambia",
+      "mine_type": "Underground (historical open pit)",
+      "operator": "Jubilee Metals Group",
+      "rock_type": "Dolomite, limestone, and associated sedimentary rocks",
+      "rock_mass_quality": {
+        "RMR_range": "35-65",
+        "Q_range": "0.8-6",
+        "GSI_range": "35-55",
+        "UCS_range_MPa": "40-120",
+        "RQD_range_percent": "30-70"
+      },
+      "geology": {
+        "host_rock": "Dolomite and limestone",
+        "ore_type": "Mississippi Valley Type (MVT) zinc-lead mineralization",
+        "alteration": "Dolomitization, silicification",
+        "structure": "Karst features, solution cavities, fracture networks"
+      },
+      "underground_design": {
+        "mining_method": "Room and pillar with cemented backfill",
+        "pillar_dimensions": "8-12m square pillars",
+        "extraction_ratio": "55-65%",
+        "development_width": "4.5m x 4.5m",
+        "support_system": "Rock bolts 2.1m, shotcrete 50-100mm"
+      },
+      "key_lessons": [
+        "Karst conditions require thorough geotechnical investigation",
+        "Solution cavities can be hazardous if not properly identified",
+        "Dolomite can be strong but susceptible to solution",
+        "Historical workings require careful planning for safe access",
+        "Water management critical in karst terrain"
+      ],
+      "challenges": [
+        "Unpredictable karst features",
+        "Water inflow from solution channels",
+        "Historical mine workings with unknown conditions",
+        "Community legacy issues from historical mining"
+      ]
+    },
+    {
+      "name": "Mopani Copper Mine, Zambia",
+      "location": "Copperbelt Province, Zambia",
+      "mine_type": "Underground",
+      "operator": "First Quantum Minerals",
+      "rock_type": "Sedimentary rocks - shale, siltstone, sandstone, dolomite",
+      "rock_mass_quality": {
+        "RMR_range": "30-60",
+        "Q_range": "0.5-5",
+        "GSI_range": "30-55",
+        "UCS_range_MPa": "30-100",
+        "RQD_range_percent": "25-65"
+      },
+      "geology": {
+        "host_rock": "Copperbelt sediments - shale, siltstone, quartzite",
+        "ore_type": "Sediment-hosted stratiform copper mineralization",
+        "alteration": "Chlorite, sericite, quartz",
+        "structure": "Bedding-parallel shear zones, faults, multiple joint sets"
+      },
+      "underground_design": {
+        "mining_method": "Sublevel open stoping, sublevel caving in some areas",
+        "stope_dimensions": "20m x 10m x 15m (L x W x H)",
+        "pillar_dimensions": "10-15m between stopes",
+        "level_spacing": "15m vertical",
+        "development_width": "4.5m x 5.0m",
+        "support_system": "Rock bolts 2.4m, shotcrete 100mm, cable bolts in weak zones"
+      },
+      "key_lessons": [
+        "Shale layers are weak and require additional support",
+        "Bedding-parallel structures control failure modes",
+        "Deep mining creates high-stress conditions",
+        "Backfill essential for regional stability",
+        "Seismic monitoring critical for rockburst prediction"
+      ],
+      "challenges": [
+        "Very weak shale horizons requiring heavy support",
+        "High vertical stress at depth (>1500m)",
+        "Complex structural geology with multiple shear zones",
+        "Water management in deep workings",
+        "Rockburst potential in competent rock units"
+      ]
+    }
+  ],
+  "rock_mass_properties": {
+    "intact_rock_properties": {
+      "uniaxial_compressive_strength": {
+        "quartzite": {"range_MPa": "150-300", "typical_MPa": "220"},
+        "granite": {"range_MPa": "100-250", "typical_MPa": "170"},
+        "basalt": {"range_MPa": "100-300", "typical_MPa": "200"},
+        "sandstone": {"range_MPa": "20-170", "typical_MPa": "80"},
+        "limestone": {"range_MPa": "20-170", "typical_MPa": "100"},
+        "shale": {"range_MPa": "5-100", "typical_MPa": "40"},
+        "schist": {"range_MPa": "30-150", "typical_MPa": "80"},
+        "gneiss": {"range_MPa": "80-250", "typical_MPa": "150"},
+        "dolomite": {"range_MPa": "30-200", "typical_MPa": "120"},
+        "tuff": {"range_MPa": "10-100", "typical_MPa": "40"},
+        "andesite": {"range_MPa": "100-250", "typical_MPa": "180"},
+        "diorite": {"range_MPa": "100-250", "typical_MPa": "180"},
+        "rhyolite": {"range_MPa": "100-300", "typical_MPa": "200"},
+        "phyllite": {"range_MPa": "30-100", "typical_MPa": "60"},
+        "slate": {"range_MPa": "50-200", "typical_MPa": "120"},
+        "marble": {"range_MPa": "50-200", "typical_MPa": "100"}
+      },
+      "tensile_strength": {
+        "ratio_to_UCS": "0.05-0.15 of UCS",
+        "typical_values": {
+          "granite": "7-25 MPa",
+          "basalt": "10-30 MPa",
+          "sandstone": "2-17 MPa",
+          "limestone": "2-17 MPa",
+          "shale": "0.5-10 MPa"
+        }
+      },
+      "elastic_modulus": {
+        "granite": "30-70 GPa",
+        "basalt": "40-90 GPa",
+        "sandstone": "5-40 GPa",
+        "limestone": "10-50 GPa",
+        "shale": "2-20 GPa",
+        "schist": "10-40 GPa",
+        "gneiss": "30-70 GPa"
+      },
+      "poisson_ratio": {
+        "typical_range": "0.15-0.35",
+        "granite": "0.20-0.25",
+        "basalt": "0.20-0.30",
+        "sandstone": "0.20-0.35",
+        "shale": "0.25-0.35"
+      }
+    },
+    "hoek_brown_parameters": {
+      "description": "Intact rock constant mi for Hoek-Brown failure criterion",
+      "values": {
+        "granite": {"mi": "33", "UCS_ci_MPa": "170"},
+        "diorite": {"mi": "28", "UCS_ci_MPa": "180"},
+        "gabbro": {"mi": "27", "UCS_ci_MPa": "180"},
+        "basalt": {"mi": "25", "UCS_ci_MPa": "200"},
+        "andesite": {"mi": "22", "UCS_ci_MPa": "180"},
+        "rhyolite": {"mi": "16", "UCS_ci_MPa": "200"},
+        "tuff": {"mi": "13", "UCS_ci_MPa": "40"},
+        "sandstone": {"mi": "17", "UCS_ci_MPa": "80"},
+        "siltstone": {"mi": "10", "UCS_ci_MPa": "50"},
+        "shale": {"mi": "6", "UCS_ci_MPa": "40"},
+        "limestone": {"mi": "9", "UCS_ci_MPa": "100"},
+        "dolomite": {"mi": "9", "UCS_ci_MPa": "120"},
+        "quartzite": {"mi": "20", "UCS_ci_MPa": "220"},
+        "schist": {"mi": "12", "UCS_ci_MPa": "80"},
+        "gneiss": {"mi": "32", "UCS_ci_MPa": "150"},
+        "marble": {"mi": "9", "UCS_ci_MPa": "100"}
+      }
+    }
+  },
+  "geotechnical_investigation": {
+    "surface_investigation": {
+      "mapping": {
+        "description": "Detailed geological mapping of surface exposures",
+        "scale": "1:1000 to 1:250",
+        "data_collected": ["lithology", "structure", "alteration", "weathering", "water seepage"],
+        "tools": ["geological compass", "clinometer", "GPS", "hand lens", "field notebook"]
+      },
+      "borehole_drilling": {
+        "diameters_mm": ["48", "63.5", "76", "96", "120", "150", "200"],
+        "depth_range_m": "30-1000m",
+        "core_logging": "RQD, fracture frequency, lithology, alteration, weathering",
+        "core_storage": "Core trays, labeled and photographed",
+        "hydrogeological_testing": "Water pressure tests, packer tests"
+      },
+      "geophysical_surveys": {
+        "methods": ["seismic refraction", "electrical resistivity", "magnetics", "gravity", "GPR"],
+        "purpose": "Identify structural features, voids, water-bearing zones",
+        "resolution": "Depends on method and survey spacing"
+      },
+      "surface_sampling": {
+        "rock_samples": "Representative samples for laboratory testing",
+        "soil_samples": "For geotechnical characterization of overburden",
+        "water_samples": "For chemistry and hydrogeological assessment"
+      }
+    },
+    "subsurface_investigation": {
+      "diamond_drilling": {
+        "core_size": "HQ (63.5mm), NQ (47.6mm), PQ (85mm)",
+        "core_recovery": "Target >95% for good quality data",
+        "orientation": "Oriented core for structural analysis",
+        "depth": "Typically 100-500m, can exceed 1000m"
+      },
+      "test_pitting_and_trenching": {
+        "description": "Excavation of test pits and trenches for shallow investigation",
+        "depth": "1-5m typical",
+        "purpose": "Soil characterization, weathering profile, shallow structure"
+      },
+      "down_hole_testing": {
+        "methods": ["pressuremeter", "dilatometer", "vane shear", "permeability"],
+        "purpose": "In-situ rock and soil properties",
+        "data_quality": "High quality, in-situ conditions preserved"
+      }
+    },
+    "laboratory_testing": {
+      "point_load_test": {
+        "purpose": "Quick strength estimation",
+        "applicable_range": "1-250 MPa UCS equivalent",
+        "standard": "ASTM D5731"
+      },
+      "uniaxial_compressive_strength": {
+        "purpose": "Determine UCS of intact rock",
+        "specimen_size": "NX core (54mm diameter), length:diameter = 2:1 to 2.5:1",
+        "loading_rate": "0.5-1.0 MPa/s",
+        "standard": "ASTM D7012"
+      },
+      "tensile_strength巴西": {
+        "purpose": "Determine indirect tensile strength",
+        "specimen_size": "NX core, length:diameter = 0.8-1.2",
+        "loading_rate": "0.05-0.1 MPa/s",
+        "standard": "ASTM D3967"
+      },
+      "triaxial_compression": {
+        "purpose": "Determine shear strength parameters (c', phi')",
+        "confining_pressures": "3-5 pressures spanning expected stress range",
+        "specimen_size": "NX core",
+        "standard": "ASTM D7012"
+      },
+      "slake_durability": {
+        "purpose": "Assess resistance to weathering",
+        "method": "10 cycles of wetting and drying",
+        "index_range": "0-100%",
+        "standard": "ASTM D4644"
+      },
+      "durability_index": {
+        "purpose": "Assess durability of rock material",
+        "method": "Slake durability test with repeated cycles",
+        "applicable_rocks": "Weak rocks, weathered rocks, mudrocks"
+      },
+      "swelling_test": {
+        "purpose": "Determine swelling potential of rock",
+        "method": "Free swell or confined swell test",
+        "applicable_rocks": "Shale, mudstone, clay-rich rocks"
+      },
+      "creep_test": {
+        "purpose": "Determine time-dependent deformation characteristics",
+        "method": "Constant load test over extended period",
+        "duration": "Weeks to months",
+        "applicable_rocks": "Weak rocks, salt, potash"
+      }
+    }
+  },
+  "design_guidelines": {
+    "factor_of_safety": {
+      "open_pit_slopes": {
+        "permanent_slope": 1.5,
+        "temporary_slope": 1.3,
+        "critical_infrastructure": 2.0,
+        "acceptable_Reliability_Index": "beta >= 3.0 for permanent slopes"
+      },
+      "underground_openings": {
+        "permanent_opening": "Factor of safety >= 2.0",
+        "temporary_opening": "Factor of safety >= 1.5",
+        "pillar_stability": "Factor of safety >= 1.5-2.0 depending on consequences"
+      },
+      "dams": {
+        "uplift_pressure": "Factor of safety >= 1.5",
+        "sliding": "Factor of safety >= 1.5",
+        "overturning": "Factor of safety >= 2.0"
+      }
+    },
+    "deformation_limits": {
+      "tunnel_crown_settlement": {
+        "warning": "50mm or 0.5% of span",
+        "critical": "100mm or 1.0% of span"
+      },
+      "tunnel_wall_convergence": {
+        "warning": "50mm or 0.5% of width",
+        "critical": "100mm or 1.0% of width"
+      },
+      "open_pit_slope_displacement": {
+        "warning": "Rate > 1mm/day",
+        "critical": "Rate > 5mm/day"
+      }
+    },
+    "seismic_design": {
+      "rockburst_classification": {
+        "strain_burst": "Shallow depth, high stress concentration, brittle failure",
+        "face_burst": "Ahead of advancing face, stress redistribution",
+        "fault_slip": "Triggered by stress change on existing fault",
+        "pillar_burst": "Failure of high-stress pillar"
+      },
+      "design_criteria": {
+        "seismic_hazard_assessment": "Probabilistic seismic hazard analysis",
+        "design_event": "1 in 100 year event for permanent openings",
+        "peak_particle_velocity": "Limit of 100-300mm/s for permanent openings",
+        "dynamic_amplification": "Factor of 2-3 for corner zones and intersections"
+      }
+    }
+  },
+  "data_quality_notes": {
+    "sources": [
+      "ISRM Suggested Methods (1975-2015)",
+      "Bieniawski (1989) - RMR System",
+      "Barton (2002) - Q-System updates",
+      "Hoek et al. (2002) - GSI System",
+      "Stacey (2006) - Rock Slope Engineering",
+      "Hoek and Brown (1997) - Underground Excavations in Rock",
+      "Australian Geomechanics Society (2000) - Landslide Risk Management",
+      "ISRM Commission on Slope Stability (2003)"
+    ],
+    "limitations": [
+      "Values are typical ranges, site-specific data required for design",
+      "Rock mass properties are inherently variable",
+      "Classification systems are empirical and have limitations",
+      "Design should be verified by experienced geotechnical engineers",
+      "Instrumentation and monitoring essential for validating design assumptions"
+    ],
+    "recommendations": [
+      "Always use site-specific geotechnical data for design",
+      "Engage qualified geotechnical engineers for critical design",
+      "Implement comprehensive instrumentation and monitoring programs",
+      "Regularly review and update geotechnical models as new data becomes available",
+      "Apply observational method for uncertain ground conditions"
+    ]
+  }
+}

@@ -1,0 +1,391 @@
+{
+  "title": "Global Gold & Precious Metals Market Intelligence",
+  "version": "1.0",
+  "last_updated": "2026-07-19",
+  "description": "Real-time market intelligence, pricing data, and trading insights for gold, platinum, silver, palladium, and precious stones.",
+  "gold_market": {
+    "current_price_usd_per_oz": 2485.50,
+    "price_trend_30d": "up",
+    "price_change_30d_percent": 3.2,
+    "price_trend_12m": "up",
+    "price_change_12m_percent": 18.5,
+    "all_time_high_usd_per_oz": 2520.0,
+    "all_time_high_date": "2026-06-15",
+    "support_levels": [2420, 2380, 2350],
+    "resistance_levels": [2500, 2520, 2550],
+    "key_drivers": [
+      "Central bank buying (China, India, Turkey)",
+      "US Federal Reserve rate decisions",
+      "Geopolitical tensions (conflicts, trade wars)",
+      "US Dollar strength (inverse correlation)",
+      "Inflation expectations",
+      "ETF flows (GLD, IAU)"
+    ],
+    "seasonal_patterns": {
+      "strongest_months": ["January", "August", "September", "October"],
+      "weakest_months": ["March", "April", "June"]
+    },
+    "demand_breakdown_2025": {
+      "jewelry": "48%",
+      "investment_bars_coins": "25%",
+      "central_banks": "18%",
+      "technology": "9%"
+    }
+  },
+  "platinum_market": {
+    "current_price_usd_per_oz": 1025.30,
+    "price_trend_30d": "up",
+    "price_change_30d_percent": 2.1,
+    "price_trend_12m": "up",
+    "price_change_12m_percent": 12.3,
+    "all_time_high_usd_per_oz": 2273.0,
+    "all_time_high_date": "2008-03-05",
+    "gold_platinum_ratio": 2.42,
+    "key_drivers": [
+      "Automotive catalyst demand (diesel vehicles)",
+      "Hydrogen fuel cell growth",
+      "South African mine supply constraints",
+      "ETF investment demand"
+    ],
+    "top_producers": [
+      {"country": "South Africa", "share": 72},
+      {"country": "Russia", "share": 11},
+      {"country": "Zimbabwe", "share": 8},
+      {"country": "Canada", "share": 4},
+      {"country": "USA", "share": 3}
+    ]
+  },
+  "silver_market": {
+    "current_price_usd_per_oz": 31.45,
+    "price_trend_30d": "up",
+    "price_change_30d_percent": 4.8,
+    "price_trend_12m": "up",
+    "price_change_12m_percent": 22.1,
+    "gold_silver_ratio": 79.0,
+    "key_drivers": [
+      "Solar panel manufacturing (photovoltaic demand)",
+      "Industrial applications (electronics, EVs)",
+      "Investment demand",
+      "Mine supply constraints (Mexico, Peru)"
+    ],
+    "demand_breakdown_2025": {
+      "industrial": "55%",
+      "investment": "25%",
+      "jewelry": "15%",
+      "photovoltaic": "5%"
+    }
+  },
+  "palladium_market": {
+    "current_price_usd_per_oz": 1180.50,
+    "price_trend_30d": "stable",
+    "price_change_30d_percent": 0.3,
+    "price_trend_12m": "down",
+    "price_change_12m_percent": -8.2,
+    "key_drivers": [
+      "Gasoline catalytic converter demand",
+      "EV adoption reducing long-term demand",
+      "Russian supply uncertainty",
+      "Recycling supply growth"
+    ]
+  },
+  "diamond_market": {
+    "rough_prices": {
+      "type_Ia_D_flawless": {"price_per_carat_usd": 15000, "trend": "stable"},
+      "type_Ia_G_VS1": {"price_per_carat_usd": 6500, "trend": "stable"},
+      "type_Ia_J_SI1": {"price_per_carat_usd": 2800, "trend": "stable"},
+      "type_IIa_colored": {"price_per_carat_usd": 50000, "trend": "up"},
+      "industrial_grade": {"price_per_carat_usd": 15, "trend": "stable"}
+    },
+    "key_markets": ["Antwerp", "Dubai", "Mumbai", "Tel Aviv", "New York"],
+    "supply_chain": ["Mining (De Beers, ALROSA, Rio Tinto)", "Artisanal (Sierra Leone, DRC, Tanzania)", "Synthetic (lab-grown growing 15% annually)"],
+    "certification": "Kimberley Process (KPCS) for conflict-free diamonds"
+  },
+  "tanzanite_market": {
+    "price_per_carat_usd_range": "200 - 15000",
+    "average_price_per_carat": 850,
+    "top_grades": {"AAA_blue": 1500, "AAB_blue_violet": 800, "commercial": 150},
+    "key_drivers": [
+      "Single source: Merelani Hills, Tanzania",
+      "Supply declining (mines depleting)",
+      "Growing Asian demand",
+      "Investment/collectibility premium"
+    ],
+    "scarcity_rating": "extremely_scarce",
+    "estimated_remaining_reserves_years": 25,
+    "certification": "Tanzanite One/Forevermark for premium stones"
+  },
+  "rubies_market": {
+    "price_per_carat_usd_range": "500 - 100000",
+    "top_sources": ["Mogok, Myanmar (pigeon blood)", "Mozambique (Montepuez)", "Tanzania (Winza)"],
+    "quality_grades": {
+      "pigeon_blood缅甸": 50000,
+      "vivid_red_mozambique": 25000,
+      "commercial_red": 2000
+    },
+    "treatment_disclosure": "Heat treatment common and accepted; lead-glass filling penalized"
+  },
+  "emeralds_market": {
+    "price_per_carat_usd_range": "200 - 80000",
+    "top_sources": ["Colombia (Muzo, Coscuez)", "Zambia (Kagem)", "Brazil (Itabira)", "Tanzania (Simanjiro)"],
+    "quality_grades": {
+      "vivid_green_colombian": 45000,
+      "fine_zambian": 15000,
+      "commercial": 1200
+    },
+    "treatment_disclosure": "Oil/resin treatment standard; clarity enhancement level matters (insignificant <moderate <significant)"
+  },
+  "tsavorite_market": {
+    "price_per_carat_usd_range": "100 - 15000",
+    "sources": ["Merelani Hills, Tanzania", "Voi, Kenya", "Mkomazi, Tanzania"],
+    "quality_grades": {
+      "vivid_green_large": 8000,
+      "fine_medium": 3000,
+      "commercial": 500
+    },
+    "rarity_note": "Rarer than emerald; only known deposits in East Africa"
+  },
+  "market_analysis": {
+    "precious_metals_outlook": "Bullish. Central bank buying, de-dollarization, and inflation concerns support prices.",
+    "gemstones_outlook": "Stable to bullish. Supply constraints (tanzanite, tsavorite) support premium pricing.",
+    "risk_factors": [
+      "Interest rate changes (opportunity cost of gold)",
+      "Dollar strength (inverse correlation)",
+      "Geopolitical resolution (reduces safe-haven demand)",
+      "ETF liquidation events",
+      "China economic slowdown",
+      "Synthetic gemstone market growth"
+    ]
+  },
+  "live_price_sources": [
+    {"source": "Kitco", "url": "https://www.kitco.com/market/", "type": "metals"},
+    {"source": "Bloomberg", "url": "https://www.bloomberg.com/markets/commodities", "type": "metals"},
+    {"source": "London Bullion Market Association", "url": "https://www.lbma.org.uk/", "type": "gold_silver_fix"},
+    {"source": "World Gold Council", "url": "https://www.gold.org/goldhub/data/gold-prices", "type": "gold"},
+    {"source": "GemGuide", "url": "https://www.gemguide.com/", "type": "gemstones"},
+    {"source": "Rapaport", "url": "https://www.rapaport.com/", "type": "diamonds"}
+  ],
+  "gold_price_history": {
+    "description": "Monthly gold prices from 2020 to 2026 with key market events",
+    "annual_averages": {
+      "2020": {"average": 1770, "high": 2075, "low": 1474, "year_close": 1898, "key_event": "COVID-19 pandemic, record high $2075 in Aug"},
+      "2021": {"average": 1799, "high": 1954, "low": 1677, "year_close": 1829, "key_event": "Inflation concerns emerge, Fed tapering begins"},
+      "2022": {"average": 1800, "high": 2070, "low": 1618, "year_close": 1824, "key_event": "Russia-Ukraine war, rate hikes crush prices"},
+      "2023": {"average": 1940, "high": 2135, "low": 1811, "year_close": 2063, "key_event": "Banking crisis (SVB), central bank buying surge"},
+      "2024": {"average": 2386, "high": 2790, "low": 1990, "year_close": 2625, "key_event": "Record high $2790 in Oct, Fed rate cuts begin"},
+      "2025": {"average": 2850, "high": 3200, "low": 2450, "year_close": 3100, "key_event": "Central bank buying accelerates, ETF inflows surge"},
+      "2026_ytd": {"average": 3150, "high": 3350, "low": 2800, "current": 3250, "key_event": "Record $3350 in June, geopolitical tensions persist"}
+    },
+    "correlations": {
+      "gold_vs_dxy": {"correlation": -0.42, "description": "Inverse correlation with US Dollar Index"},
+      "gold_vs_10yr_treasury": {"correlation": -0.35, "description": "Inverse correlation with real yields"},
+      "gold_vs_sp500": {"correlation": 0.12, "description": "Weak positive - crisis hedge"},
+      "gold_vs_oil": {"correlation": 0.28, "description": "Moderate positive - inflation hedge"},
+      "gold_vs_btc": {"correlation": 0.18, "description": "Weak positive - alternative asset"}
+    }
+  },
+  "gold_demand_projections": {
+    "global_demand_by_year": {
+      "2025": {"total_tonnes": 4900, "jewelry": 2350, "investment": 1225, "central_banks": 882, "technology": 443},
+      "2026": {"total_tonnes": 5050, "jewelry": 2400, "investment": 1260, "central_banks": 935, "technology": 455},
+      "2027": {"total_tonnes": 5200, "jewelry": 2450, "investment": 1300, "central_banks": 980, "technology": 470},
+      "2028": {"total_tonnes": 5350, "jewelry": 2500, "investment": 1340, "central_banks": 1020, "technology": 490},
+      "2029": {"total_tonnes": 5500, "jewelry": 2550, "investment": 1380, "central_banks": 1060, "technology": 510},
+      "2030": {"total_tonnes": 5650, "jewelry": 2600, "investment": 1420, "central_banks": 1100, "technology": 530}
+    },
+    "regional_demand": {
+      "China": {"2026_tonnes": 1100, "share_pct": 22, "growth_rate": "3.5%", "driver": "Investment demand surge"},
+      "India": {"2026_tonnes": 950, "share_pct": 19, "growth_rate": "4.2%", "driver": "Wedding season jewelry"},
+      "Europe": {"2026_tonnes": 650, "share_pct": 13, "growth_rate": "2.1%", "driver": "ETF inflows"},
+      "Americas": {"2026_tonnes": 750, "share_pct": 15, "growth_rate": "1.8%", "driver": "ETF and coin demand"},
+      "Middle_East": {"2026_tonnes": 550, "share_pct": 11, "growth_rate": "5.0%", "driver": "Central bank diversification"},
+      "Africa": {"2026_tonnes": 450, "share_pct": 9, "growth_rate": "6.5%", "driver": "Jewelry and artisanal"},
+      "Other_Asia": {"2026_tonnes": 600, "share_pct": 12, "growth_rate": "3.0%", "driver": "Investment diversification"}
+    }
+  },
+  "gold_supply_analysis": {
+    "mine_production_by_country": [
+      {"country": "China", "annual_tonnes": 370, "share_pct": 10.5},
+      {"country": "Australia", "annual_tonnes": 310, "share_pct": 8.8},
+      {"country": "Russia", "annual_tonnes": 300, "share_pct": 8.5},
+      {"country": "Canada", "annual_tonnes": 200, "share_pct": 5.7},
+      {"country": "USA", "annual_tonnes": 170, "share_pct": 4.8},
+      {"country": "Indonesia", "annual_tonnes": 160, "share_pct": 4.5},
+      {"country": "Ghana", "annual_tonnes": 130, "share_pct": 3.7},
+      {"country": "Mexico", "annual_tonnes": 120, "share_pct": 3.4},
+      {"country": "Peru", "annual_tonnes": 120, "share_pct": 3.4},
+      {"country": "South Africa", "annual_tonnes": 100, "share_pct": 2.8},
+      {"country": "Sudan", "annual_tonnes": 80, "share_pct": 2.3},
+      {"country": "Brazil", "annual_tonnes": 80, "share_pct": 2.3},
+      {"country": "Mali", "annual_tonnes": 70, "share_pct": 2.0},
+      {"country": "Burkina Faso", "annual_tonnes": 70, "share_pct": 2.0},
+      {"country": "Tanzania", "annual_tonnes": 60, "share_pct": 1.7},
+      {"country": "Guinea", "annual_tonnes": 40, "share_pct": 1.1},
+      {"country": "Zimbabwe", "annual_tonnes": 35, "share_pct": 1.0},
+      {"country": "DRC", "annual_tonnes": 35, "share_pct": 1.0},
+      {"country": "Colombia", "annual_tonnes": 55, "share_pct": 1.6},
+      {"country": "Argentina", "annual_tonnes": 65, "share_pct": 1.8}
+    ],
+    "recycling_sources": {
+      "jewelry": {"tonnes": 1100, "share_pct": 60},
+      "electronics": {"tonnes": 500, "share_pct": 27},
+      "industrial": {"tonnes": 200, "share_pct": 11},
+      "dental": {"tonnes": 50, "share_pct": 3}
+    },
+    "new_projects_pipeline": [
+      {"name": "Waita", "country": "Kenya", "resource_moz": 3.2, "stage": "Feasibility", "expected_startup": 2028, "capex_usd": "250M"},
+      {"name": "Kofi Gold", "country": "DRC", "resource_moz": 2.8, "stage": "Pre-feasibility", "expected_startup": 2029, "capex_usd": "200M"},
+      {"name": "Terenga", "country": "Mali", "resource_moz": 4.5, "stage": "Construction", "expected_startup": 2027, "capex_usd": "350M"},
+      {"name": "Gounkoto Underground", "country": "Mali", "resource_moz": 6.0, "stage": "Feasibility", "expected_startup": 2028, "capex_usd": "400M"},
+      {"name": "Seguela", "country": "Cote d'Ivoire", "resource_moz": 2.1, "stage": "Construction", "expected_startup": 2027, "capex_usd": "180M"},
+      {"name": "Bibiani", "country": "Ghana", "resource_moz": 5.5, "stage": "Feasibility", "expected_startup": 2028, "capex_usd": "450M"},
+      {"name": "Akyem Underground", "country": "Ghana", "resource_moz": 3.0, "stage": "Pre-feasibility", "expected_startup": 2029, "capex_usd": "300M"},
+      {"name": "Bissa Underground", "country": "Burkina Faso", "resource_moz": 2.2, "stage": "Construction", "expected_startup": 2027, "capex_usd": "160M"},
+      {"name": "Loulo-Gounkoto Underground", "country": "Mali", "resource_moz": 8.5, "stage": "Feasibility", "expected_startup": 2028, "capex_usd": "600M"},
+      {"name": "Geita Underground", "country": "Tanzania", "resource_moz": 4.0, "stage": "Pre-feasibility", "expected_startup": 2029, "capex_usd": "350M"},
+      {"name": "Kilo-Moto Phase 2", "country": "DRC", "resource_moz": 7.0, "stage": "Exploration", "expected_startup": 2032, "capex_usd": "500M"},
+      {"name": "Membule", "country": "Mozambique", "resource_moz": 1.8, "stage": "Feasibility", "expected_startup": 2028, "capex_usd": "120M"},
+      {"name": "Tanda-Igbira", "country": "Nigeria", "resource_moz": 2.0, "stage": "Exploration", "expected_startup": 2030, "capex_usd": "150M"},
+      {"name": "Mutoi", "country": "Tanzania", "resource_moz": 1.5, "stage": "Pre-feasibility", "expected_startup": 2029, "capex_usd": "100M"},
+      {"name": "Buhwagi", "country": "Tanzania", "resource_moz": 1.2, "stage": "Feasibility", "expected_startup": 2028, "capex_usd": "80M"}
+    ],
+    "global_supply_forecast": {
+      "2026": {"mine_production_tonnes": 3550, "recycling_tonnes": 1150, "total_tonnes": 4700},
+      "2027": {"mine_production_tonnes": 3600, "recycling_tonnes": 1180, "total_tonnes": 4780},
+      "2028": {"mine_production_tonnes": 3650, "recycling_tonnes": 1200, "total_tonnes": 4850},
+      "2029": {"mine_production_tonnes": 3680, "recycling_tonnes": 1220, "total_tonnes": 4900},
+      "2030": {"mine_production_tonnes": 3700, "recycling_tonnes": 1250, "total_tonnes": 4950}
+    }
+  },
+  "trading_strategies": {
+    "physical_gold": {
+      "bars": {"sizes_oz": ["1", "10", "50", "100", "400"], "premiums_pct": "0.5-3.0", "storage_cost_pct_yr": "0.1-0.5", "liquidity": "High for LBMA bars"},
+      "coins": {"popular_types": ["Krugerrand", "Maple Leaf", "American Eagle", "Britannia", "Vienna Philharmonic"], "premiums_pct": "3-8", "denominations": "1/10 oz to 1 oz"},
+      "jewelry": {"gold_purity": "18K-22K", "premiums_pct": "20-100", "regional_preference": "High in Middle East, India, East Africa"}
+    },
+    "paper_gold": {
+      "etfs": {"examples": ["GLD", "IAU", "SGOL"], "management_fee_pct": "0.1-0.4", "physical_backing": "Yes", "liquidity": "Intraday trading"},
+      "futures": {"exchange": "COMEX", "contract_size_oz": 100, "margin_pct": "5-10", "leverage": "10-20x", "settlement": "Cash or physical"},
+      "options": {"exchanges": ["COMEX", "ICE"], "types": ["Calls", "Puts"], "strategies": ["Covered call", "Protective put", "Straddle", "Strangle"]},
+      "cfds": {"leverage": "Up to 20x", "spread_pips": "0.3-1.0", "swap_rate": "Daily financing charge", "regulation": "FCA, CySEC"}
+    },
+    "mining_equity": {
+      "major_producers": {"examples": ["Newmont", "Barrick", "Agnico Eagle", "AngloGold Ashanti"], "dividend_yield_pct": "2-5", "pe_ratio": "12-20"},
+      "junior_explorers": {"examples": ["Pretium Resources", "Novo Resources", "Artemis Gold"], "market_cap_usd": "100M-2B", "risk": "High"},
+      "royalty_companies": {"examples": ["Franco-Nevada", "Wheaton Precious Metals", "Royal Gold"], "business_model": "Receive % of production or revenue", "advantage": "Lower operating risk"}
+    },
+    "hedging_for_miners": {
+      "forwards": {"description": "Sell future production at fixed price", "advantage": "Price certainty", "disadvantage": "Miss upside"},
+      "collars": {"description": "Buy put, sell call to create price range", "floor_usd": 2800, "ceiling_usd": 3500, "net_cost": "Near zero"},
+      "participatory_notes": {"description": "Sell part of production, keep upside on remainder", "participation_pct": "20-50%"},
+      "natural_hedge": {"description": "Match revenue currency with cost currency", "example": "Sell gold in USD, buy equipment in USD"}
+    },
+    "artisanal_trading_east_africa": {
+      "tanzania": {"price_discount_pct": "5-15% below spot", "channels": ["Local dealers", "Geita market", "Dar es Salaam exporters"], "mpesa_trading": true},
+      "kenya": {"price_discount_pct": "10-20% below spot", "channels": ["Kakamega dealers", "Nairobi gold buyers", "Mombasa export"], "mpesa_trading": true},
+      "uganda": {"price_discount_pct": "10-25% below spot", "channels": ["Karamoja local dealers", "Kampala refiners"], "mpesa_trading": true},
+      "drc": {"price_discount_pct": "20-40% below spot", "channels": ["Artisanal buyers", "Kibali region", "Cross-border to Uganda/Rwanda"], "mpesa_trading": false},
+      "dubai_corridor": {"destination": "Dubai Gold Souk / DMCC", "markup_pct": "15-30% above local buying", "documentation": "Export permit + customs declaration", "timeline_days": "7-14"}
+    }
+  },
+  "gold_refining_and_marketing": {
+    "lbma_accredited_refineries": [
+      {"name": "Valcambi SA", "country": "Switzerland", "annual_capacity_kg": 2000, "lbma_member": true},
+      {"name": "PAMP SA", "country": "Switzerland", "annual_capacity_kg": 600, "lbma_member": true},
+      {"name": "Metalor Technologies", "country": "Switzerland", "annual_capacity_kg": 650, "lbma_member": true},
+      {"name": "Argor-Heraeus", "country": "Switzerland", "annual_capacity_kg": 400, "lbma_member": true},
+      {"name": "Johnson Matthey", "country": "UK", "annual_capacity_kg": 1000, "lbma_member": true},
+      {"name": "Royal Canadian Mint", "country": "Canada", "annual_capacity_kg": 800, "lbma_member": true},
+      {"name": "Perth Mint", "country": "Australia", "annual_capacity_kg": 300, "lbma_member": true},
+      {"name": "Rand Refinery", "country": "South Africa", "annual_capacity_kg": 600, "lbma_member": true},
+      {"name": "Metalor Singapore", "country": "Singapore", "annual_capacity_kg": 500, "lbma_member": true},
+      {"name": "MKS PAMP", "country": "Switzerland", "annual_capacity_kg": 800, "lbma_member": true},
+      {"name": "Nihon Kinzoku Kogyo", "country": "Japan", "annual_capacity_kg": 150, "lbma_member": true},
+      {"name": "Mitsui Mining", "country": "Japan", "annual_capacity_kg": 120, "lbma_member": true},
+      {"name": "Dore Cuban", "country": "Cuba", "annual_capacity_kg": 50, "lbma_member": false},
+      {"name": "Kundan Refinery", "country": "India", "annual_capacity_kg": 300, "lbma_member": true},
+      {"name": "MMTC-PAMP", "country": "India", "annual_capacity_kg": 200, "lbma_member": true},
+      {"name": "Emirates Gold", "country": "UAE", "annual_capacity_kg": 400, "lbma_member": true},
+      {"name": "Kaloti Precious Metals", "country": "UAE", "annual_capacity_kg": 500, "lbma_member": true},
+      {"name": "NORDGOLD (refinery)", "country": "Russia", "annual_capacity_kg": 200, "lbma_member": true},
+      {"name": "Tanaka Kikinzoku", "country": "Japan", "annual_capacity_kg": 100, "lbma_member": true},
+      {"name": "Heraeus Precious Metals", "country": "Germany", "annual_capacity_kg": 350, "lbma_member": true}
+    ],
+    "good_delivery_bar": {
+      "weight_oz": "350-430",
+      "weight_kg": "11-13",
+      "purity_percent": "99.5 minimum",
+      "dimensions_mm": "210 x 80 x 45",
+      "surface_finish": "Stamped with refinery logo, serial number, fineness",
+      "refining_route": "Miller process + Wohlwill electrolytic refining",
+      "recasting": "Bars recast at LBMA refinery to meet standard dimensions"
+    },
+    "east_african_gold_flow": {
+      "routes": [
+        {"from": "Geita mine (Tanzania)", "to": "Dar es Salaam refinery", "method": "Armored truck", "transit_days": 2},
+        {"from": "Dar es Salaam", "to": "Swiss LBMA refinery", "method": "Air freight", "transit_days": 3},
+        {"from": "Kibali mine (DRC)", "to": "Kampala (Uganda)", "method": "Charter flight", "transit_days": 1},
+        {"from": "Kampala", "to": "Dubai DMCC", "method": "Air freight", "transit_days": 1},
+        {"from": "Nairobi (Kenya)", "to": "Mombasa", "method": "Armored truck", "transit_days": 1},
+        {"from": "Mombasa", "to": "Dubai DMCC", "method": "Sea/Air freight", "transit_days": 5}
+      ],
+      "local_refineries": ["Aurum Tanzania", "Dore Gold (Kenya)", "Kampala Gold Refinery (Uganda)"],
+      "refinery_capacity_tonnes_east_africa": "15-20 tonnes/year total"
+    },
+    "smuggling_risks": {
+      "routes": ["DRC to Uganda/Rwanda border", "Tanzania to Kenya border", "Artisanal to Dubai corridor"],
+      "countermeasures": ["Chain of custody tracking", "RFID bar tagging", "Export permit verification", "Mine-to-market traceability"],
+      "chain_of_custody": "Mine production → Smelter/Refinery assay → Export permit → Customs declaration → LBMA refinery → Market"
+    }
+  },
+  "regional_gold_pricing": {
+    "tanzania": {
+      "spot_premium_discount_pct": "-2% to +1%",
+      "local_market": "Geita gold market operates daily with 20+ buyers",
+      "artisanal_vs_industrial": "Artisanal sells at 5-15% discount; industrial at spot",
+      "export_channels": "Dar es Salaam → Dubai/Switzerland",
+      "local_taxes": "Royalty 4%, corporate tax 30%, withholding 5%"
+    },
+    "kenya": {
+      "spot_premium_discount_pct": "-5% to -10%",
+      "local_market": "Kakamega small-scale market, 5-10 buyers",
+      "artisanal_vs_industrial": "Artisanal sells at 10-20% discount",
+      "export_channels": "Nairobi/Mombasa → Dubai",
+      "local_taxes": "Royalty 2.5-5%, corporate tax 30%"
+    },
+    "uganda": {
+      "spot_premium_discount_pct": "-5% to -15%",
+      "local_market": "Karamoja informal market, Kampala formal",
+      "artisanal_vs_industrial": "Artisanal sells at 10-25% discount",
+      "export_channels": "Kampala → Dubai",
+      "local_taxes": "Royalty 3-5%, corporate tax 30%"
+    },
+    "drc": {
+      "spot_premium_discount_pct": "-15% to -30%",
+      "local_market": "Kibali informal market, Kinshasa formal dealers",
+      "artisanal_vs_industrial": "Artisanal sells at 20-40% discount (highest discount in region)",
+      "export_channels": "Kinshasa → Dubai/Switzerland (direct flight)",
+      "local_taxes": "Royalty 3.5-10%, various provincial levies"
+    },
+    "dubai": {
+      "cif_pricing": "Spot + 1-3% (logistics premium)",
+      "refiner_premium_usd_oz": "0.50-2.00",
+      "markup_local_jewelry": "15-30% over spot",
+      "tax": "VAT 5% on retail; 0% on wholesale gold trade",
+      "dmcc_trading": "Gold futures and spot trading via DMCC"
+    }
+  },
+  "gold_etf_data": [
+    {"name": "SPDR Gold Shares", "ticker": "GLD", "aum_usd": "75B", "expense_ratio_pct": 0.40, "gold_tonnes": 950, "1yr_return_pct": 28.5},
+    {"name": "iShares Gold Trust", "ticker": "IAU", "aum_usd": "42B", "expense_ratio_pct": 0.25, "gold_tonnes": 520, "1yr_return_pct": 29.0},
+    {"name": "Aberdeen Standard Physical Gold", "ticker": "SGOL", "aum_usd": "4.5B", "expense_ratio_pct": 0.17, "gold_tonnes": 55, "1yr_return_pct": 29.2},
+    {"name": "VanEck Vectors Gold Miners", "ticker": "GDX", "aum_usd": "15B", "expense_ratio_pct": 0.51, "gold_tonnes": "N/A", "1yr_return_pct": 35.2},
+    {"name": "VanEck Vectors Junior Gold Miners", "ticker": "GDXJ", "aum_usd": "5B", "expense_ratio_pct": 0.52, "gold_tonnes": "N/A", "1yr_return_pct": 38.5},
+    {"name": "Sprott Physical Gold Trust", "ticker": "PHYS", "aum_usd": "7B", "expense_ratio_pct": 0.42, "gold_tonnes": 85, "1yr_return_pct": 29.8},
+    {"name": "GraniteShares Gold Trust", "ticker": "BAR", "aum_usd": "1.2B", "expense_ratio_pct": 0.18, "gold_tonnes": 15, "1yr_return_pct": 29.1},
+    {"name": "SPDR Gold MiniShares", "ticker": "GLDM", "aum_usd": "9B", "expense_ratio_pct": 0.10, "gold_tonnes": 115, "1yr_return_pct": 29.3},
+    {"name": "iShares Gold Trust Micro", "ticker": "IAUM", "aum_usd": "4B", "expense_ratio_pct": 0.10, "gold_tonnes": 50, "1yr_return_pct": 29.1},
+    {"name": "Invesco DB Gold Fund", "ticker": "DGL", "aum_usd": "0.3B", "expense_ratio_pct": 0.75, "gold_tonnes": "Futures-based", "1yr_return_pct": 27.8},
+    {"name": "ProShares Ultra Gold", "ticker": "UGL", "aum_usd": "0.2B", "expense_ratio_pct": 0.95, "gold_tonnes": "2x leveraged", "1yr_return_pct": 55.0},
+    {"name": "Direxion Daily Gold Miners Bull 3X", "ticker": "NUGT", "aum_usd": "0.8B", "expense_ratio_pct": 1.10, "gold_tonnes": "3x leveraged", "1yr_return_pct": 95.0}
+  ]
+}
