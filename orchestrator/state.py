@@ -13,4 +13,4 @@ class AgentState(TypedDict):
     extracted_data: Dict[str, Any]      # Extracted results from tools/services (e.g., "ocr_text", "search_results")
     output_report: Optional[Dict[str, Any]] # Info about generated PDF or text output
     next_step: str
-    interaction_mode: str  # "whatsapp_chat" or "voice_note"
+    interaction_mode: str  # "web_chat" or "voice_note"

@@ -1,6 +1,7 @@
 import os
 import json
 import logging
+import threading
 from typing import List, Dict, Any, Optional
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -25,6 +26,7 @@ class PostgresClient:
         self.dsn = dsn or None
         self.conn = None
         self.is_mocked = False
+        self._write_lock = threading.Lock()
         self.connect()
 
     def connect(self):
@@ -43,7 +45,11 @@ class PostgresClient:
             self.is_mocked = True
             try:
                 import sqlite3
-                self.conn = sqlite3.connect(":memory:", check_same_thread=False)
+                from backend.config import settings
+                db_dir = settings.storage_dir
+                os.makedirs(db_dir, exist_ok=True)
+                db_path = os.path.join(db_dir, "ai_os.db")
+                self.conn = sqlite3.connect(db_path, check_same_thread=False)
                 self.conn.row_factory = sqlite3.Row
                 self.initialize_sqlite_tables()
             except Exception as se:
@@ -88,23 +94,7 @@ class PostgresClient:
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
             """,
-            """
-            CREATE TABLE IF NOT EXISTS wa_inbox (
-                id SERIAL PRIMARY KEY,
-                phone_number VARCHAR(50) NOT NULL,
-                msg_type VARCHAR(20) NOT NULL DEFAULT 'text',
-                text TEXT DEFAULT '',
-                media_uri TEXT DEFAULT '',
-                media_mime VARCHAR(100) DEFAULT '',
-                media_name VARCHAR(255) DEFAULT '',
-                status VARCHAR(20) NOT NULL DEFAULT 'pending',
-                attempts INT NOT NULL DEFAULT 0,
-                reply_text TEXT DEFAULT '',
-                error TEXT DEFAULT '',
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                processed_at TIMESTAMP
-            );
-            """,
+
             """
             CREATE TABLE IF NOT EXISTS knowledge_base (
                 id SERIAL PRIMARY KEY,
@@ -166,23 +156,7 @@ class PostgresClient:
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP
             );
             """,
-            """
-            CREATE TABLE IF NOT EXISTS wa_inbox (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                phone_number TEXT NOT NULL,
-                msg_type TEXT DEFAULT 'text',
-                text TEXT DEFAULT '',
-                media_uri TEXT DEFAULT '',
-                media_mime TEXT DEFAULT '',
-                media_name TEXT DEFAULT '',
-                status TEXT DEFAULT 'pending',
-                attempts INTEGER DEFAULT 0,
-                reply_text TEXT DEFAULT '',
-                error TEXT DEFAULT '',
-                created_at TEXT DEFAULT CURRENT_TIMESTAMP,
-                processed_at TEXT
-            );
-            """,
+
             """
             CREATE TABLE IF NOT EXISTS knowledge_base (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -225,22 +199,30 @@ class PostgresClient:
                               "ON CONFLICT(phone_number, memory_key) DO UPDATE SET memory_value=excluded.memory_value, updated_at=datetime('now')")
             returning_insert = "RETURNING id" in sql
             sql = sql.replace("RETURNING id", "")
-            
-            try:
-                cur = self.conn.cursor()
-                cur.execute(sql, params)
-                if fetch == "one":
-                    row = cur.fetchone()
-                    return dict(row) if row else None
-                elif fetch == "all":
-                    rows = cur.fetchall()
-                    return [dict(r) for r in rows]
-                elif returning_insert:
-                    return cur.lastrowid
-                return None
-            except Exception as e:
-                logger.error(f"SQLite error running: {sql}. Error: {e}")
-                return None
+
+            # SQLite is single-writer; serialize concurrent requests to avoid
+            # "database is locked" errors during chat streaming + telemetry.
+            with self._write_lock:
+                try:
+                    cur = self.conn.cursor()
+                    cur.execute(sql, params)
+                    # Commit every statement so chat history and other writes are
+                    # durable across process restarts (sqlite3 opens an implicit
+                    # transaction on DML; without commit all data would be rolled
+                    # back when the server shuts down).
+                    self.conn.commit()
+                    if fetch == "one":
+                        row = cur.fetchone()
+                        return dict(row) if row else None
+                    elif fetch == "all":
+                        rows = cur.fetchall()
+                        return [dict(r) for r in rows]
+                    elif returning_insert:
+                        return cur.lastrowid
+                    return None
+                except Exception as e:
+                    logger.error(f"SQLite error running: {sql}. Error: {e}")
+                    return None
         else:
             try:
                 cursor_factory = RealDictCursor if fetch else None
@@ -259,9 +241,22 @@ class PostgresClient:
                 return None
 
     # Conversation queries
-    def get_recent_conversations(self, limit: int = 25) -> List[Dict[str, Any]]:
-        sql = "SELECT session_id, messages FROM conversations ORDER BY updated_at DESC LIMIT %s;"
-        return self._execute(sql, (limit,), fetch="all") or []
+    def get_chat_sessions(self, limit: int = 25) -> List[Dict[str, Any]]:
+        sql = "SELECT session_id, updated_at, messages FROM conversations ORDER BY updated_at DESC LIMIT %s;"
+        rows = self._execute(sql, (limit,), fetch="all") or []
+        sessions = []
+        for row in rows:
+            messages = json.loads(row["messages"]) if isinstance(row["messages"], str) else row["messages"]
+            title = "New Session"
+            if messages and len(messages) > 0:
+                first_msg = messages[0].get("content", "")
+                title = first_msg[:30] + "..." if len(first_msg) > 30 else first_msg
+            sessions.append({
+                "id": row["session_id"],
+                "title": title,
+                "time": row["updated_at"].isoformat() if hasattr(row["updated_at"], "isoformat") else str(row["updated_at"])
+            })
+        return sessions
 
     def get_conversation(self, session_id: str) -> List[Dict[str, Any]]:
         sql = "SELECT messages FROM conversations WHERE session_id = %s;"
@@ -279,6 +274,23 @@ class PostgresClient:
             DO UPDATE SET messages = EXCLUDED.messages, updated_at = CURRENT_TIMESTAMP;
         """
         self._execute(sql, (session_id, phone_number, json.dumps(messages)))
+
+    def save_user_message(self, session_id: str, phone_number: str, content: str):
+        """Persist a user message immediately so it survives errors/disconnects.
+
+        Idempotent: won't duplicate the same message if the request is retried.
+        """
+        existing = self.get_conversation(session_id) or []
+        if existing and existing[-1].get("role") == "user" and existing[-1].get("content") == content:
+            return
+        existing.append({"role": "user", "content": content})
+        self.save_conversation(session_id, phone_number, existing)
+
+    def append_conversation(self, session_id: str, phone_number: str, new_messages: List[Dict[str, Any]]):
+        """Append messages to an existing conversation (e.g. the assistant reply)."""
+        existing = self.get_conversation(session_id) or []
+        existing.extend(new_messages)
+        self.save_conversation(session_id, phone_number, existing)
 
     # User memory queries
     def get_user_memories(self, phone_number: str) -> Dict[str, str]:
@@ -312,36 +324,7 @@ class PostgresClient:
         sql = "INSERT INTO audit_logs (phone_number, action, details) VALUES (%s, %s, %s);"
         self._execute(sql, (phone_number, action, json.dumps(details)))
 
-    # WhatsApp message queue (worker-mode inbox)
-    def enqueue_wa_message(self, phone_number: str, msg_type: str = "text", text: str = "",
-                           media_uri: str = "", media_mime: str = "", media_name: str = "") -> int:
-        sql = """
-            INSERT INTO wa_inbox (phone_number, msg_type, text, media_uri, media_mime, media_name)
-            VALUES (%s, %s, %s, %s, %s, %s) RETURNING id;
-        """
-        res = self._execute(sql, (phone_number, msg_type, text, media_uri, media_mime, media_name))
-        return res if res is not None else -1
 
-    def fetch_pending_wa_messages(self, limit: int = 5) -> List[Dict[str, Any]]:
-        sql = "SELECT * FROM wa_inbox WHERE status = 'pending' ORDER BY id ASC LIMIT %s;"
-        return self._execute(sql, (limit,), fetch="all") or []
-
-    def mark_wa_message_processing(self, msg_id: int):
-        sql = "UPDATE wa_inbox SET status = 'processing', attempts = attempts + 1 WHERE id = %s;"
-        self._execute(sql, (msg_id,))
-
-    def complete_wa_message(self, msg_id: int, reply_text: str):
-        sql = """
-            UPDATE wa_inbox SET status = 'done', reply_text = %s, processed_at = CURRENT_TIMESTAMP
-            WHERE id = %s;
-        """
-        self._execute(sql, (reply_text, msg_id))
-
-    def fail_wa_message(self, msg_id: int, error: str, max_attempts: int = 3):
-        sql = "UPDATE wa_inbox SET error = %s, status = 'pending' WHERE id = %s AND attempts < %s;"
-        self._execute(sql, (error, msg_id, max_attempts))
-        sql_final = "UPDATE wa_inbox SET error = %s, status = 'failed' WHERE id = %s AND attempts >= %s;"
-        self._execute(sql_final, (error, msg_id, max_attempts))
 
     # Knowledge base (idle self-improvement / fast answers)
     def add_knowledge(self, topic: str, question: str, answer: str,

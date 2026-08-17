@@ -19,7 +19,7 @@ ENV/
 .env.local
 .env.production
 .env.staging
-hf.secrets.env
+
 
 # IDE
 .vscode/
@@ -40,6 +40,7 @@ htmlcov/
 .tox/
 
 # Local storage
+storage/local_data/
 storage/local_buckets/
 *.pdf
 *.docx
@@ -52,8 +53,9 @@ logs/
 # Jupyter
 .ipynb_checkpoints/
 
-# Docker
-docker-compose.override.yml
+# Frontend
+frontend/node_modules/
+frontend/dist/
 
 # Model files
 *.bin

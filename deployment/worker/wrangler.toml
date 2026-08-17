@@ -1,7 +1,0 @@
-name = "aios-worker"
-main = "src/index.js"
-compatibility_date = "2024-09-01"
-
-[vars]
-VERIFY_TOKEN = "5b941ae2be2357b079e9b1ab76fc875e"
-WHATSAPP_PHONE_NUMBER_ID = "1616913123271957"

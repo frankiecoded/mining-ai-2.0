@@ -4,13 +4,13 @@ Idle self-improvement tasks - run by the worker whenever the inbox is empty.
 While the GPU/node is idle these tasks quietly make the system smarter:
   1. Analytics synthesis: compute quick statistics from the local datasets and
      store them as instant-answer knowledge entries.
-  2. Conversation mining: extract recurring user questions from past WhatsApp
+  2. Conversation mining: extract recurring user questions from past web chat
      conversations and persist the Q&A into the knowledge base.
   3. Q&A generation: use the local LLM to derive factual Q&A pairs from dataset
      chunks (cadence-limited so it never delays a real message for long).
 
 Every task is time-budgeted and failures are non-fatal - the system must always
-prioritize answering WhatsApp messages over self-improvement.
+prioritize answering user messages over self-improvement.
 """
 import json
 import logging

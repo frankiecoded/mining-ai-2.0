@@ -1,13 +1,23 @@
 import os
 import json
+import time
 import logging
-from typing import List, Dict, Any, Optional, Iterator
+from typing import List, Dict, Any, Optional, Iterator, Tuple
 from langchain_core.messages import BaseMessage, AIMessage, AIMessageChunk, HumanMessage, SystemMessage, ToolMessage
 from langchain_core.language_models.chat_models import BaseChatModel
 from langchain_core.outputs import ChatResult, ChatGeneration, ChatGenerationChunk
 from langchain_core.callbacks.manager import CallbackManagerForLLMRun
 
 logger = logging.getLogger("ai_os.local_model")
+
+# Small-talk / greeting tokens that should get a fast conversational reply
+# instead of a heavy knowledge-base lookup.
+GREETING_TOKENS = (
+    "hello", "hi", "hey", "howdy", "yo", "hiya",
+    "good morning", "good afternoon", "good evening",
+    "how are you", "how's it going", "how are u", "how r u",
+    "what's up", "whats up", "wassup", "sup", "how is it going",
+)
 
 TOOL_DEFINITIONS = [
     {
@@ -159,6 +169,458 @@ TOOL_DEFINITIONS = [
                 "required": ["query"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "delegate_to_agent",
+            "description": "Delegate a task to a specialized mining agent for domain-specific analysis. Available agents: geological_agent (ore grades, drilling, assaying), equipment_agent (equipment monitoring, diagnostics), safety_agent (safety compliance, incident analysis), financial_agent (budgets, costs, AISC), market_agent (commodity prices, market trends), document_agent (report generation), research_agent (regulations, standards).",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "agent_role": {
+                        "type": "string",
+                        "enum": ["geological_agent", "equipment_agent", "safety_agent", "financial_agent", "market_agent", "document_agent", "research_agent"],
+                        "description": "The specialized agent to delegate to"
+                    },
+                    "prompt": {
+                        "type": "string",
+                        "description": "The specific analysis task for the agent to perform"
+                    }
+                },
+                "required": ["agent_role", "prompt"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_agent_results",
+            "description": "Retrieve the results from a previously delegated agent task. Use after delegate_to_agent to get the agent's findings.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "agent_role": {
+                        "type": "string",
+                        "enum": ["geological_agent", "equipment_agent", "safety_agent", "financial_agent", "market_agent", "document_agent", "research_agent"],
+                        "description": "The agent whose results to retrieve"
+                    }
+                },
+                "required": ["agent_role"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "store_memory",
+            "description": "Store an important finding, lesson, or piece of information in persistent memory for future reference. Use this to remember equipment patterns, operator feedback, safety incidents, project updates, or reference information.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "memory_type": {
+                        "type": "string",
+                        "enum": ["operator", "feedback", "project", "reference", "shift", "equipment"],
+                        "description": "Type of memory: operator (user preferences), feedback (corrections), project (active work), reference (external systems), shift (handover context), equipment (equipment learnings)"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Short title for this memory"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "The detailed content to remember"
+                    },
+                    "tags": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Tags for easy retrieval"
+                    }
+                },
+                "required": ["memory_type", "title", "content"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "recall_memory",
+            "description": "Recall relevant memories from persistent storage. Use this to check for past findings, equipment history, operator preferences, or project context related to the current query.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {
+                        "type": "string",
+                        "description": "Search query to find relevant memories"
+                    }
+                },
+                "required": ["query"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "create_task",
+            "description": "Create a tracked background task for multi-step analysis. Use this when a query requires investigation across multiple domains or when you need to track progress on a complex analysis.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Short title for the task"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of what needs to be done"
+                    },
+                    "task_type": {
+                        "type": "string",
+                        "enum": ["geological", "equipment", "safety", "financial", "market", "document", "research", "analysis", "coordination"],
+                        "description": "Category of the task"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": ["low", "medium", "high", "critical"],
+                        "description": "Task priority level"
+                    }
+                },
+                "required": ["title"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "update_task",
+            "description": "Update progress on an active task. Use this to report step completion, current activity, or progress percentage.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "task_id": {
+                        "type": "string",
+                        "description": "The task ID to update"
+                    },
+                    "activity": {
+                        "type": "string",
+                        "description": "Description of the current activity or progress"
+                    }
+                },
+                "required": ["task_id"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "list_tasks",
+            "description": "List all active tasks and their current status. Use this to check what analyses are in progress or what needs attention.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_session_memory",
+            "description": "Get the live mine state document for the current session. This tracks active drilling targets, equipment status, safety concerns, geological findings, and recent decisions.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "update_session_memory",
+            "description": "Update a section of the live mine state document. Sections: current_state, active_targets, equipment_status, safety_concerns, geological_findings, active_workflows, recent_decisions, pending_actions.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "section": {
+                        "type": "string",
+                        "enum": ["current_state", "active_targets", "equipment_status", "safety_concerns", "geological_findings", "active_workflows", "recent_decisions", "pending_actions"],
+                        "description": "Which section to update"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "Content to write or append to the section"
+                    },
+                    "append": {
+                        "type": "boolean",
+                        "description": "If true, append to existing content. If false, replace.",
+                        "default": false
+                    }
+                },
+                "required": ["section", "content"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "create_plan",
+            "description": "Create a structured plan for a complex mining operation. Plans have phases (research, analysis, design, review, approval, execution) and require approval before execution.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Plan title (e.g., 'Blast Pattern Design for Bench 3')"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Detailed description of what the plan covers"
+                    },
+                    "plan_type": {
+                        "type": "string",
+                        "enum": ["blast_design", "ventilation", "drill_program", "capital_expenditure", "emergency_response", "environmental", "general"],
+                        "description": "Type of mining plan"
+                    }
+                },
+                "required": ["title", "description"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_plan",
+            "description": "Retrieve the current active plan or a specific plan by ID. Shows all steps, their status, and dependencies.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "plan_id": {
+                        "type": "string",
+                        "description": "Plan ID to retrieve. If empty, gets the active plan for this session."
+                    }
+                },
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "approve_plan",
+            "description": "Approve a plan so it can be executed. Plans require operator approval before any execution steps.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "plan_id": {
+                        "type": "string",
+                        "description": "Plan ID to approve"
+                    }
+                },
+                "required": ["plan_id"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "add_todo",
+            "description": "Add a task to the shift task list. Use for operational tasks, safety checks, maintenance items, or any action items.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "content": {
+                        "type": "string",
+                        "description": "Task description"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": ["low", "medium", "high", "critical"],
+                        "description": "Task priority"
+                    },
+                    "category": {
+                        "type": "string",
+                        "enum": ["safety", "maintenance", "geological", "financial", "operations", "environmental", "general"],
+                        "description": "Task category"
+                    },
+                    "assignee": {
+                        "type": "string",
+                        "description": "Who is responsible"
+                    }
+                },
+                "required": ["content"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "update_todo",
+            "description": "Update a task's status or details. Mark as in_progress, completed, blocked, etc.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "todo_id": {
+                        "type": "string",
+                        "description": "Task ID to update"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["pending", "in_progress", "completed", "blocked", "cancelled"],
+                        "description": "New status"
+                    },
+                    "notes": {
+                        "type": "string",
+                        "description": "Additional notes"
+                    }
+                },
+                "required": ["todo_id"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "list_todos",
+            "description": "List all tasks in the shift task list. Optionally filter by status or category.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "enum": ["pending", "in_progress", "completed", "blocked", "cancelled"],
+                        "description": "Filter by status"
+                    },
+                    "category": {
+                        "type": "string",
+                        "description": "Filter by category"
+                    }
+                },
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_safety_checklist",
+            "description": "Generate a standard safety checklist for the current shift. Includes PPE, gas monitoring, equipment inspection, and emergency readiness items.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_cost_report",
+            "description": "Get the current cost report showing API usage, token consumption, and budget status for this session and shift.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "suggest_next_actions",
+            "description": "Get proactive suggestions for what to do next based on the current conversation context and mining operation state.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "compact_context",
+            "description": "Compress the conversation history to free up context space. Useful when the conversation is getting long and you need to maintain focus.",
+            "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "check_anomalies",
+            "description": "Check for anomalies in production, safety, equipment, and financial data using ML-based pattern detection.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query": {"type": "string", "description": "What to check (e.g., 'production', 'safety', 'equipment', 'all')"}
+                },
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "check_alerts",
+            "description": "Check active alerts and notifications from the alert system.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "category": {"type": "string", "enum": ["safety", "production", "equipment", "financial", "all"], "description": "Filter alerts by category"}
+                },
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "analyze_document",
+            "description": "Analyze a document for insights, compliance, or risk assessment using AI-powered document intelligence.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "document_id": {"type": "string", "description": "The document ID to analyze"},
+                    "analysis_type": {"type": "string", "enum": ["summary", "extraction", "compliance", "risk_assessment"], "description": "Type of analysis to perform"}
+                },
+                "required": ["document_id"]
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "get_audit_log",
+            "description": "Query the audit trail for system activity, AI decisions, security events, and user actions.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "query_type": {"type": "string", "enum": ["recent", "security", "ai_decisions", "user_activity", "statistics"], "description": "Type of audit query"},
+                    "user_id": {"type": "string", "description": "Filter by user ID"},
+                    "limit": {"type": "integer", "description": "Number of entries to return (default: 20)"}
+                },
+                "required": []
+            }
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "generate_report_from_data",
+            "description": "Generate a comprehensive report from current mine data using automated report generator.",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "report_type": {"type": "string", "enum": ["production", "safety", "financial", "shift", "equipment", "custom"], "description": "Type of report to generate"},
+                    "title": {"type": "string", "description": "Custom report title (optional)"}
+                },
+                "required": ["report_type"]
+            }
+        }
     }
 ]
 
@@ -174,13 +636,32 @@ class LocalLLMAdapter(BaseChatModel):
     api_url: str = "http://localhost:11434/v1"
     use_mock: bool = False
     api_key: str = ""
+    reasoning_effort: str = ""
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.api_url = os.getenv("LOCAL_LLM_URL", self.api_url)
-        self.model_name = os.getenv("LOCAL_LLM_MODEL", self.model_name)
-        self.api_key = os.getenv("LOCAL_LLM_API_KEY", "")
-        self.use_mock = os.getenv("MOCK_LLM", "false").lower() == "true"
+        try:
+            from backend.config import settings
+            _cfg = settings
+        except Exception:
+            _cfg = None
+
+        def _env(key: str, default: str = "") -> str:
+            val = os.getenv(key)
+            if val is not None:
+                return val
+            if _cfg is not None:
+                return str(getattr(_cfg, key, "") or "")
+            return default
+
+        self.api_url = _env("LOCAL_LLM_URL", self.api_url)
+        self.model_name = _env("LOCAL_LLM_MODEL", self.model_name)
+        self.api_key = _env("LOCAL_LLM_API_KEY", "")
+        self.reasoning_effort = _env("REASONING_EFFORT", "")
+        self.use_mock = (_env("MOCK_LLM", "false") or "false").lower() == "true"
+        # Health-check once per process; the server state doesn't change between
+        # rapid requests, so skipping this removes ~0.5-1s of overhead per turn.
+        object.__setattr__(self, "_health_verified", False)
 
         from local_model.gpu_manager import GPUManager
         object.__setattr__(self, "_gpu_manager", GPUManager(
@@ -191,11 +672,79 @@ class LocalLLMAdapter(BaseChatModel):
             health_check_url=self.api_url
         ))
 
+    def _ensure_server(self):
+        """Start/verify the LLM server once per process, then just stamp time."""
+        if not self._health_verified:
+            self._gpu_manager.start_gpu()
+            self._gpu_manager.wait_for_health()
+            object.__setattr__(self, "_health_verified", True)
+        self._gpu_manager.update_last_request_time()
+
     def _headers(self) -> Dict[str, str]:
         """Auth headers for OpenAI-compatible hosted endpoints."""
         if self.api_key:
             return {"Authorization": f"Bearer {self.api_key}", "Content-Type": "application/json"}
         return {"Content-Type": "application/json"}
+
+    def _payload_extras(self) -> Dict[str, Any]:
+        """Extra optional payload params (e.g. reasoning_effort for hosted reasoning models)."""
+        extras: Dict[str, Any] = {}
+        if getattr(self, "reasoning_effort", ""):
+            extras["reasoning_effort"] = self.reasoning_effort
+        return extras
+
+    def _keep_alive(self) -> Dict[str, Any]:
+        """keep_alive is Ollama-only; hosted endpoints reject it."""
+        host = self.api_url.split("://")[-1].split("/")[0]
+        if host.startswith("localhost") or host.startswith("127.0.0.1") or host.startswith("0.0.0.0"):
+            return {"keep_alive": "30m"}
+        return {}
+
+    def _serialize_tool_calls(self, tool_calls: List[Any]) -> List[Dict[str, Any]]:
+        """Convert LangChain-style tool calls to the OpenAI-compatible wire format.
+
+        LangChain tool calls are dicts like {"name", "args", "id", "type"}.
+        OpenAI/Ollama expects: {"id", "type": "function", "function": {"name", "arguments" (string)}}.
+        """
+        serialized = []
+        for tc in tool_calls:
+            name = tc.get("name", "")
+            args = tc.get("args", {})
+            if isinstance(args, dict):
+                args_str = json.dumps(args)
+            else:
+                args_str = str(args)
+            serialized.append({
+                "id": tc.get("id") or f"call_{name}",
+                "type": "function",
+                "function": {"name": name, "arguments": args_str},
+            })
+        return serialized
+
+    def _message_to_api_dict(self, msg: BaseMessage) -> Dict[str, Any]:
+        """Serialize a LangChain message to an OpenAI-compatible message dict."""
+        role = msg.type
+        if role == "ai":
+            role = "assistant"
+        elif role == "human":
+            role = "user"
+        elif role == "tool":
+            role = "tool"
+
+        msg_dict: Dict[str, Any] = {"role": role}
+
+        tool_calls = getattr(msg, "tool_calls", None)
+        if tool_calls:
+            msg_dict["content"] = None
+            msg_dict["tool_calls"] = self._serialize_tool_calls(tool_calls)
+        else:
+            msg_dict["content"] = msg.content
+
+        tool_call_id = getattr(msg, "tool_call_id", None)
+        if tool_call_id:
+            msg_dict["tool_call_id"] = tool_call_id
+
+        return msg_dict
 
     @property
     def _llm_type(self) -> str:
@@ -208,9 +757,7 @@ class LocalLLMAdapter(BaseChatModel):
         run_manager: Optional[CallbackManagerForLLMRun] = None,
         **kwargs: Any,
     ) -> ChatResult:
-        self._gpu_manager.start_gpu()
-        self._gpu_manager.wait_for_health()
-        self._gpu_manager.update_last_request_time()
+        self._ensure_server()
 
         # Force mock in test environment or when explicitly configured
         is_testing = "PYTEST_CURRENT_TEST" in os.environ or os.getenv("TESTING") == "true"
@@ -231,9 +778,7 @@ class LocalLLMAdapter(BaseChatModel):
         **kwargs: Any,
     ) -> Iterator[ChatGenerationChunk]:
         """Stream tokens from the LLM via OpenAI-compatible streaming API."""
-        self._gpu_manager.start_gpu()
-        self._gpu_manager.wait_for_health()
-        self._gpu_manager.update_last_request_time()
+        self._ensure_server()
 
         is_testing = "PYTEST_CURRENT_TEST" in os.environ or os.getenv("TESTING") == "true"
 
@@ -244,31 +789,13 @@ class LocalLLMAdapter(BaseChatModel):
             except Exception as e:
                 logger.warning(f"Streaming LLM call failed: {e}. Falling back to mock.")
 
-        result = self._call_mock_llm(messages, **kwargs)
-        yield ChatGenerationChunk(message=result.generations[0].message)
+        yield from self._stream_mock_tokens(messages, **kwargs)
 
     def _stream_real_llm(self, messages: List[BaseMessage], **kwargs: Any) -> Iterator[ChatGenerationChunk]:
         """Stream response from LLM using SSE (Server-Sent Events) from OpenAI-compatible API."""
         import httpx
 
-        api_messages = []
-        for msg in messages:
-            role = msg.type
-            if role == "ai":
-                role = "assistant"
-            elif role == "human":
-                role = "user"
-            elif role == "system":
-                role = "system"
-            elif role == "tool":
-                role = "tool"
-
-            msg_dict = {"role": role, "content": msg.content}
-            if hasattr(msg, "tool_calls") and msg.tool_calls:
-                msg_dict["tool_calls"] = msg.tool_calls
-            if hasattr(msg, "tool_call_id"):
-                msg_dict["tool_call_id"] = msg.tool_call_id
-            api_messages.append(msg_dict)
+        api_messages = [self._message_to_api_dict(msg) for msg in messages]
 
         payload = {
             "model": self.model_name,
@@ -276,7 +803,9 @@ class LocalLLMAdapter(BaseChatModel):
             "tools": TOOL_DEFINITIONS,
             "tool_choice": "auto",
             "temperature": kwargs.get("temperature", 0.1),
-            "stream": True
+            "stream": True,
+            **self._payload_extras(),
+            **self._keep_alive()
         }
 
         url = f"{self.api_url.rstrip('/')}/chat/completions"
@@ -286,6 +815,10 @@ class LocalLLMAdapter(BaseChatModel):
 
         with httpx.stream("POST", url, json=payload, headers=self._headers(), timeout=120.0) as response:
             if response.status_code != 200:
+                body = response.read().decode("utf-8", errors="replace")[:800]
+                logger.warning(
+                    f"LLM streaming API returned {response.status_code}. Body={body}. Payload={json.dumps(payload)[:2000]}"
+                )
                 raise Exception(f"LLM streaming API returned {response.status_code}")
 
             for line in response.iter_lines():
@@ -352,27 +885,7 @@ class LocalLLMAdapter(BaseChatModel):
         """
         import httpx
 
-        api_messages = []
-        for msg in messages:
-            role = msg.type
-            if role == "ai":
-                role = "assistant"
-            elif role == "human":
-                role = "user"
-            elif role == "system":
-                role = "system"
-            elif role == "tool":
-                role = "tool"
-
-            msg_dict = {"role": role, "content": msg.content}
-
-            if hasattr(msg, "tool_calls") and msg.tool_calls:
-                msg_dict["tool_calls"] = msg.tool_calls
-
-            if hasattr(msg, "tool_call_id"):
-                msg_dict["tool_call_id"] = msg.tool_call_id
-
-            api_messages.append(msg_dict)
+        api_messages = [self._message_to_api_dict(msg) for msg in messages]
 
         payload = {
             "model": self.model_name,
@@ -380,7 +893,9 @@ class LocalLLMAdapter(BaseChatModel):
             "tools": TOOL_DEFINITIONS,
             "tool_choice": "auto",
             "temperature": kwargs.get("temperature", 0.1),
-            "stream": False
+            "stream": False,
+            **self._payload_extras(),
+            **self._keep_alive()
         }
 
         url = f"{self.api_url.rstrip('/')}/chat/completions"
@@ -423,11 +938,13 @@ class LocalLLMAdapter(BaseChatModel):
         ai_msg = AIMessage(content=content, **ai_kwargs)
         return ChatResult(generations=[ChatGeneration(message=ai_msg)])
 
-    def _call_mock_llm(self, messages: List[BaseMessage], **kwargs: Any) -> ChatResult:
+    def _mock_response(self, messages: List[BaseMessage]) -> Tuple[str, List[Dict[str, Any]]]:
         """
-        Intelligent mock reasoning engine for offline/testing mode.
-        Uses keyword detection and conversation state analysis to route tool calls
-        and synthesize responses.
+        Decides a mock reply (text + optional tool calls).
+
+        Conversational messages (greetings, small talk, short/casual text) get a
+        direct, natural reply. Domain queries still route to tools. This keeps the
+        assistant chatty and fast without dragging casual conversation into tools.
         """
         completed_tools = set()
         tool_outputs = []
@@ -441,7 +958,7 @@ class LocalLLMAdapter(BaseChatModel):
                     completed_tools.add("mining")
                 elif "verified" in content_lower or "based on" in content_lower or "internet source" in content_lower:
                     completed_tools.add("research")
-                elif "report generated" in content_lower or "report generated" in content_lower:
+                elif "report generated" in content_lower:
                     completed_tools.add("document")
                 elif "ocr" in content_lower or "image" in content_lower:
                     completed_tools.add("vision")
@@ -459,62 +976,99 @@ class LocalLLMAdapter(BaseChatModel):
                 user_msg = msg.content
                 break
 
-        user_lower = user_msg.lower()
+        user_lower = user_msg.lower().strip()
+        words = [w for w in user_lower.replace("?", "").split() if w]
 
+        # Tool outputs are ready — synthesize a concise answer from them.
         if completed_tools:
-            synthesis_parts = tool_outputs
-            response_text = "Analysis completed. Here are the results:\n\n" + "\n\n".join(synthesis_parts)
-            ai_msg = AIMessage(content=response_text)
-            return ChatResult(generations=[ChatGeneration(message=ai_msg)])
+            response_text = "\n\n".join(tool_outputs)
+            if not response_text:
+                response_text = "I don't have the data you're looking for yet. Could you be more specific?"
+            return response_text, []
 
-        tool_calls = []
-        response_text = ""
+        # --- Fast conversational path (no tools) ---
+        is_greeting = any(tok in user_lower for tok in GREETING_TOKENS)
+        casual = len(words) <= 4
 
+        if is_greeting:
+            return (
+                "Hello! I'm your AI Operating System. I can help with your mining operations, "
+                "market prices, geology, financials, or just have a conversation. What would you like to know?"
+            ), []
+
+        if casual and not any(
+            k in user_lower for k in ["price", "gold", "silver", "market", "budget", "task",
+                                      "production", "report", "mining", "equipment", "grade"]
+        ):
+            return (
+                "Got it. Ask me anything — about your operations, current markets, geology, "
+                "budgets, or just talk. I'll answer precisely and won't guess."
+            ), []
+
+        # --- Domain tool routing ---
         if any(k in user_lower for k in ["drilling", "production", "equipment", "sop", "shaft", "grade", "mining", "conveyor", "ore"]):
-            if "mining" not in completed_tools:
-                response_text = "Querying the mining database for relevant information."
-                tool_calls = [{"name": "query_mining_database", "args": {"query": user_msg}, "id": "call_mining_1"}]
-            elif "knowledge" not in completed_tools:
-                response_text = "Searching the knowledge base for related standards and procedures."
-                tool_calls = [{"name": "search_knowledge_base", "args": {"query": user_msg}, "id": "call_kb_1"}]
-            else:
-                response_text = "Generating a comprehensive report based on the mining data."
-                tool_calls = [{"name": "generate_report", "args": {"title": "Mining Analysis Report", "content": "\n\n".join(tool_outputs), "file_type": "pdf"}, "id": "call_doc_1"}]
+            return "Let me pull the relevant data from your operations database.", [
+                {"name": "query_mining_database", "args": {"query": user_msg}, "id": "call_mining_1", "type": "tool_call"}
+            ]
 
-        elif any(k in user_lower for k in ["budget", "finance", "payroll", "procurement", "cost", "spend", "variance"]):
-            response_text = "Accessing financial database for budget and spending information."
-            tool_calls = [{"name": "query_finance_database", "args": {"query": user_msg}, "id": "call_finance_1"}]
+        if any(k in user_lower for k in ["budget", "finance", "payroll", "procurement", "cost", "spend", "variance"]):
+            return "Checking your financial records now.", [
+                {"name": "query_finance_database", "args": {"query": user_msg}, "id": "call_finance_1", "type": "tool_call"}
+            ]
 
-        elif any(k in user_lower for k in ["search", "internet", "news", "regulation", "current", "latest", "update"]):
-            response_text = "Searching the internet for current information."
-            tool_calls = [{"name": "search_internet", "args": {"query": user_msg}, "id": "call_search_1"}]
+        if any(k in user_lower for k in ["search", "internet", "news", "regulation", "current", "latest", "update"]):
+            return "Searching for the latest information.", [
+                {"name": "search_internet", "args": {"query": user_msg}, "id": "call_search_1", "type": "tool_call"}
+            ]
 
-        elif any(k in user_lower for k in ["ocr", "image", "analyze image", "extract text", "invoice", "photo"]):
-            response_text = "Running image analysis and OCR extraction."
-            tool_calls = [{"name": "analyze_image", "args": {"image_path": "latest_attachment", "analysis_type": "full_analysis"}, "id": "call_vision_1"}]
+        if any(k in user_lower for k in ["ocr", "image", "analyze image", "extract text", "invoice", "photo"]):
+            return "Running image analysis and OCR extraction.", [
+                {"name": "analyze_image", "args": {"image_path": "latest_attachment", "analysis_type": "full_analysis"}, "id": "call_vision_1", "type": "tool_call"}
+            ]
 
-        elif any(k in user_lower for k in ["report", "document", "pdf", "generate", "summary", "export"]):
-            response_text = "Generating the requested document."
-            tool_calls = [{"name": "generate_report", "args": {"title": "Generated Report", "content": f"Report requested: {user_msg}", "file_type": "pdf"}, "id": "call_doc_1"}]
+        if any(k in user_lower for k in ["report", "document", "pdf", "generate", "summary", "export"]):
+            return "Generating the requested document.", [
+                {"name": "generate_report", "args": {"title": "Generated Report", "content": f"Report requested: {user_msg}", "file_type": "pdf"}, "id": "call_doc_1", "type": "tool_call"}
+            ]
 
-        elif any(k in user_lower for k in ["hello", "hi", "hey", "good morning", "good afternoon"]):
-            response_text = "Hello! I am your AI OS Mining Assistant. I can help you with:\n\n- Mining operations data and SOPs\n- Financial reports and budget analysis\n- Equipment status and maintenance\n- Document and report generation\n- Image and document analysis\n- Internet search for current information\n\nHow can I assist you today?"
-            ai_msg = AIMessage(content=response_text)
-            return ChatResult(generations=[ChatGeneration(message=ai_msg)])
+        if any(k in user_lower for k in ["price", "gold", "silver", "market"]):
+            return "Fetching live market data.", [
+                {"name": "search_internet", "args": {"query": user_msg}, "id": "call_market_1", "type": "tool_call"}
+            ]
 
-        else:
-            response_text = "Let me search for relevant information and retrieve your context."
-            tool_calls = [{"name": "search_knowledge_base", "args": {"query": user_msg}, "id": "call_kb_1"}]
+        # Generic fallback — stay conversational, no assumptions, no forced tools.
+        return (
+            "I can help with that. Could you give me a bit more detail so I give you an accurate answer "
+            "rather than guessing?"
+        ), []
+
+    def _call_mock_llm(self, messages: List[BaseMessage], **kwargs: Any) -> ChatResult:
+        """
+        Intelligent mock reasoning engine for offline/testing mode.
+        """
+        response_text, tool_calls = self._mock_response(messages)
 
         ai_kwargs = {}
         if tool_calls:
-            ai_kwargs["tool_calls"] = [
-                {"name": tc["name"], "args": tc["args"], "id": tc["id"], "type": "tool_call"}
-                for tc in tool_calls
-            ]
+            ai_kwargs["tool_calls"] = tool_calls
 
         ai_msg = AIMessage(content=response_text, **ai_kwargs)
         return ChatResult(generations=[ChatGeneration(message=ai_msg)])
+
+    def _stream_mock_tokens(self, messages: List[BaseMessage], **kwargs: Any) -> Iterator[ChatGenerationChunk]:
+        """Streams the mock reply token-by-token so the UI stays responsive."""
+        response_text, tool_calls = self._mock_response(messages)
+
+        words = response_text.split(" ")
+        for i, word in enumerate(words):
+            token = word + (" " if i < len(words) - 1 else "")
+            yield ChatGenerationChunk(message=AIMessageChunk(content=token))
+            time.sleep(0.008)  # tiny pacing so streaming feels live without lag
+
+        if tool_calls:
+            yield ChatGenerationChunk(
+                message=AIMessageChunk(content="", tool_calls=tool_calls)
+            )
 
     def extract_user_facts(self, conversation_text: str) -> Dict[str, str]:
         """
@@ -541,7 +1095,9 @@ class LocalLLMAdapter(BaseChatModel):
                 "model": self.model_name,
                 "messages": extraction_prompt,
                 "temperature": 0.0,
-                "stream": False
+                "stream": False,
+                **self._payload_extras(),
+                **self._keep_alive()
             }
             url = f"{self.api_url.rstrip('/')}/chat/completions"
             response = httpx.post(url, json=payload, headers=self._headers(), timeout=30.0)

@@ -1,0 +1,33 @@
+# AI Mining OS - Backend service (FastAPI on port 8000)
+#
+# Install:
+#   sudo cp deployment/aios-api.service /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now aios-api
+#
+# Adjust WorkingDirectory / ExecStart if the app lives elsewhere.
+
+[Unit]
+Description=AI Mining OS - Backend (FastAPI :8000)
+Documentation=file:/opt/mine-ai/README.md
+After=network.target
+
+[Service]
+Type=simple
+User=aios
+Group=aios
+WorkingDirectory=/opt/mine-ai
+EnvironmentFile=/opt/mine-ai/.env
+ExecStart=/opt/mine-ai/.venv/bin/uvicorn backend.main:app --host 0.0.0.0 --port 8000
+Restart=always
+RestartSec=3
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+ReadWritePaths=/opt/mine-ai/storage
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target

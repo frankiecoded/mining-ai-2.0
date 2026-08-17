@@ -1,5 +1,5 @@
 """
-Voice Service - Speech-to-Text and Text-to-Speech for WhatsApp voice notes.
+Voice Service - Speech-to-Text and Text-to-Speech for voice interactions.
 Handles incoming voice note transcription and outgoing voice message generation.
 """
 import os
@@ -17,7 +17,7 @@ TTS_VOICE = os.getenv("TTS_VOICE", "en")
 
 
 class VoiceService:
-    """Voice Service for STT/TTS on WhatsApp voice notes."""
+    """Voice Service for STT/TTS on voice audio."""
 
     def __init__(self):
         self.whisper_model = None
@@ -41,7 +41,7 @@ class VoiceService:
             logger.warning("gTTS not installed. TTS will use fallback.")
 
     def speech_to_text(self, audio_bytes: bytes, mime_type: str = "audio/ogg") -> str:
-        """Transcribe incoming WhatsApp voice note to text."""
+        """Transcribe incoming voice audio to text."""
         logger.info(f"Transcribing voice note. Format: {mime_type}, Size: {len(audio_bytes)} bytes")
 
         if self.whisper_available and self.whisper_model:

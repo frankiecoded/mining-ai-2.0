@@ -35,7 +35,7 @@ class UserSession:
 
 class CommandService:
     """
-    Parses slash commands from WhatsApp messages and manages user session states.
+    Parses slash commands from chat messages and manages user session states.
     Commands are intercepted before reaching the LLM orchestrator.
     """
 
