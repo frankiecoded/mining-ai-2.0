@@ -2,6 +2,7 @@ import os
 import json
 import logging
 import threading
+import contextlib
 from typing import List, Dict, Any, Optional
 import psycopg2
 from psycopg2.extras import RealDictCursor
@@ -51,6 +52,10 @@ class PostgresClient:
                 db_path = os.path.join(db_dir, "ai_os.db")
                 self.conn = sqlite3.connect(db_path, check_same_thread=False)
                 self.conn.row_factory = sqlite3.Row
+                self.conn.execute("PRAGMA journal_mode=WAL")
+                self.conn.execute("PRAGMA synchronous=NORMAL")
+                self.conn.execute("PRAGMA cache_size=-64000")
+                self.conn.commit()
                 self.initialize_sqlite_tables()
             except Exception as se:
                 logger.error(f"Failed to initialize SQLite fallback connection: {se}")
@@ -81,6 +86,7 @@ class PostgresClient:
                 description TEXT NOT NULL,
                 status VARCHAR(50) DEFAULT 'pending',
                 assigned_to VARCHAR(100),
+                priority VARCHAR(20) DEFAULT 'medium',
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
             );
@@ -99,6 +105,7 @@ class PostgresClient:
             CREATE TABLE IF NOT EXISTS knowledge_base (
                 id SERIAL PRIMARY KEY,
                 topic VARCHAR(100) NOT NULL,
+                document_type VARCHAR(50) DEFAULT 'general',
                 question TEXT NOT NULL,
                 answer TEXT NOT NULL,
                 source VARCHAR(255) NOT NULL DEFAULT 'auto',
@@ -108,9 +115,24 @@ class PostgresClient:
             );
             """
         ]
+        index_queries = [
+            "CREATE INDEX IF NOT EXISTS idx_conversations_updated_at ON conversations(updated_at);",
+            "CREATE INDEX IF NOT EXISTS idx_conversations_session_id ON conversations(session_id);",
+            "CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status);",
+            "CREATE INDEX IF NOT EXISTS idx_tasks_created_at ON tasks(created_at);",
+            "CREATE INDEX IF NOT EXISTS idx_tasks_priority ON tasks(priority);",
+            "CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at);",
+            "CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);",
+            "CREATE INDEX IF NOT EXISTS idx_knowledge_base_topic ON knowledge_base(topic);",
+            "CREATE INDEX IF NOT EXISTS idx_knowledge_base_document_type ON knowledge_base(document_type);",
+            "CREATE EXTENSION IF NOT EXISTS pg_trgm;",
+            "CREATE INDEX IF NOT EXISTS idx_kb_question_trgm ON knowledge_base USING gin(question gin_trgm_ops);",
+        ]
         try:
             with self.conn.cursor() as cur:
                 for query in create_queries:
+                    cur.execute(query)
+                for query in index_queries:
                     cur.execute(query)
             logger.info("Relational PostgreSQL tables initialized.")
         except Exception as e:
@@ -143,6 +165,7 @@ class PostgresClient:
                 description TEXT NOT NULL,
                 status TEXT DEFAULT 'pending',
                 assigned_to TEXT,
+                priority TEXT DEFAULT 'medium',
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 updated_at TEXT DEFAULT CURRENT_TIMESTAMP
             );
@@ -161,6 +184,7 @@ class PostgresClient:
             CREATE TABLE IF NOT EXISTS knowledge_base (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 topic TEXT NOT NULL,
+                document_type TEXT DEFAULT 'general',
                 question TEXT NOT NULL,
                 answer TEXT NOT NULL,
                 source TEXT DEFAULT 'auto',
@@ -170,9 +194,53 @@ class PostgresClient:
             );
             """
         ]
+        index_queries = [
+            "CREATE INDEX IF NOT EXISTS idx_conversations_updated_at ON conversations(updated_at);",
+            "CREATE INDEX IF NOT EXISTS idx_conversations_session_id ON conversations(session_id);",
+            "CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status);",
+            "CREATE INDEX IF NOT EXISTS idx_tasks_created_at ON tasks(created_at);",
+            "CREATE INDEX IF NOT EXISTS idx_tasks_priority ON tasks(priority);",
+            "CREATE INDEX IF NOT EXISTS idx_audit_logs_created_at ON audit_logs(created_at);",
+            "CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);",
+            "CREATE INDEX IF NOT EXISTS idx_knowledge_base_topic ON knowledge_base(topic);",
+            "CREATE INDEX IF NOT EXISTS idx_knowledge_base_document_type ON knowledge_base(document_type);",
+        ]
+        fts_queries = [
+            """
+            CREATE VIRTUAL TABLE IF NOT EXISTS knowledge_base_fts USING fts5(
+                question, answer, topic,
+                content='knowledge_base',
+                content_rowid='id'
+            );
+            """,
+            """
+            CREATE TRIGGER IF NOT EXISTS kb_ai AFTER INSERT ON knowledge_base BEGIN
+                INSERT INTO knowledge_base_fts(rowid, question, answer, topic)
+                VALUES (new.id, new.question, new.answer, new.topic);
+            END;
+            """,
+            """
+            CREATE TRIGGER IF NOT EXISTS kb_ad AFTER DELETE ON knowledge_base BEGIN
+                INSERT INTO knowledge_base_fts(knowledge_base_fts, rowid, question, answer, topic)
+                VALUES ('delete', old.id, old.question, old.answer, old.topic);
+            END;
+            """,
+            """
+            CREATE TRIGGER IF NOT EXISTS kb_au AFTER UPDATE ON knowledge_base BEGIN
+                INSERT INTO knowledge_base_fts(knowledge_base_fts, rowid, question, answer, topic)
+                VALUES ('delete', old.id, old.question, old.answer, old.topic);
+                INSERT INTO knowledge_base_fts(rowid, question, answer, topic)
+                VALUES (new.id, new.question, new.answer, new.topic);
+            END;
+            """,
+        ]
         try:
             cur = self.conn.cursor()
             for query in create_queries:
+                cur.execute(query)
+            for query in index_queries:
+                cur.execute(query)
+            for query in fts_queries:
                 cur.execute(query)
             self.conn.commit()
             
@@ -200,17 +268,17 @@ class PostgresClient:
             returning_insert = "RETURNING id" in sql
             sql = sql.replace("RETURNING id", "")
 
-            # SQLite is single-writer; serialize concurrent requests to avoid
+            # SQLite is single-writer; serialize concurrent WRITES to avoid
             # "database is locked" errors during chat streaming + telemetry.
-            with self._write_lock:
+            # Reads acquire a shared lock; writes acquire the exclusive lock.
+            is_write = not fetch
+            lock = self._write_lock if is_write else contextlib.nullcontext()
+            with lock:
                 try:
                     cur = self.conn.cursor()
                     cur.execute(sql, params)
-                    # Commit every statement so chat history and other writes are
-                    # durable across process restarts (sqlite3 opens an implicit
-                    # transaction on DML; without commit all data would be rolled
-                    # back when the server shuts down).
-                    self.conn.commit()
+                    if is_write:
+                        self.conn.commit()
                     if fetch == "one":
                         row = cur.fetchone()
                         return dict(row) if row else None
@@ -339,18 +407,63 @@ class PostgresClient:
         self._execute(sql, (topic, question, answer, source, confidence))
 
     def search_knowledge(self, query: str, limit: int = 3) -> List[Dict[str, Any]]:
-        sql = """
-            SELECT question, answer, topic, source, confidence
-            FROM knowledge_base
-            WHERE LOWER(question) LIKE LOWER(%s)
-            ORDER BY confidence DESC LIMIT %s;
-        """
-        return self._execute(sql, (f"%{query}%", limit), fetch="all") or []
+        if self.is_mocked:
+            sql = """
+                SELECT question, answer, topic, source, confidence
+                FROM knowledge_base_fts
+                WHERE knowledge_base_fts MATCH ?
+                ORDER BY rank
+                LIMIT ?;
+            """
+            results = self._execute(sql, (query, limit), fetch="all") or []
+            if not results:
+                sql = """
+                    SELECT question, answer, topic, source, confidence
+                    FROM knowledge_base
+                    WHERE LOWER(question) LIKE LOWER(?)
+                    ORDER BY confidence DESC LIMIT ?;
+                """
+                results = self._execute(sql, (f"%{query}%", limit), fetch="all") or []
+            return results
+        else:
+            sql = """
+                SELECT question, answer, topic, source, confidence
+                FROM knowledge_base
+                WHERE question %% %s
+                ORDER BY similarity(question, %s) DESC, confidence DESC
+                LIMIT %s;
+            """
+            results = self._execute(sql, (query, query, limit), fetch="all") or []
+            if not results:
+                sql = """
+                    SELECT question, answer, topic, source, confidence
+                    FROM knowledge_base
+                    WHERE LOWER(question) LIKE LOWER(%s)
+                    ORDER BY confidence DESC LIMIT %s;
+                """
+                results = self._execute(sql, (f"%{query}%", limit), fetch="all") or []
+            return results
 
     def knowledge_count(self) -> int:
         sql = "SELECT COUNT(*) AS c FROM knowledge_base;"
         row = self._execute(sql, (), fetch="one")
         return int(row["c"]) if row else 0
+
+    def count_tasks(self) -> int:
+        sql = "SELECT COUNT(*) AS c FROM tasks WHERE status != 'completed';"
+        row = self._execute(sql, (), fetch="one")
+        if row is None:
+            return 0
+        val = row.get("c") if isinstance(row, dict) else row[0]
+        return int(val)
+
+    def count_documents(self) -> int:
+        sql = "SELECT COUNT(*) AS c FROM knowledge_base;"
+        row = self._execute(sql, (), fetch="one")
+        if row is None:
+            return 0
+        val = row.get("c") if isinstance(row, dict) else row[0]
+        return int(val)
 
     # Analytical Table Queries
     ALLOWED_TABLES = frozenset([

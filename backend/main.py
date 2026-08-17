@@ -117,9 +117,16 @@ async def lifespan(app: FastAPI):
         settings.validate_production_config()
     scheduler.start()
     try:
-        from ingestion.loader import run_full_ingestion
-        indexed = run_full_ingestion(vector_client)
-        logger.info(f"Dataset ingestion complete. {indexed} documents indexed.")
+        existing_count = vector_client.count_documents("company_knowledge")
+        if existing_count > 0:
+            logger.info(
+                f"Vector collection 'company_knowledge' already has "
+                f"{existing_count} documents — skipping ingestion."
+            )
+        else:
+            from ingestion.loader import run_full_ingestion
+            indexed = run_full_ingestion(vector_client)
+            logger.info(f"Dataset ingestion complete. {indexed} documents indexed.")
     except Exception as e:
         logger.warning(f"Dataset ingestion skipped: {e}")
     yield
@@ -399,7 +406,7 @@ def get_telemetry():
         "memory_gb": mem_usage,
         "vector_latency_ms": 12,
         "network_gbps": 1.2,
-        "active_tasks": len(postgres_client.list_tasks()),
+        "active_tasks": postgres_client.count_tasks(),
         "llm_model": settings.LOCAL_LLM_MODEL,
         "llm_status": "Online",
         "memory_core_status": "Online"
@@ -438,8 +445,7 @@ async def upload_document(file: UploadFile = File(...)):
 
         # Also index into KnowledgeBase for document browsing
         try:
-            from services.knowledge_base import KnowledgeBase
-            kb = KnowledgeBase()
+            kb = get_knowledge_base()
             kb.add_document(str(save_path), filename, {
                 "source": "upload",
                 "mime_type": file.content_type or "application/octet-stream"
@@ -488,8 +494,7 @@ class TaskUpdateRequest(BaseModel):
 @app.get("/api/tasks", tags=["Task Management"])
 async def list_tasks(current_user=Depends(verify_api_key)):
     try:
-        from task_manager.manager import TaskManager
-        tm = TaskManager()
+        tm = get_task_manager()
         tasks = tm.active_tasks()
         summary = tm.task_summary()
         return {
@@ -504,8 +509,8 @@ async def list_tasks(current_user=Depends(verify_api_key)):
 @app.post("/api/tasks", tags=["Task Management"])
 async def create_task(req: TaskCreateRequest, current_user=Depends(verify_api_key)):
     try:
-        from task_manager.manager import TaskManager, TaskType, TaskPriority
-        tm = TaskManager()
+        from task_manager.manager import TaskType, TaskPriority
+        tm = get_task_manager()
         try:
             ttype = TaskType(req.task_type)
         except ValueError:
@@ -524,8 +529,7 @@ async def create_task(req: TaskCreateRequest, current_user=Depends(verify_api_ke
 @app.post("/api/tasks/update", tags=["Task Management"])
 async def update_task(req: TaskUpdateRequest, current_user=Depends(verify_api_key)):
     try:
-        from task_manager.manager import TaskManager
-        tm = TaskManager()
+        tm = get_task_manager()
         task = tm.update_progress(req.task_id, activity=req.activity)
         if not task:
             raise HTTPException(status_code=404, detail="Task not found")
@@ -539,8 +543,7 @@ async def update_task(req: TaskUpdateRequest, current_user=Depends(verify_api_ke
 @app.get("/api/memory", tags=["Memory System"])
 async def get_memory_stats(current_user=Depends(verify_api_key)):
     try:
-        from memory_engine.persistent import MemoryEngine
-        mem = MemoryEngine()
+        mem = get_memory_engine()
         stats = mem.get_memory_stats()
         return {"status": "success", "stats": stats}
     except Exception as e:
@@ -550,9 +553,8 @@ async def get_memory_stats(current_user=Depends(verify_api_key)):
 @app.post("/api/memory/store", tags=["Memory System"])
 async def store_memory(req: MemoryStoreRequest, current_user=Depends(verify_api_key)):
     try:
-        from memory_engine.persistent import MemoryEngine
         from memory_engine.types import MemoryType
-        mem = MemoryEngine()
+        mem = get_memory_engine()
         try:
             mtype = MemoryType(req.memory_type)
         except ValueError:
@@ -568,8 +570,7 @@ async def store_memory(req: MemoryStoreRequest, current_user=Depends(verify_api_
 @app.post("/api/memory/recall", tags=["Memory System"])
 async def recall_memory(req: MemoryRecallRequest, current_user=Depends(verify_api_key)):
     try:
-        from memory_engine.persistent import MemoryEngine
-        mem = MemoryEngine()
+        mem = get_memory_engine()
         entries = mem.recall(req.query, limit=req.limit)
         return {
             "status": "success",
@@ -583,8 +584,7 @@ async def recall_memory(req: MemoryRecallRequest, current_user=Depends(verify_ap
 @app.get("/api/memory/index", tags=["Memory System"])
 async def memory_index(current_user=Depends(verify_api_key)):
     try:
-        from memory_engine.persistent import MemoryEngine
-        mem = MemoryEngine()
+        mem = get_memory_engine()
         index = mem.build_memory_index()
         return {"status": "success", "index": index}
     except Exception as e:
@@ -612,8 +612,7 @@ async def get_session_memory(
     session_id: str = "default",
     current_user=Depends(verify_api_key)
 ):
-    from session_memory.manager import SessionMemoryManager
-    sm = SessionMemoryManager()
+    sm = get_session_memory_manager()
     section = sm.build_prompt_section(session_id)
     return {"status": "success", "session_id": session_id, "section": section or "No session memory yet."}
 
@@ -624,9 +623,8 @@ async def update_session_memory(
     session_id: str = "default",
     current_user=Depends(verify_api_key)
 ):
-    from session_memory.manager import SessionMemoryManager
     body = await request.json()
-    sm = SessionMemoryManager()
+    sm = get_session_memory_manager()
     sm.update_section(
         session_id=session_id,
         section_name=body.get("section", "current_state"),
@@ -643,9 +641,8 @@ async def create_plan_endpoint(
     session_id: str = "default",
     current_user=Depends(verify_api_key)
 ):
-    from services.plan_mode import PlanMode
     body = await request.json()
-    pm = PlanMode()
+    pm = get_plan_mode()
     plan = pm.create_plan(
         session_id=session_id,
         title=body.get("title", ""),
@@ -661,8 +658,7 @@ async def get_plan_endpoint(
     session_id: str = "default",
     current_user=Depends(verify_api_key)
 ):
-    from services.plan_mode import PlanMode
-    pm = PlanMode()
+    pm = get_plan_mode()
     if plan_id:
         plan = pm.get_plan(plan_id)
     else:
@@ -678,9 +674,8 @@ async def approve_plan_endpoint(
     request: Request,
     current_user=Depends(verify_api_key)
 ):
-    from services.plan_mode import PlanMode
     body = await request.json()
-    pm = PlanMode()
+    pm = get_plan_mode()
     success = pm.approve_plan(
         body.get("plan_id", ""),
         approved_by=body.get("approved_by", "api")
@@ -695,9 +690,8 @@ async def add_todo_endpoint(
     session_id: str = "default",
     current_user=Depends(verify_api_key)
 ):
-    from services.todo_manager import TodoManager
     body = await request.json()
-    tm = TodoManager()
+    tm = get_todo_manager()
     todo = tm.add_todo(
         session_id=session_id,
         content=body.get("content", ""),
@@ -715,9 +709,8 @@ async def update_todo_endpoint(
     session_id: str = "default",
     current_user=Depends(verify_api_key)
 ):
-    from services.todo_manager import TodoManager
     body = await request.json()
-    tm = TodoManager()
+    tm = get_todo_manager()
     todo = tm.update_todo(
         session_id=session_id,
         todo_id=todo_id,
@@ -736,8 +729,7 @@ async def list_todos_endpoint(
     category_filter: str = None,
     current_user=Depends(verify_api_key)
 ):
-    from services.todo_manager import TodoManager
-    tm = TodoManager()
+    tm = get_todo_manager()
     todos = tm.list_todos(session_id, status=status_filter, category=category_filter)
     return {"status": "success", "todos": [t.content for t in todos]}
 
@@ -747,8 +739,7 @@ async def safety_checklist_endpoint(
     session_id: str = "default",
     current_user=Depends(verify_api_key)
 ):
-    from services.todo_manager import TodoManager
-    tm = TodoManager()
+    tm = get_todo_manager()
     tm.get_safety_checklist(session_id)
     rendered = tm.render_todos(session_id)
     return {"status": "success", "rendered": rendered}
@@ -760,8 +751,7 @@ async def list_skills_endpoint(
     query: str = "",
     current_user=Depends(verify_api_key)
 ):
-    from services.skills import SkillManager
-    sm = SkillManager()
+    sm = get_skill_manager()
     if query:
         skill = sm.match_skill_to_query(query)
         if skill:
@@ -775,8 +765,7 @@ async def list_skills_endpoint(
 async def cost_report_endpoint(
     current_user=Depends(verify_api_key)
 ):
-    from services.cost_tracker import CostTracker
-    ct = CostTracker()
+    ct = get_cost_tracker()
     return {"status": "success", "report": ct.format_cost_report()}
 
 
@@ -786,9 +775,8 @@ async def suggestions_endpoint(
     query: str = "",
     current_user=Depends(verify_api_key)
 ):
+    sm = get_skill_manager()
     from services.prompt_suggestion import PromptSuggestionEngine
-    from services.skills import SkillManager
-    sm = SkillManager()
     engine = PromptSuggestionEngine(sm)
     suggestions = engine.suggest(query)
     return {"status": "success", "suggestions": suggestions}
@@ -800,9 +788,7 @@ async def get_anomalies(
     query: str = "all",
     current_user=Depends(verify_api_key)
 ):
-    from services.anomaly_detector import MiningAnomalySystem
-    system = MiningAnomalySystem()
-    system.initialize_sample_data()
+    system = get_anomaly_system()
     result = system.analyze_query(query)
     return {"status": "success", "data": result}
 
@@ -811,9 +797,7 @@ async def get_anomalies(
 async def anomaly_health(
     current_user=Depends(verify_api_key)
 ):
-    from services.anomaly_detector import MiningAnomalySystem
-    system = MiningAnomalySystem()
-    system.initialize_sample_data()
+    system = get_anomaly_system()
     return {"status": "success", "health": system.detector.get_health_summary()}
 
 
@@ -823,8 +807,7 @@ async def get_alerts(
     category: str = "all",
     current_user=Depends(verify_api_key)
 ):
-    from services.alert_system import AlertSystem
-    alert_system = AlertSystem()
+    alert_system = get_alert_system()
     alerts = alert_system.get_active_alerts(category if category != "all" else None)
     return {
         "status": "success",
@@ -846,8 +829,7 @@ async def get_alerts(
 async def alert_statistics(
     current_user=Depends(verify_api_key)
 ):
-    from services.alert_system import AlertSystem
-    alert_system = AlertSystem()
+    alert_system = get_alert_system()
     return {"status": "success", "statistics": alert_system.get_alert_statistics()}
 
 
@@ -857,9 +839,8 @@ async def acknowledge_alert(
     request: Request,
     current_user=Depends(verify_api_key)
 ):
-    from services.alert_system import AlertSystem
     body = await request.json()
-    alert_system = AlertSystem()
+    alert_system = get_alert_system()
     success = alert_system.acknowledge_alert(alert_id, body.get("user", "api"), body.get("notes", ""))
     return {"status": "success" if success else "error", "acknowledged": success}
 
@@ -870,9 +851,9 @@ async def analyze_document(
     request: Request,
     current_user=Depends(verify_api_key)
 ):
-    from services.document_intelligence import DocumentIntelligence, AnalysisType
     body = await request.json()
-    di = DocumentIntelligence()
+    di = get_doc_intelligence()
+    from services.document_intelligence import AnalysisType
 
     filepath = body.get("filepath", "")
     if filepath:
@@ -895,8 +876,7 @@ async def analyze_document(
 async def document_analytics(
     current_user=Depends(verify_api_key)
 ):
-    from services.document_intelligence import DocumentIntelligence
-    di = DocumentIntelligence()
+    di = get_doc_intelligence()
     return {"status": "success", "analytics": di.get_analytics()}
 
 
@@ -908,8 +888,8 @@ async def get_audit_log(
     limit: int = 20,
     current_user=Depends(verify_api_key)
 ):
-    from services.audit_trail import AuditTrail, AuditQuery
-    audit = AuditTrail()
+    audit = get_audit_trail()
+    from services.audit_trail import AuditQuery
 
     if query_type == "statistics":
         return {"status": "success", "statistics": audit.get_statistics()}
@@ -943,8 +923,7 @@ async def get_audit_log(
 async def list_report_templates(
     current_user=Depends(verify_api_key)
 ):
-    from services.report_generator import ReportGenerator
-    rg = ReportGenerator()
+    rg = get_report_generator()
     return {"status": "success", "templates": rg.get_templates()}
 
 
@@ -953,9 +932,9 @@ async def generate_report(
     request: Request,
     current_user=Depends(verify_api_key)
 ):
-    from services.report_generator import ReportGenerator, ReportData
+    from services.report_generator import ReportData
     body = await request.json()
-    rg = ReportGenerator()
+    rg = get_report_generator()
 
     report_type = body.get("report_type", "production")
     title = body.get("title", None)
@@ -1403,23 +1382,20 @@ async def generate_satellite_report(
 # Knowledge Base Endpoints
 @app.get("/api/knowledge/documents", tags=["Knowledge"])
 async def list_knowledge_documents(current_user=Depends(verify_api_key)):
-    from services.knowledge_base import KnowledgeBase
-    kb = KnowledgeBase()
+    kb = get_knowledge_base()
     docs = kb.list_all_documents()
     return {"status": "success", "documents": docs}
 
 
 @app.get("/api/knowledge/statistics", tags=["Knowledge"])
 async def knowledge_statistics(current_user=Depends(verify_api_key)):
-    from services.knowledge_base import KnowledgeBase
-    kb = KnowledgeBase()
+    kb = get_knowledge_base()
     return {"status": "success", "stats": kb.get_statistics()}
 
 
 @app.post("/api/knowledge/search", tags=["Knowledge"])
 async def search_knowledge(request: Request, current_user=Depends(verify_api_key)):
-    from services.knowledge_base import KnowledgeBase
-    kb = KnowledgeBase()
+    kb = get_knowledge_base()
     body = await request.json()
     query = body.get("query", "")
     category = body.get("category")
@@ -1433,18 +1409,16 @@ async def search_knowledge(request: Request, current_user=Depends(verify_api_key
 
 @app.get("/api/knowledge/recent", tags=["Knowledge"])
 async def recent_documents(limit: int = 20, current_user=Depends(verify_api_key)):
-    from services.knowledge_base import KnowledgeBase
-    kb = KnowledgeBase()
+    kb = get_knowledge_base()
     docs = kb.get_recent_documents(limit)
     return {"status": "success", "documents": docs}
 
 
 @app.post("/api/knowledge/read", tags=["Knowledge"])
 async def read_document(request: Request, current_user=Depends(verify_api_key)):
-    from services.knowledge_base import KnowledgeBase
     from services.document_reader import DocumentReader
     body = await request.json()
-    kb = KnowledgeBase()
+    kb = get_knowledge_base()
     doc_id = body.get("doc_id")
     file_path = body.get("file_path")
     if doc_id:
@@ -1458,10 +1432,9 @@ async def read_document(request: Request, current_user=Depends(verify_api_key)):
 
 @app.post("/api/knowledge/understand", tags=["Knowledge"])
 async def understand_document(request: Request, current_user=Depends(verify_api_key)):
-    from services.knowledge_base import KnowledgeBase
     from services.document_reader import DocumentReader
     body = await request.json()
-    kb = KnowledgeBase()
+    kb = get_knowledge_base()
     doc_id = body.get("doc_id")
     file_path = body.get("file_path")
     if doc_id:
@@ -1475,8 +1448,7 @@ async def understand_document(request: Request, current_user=Depends(verify_api_
 
 @app.get("/api/knowledge/summary", tags=["Knowledge"])
 async def knowledge_summary(current_user=Depends(verify_api_key)):
-    from services.knowledge_base import KnowledgeBase
-    kb = KnowledgeBase()
+    kb = get_knowledge_base()
     return {"status": "success", "summary": kb.get_knowledge_summary()}
 
 
@@ -1489,6 +1461,139 @@ def get_annotation_engine():
         from services.annotation_engine import AnnotationEngine
         _annotation_engine = AnnotationEngine()
     return _annotation_engine
+
+
+# ---------- Lazy singleton helpers for per-request services ----------
+
+_task_manager = None
+
+def get_task_manager():
+    global _task_manager
+    if _task_manager is None:
+        from task_manager.manager import TaskManager
+        _task_manager = TaskManager()
+    return _task_manager
+
+
+_knowledge_base = None
+
+def get_knowledge_base():
+    global _knowledge_base
+    if _knowledge_base is None:
+        from services.knowledge_base import KnowledgeBase
+        _knowledge_base = KnowledgeBase()
+    return _knowledge_base
+
+
+_memory_engine = None
+
+def get_memory_engine():
+    global _memory_engine
+    if _memory_engine is None:
+        from memory_engine.persistent import MemoryEngine
+        _memory_engine = MemoryEngine()
+    return _memory_engine
+
+
+_session_memory = None
+
+def get_session_memory_manager():
+    global _session_memory
+    if _session_memory is None:
+        from session_memory.manager import SessionMemoryManager
+        _session_memory = SessionMemoryManager()
+    return _session_memory
+
+
+_plan_mode = None
+
+def get_plan_mode():
+    global _plan_mode
+    if _plan_mode is None:
+        from services.plan_mode import PlanMode
+        _plan_mode = PlanMode()
+    return _plan_mode
+
+
+_todo_manager = None
+
+def get_todo_manager():
+    global _todo_manager
+    if _todo_manager is None:
+        from services.todo_manager import TodoManager
+        _todo_manager = TodoManager()
+    return _todo_manager
+
+
+_skill_manager = None
+
+def get_skill_manager():
+    global _skill_manager
+    if _skill_manager is None:
+        from services.skills import SkillManager
+        _skill_manager = SkillManager()
+    return _skill_manager
+
+
+_cost_tracker = None
+
+def get_cost_tracker():
+    global _cost_tracker
+    if _cost_tracker is None:
+        from services.cost_tracker import CostTracker
+        _cost_tracker = CostTracker()
+    return _cost_tracker
+
+
+_anomaly_system = None
+
+def get_anomaly_system():
+    global _anomaly_system
+    if _anomaly_system is None:
+        from services.anomaly_detector import MiningAnomalySystem
+        _anomaly_system = MiningAnomalySystem()
+        _anomaly_system.initialize_sample_data()
+    return _anomaly_system
+
+
+_alert_system = None
+
+def get_alert_system():
+    global _alert_system
+    if _alert_system is None:
+        from services.alert_system import AlertSystem
+        _alert_system = AlertSystem()
+    return _alert_system
+
+
+_doc_intelligence = None
+
+def get_doc_intelligence():
+    global _doc_intelligence
+    if _doc_intelligence is None:
+        from services.document_intelligence import DocumentIntelligence
+        _doc_intelligence = DocumentIntelligence()
+    return _doc_intelligence
+
+
+_audit_trail = None
+
+def get_audit_trail():
+    global _audit_trail
+    if _audit_trail is None:
+        from services.audit_trail import AuditTrail
+        _audit_trail = AuditTrail()
+    return _audit_trail
+
+
+_report_generator = None
+
+def get_report_generator():
+    global _report_generator
+    if _report_generator is None:
+        from services.report_generator import ReportGenerator
+        _report_generator = ReportGenerator()
+    return _report_generator
 
 
 @app.post("/api/satellite/annotations/create", tags=["Satellite"])

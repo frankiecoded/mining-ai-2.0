@@ -1,6 +1,7 @@
 import os
 import csv
 import json
+import hashlib
 import logging
 from typing import List, Dict, Any, Optional
 from pathlib import Path
@@ -171,18 +172,24 @@ def index_documents_to_vector_db(
             logger.error(f"Embedding batch failed at offset {batch_start}: {e}")
             continue
 
+        docs_to_upsert = []
         for doc, vector in zip(batch, vectors):
-            try:
-                doc_id_hash = hash(str(doc["id"])) % 1000000
-                vector_client.upsert_document(
-                    collection_name=collection_name,
-                    doc_id=doc_id_hash,
-                    vector=vector,
-                    payload=doc["payload"]
-                )
-                total_indexed += 1
-            except Exception as e:
-                logger.error(f"Failed to upsert document {doc['id']}: {e}")
+            doc_id_hash = int(hashlib.md5(str(doc["id"]).encode()).hexdigest()[:8], 16)
+            docs_to_upsert.append({
+                "id": doc_id_hash,
+                "vector": vector,
+                "payload": doc["payload"],
+            })
+
+        try:
+            upserted = vector_client.upsert_batch(
+                collection_name=collection_name,
+                documents=docs_to_upsert,
+                batch_size=100,
+            )
+            total_indexed += upserted
+        except Exception as e:
+            logger.error(f"Batch upsert failed at offset {batch_start}: {e}")
 
         logger.info(
             f"Indexed batch {batch_start // batch_size + 1}/"

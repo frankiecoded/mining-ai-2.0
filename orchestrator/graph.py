@@ -267,6 +267,9 @@ class AIOrchestrator:
         self.coordinator.task_manager = self.task_manager
         self.compactor.session_memory = self.session_memory
 
+        self._system_prompt_cache = None
+        self._system_prompt_cache_key = None
+
         self.workflow = self._build_workflow()
 
     def _build_workflow(self) -> StateGraph:
@@ -431,7 +434,16 @@ class AIOrchestrator:
 
     def node_agent(self, state: AgentState) -> Dict[str, Any]:
         logger.info("Node: Invoking AI coordinator...")
-        system_prompt = self._build_system_prompt(state)
+        last_human = ""
+        for msg in reversed(state.get("messages", [])):
+            if isinstance(msg, HumanMessage):
+                last_human = msg.content
+                break
+        cache_key = (state.get("session_id"), state.get("phone_number"), state.get("interaction_mode"), last_human)
+        if self._system_prompt_cache_key != cache_key:
+            self._system_prompt_cache = self._build_system_prompt(state)
+            self._system_prompt_cache_key = cache_key
+        system_prompt = self._system_prompt_cache
         messages = list(state["messages"])
         extracted = state.get("extracted_data", {})
         system_content = system_prompt
@@ -885,9 +897,8 @@ class AIOrchestrator:
                 from research.market_scraper import get_market_scraper
                 scraper = get_market_scraper()
                 if scraper:
-                    loop = asyncio.new_event_loop()
+                    loop = asyncio.get_event_loop()
                     prices = loop.run_until_complete(scraper.get_all_prices())
-                    loop.close()
                     if prices:
                         gold = prices.get("gold", {})
                         silver = prices.get("silver", {})

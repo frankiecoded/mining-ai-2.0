@@ -663,6 +663,10 @@ class LocalLLMAdapter(BaseChatModel):
         # rapid requests, so skipping this removes ~0.5-1s of overhead per turn.
         object.__setattr__(self, "_health_verified", False)
 
+        import httpx
+        _limits = httpx.Limits(max_connections=5, max_keepalive_connections=5)
+        object.__setattr__(self, "_http_client", httpx.Client(timeout=120.0, limits=_limits))
+
         from local_model.gpu_manager import GPUManager
         object.__setattr__(self, "_gpu_manager", GPUManager(
             project=os.getenv("GCP_PROJECT", "gcp-project"),
@@ -759,14 +763,23 @@ class LocalLLMAdapter(BaseChatModel):
     ) -> ChatResult:
         self._ensure_server()
 
-        # Force mock in test environment or when explicitly configured
         is_testing = "PYTEST_CURRENT_TEST" in os.environ or os.getenv("TESTING") == "true"
 
         if not self.use_mock and not is_testing:
-            try:
-                return self._call_real_llm(messages, **kwargs)
-            except Exception as e:
-                logger.warning(f"Real LLM call failed: {e}. Falling back to mock reasoning.")
+            backoffs = [0.5, 1.0, 2.0]
+            last_exc = None
+            for attempt, delay in enumerate(backoffs):
+                try:
+                    return self._call_real_llm(messages, **kwargs)
+                except Exception as e:
+                    last_exc = e
+                    logger.warning(
+                        f"LLM call attempt {attempt + 1}/{len(backoffs)} failed: {e}. "
+                        + (f"Retrying in {delay}s..." if attempt < len(backoffs) - 1 else "All retries exhausted.")
+                    )
+                    if attempt < len(backoffs) - 1:
+                        time.sleep(delay)
+            logger.warning(f"Falling back to mock reasoning after {len(backoffs)} failed attempts: {last_exc}")
 
         return self._call_mock_llm(messages, **kwargs)
 
@@ -783,17 +796,24 @@ class LocalLLMAdapter(BaseChatModel):
         is_testing = "PYTEST_CURRENT_TEST" in os.environ or os.getenv("TESTING") == "true"
 
         if not self.use_mock and not is_testing:
-            try:
-                yield from self._stream_real_llm(messages, **kwargs)
-                return
-            except Exception as e:
-                logger.warning(f"Streaming LLM call failed: {e}. Falling back to mock.")
+            backoffs = [0.5, 1.0, 2.0]
+            for attempt, delay in enumerate(backoffs):
+                try:
+                    yield from self._stream_real_llm(messages, **kwargs)
+                    return
+                except Exception as e:
+                    logger.warning(
+                        f"Streaming attempt {attempt + 1}/{len(backoffs)} failed: {e}. "
+                        + (f"Retrying in {delay}s..." if attempt < len(backoffs) - 1 else "All retries exhausted.")
+                    )
+                    if attempt < len(backoffs) - 1:
+                        time.sleep(delay)
+            logger.warning(f"All streaming attempts failed, falling back to mock.")
 
         yield from self._stream_mock_tokens(messages, **kwargs)
 
     def _stream_real_llm(self, messages: List[BaseMessage], **kwargs: Any) -> Iterator[ChatGenerationChunk]:
         """Stream response from LLM using SSE (Server-Sent Events) from OpenAI-compatible API."""
-        import httpx
 
         api_messages = [self._message_to_api_dict(msg) for msg in messages]
 
@@ -813,7 +833,7 @@ class LocalLLMAdapter(BaseChatModel):
 
         accumulated_tool_calls = {}
 
-        with httpx.stream("POST", url, json=payload, headers=self._headers(), timeout=120.0) as response:
+        with self._http_client.stream("POST", url, json=payload, headers=self._headers()) as response:
             if response.status_code != 200:
                 body = response.read().decode("utf-8", errors="replace")[:800]
                 logger.warning(
@@ -883,7 +903,6 @@ class LocalLLMAdapter(BaseChatModel):
         Calls the real LLM via OpenAI-compatible API with tool definitions.
         Parses tool_calls from the response and returns structured AIMessage.
         """
-        import httpx
 
         api_messages = [self._message_to_api_dict(msg) for msg in messages]
 
@@ -901,7 +920,7 @@ class LocalLLMAdapter(BaseChatModel):
         url = f"{self.api_url.rstrip('/')}/chat/completions"
         logger.info(f"Calling LLM at {url} with {len(api_messages)} messages and {len(TOOL_DEFINITIONS)} tools")
 
-        response = httpx.post(url, json=payload, headers=self._headers(), timeout=120.0)
+        response = self._http_client.post(url, json=payload, headers=self._headers())
 
         if response.status_code != 200:
             raise Exception(f"LLM API returned status {response.status_code}: {response.text[:200]}")
@@ -1078,8 +1097,6 @@ class LocalLLMAdapter(BaseChatModel):
         if self.use_mock:
             return self._mock_extract_facts(conversation_text)
 
-        import httpx
-
         extraction_prompt = [
             {"role": "system", "content": (
                 "Extract key facts about the user from this conversation. "
@@ -1100,7 +1117,7 @@ class LocalLLMAdapter(BaseChatModel):
                 **self._keep_alive()
             }
             url = f"{self.api_url.rstrip('/')}/chat/completions"
-            response = httpx.post(url, json=payload, headers=self._headers(), timeout=30.0)
+            response = self._http_client.post(url, json=payload, headers=self._headers(), timeout=30.0)
             if response.status_code == 200:
                 content = response.json()["choices"][0]["message"]["content"]
                 # Try to parse JSON from the response

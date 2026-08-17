@@ -94,6 +94,56 @@ class VectorDBClient:
         except Exception as e:
             logger.error(f"Qdrant upsert error: {e}")
 
+    def count_documents(self, collection_name: str) -> int:
+        if self.is_mocked:
+            return len(self.mock_collections.get(collection_name, []))
+        try:
+            info = self.client.get_collection(collection_name=collection_name)
+            return info.points_count or 0
+        except Exception as e:
+            logger.error(f"Qdrant count error for {collection_name}: {e}")
+            return 0
+
+    def upsert_batch(
+        self,
+        collection_name: str,
+        documents: List[Dict[str, Any]],
+        batch_size: int = 100,
+    ) -> int:
+        """Upsert documents in batches of *batch_size*. Each doc dict must have
+        keys ``id`` (int), ``vector`` (list[float]) and ``payload`` (dict).
+        Returns the number of documents successfully upserted."""
+        if self.is_mocked:
+            for doc in documents:
+                cid = collection_name
+                if cid not in self.mock_collections:
+                    self.mock_collections[cid] = []
+                self.mock_collections[cid] = [
+                    item for item in self.mock_collections[cid] if item["id"] != doc["id"]
+                ]
+                self.mock_collections[cid].append(doc)
+            return len(documents)
+
+        total = 0
+        for start in range(0, len(documents), batch_size):
+            batch = documents[start : start + batch_size]
+            points = []
+            for doc in batch:
+                vec = doc["vector"]
+                if len(vec) != 384:
+                    vec = (vec + [0.0] * 384)[:384]
+                points.append(
+                    qmodels.PointStruct(id=doc["id"], vector=vec, payload=doc["payload"])
+                )
+            try:
+                self.client.upsert(collection_name=collection_name, points=points)
+                total += len(points)
+            except Exception as e:
+                logger.error(
+                    f"Qdrant batch upsert error at offset {start}: {e}"
+                )
+        return total
+
     def search_similarity(
         self,
         collection_name: str,
