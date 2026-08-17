@@ -15,6 +15,12 @@ import type {
 
 // Singleton API client bound to VITE_API_URL (Cloudflare tunnel or local).
 class ChatAPI {
+  private static _authToken: string | null = null;
+
+  static setAuthToken(token: string | null) {
+    this._authToken = token;
+  }
+
   private static get baseUrl(): string {
     return import.meta.env.VITE_API_URL || 'http://localhost:8000';
   }
@@ -22,8 +28,9 @@ class ChatAPI {
   private static getHeaders(withJson = true): Record<string, string> {
     const headers: Record<string, string> = {};
     if (withJson) headers['Content-Type'] = 'application/json';
-    const apiKey = import.meta.env.VITE_API_KEY;
-    if (apiKey) headers['Authorization'] = `Bearer ${apiKey}`;
+    if (this._authToken) {
+      headers['Authorization'] = `Bearer ${this._authToken}`;
+    }
     return headers;
   }
 
@@ -31,11 +38,38 @@ class ChatAPI {
     const res = await fetch(`${this.baseUrl}${path}`, init);
     if (!res.ok) {
       if (res.status === 401) {
-        throw new Error('Unauthorized — check VITE_API_KEY matches the backend API_KEY');
+        // Token expired — clear auth state
+        this._authToken = null;
+        localStorage.removeItem('aios_auth_token');
+        localStorage.removeItem('aios_auth_user');
+        throw new Error('Session expired. Please log in again.');
       }
-      throw new Error(`Request failed (${res.status})`);
+      // Try to parse error detail from JSON response
+      try {
+        const body = await res.json();
+        throw new Error(body.detail || `Request failed (${res.status})`);
+      } catch (parseErr) {
+        if (parseErr instanceof SyntaxError) throw parseErr;
+        throw new Error(`Request failed (${res.status})`);
+      }
     }
     return res.json() as Promise<T>;
+  }
+
+  // ─── Auth Endpoints ───
+  static login(username: string, password: string): Promise<{ status: string; token?: string; user?: { username: string; display_name: string; role: string; tenant_id: string }; detail?: string }> {
+    return this.request('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password }),
+    });
+  }
+
+  static validateToken(token: string): Promise<{ status: string }> {
+    return this.request('/api/auth/validate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+    });
   }
 
   static async streamChat(

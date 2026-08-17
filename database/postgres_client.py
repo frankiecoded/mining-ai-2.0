@@ -324,9 +324,14 @@ class PostgresClient:
                 return None
 
     # Conversation queries
-    def get_chat_sessions(self, limit: int = 25) -> List[Dict[str, Any]]:
-        sql = "SELECT session_id, updated_at, messages FROM conversations ORDER BY updated_at DESC LIMIT %s;"
-        rows = self._execute(sql, (limit,), fetch="all") or []
+    def get_chat_sessions(self, limit: int = 25, tenant_id: Optional[str] = None) -> List[Dict[str, Any]]:
+        if tenant_id:
+            prefix = f"{tenant_id}:"
+            sql = "SELECT session_id, updated_at, messages FROM conversations WHERE session_id LIKE %s ORDER BY updated_at DESC LIMIT %s;"
+            rows = self._execute(sql, (f"{prefix}%", limit), fetch="all") or []
+        else:
+            sql = "SELECT session_id, updated_at, messages FROM conversations ORDER BY updated_at DESC LIMIT %s;"
+            rows = self._execute(sql, (limit,), fetch="all") or []
         sessions = []
         for row in rows:
             messages = json.loads(row["messages"]) if isinstance(row["messages"], str) else row["messages"]
@@ -334,8 +339,11 @@ class PostgresClient:
             if messages and len(messages) > 0:
                 first_msg = messages[0].get("content", "")
                 title = first_msg[:30] + "..." if len(first_msg) > 30 else first_msg
+            # Strip tenant prefix from display
+            sid = row["session_id"]
+            display_id = sid.split(":", 1)[1] if ":" in sid else sid
             sessions.append({
-                "id": row["session_id"],
+                "id": sid,
                 "title": title,
                 "time": row["updated_at"].isoformat() if hasattr(row["updated_at"], "isoformat") else str(row["updated_at"])
             })

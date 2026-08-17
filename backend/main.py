@@ -21,6 +21,7 @@ except ImportError:
 
 from backend.config import settings
 from backend.file_reader import extract_text
+from backend.auth import authenticate, verify_token, get_user, is_admin, can_access_dataset, get_tenant_id, TenantUser, USERS
 from database.postgres_client import PostgresClient
 from vector_db.qdrant_client import VectorDBClient
 
@@ -63,28 +64,47 @@ async def check_rate_limit(request: Request):
     if not await rate_limiter.is_allowed(client_ip, settings.RATE_LIMIT_PER_MINUTE):
         raise HTTPException(status_code=429, detail="Rate limit exceeded. Try again later.")
 
-# ---------- Auth (Timing-Safe) ----------
-def verify_api_key(request: Request):
-    """Verify API key using timing-safe comparison. Skipped in dev when unconfigured."""
-    if not settings.API_KEY:
-        if settings.is_production:
-            raise HTTPException(status_code=503, detail="API key not configured")
-        return
+# ---------- Auth (JWT + Tenant Isolation) ----------
+class AuthPayload:
+    """Holds the decoded JWT payload for the current request."""
+    def __init__(self, payload: dict, user: TenantUser):
+        self.payload = payload
+        self.user = user
+        self.username = user.username
+        self.tenant_id = user.tenant_id
+        self.role = user.role
 
-    # Allow api_key query parameter for file previews (iframe-friendly)
-    api_key_query = request.query_params.get("api_key", "")
-    if api_key_query and hmac.compare_digest(api_key_query, settings.API_KEY):
-        return
-
+def verify_jwt(request: Request) -> AuthPayload:
+    """
+    Extract and verify JWT from Authorization header.
+    Returns AuthPayload with user info and tenant_id.
+    """
     auth_header = request.headers.get("Authorization", "")
+    token = ""
     if auth_header.startswith("Bearer "):
         token = auth_header[7:]
-    else:
+    if not token:
         token = request.headers.get("X-API-Key", "")
+    # Also allow query param for document preview
+    if not token:
+        token = request.query_params.get("api_key", "")
 
-    if not token or not hmac.compare_digest(token, settings.API_KEY):
-        logger.warning(f"Failed auth attempt from {request.client.host if request.client else 'unknown'}")
-        raise HTTPException(status_code=401, detail="Invalid or missing API key")
+    if not token:
+        raise HTTPException(status_code=401, detail="Authentication required. No token provided.")
+
+    payload = verify_token(token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid or expired token. Please log in again.")
+
+    user = get_user(payload)
+    if not user:
+        raise HTTPException(status_code=401, detail="User not found.")
+
+    return AuthPayload(payload=payload, user=user)
+
+def verify_api_key(request: Request):
+    """Legacy wrapper — uses JWT auth. Kept for route compatibility."""
+    return verify_jwt(request)
 
 # ---------- Initialize Infrastructure (All Local) ----------
 # Database: uses SQLite locally (auto-fallback in PostgresClient)
@@ -146,10 +166,15 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=[
+        "https://aios-vps.tail59eb2d.ts.net",
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://127.0.0.1:5173",
+    ],
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["Authorization", "Content-Type", "X-API-Key"],
 )
 
 # ---------- Security Headers Middleware ----------
@@ -237,6 +262,51 @@ def _sanitize_error(e: Exception) -> str:
             return msg
     return "An internal error occurred. Please try again."
 
+# ---------- Auth Endpoints (No API key required) ----------
+class LoginRequest(BaseModel):
+    username: str = Field(..., min_length=1, max_length=50)
+    password: str = Field(..., min_length=1, max_length=100)
+
+@app.post("/api/auth/login", tags=["Auth"])
+async def login(body: LoginRequest, request: Request):
+    """Authenticate and receive a JWT token. No signup — accounts are fixed."""
+    token = authenticate(body.username, body.password)
+    if not token:
+        # Delay response to slow brute-force
+        import asyncio
+        await asyncio.sleep(1.5)
+        raise HTTPException(status_code=401, detail="Invalid username or password.")
+
+    user = USERS[body.username]
+    return {
+        "status": "success",
+        "token": token,
+        "user": {
+            "username": user.username,
+            "display_name": user.display_name,
+            "role": user.role,
+            "tenant_id": user.tenant_id,
+        },
+    }
+
+@app.get("/api/auth/me", tags=["Auth"])
+async def get_current_user(auth: AuthPayload = Depends(verify_jwt)):
+    """Return the current authenticated user's profile."""
+    return {
+        "status": "success",
+        "user": {
+            "username": auth.username,
+            "display_name": auth.user.display_name,
+            "role": auth.role,
+            "tenant_id": auth.tenant_id,
+        },
+    }
+
+@app.post("/api/auth/validate", tags=["Auth"])
+async def validate_token(auth: AuthPayload = Depends(verify_jwt)):
+    """Validate that a token is still valid. Used by frontend on reload."""
+    return {"status": "valid", "user": {"username": auth.username, "role": auth.role}}
+
 # ---------- Routes ----------
 @app.get("/", tags=["Diagnostic"])
 def get_system_status():
@@ -276,9 +346,9 @@ def create_procurement(req: ProcurementRequest):
 
 # ---------- Streaming Chat ----------
 @app.post("/api/chat/stream", tags=["Streaming"], dependencies=[Depends(check_rate_limit)])
-async def stream_chat(req: ChatStreamRequest):
+async def stream_chat(req: ChatStreamRequest, auth: AuthPayload = Depends(verify_jwt)):
     """Server-Sent Events (SSE) streaming endpoint for real-time LLM responses."""
-    session_id = req.session_id
+    session_id = f"{auth.tenant_id}:{req.session_id}"
 
     def event_generator():
         import json
@@ -385,13 +455,16 @@ async def get_gold_price():
     return {"gold": {}, "silver": {}}
 
 # ---------- UI Integration Routes ----------
-@app.get("/api/chat/sessions", tags=["UI Integration"], dependencies=[Depends(verify_api_key)])
-def get_chat_sessions():
-    sessions = postgres_client.get_chat_sessions(limit=50)
+@app.get("/api/chat/sessions", tags=["UI Integration"])
+def get_chat_sessions(auth: AuthPayload = Depends(verify_jwt)):
+    sessions = postgres_client.get_chat_sessions(limit=50, tenant_id=auth.tenant_id)
     return {"sessions": sessions}
 
-@app.get("/api/chat/history/{session_id}", tags=["UI Integration"], dependencies=[Depends(verify_api_key)])
-def get_chat_history(session_id: str):
+@app.get("/api/chat/history/{session_id}", tags=["UI Integration"])
+def get_chat_history(session_id: str, auth: AuthPayload = Depends(verify_jwt)):
+    # Ensure the session belongs to this tenant
+    if not session_id.startswith(f"{auth.tenant_id}:") and auth.role != "admin":
+        raise HTTPException(status_code=403, detail="Access denied to this session.")
     messages = postgres_client.get_conversation(session_id) or []
     for i, msg in enumerate(messages):
         msg.setdefault("id", f"{session_id}_{i}")
@@ -417,9 +490,10 @@ def get_telemetry():
         "memory_core_status": "Online"
     }
 
-@app.post("/api/documents/upload", tags=["Knowledge Base"], dependencies=[Depends(verify_api_key)])
-async def upload_document(file: UploadFile = File(...)):
+@app.post("/api/documents/upload", tags=["Knowledge Base"])
+async def upload_document(file: UploadFile = File(...), auth: AuthPayload = Depends(verify_jwt)):
     filename = file.filename or "upload.bin"
+    tenant_id = auth.tenant_id
     try:
         raw = await file.read()
         if not raw:
@@ -431,7 +505,7 @@ async def upload_document(file: UploadFile = File(...)):
         # Save raw file to disk so the chat attachment path can re-read it later.
         save_path = _uploads_dir() / f"{file_id}_{filename}"
         save_path.write_bytes(raw)
-        logger.info(f"Uploaded file saved: {save_path.name} ({len(raw)} bytes)")
+        logger.info(f"Uploaded file saved: {save_path.name} ({len(raw)} bytes) tenant={tenant_id}")
 
         # Index into vector DB (chunked for KB retrieval — paragraph-aware, 1000 chars, 150 overlap).
         from ingestion.embeddings import chunk_text
@@ -439,22 +513,24 @@ async def upload_document(file: UploadFile = File(...)):
         docs_to_index = []
         import hashlib
         for idx, chunk in enumerate(chunks):
-            doc_id = hashlib.md5(f"{filename}_{idx}".encode()).hexdigest()
+            doc_id = hashlib.md5(f"{tenant_id}_{filename}_{idx}".encode()).hexdigest()
             docs_to_index.append({
                 "id": doc_id,
                 "text": chunk,
-                "payload": {"source": "knowledge_base", "filename": filename, "chunk_index": idx}
+                "payload": {"source": "knowledge_base", "filename": filename, "chunk_index": idx, "tenant_id": tenant_id}
             })
 
+        collection_name = f"company_knowledge_{tenant_id}"
         from ingestion.loader import index_documents_to_vector_db
-        count = index_documents_to_vector_db(vector_client, docs_to_index, collection_name="company_knowledge")
+        count = index_documents_to_vector_db(vector_client, docs_to_index, collection_name=collection_name)
 
         # Also index into KnowledgeBase for document browsing
         try:
             kb = get_knowledge_base()
             kb.add_document(str(save_path), filename, {
                 "source": "upload",
-                "mime_type": file.content_type or "application/octet-stream"
+                "mime_type": file.content_type or "application/octet-stream",
+                "tenant_id": tenant_id,
             })
         except Exception as kb_err:
             logger.warning(f"Knowledge base indexing skipped: {kb_err}")
@@ -1387,36 +1463,36 @@ async def generate_satellite_report(
 
 # Knowledge Base Endpoints
 @app.get("/api/knowledge/documents", tags=["Knowledge"])
-async def list_knowledge_documents(current_user=Depends(verify_api_key)):
+async def list_knowledge_documents(auth: AuthPayload = Depends(verify_jwt)):
     kb = get_knowledge_base()
-    docs = kb.list_all_documents()
+    docs = kb.list_all_documents(tenant_id=auth.tenant_id)
     return {"status": "success", "documents": docs}
 
 
 @app.get("/api/knowledge/statistics", tags=["Knowledge"])
-async def knowledge_statistics(current_user=Depends(verify_api_key)):
+async def knowledge_statistics(auth: AuthPayload = Depends(verify_jwt)):
     kb = get_knowledge_base()
-    return {"status": "success", "stats": kb.get_statistics()}
+    return {"status": "success", "stats": kb.get_statistics(tenant_id=auth.tenant_id)}
 
 
 @app.post("/api/knowledge/search", tags=["Knowledge"])
-async def search_knowledge(request: Request, current_user=Depends(verify_api_key)):
+async def search_knowledge(request: Request, auth: AuthPayload = Depends(verify_jwt)):
     kb = get_knowledge_base()
     body = await request.json()
     query = body.get("query", "")
     category = body.get("category")
     if category:
-        docs = kb.search_by_category(category)
+        docs = kb.search_by_category(category, tenant_id=auth.tenant_id)
         results = [{"document": d, "score": 1.0} for d in docs if query.lower() in d.get("filename", "").lower() or query.lower() in d.get("content_text", "").lower()[:500]]
     else:
-        results = kb.search(query)
+        results = kb.search(query, tenant_id=auth.tenant_id)
     return {"status": "success", "results": results}
 
 
 @app.get("/api/knowledge/recent", tags=["Knowledge"])
-async def recent_documents(limit: int = 20, current_user=Depends(verify_api_key)):
+async def recent_documents(limit: int = 20, auth: AuthPayload = Depends(verify_jwt)):
     kb = get_knowledge_base()
-    docs = kb.get_recent_documents(limit)
+    docs = kb.get_recent_documents(limit, tenant_id=auth.tenant_id)
     return {"status": "success", "documents": docs}
 
 

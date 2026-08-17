@@ -571,15 +571,19 @@ class KnowledgeBase:
             return first_line
         return filename
 
-    def search(self, query: str) -> list[dict[str, Any]]:
+    def search(self, query: str, tenant_id: Optional[str] = None) -> list[dict[str, Any]]:
         if not query.strip():
             return []
         query_tokens = [t.lower() for t in re.findall(r"[a-zA-Z0-9]{2,}", query)]
         if not query_tokens:
             return []
 
+        docs = list(self.documents.values())
+        if tenant_id and tenant_id != "frank":
+            docs = [d for d in docs if d.metadata.get("tenant_id") == tenant_id]
+
         results: list[dict[str, Any]] = []
-        for doc in self.documents.values():
+        for doc in docs:
             searchable = " ".join([
                 doc.original_filename,
                 doc.title,
@@ -613,8 +617,11 @@ class KnowledgeBase:
         results.sort(key=lambda r: -r["relevance_score"])
         return results
 
-    def search_by_category(self, category: str) -> list[dict[str, Any]]:
+    def search_by_category(self, category: str, tenant_id: Optional[str] = None) -> list[dict[str, Any]]:
         cat_lower = category.lower()
+        docs = list(self.documents.values())
+        if tenant_id and tenant_id != "frank":
+            docs = [d for d in docs if d.metadata.get("tenant_id") == tenant_id]
         return [
             {
                 "doc_id": d.doc_id,
@@ -624,7 +631,7 @@ class KnowledgeBase:
                 "created_at": d.created_at,
                 "file_size": d.file_size,
             }
-            for d in self.documents.values()
+            for d in docs
             if d.category.lower() == cat_lower
         ]
 
@@ -660,12 +667,14 @@ class KnowledgeBase:
     def get_document(self, doc_id: str) -> Optional[KnowledgeDocument]:
         return self.documents.get(doc_id)
 
-    def list_all_documents(self) -> list[dict[str, Any]]:
+    def list_all_documents(self, tenant_id: Optional[str] = None) -> list[dict[str, Any]]:
         docs = sorted(
             self.documents.values(),
             key=lambda d: d.created_at,
             reverse=True,
         )
+        if tenant_id and tenant_id != "frank":
+            docs = [d for d in docs if d.metadata.get("tenant_id") == tenant_id]
         return [
             {
                 "doc_id": d.doc_id,
@@ -680,9 +689,12 @@ class KnowledgeBase:
             for d in docs
         ]
 
-    def get_statistics(self) -> dict[str, Any]:
-        total_docs = len(self.documents)
-        total_size = sum(d.file_size for d in self.documents.values())
+    def get_statistics(self, tenant_id: Optional[str] = None) -> dict[str, Any]:
+        docs = list(self.documents.values())
+        if tenant_id and tenant_id != "frank":
+            docs = [d for d in docs if d.metadata.get("tenant_id") == tenant_id]
+        total_docs = len(docs)
+        total_size = sum(d.file_size for d in docs)
 
         type_counts: dict[str, int] = {}
         category_counts: dict[str, int] = {}
@@ -713,9 +725,12 @@ class KnowledgeBase:
             ],
         }
 
-    def get_recent_documents(self, limit: int = 10) -> list[dict[str, Any]]:
+    def get_recent_documents(self, limit: int = 10, tenant_id: Optional[str] = None) -> list[dict[str, Any]]:
+        docs = list(self.documents.values())
+        if tenant_id and tenant_id != "frank":
+            docs = [d for d in docs if d.metadata.get("tenant_id") == tenant_id]
         recent = sorted(
-            self.documents.values(),
+            docs,
             key=lambda d: d.created_at,
             reverse=True,
         )[:limit]

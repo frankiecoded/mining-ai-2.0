@@ -10,8 +10,12 @@ import {
   Settings,
   Sparkles,
   RefreshCw,
+  LogOut,
+  Shield,
+  User,
 } from 'lucide-react';
 import { useSessions } from '../../hooks/useSessions';
+import { useAuth } from '../../contexts/AuthContext';
 import { StatusDot } from '../ui/StatusDot';
 import { Skeleton } from '../ui/Skeleton';
 import type { ModuleId } from '../../types';
@@ -44,6 +48,7 @@ export function Sidebar({
   sessionRefreshKey,
 }: SidebarProps) {
   const { sessions, loading, refresh } = useSessions(sessionRefreshKey);
+  const { user, logout } = useAuth();
 
   return (
     <aside className="w-72 h-full flex flex-col border-r border-white/[0.07] bg-white/[0.02] backdrop-blur-2xl">
@@ -162,14 +167,39 @@ export function Sidebar({
       </div>
 
       {/* Footer */}
-      <div className="px-3 py-3 border-t border-white/[0.06]">
-        <button
-          onClick={onOpenSettings}
-          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-500 hover:text-white hover:bg-white/[0.05] transition-colors"
-        >
-          <Settings className="w-[18px] h-[18px]" />
-          Settings
-        </button>
+      <div className="px-3 py-3 border-t border-white/[0.06] space-y-2">
+        {/* User info */}
+        {user && (
+          <div className="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-white/[0.03]">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-sky-500/30 to-violet-600/30 flex items-center justify-center shrink-0">
+              {user.role === 'admin' ? (
+                <Shield className="w-4 h-4 text-sky-300" />
+              ) : (
+                <User className="w-4 h-4 text-zinc-400" />
+              )}
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[12px] font-medium text-white truncate">{user.display_name}</div>
+              <div className="text-[10px] text-zinc-600 capitalize">{user.role}</div>
+            </div>
+          </div>
+        )}
+        <div className="flex gap-1">
+          <button
+            onClick={onOpenSettings}
+            className="flex-1 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-500 hover:text-white hover:bg-white/[0.05] transition-colors"
+          >
+            <Settings className="w-[18px] h-[18px]" />
+            Settings
+          </button>
+          <button
+            onClick={logout}
+            className="flex items-center gap-2 px-3 py-2.5 rounded-xl text-sm font-medium text-zinc-500 hover:text-rose-400 hover:bg-rose-500/[0.06] transition-colors"
+            title="Sign out"
+          >
+            <LogOut className="w-[18px] h-[18px]" />
+          </button>
+        </div>
       </div>
     </aside>
   );

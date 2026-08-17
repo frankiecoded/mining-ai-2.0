@@ -301,6 +301,32 @@ DATASET_REGISTRY: Dict[str, Dict] = {
         "priority": 2,
     },
 
+    # COMPANY / OPERATIONS / SAFETY / REGULATIONS (Compulsory, auto-loaded)
+    "company/org_structure.json": {
+        "keywords": ["company", "org", "structure", "department", "team", "employee", "management", "hierarchy"],
+        "category": "company",
+        "description": "Company organizational structure — departments, teams, management hierarchy",
+        "priority": 1,
+    },
+    "operations/shift_protocols.json": {
+        "keywords": ["shift", "protocol", "roster", "handover", "rotation", "schedule", "duty", "crew"],
+        "category": "operations",
+        "description": "Shift protocols — handover procedures, roster management, crew rotation",
+        "priority": 1,
+    },
+    "safety/safety_protocols.json": {
+        "keywords": ["safety", "protocol", "ppe", "incident", "hazard", "risk", "emergency", "first aid"],
+        "category": "safety",
+        "description": "Safety protocols — PPE requirements, hazard identification, incident reporting",
+        "priority": 1,
+    },
+    "regulations/mining_regulations.json": {
+        "keywords": ["regulation", "compliance", "licence", "permit", "law", "legal", "environmental", "act"],
+        "category": "regulations",
+        "description": "Mining regulations — licence requirements, environmental compliance, legal framework",
+        "priority": 1,
+    },
+
     # BAGULEY LIMITED — Ophir Company Ltd Exploration Reports (COMPULSORY)
     "baguley_limited/ophir_july_2026_report.json": {
         "keywords": ["ophir", "camp15", "july 2026", "exploration", "trenching", "geological mapping", "alteration", "structural", "quartz veins", "hydrothermal", "gold", "south sudan", "sampson nsiah"],
