@@ -426,7 +426,7 @@ function SatelliteTab() {
   });
   const [demInput, setDemInput] = useState('');
   const [running, setRunning] = useState(false);
-  const [results, setResults] = useState<unknown>(null);
+  const [results, setResults] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState('');
 
   const handleAnalyze = async () => {
@@ -451,7 +451,7 @@ function SatelliteTab() {
         }
       }
       const res = await ChatAPI.fullSatelliteAnalysis(parsedBands, parsedDem);
-      setResults(res.results);
+      setResults(res.results as Record<string, unknown>);
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Analysis failed');
     } finally {
