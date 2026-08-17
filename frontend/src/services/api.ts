@@ -181,6 +181,26 @@ class ChatAPI {
     return this.request('/api/knowledge/summary', { headers: this.getHeaders() });
   }
 
+  // Document Preview
+  static listDocuments(folder?: string): Promise<{ status: string; documents: Array<{ name: string; type: string; path: string; size?: number; mime?: string; children?: unknown[] }> }> {
+    const params = folder ? `?folder=${encodeURIComponent(folder)}` : '';
+    return this.request(`/api/documents/list${params}`, { headers: this.getHeaders() });
+  }
+
+  static getDocumentPreviewUrl(filePath: string): string {
+    const base = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    return `${base}/api/documents/preview/${encodeURIComponent(filePath)}?api_key=${this.getApiKey()}`;
+  }
+
+  private static getApiKey(): string {
+    try {
+      const stored = localStorage.getItem('aios_api_key');
+      return stored || '';
+    } catch {
+      return '';
+    }
+  }
+
   // Satellite
   static fetchAnnotations(imageId: string): Promise<{ status: string; annotations: AnnotationCollection }> {
     return this.request(`/api/satellite/annotations/${encodeURIComponent(imageId)}`, { headers: this.getHeaders() });

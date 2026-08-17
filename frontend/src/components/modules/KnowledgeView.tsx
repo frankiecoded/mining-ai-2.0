@@ -5,17 +5,18 @@ import {
   Search, Satellite, Eye, Map, Layers, BookOpen, ChevronRight,
   Hash, Calendar, HardDrive, Tag, Globe, Cpu, Beaker, Mountain, Upload,
   BarChart3, FileImage, FileSpreadsheet, FileCode, RefreshCw, Download,
-  ArrowLeft, Sparkles, Cog,
+  ArrowLeft, Sparkles, Cog, FolderOpen,
 } from 'lucide-react';
 import { ChatAPI } from '../../services/api';
 import { SectionLabel } from '../ui/SectionLabel';
+import { DocumentBrowser } from './DocumentBrowser';
 import type {
   KnowledgeDocument,
   KnowledgeStats,
   DocumentReadResult,
 } from '../../types';
 
-type Tab = 'documents' | 'satellite' | 'reader';
+type Tab = 'documents' | 'satellite' | 'reader' | 'browser';
 
 const CATEGORIES = ['All', 'Geological', 'Operational', 'Environmental', 'Financial', 'Satellite', 'Other'] as const;
 
@@ -59,6 +60,7 @@ function categoryColor(cat: string): string {
 
 const tabItems: { id: Tab; label: string; icon: typeof Database }[] = [
   { id: 'documents', label: 'Documents', icon: Database },
+  { id: 'browser', label: 'Browse Files', icon: FolderOpen },
   { id: 'satellite', label: 'Satellite Intelligence', icon: Satellite },
   { id: 'reader', label: 'Document Reader', icon: BookOpen },
 ];
@@ -981,6 +983,7 @@ export function KnowledgeView() {
             transition={{ duration: 0.2 }}
           >
             {activeTab === 'documents' && <DocumentsTab onSelectDocument={handleSelectDocument} />}
+            {activeTab === 'browser' && <DocumentBrowser />}
             {activeTab === 'satellite' && <SatelliteTab />}
             {activeTab === 'reader' && <ReaderTab selectedDoc={selectedDoc} onBack={() => setActiveTab('documents')} />}
           </motion.div>

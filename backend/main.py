@@ -71,6 +71,11 @@ def verify_api_key(request: Request):
             raise HTTPException(status_code=503, detail="API key not configured")
         return
 
+    # Allow api_key query parameter for file previews (iframe-friendly)
+    api_key_query = request.query_params.get("api_key", "")
+    if api_key_query and hmac.compare_digest(api_key_query, settings.API_KEY):
+        return
+
     auth_header = request.headers.get("Authorization", "")
     if auth_header.startswith("Bearer "):
         token = auth_header[7:]
@@ -1807,3 +1812,100 @@ async def full_satellite_analysis(request: Request, current_user=Depends(verify_
             "report": report
         }
     }
+
+
+# ---------- Document Preview ----------
+
+DOCUMENTS_DIR = Path(__file__).parent.parent / "documents"
+
+ALLOWED_PREVIEW_EXTENSIONS = {
+    ".pdf": "application/pdf",
+    ".pptx": "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+    ".ppt": "application/vnd.ms-powerpoint",
+    ".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ".doc": "application/msword",
+    ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    ".xls": "application/vnd.ms-excel",
+    ".csv": "text/csv",
+    ".txt": "text/plain",
+    ".json": "application/json",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".gif": "image/gif",
+    ".webp": "image/webp",
+    ".svg": "image/svg+xml",
+}
+
+SAFE_DIR_NAMES = {
+    "baguley_limited", "kapoeta", "documents", "datasets",
+}
+
+
+def _list_documents_recursive(base: Path, relative_to: Path) -> List[Dict[str, Any]]:
+    """Recursively list previewable documents under a directory."""
+    items: List[Dict[str, Any]] = []
+    if not base.exists():
+        return items
+
+    for entry in sorted(base.iterdir()):
+        rel = entry.relative_to(relative_to)
+        if entry.is_dir():
+            children = _list_documents_recursive(entry, relative_to)
+            if children:
+                items.append({
+                    "name": entry.name,
+                    "type": "folder",
+                    "path": str(rel),
+                    "children": children,
+                })
+        else:
+            ext = entry.suffix.lower()
+            if ext in ALLOWED_PREVIEW_EXTENSIONS:
+                items.append({
+                    "name": entry.name,
+                    "type": "file",
+                    "path": str(rel),
+                    "size": entry.stat().st_size,
+                    "mime": ALLOWED_PREVIEW_EXTENSIONS[ext],
+                })
+    return items
+
+
+@app.get("/api/documents/list", tags=["Documents"])
+async def list_documents(
+    folder: Optional[str] = None,
+    current_user=Depends(verify_api_key),
+):
+    """List all previewable documents in the documents directory."""
+    base = DOCUMENTS_DIR
+    if folder:
+        base = DOCUMENTS_DIR / folder
+    items = _list_documents_recursive(base, DOCUMENTS_DIR)
+    return {"status": "success", "documents": items, "base": str(DOCUMENTS_DIR)}
+
+
+@app.get("/api/documents/preview/{file_path:path}", tags=["Documents"])
+async def preview_document(
+    file_path: str,
+    current_user=Depends(verify_api_key),
+):
+    """Serve a document for in-browser preview (PDF renders, PPTX downloads)."""
+    import re
+
+    # Security: block path traversal
+    safe = re.sub(r'\.\.', '', file_path)
+    full_path = (DOCUMENTS_DIR / safe).resolve()
+
+    if not full_path.exists() or not str(full_path).startswith(str(DOCUMENTS_DIR.resolve())):
+        raise HTTPException(status_code=404, detail="Document not found")
+
+    ext = full_path.suffix.lower()
+    if ext not in ALLOWED_PREVIEW_EXTENSIONS:
+        raise HTTPException(status_code=400, detail=f"Unsupported file type: {ext}")
+
+    return FileResponse(
+        path=str(full_path),
+        media_type=ALLOWED_PREVIEW_EXTENSIONS[ext],
+        filename=full_path.name,
+    )

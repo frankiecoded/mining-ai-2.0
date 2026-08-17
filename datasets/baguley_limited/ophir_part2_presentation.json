@@ -1,0 +1,92 @@
+[
+  {
+    "id": "ophir_part2_title",
+    "category": "baguley_limited",
+    "title": "Pebble Lines and In-Situ Gold Targets (Part 2)",
+    "content": "Part 2 of Summary of Exploration Work - Logirim-Chukudum Gold Corridor. Company: Ophir Company Ltd. Date: 5th August 2026. Author: Collins Asseto, B.Sc Nbi; M.S. Auburn.",
+    "tags": ["part 2", "pebble lines", "in-situ gold", "logirim-chukudum"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part2_pebble_significance",
+    "category": "baguley_limited",
+    "title": "Part 2 - Pebble Lines Significance",
+    "content": "Pebble lines act as natural hydraulic traps in alluvial/placer gold deposits. Gold settles alongside similarly weighted heavy material and coarse gravel. Natural Riffles: Microscopic low-pressure pockets where gold wedges and lodges. Paystreak Markers: Guide prospectors to concentrated pockets. Energy Indicators: Pebble size/roundness tells historic water flow speed.",
+    "tags": ["pebble lines", "hydraulic traps", "natural riffles", "paystreak markers", "energy indicators"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part2_insitu_target",
+    "category": "baguley_limited",
+    "title": "Part 2 - In-Situ Gold Target",
+    "content": "Potential insitu prospect sites identified >=5 km east of campsite. Alteration haloes associated with 320 degree-oriented regional strike-slip fault structure. Gold trap sites along conjugate E-W structures. Foreground hills aligned E-W, background hills aligned N-S. Geological hammer head and arrow head oriented dead north.",
+    "tags": [">=5 km east", "in-situ prospect", "320 degrees", "E-W hills", "N-S hills", "dead north"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part2_alteration_halo",
+    "category": "baguley_limited",
+    "title": "Part 2 - Alteration Halo Mapping",
+    "content": "Intense alluvial/elluvial workings mapped within drainage basin. E-W oriented mineralization alteration haloes. Zone measuring at least 1000m x 500m. Scale bar: 0m to 1500m. Red dashed lines indicate bounds of alteration halo heading westwards. East: light colored rocks; West: darker unaltered/natural hue. Alteration products: chlorite, epidote, sericite, biotite clays, iron oxides, decayed sulphides.",
+    "tags": ["alteration halo", "1000m x 500m", "chlorite", "epidote", "sericite", "iron oxides", "sulphides"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part2_alteration_zonation",
+    "category": "baguley_limited",
+    "title": "Part 2 - Alteration Zonation Model",
+    "content": "Rocks further east = lighter colored (infusing of hydrothermal fluids). How Alteration Halos Form: Fluid-Rock Interaction. Zoning: temperature/chemical changes create concentric shells. Exploration Footprint: halos much larger than actual ore veins. Field Comparison: ~800m east of camp - lighter, highly altered, friable. Closer to camp, west - darker, less altered, more competent.",
+    "tags": ["alteration zonation", "hydrothermal fluids", "concentric shells", "exploration footprint", "field comparison"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part2_alteration_types",
+    "category": "baguley_limited",
+    "title": "Part 2 - Alteration Zone Types",
+    "content": "Potassic Zone: High-temperature (biotite, K-feldspar). Phyllic/Sericitic Zone: Fine white mica (sericite) + quartz replacing feldspar (bleached rock). Argillic Zone: Clay minerals (kaolinite) in cooler, acidic conditions. Propylitic Zone: Cool outer edge - chlorite, epidote, calcite. Alteration products witnessed in license highlighted in cyan (signaling gold mineralization system).",
+    "tags": ["potassic zone", "phyllic zone", "sericitic zone", "argillic zone", "propylitic zone", "kaolinite", "biotite", "K-feldspar"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part2_trenching",
+    "category": "baguley_limited",
+    "title": "Part 2 - Trenching Purpose and Results",
+    "content": "Trenching in alteration zones: exposes fresh bedrock. Purposes: (i) map mineral halos, (ii) trace fluid pathways, (iii) collect continuous channel samples, (iv) measure vein orientations. Trench 001: distinct alteration and potential mineralization zones on surface and subsurface. Trenching is essentially a drilling equivalent on the horizontal plane. Saves money (low-cost check before drilling). Showing alteration halos. Mapping structure and veins. Better sampling and testing.",
+    "tags": ["trenching", "fresh bedrock", "mineral halos", "fluid pathways", "channel samples", "drilling equivalent"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part2_trench001_zones",
+    "category": "baguley_limited",
+    "title": "Part 2 - Trench 0001 Alteration Zones",
+    "content": "Trench 0001 Alteration Zones: White arrow: Clay alteration. Green arrow: Chlorite and epidote alteration. Yellow: Iron, sulphides alteration with magnetism and potential gold mineralization. Trenches 0002 to 0006 showed similar haloes at time of writing.",
+    "tags": ["trench 0001", "clay alteration", "chlorite", "epidote", "iron sulphides", "magnetism", "gold mineralization"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part2_halo_exploration",
+    "category": "baguley_limited",
+    "title": "Part 2 - Alteration Haloes in Gold Systems",
+    "content": "Typical hydrothermal alteration haloes illustrated. Similar zones identified in study area. Detailed mapping for mineralization vectoring planned for September 2026.",
+    "tags": ["hydrothermal haloes", "mineralization vectoring", "september 2026", "gold systems"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  }
+]

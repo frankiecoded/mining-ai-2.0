@@ -78,8 +78,16 @@ def extract_text(filename: str, data: bytes) -> str:
         for i, slide in enumerate(prs.slides, 1):
             out.append(f"[Slide {i}]")
             for shape in slide.shapes:
-                if hasattr(shape, "text") and shape.text.strip():
+                if shape.has_table:
+                    table = shape.table
+                    out.append("[Table]")
+                    for row in table.rows:
+                        cells = [cell.text.strip().replace("\n", " ") for cell in row.cells]
+                        out.append(" | ".join(cells))
+                elif hasattr(shape, "text") and shape.text.strip():
                     out.append(shape.text)
+                if shape.has_chart:
+                    out.append("[Chart present on this slide]")
         return "\n".join(out)
 
     if ext in (".csv", ".tsv"):

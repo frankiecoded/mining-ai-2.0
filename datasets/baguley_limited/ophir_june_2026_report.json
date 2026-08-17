@@ -1,0 +1,102 @@
+[
+  {
+    "id": "ophir_june_2026_title",
+    "category": "baguley_limited",
+    "title": "Ophir Co Limited - Monthly Exploration Report June 2026",
+    "content": "Monthly Exploration Report for June 2026. Company: Ophir Company Ltd. Author: Sampson Nsiah, B.Sc. Reviewed by: Collins Asseto, B.Sc Nbi; M.S. Auburn.",
+    "tags": ["ophir", "camp15", "exploration", "june 2026", "monthly report"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_june_2026_sampling_progress",
+    "category": "baguley_limited",
+    "title": "June 2026 Sampling and Assaying Progress",
+    "content": "Mapping of Eastern Block 1 ongoing. Mapping of Artisanal workings ongoing. 135 grab samples collected, 45 sent to lab for analysis. 45 samples results pending. Total 145 samples collected from May and June. 76 collected in June. 45 sent to lab, waiting for results. 100 samples ready for dispatch in camp (channel/grab from artisanal mining stream bank).",
+    "tags": ["sampling", "assaying", "135 samples", "45 sent", "145 total", "76 june"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_june_2026_dispatch_plan",
+    "category": "baguley_limited",
+    "title": "June 2026 Sample Dispatch Plan",
+    "content": "Sample Dispatch Plan: Week 1: 70 samples x $20 = $1,400. Week 2: 70 samples x $20 = $1,400. Week 3: 70 samples x $20 = $1,400. Total: 210 samples, Total cost: $4,200.",
+    "tags": ["dispatch plan", "$4200", "210 samples", "$20 per sample"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_june_2026_gps_samples_block1",
+    "category": "baguley_limited",
+    "title": "June 2026 GPS/UTM Sample Locations - Block 1 (Eastern Shear Zone)",
+    "content": "Block 1 located on eastern Shear Zone. ~3.50km from camp site to Ophir Processing Plant. Block 1 mapping began: 5th June 2026, completed: 31st July 2026. Emphasis: NE-SW trending structures, E-W trending structures, artisanal workings, outcrops, road cuts, alluvial working areas. Grid lines generated across interpreted regional shear structures. Areas around Koyokonyo - surface exposures observed. Active/abandoned artisanal mining pits near Koyonkoyo stream. Main lithologies: granitic gneiss, schistose gneiss, Quartz feldspar-pegmatite, Biotite gneiss, mafic rocks, floats of quartz porphyry, brecciated (sheared) quartz vein. 45 channel/grab samples taken, submitted to SGS laboratory in Mwanza. Structural dips: steep average 73 degrees, adjacent quartz vein moderately dipping 60 degrees.",
+    "tags": ["block 1", "eastern shear zone", "3.50km", "koyokonyo", "73 degrees", "60 degrees"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_june_2026_gps_coordinates_table",
+    "category": "baguley_limited",
+    "title": "June 2026 Complete GPS/UTM Sample Coordinates",
+    "content": "GPS/UTM Data for all samples (UTM Zone 36N): WP39: 536512E 492673N RL752 GREY Biotite gneiss. wpt40: 536510E 492680N RL758 peg. wpt41: 536530E 492687N RL757 GREY Granitoid GN. CHTRA: 563502E 492680N RL758 CHTR. CHTRB: 536513E 492680N RL758 CHTR. WPT42: 536502E 492688N RL757 Brown peg. wpt43: 536508E 492707N RL757 qtz-feldspar-peg. wpt44: 536518E 492717N RL760 peg. wpt45: 536474E 492789N RL763 porphry float. wpt46: 536482E 492785N RL763 porphry float. wpt47: 536434E 492802N RL766 GREY Granitoid GN. wpt48: 536390E 492839N RL779 granitoid GN hill. wpt49: 536464E 492784N RL765 qtz-feldspar-peg. wpt50: 536544E 492729N RL764 qtz-feldspar-peg. wpt51: 536643E 492586N RL762. WPT52: 530845E 510261N RL653 peg VEIN. WPT53: 530822E 510222N RL655 PEG. PIT: 531089E 510298N RL664 PIT. C15R001: 530847E 510269N RL659 GREY GN. C15R002: 530831E 510234N RL657 COLLUVIAL. C15R003: 530871E 510278N RL658 PEG-VEIN. C15R004: 531100E 510322N RL663. C15R006: 530739E 506952N RL649 QTZ VEIN. C15R008: 540049E 491947N RL801 Reddish brown Ferroginous laterite. C15R009: 540048E 491945N RL801 Reddish brown Ferroginous laterite. C15R010: 540046E 491945N RL802 Reddish brown Ferroginous laterite. C15R011: 540046E 491944N RL798 Reddish brown Ferroginous laterite. C15R012: 540041E 491945N RL798 Reddish brown Ferroginous laterite. C15R013: 540034E 491945N RL805 Reddish brown Ferroginous laterite. C15R014: 540031E 491944N RL802 Reddish brown Ferroginous laterite. C15R015: 540009E 491945N RL805 Reddish brown Ferroginous laterite. C15R016: 539998E 491954N RL805 Reddish brown Ferroginous laterite. C15R017: 539993E 491956N RL804 Reddish brown Ferroginous laterite. C15R018: 539972E 491960N RL803 Reddish brown Ferroginous laterite. C15R019: 541045E 493299N RL796 Qtz-feldspar-peg. C15R021: 539083E 493338N RL803 Reddish brown GN. C15R022: 539084E 493330N RL801 brown Quartz peg. C15R023: 539083E 493335N RL801 brown Quartz peg. C15R024: 539080E 493335N RL803 brown GN. C15R025: 539067E 493353N RL807 PINK Quartz peg. C15R026: 539086E 493342N RL802 PINK Quartz peg. C15R027: 539099E 493335N RL802 cream Quartz peg. C15R028: 539105E 493361N RL804 PINK Ferroginous laterite. C15R029: 539102E 493380N RL805 PINK Ferroginous laterite. C15R030: 539104E 493404N RL806 cream quartz peg. C15R031: 539105E 493403N RL806 brown laterite. C15R032: 539107E 493402N RL806 grey laterite. C15R033: 539106E 493404N RL805. C15R034: 593112E 493406N RL807 brown Quartz peg. C15R035: 540227E 492973N RL782 milky to smoky quartz vein. C15R036: 540227E 492973N RL782 milky to smoky quartz vein. C15R037: 540232E 492966N RL781 Brown QTZ-feldspar-peg. C15R042: 540231E 492964N RL777 GREY Mafic. C15R043: 540230E 492964N RL778 Brown peg. C15R044: 540227E 492962N RL776 intercalation of qtz-peg and GN. C15R045: 540229E 492961N RL777 contact peg and GN. C15R046: 540221E 492955N RL778 qtz-feldspar-peg. C15R047: 540216E 492952N RL778 GN with Qtz veinlets. C15R048: 540215E 492950N RL777 GREY mafic rock/chloritic-sericite-amphibolite schist. C15R049: 540204E 492954N RL776 Saprolite. C15R050: 540205E 492953N RL775 QTZ-PEG. C15R053: 540202E 492952N RL779 QTZ fedspar vein. C15R054: 539880E 492904N RL774 QTZ fedspar vein. C15R055: 539900E 492894N RL777 PINK mafic rock/chloritic. C15R056: 539897E 492895N RL782 contact zone. C15R057: 539899E 492897N RL779 QV. C15R058: 539895E 492897N RL788 GN. C15R059: 539897E 492898N RL788 QV. C15R060: 539897E 492898N RL788 CONTACT zone. C15R061: 539898E 492897N RL786 PEG. C15R062: 539899E 492897N RL787 Conjugate. C15R063: 539902E 492894N RL789 GREY mafic rock. QTZ-GN: 539892E 492902N RL792 QTZ fedspar GN. C15R064: 539786E 492790N RL777 GREY MAFIC ROCK. C15R065: 539778E 492929N RL777 mafic rock. C15R066: 540021E 492871N RL781 green granitic GN. C15R067: 540004E 492869N RL784 grey mafic rock. C15R069: 540005E 492858N RL785 PINK laterite. C15R070: 540980E 492861N RL781 laterite. C15R071: 540251E 492984N RL786 QTZ feldspar vein. C15R072: 540316E 492982N RL785 grey mafic rock. C15R073: 540316E 492983N RL785 qtz-feldspar-peg. C15R074: 541011E 493227N RL795 Qtz-vein. C15R076: 541041E 493293N RL796. C15R077/wpt56: 540306E 492976N RL784 grey mafic roc. Wpt54/Chl: 540033E 492874N RL777 green chloritic zone. Wpt55/ALT: 540021E 492871N RL781 Alteration zone.",
+    "tags": ["GPS", "UTM", "coordinates", "sample locations", "C15R", "eastings", "northings", "all samples"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_june_2026_block1_details",
+    "category": "baguley_limited",
+    "title": "June 2026 Block 1 Eastern Shear Zone - Detailed Observations",
+    "content": "Block 1 located on eastern Shear Zone. ~3.50km from camp site to Ophir Processing Plant. Mapping began 5th June 2026, completed 31st July 2026. NE-SW trending structures, E-W trending structures. Artisanal workings, outcrops, road cuts, alluvial working areas. Grid lines across regional shear structures. Areas around Koyokonyo - surface exposures observed. Active/abandoned artisanal mining pits near Koyonkoyo stream. Main lithologies: granitic gneiss, schistose gneiss, Quartz feldspar-pegmatite, Biotite gneiss, mafic rocks, floats of quartz porphyry, brecciated (sheared) quartz vein. 45 channel/grab samples taken, submitted to SGS laboratory in Mwanza. Structural dips: steep average 73 degrees, adjacent quartz vein moderately dipping 60 degrees.",
+    "tags": ["block 1", "shear zone", "koyokonyo", "koyonkoyo", "SGS mwanza", "73 degrees"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_june_2026_field_photos",
+    "category": "baguley_limited",
+    "title": "June 2026 Field Photos - Artisanal Mining and Quartz Veins",
+    "content": "Figure 2: Active artisanal mining area showing granitic gneiss and highly brecciated quartz veins (steep and moderate dips). Figure 3: Artisanal mining workings near Koyokonyo. Figure 4: Massive body of Quartz-feldspar peg with evidence of fluid movement. Au seen in hand specimen. Fe-oxide rich QV (sheared zone). Ferruginous/laterite. Mottled saprolite. Oxide materials (Fe/Al oxides). Figure 4 (second): Overturned to isoclinal fold in Artisanal workings stream. Strike = 324 degrees. Structural traps and stress fractures creating pathways for ore-bearing hydrothermal fluids. Figure 5: Overturned to isoclinal fold at bank of Artisanal workings stream. Figure 6: Weathered quartz-feldspar-pegmatite intruding metamorphic rock (gneiss). Iron stained fractures/shear zone.",
+    "tags": ["field photos", "artisanal mining", "quartz veins", "Au hand specimen", "strike 324", "isoclinal fold"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_june_2026_laiya_basin",
+    "category": "baguley_limited",
+    "title": "June 2026 Laiya Basin and Placer Target",
+    "content": "Figure 7: Laiya basin - loose unconsolidated material, large number of women artisanal miners. Figure 8: Potential placer deposit, locally constructed gold trap site.",
+    "tags": ["laiya basin", "placer deposit", "gold trap", "artisanal miners", "women miners"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_june_2026_field_observations",
+    "category": "baguley_limited",
+    "title": "June 2026 Field Observations",
+    "content": "NE and Eastern artisanal mining: strong chloritic-epidote, Fe-oxide, K-feldspars, hematite alteration. Sub-vertical quartz vein stringers. Strong ch-epidote, limonite alteration with shear zones. Strike = 324 degrees.",
+    "tags": ["field observations", "chloritic-epidote", "Fe-oxide", "K-feldspars", "strike 324"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_june_2026_forward_plans",
+    "category": "baguley_limited",
+    "title": "June 2026 Forward Plans for July 2026",
+    "content": "Forward Plans: 1. Send outstanding samples to lab. 2. Review high resolution satellite data. 3. Trench a target vein in artisanal working area. 4. Mapping, sampling, backfilling trenching within artisanal workings. 5. Continue extensive mapping/sampling at Eastern Block 1. 6. 3 trenches in targeted areas to understand subsurface geology and primary Au source. 7. Continue field mapping.",
+    "tags": ["forward plans", "trenching", "satellite data", "lab samples", "mapping"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  }
+]

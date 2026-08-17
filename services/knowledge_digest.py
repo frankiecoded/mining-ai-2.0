@@ -29,6 +29,15 @@ COMPULSORY_DATASETS = [
     "operations/shift_protocols.json",
     "safety/safety_protocols.json",
     "regulations/mining_regulations.json",
+    # Baguley Limited — Company-owned exploration reports (ALWAYS loaded)
+    "baguley_limited/ophir_july_2026_report.json",
+    "baguley_limited/ophir_june_2026_report.json",
+    "baguley_limited/ophir_may_2026_report.json",
+    "baguley_limited/ophir_part1_presentation.json",
+    "baguley_limited/ophir_part2_presentation.json",
+    # Kapoeta — Priority regional data
+    "regions/kapoeta_gold.json",
+    "regions/kapoeta_climate_exploration.json",
 ]
 
 # Dataset registry: maps file path to (keywords, category, description)
@@ -290,6 +299,38 @@ DATASET_REGISTRY: Dict[str, Dict] = {
         "category": "training",
         "description": "Competency framework — training programs, certifications, learning pathways",
         "priority": 2,
+    },
+
+    # BAGULEY LIMITED — Ophir Company Ltd Exploration Reports (COMPULSORY)
+    "baguley_limited/ophir_july_2026_report.json": {
+        "keywords": ["ophir", "camp15", "july 2026", "exploration", "trenching", "geological mapping", "alteration", "structural", "quartz veins", "hydrothermal", "gold", "south sudan", "sampson nsiah"],
+        "category": "baguley_limited",
+        "description": "Ophir Co Ltd — July 2026 exploration report: Camp 15 project, geological/structural mapping, trenching TR001-TR002, 32 samples, 437.8g gold produced, hydrothermal alteration, quartz-vein systems, gold mineralization indicators",
+        "priority": 1,
+    },
+    "baguley_limited/ophir_june_2026_report.json": {
+        "keywords": ["ophir", "camp15", "june 2026", "exploration", "sampling", "GPS", "UTM", "SGS laboratory", "artisanal mining", "block 1", "eastern shear zone", "koyokonyo", "73 degrees", "quartz vein", "gold trap", "placer deposit", "laiya basin"],
+        "category": "baguley_limited",
+        "description": "Ophir Co Ltd — June 2026 exploration report: 135 samples collected, 45 sent to lab, GPS/UTM coordinates for all samples, Block 1 eastern shear zone, artisanal workings, 73-degree structural dips, gold trap sites, placer targets",
+        "priority": 1,
+    },
+    "baguley_limited/ophir_may_2026_report.json": {
+        "keywords": ["ophir", "camp15", "may 2026", "exploration", "regional geology", "precambrian", "east african orogen", "mozambique belt", "pan-african", "gneiss", "amphibolite", "gold", "brecciated quartz vein", "2m width", "150m strike", "pyrite", "arsenopyrite", "drill recommendations"],
+        "category": "baguley_limited",
+        "description": "Ophir Co Ltd — May 2026 exploration report: Regional geology, Precambrian basement, licence SSML04-2024/06/20-09, 67 samples, 2m breccia with 150m strike, 267-319 degree trend, 65-degree SW dip, pyrite/arsenopyrite boxwork, drill recommendations >1 g/t Au",
+        "priority": 1,
+    },
+    "baguley_limited/ophir_part1_presentation.json": {
+        "keywords": ["logirim", "chukudum", "gold corridor", "kapoeta", "900 km2", "320 degrees", "colluvial", "alluvial", "eluvial", "placer", "7500 tonnes", "pebble lines", "200m long", "1.5-2m thick", "wash plant", "artisanal miners", "women miners", "women artisanal"],
+        "category": "baguley_limited",
+        "description": "Ophir Co Ltd — Part 1 Presentation: Logirim-Chukudum Gold Corridor summary, 900km2 licence, 320-degree strike-slip fault, colluvial/alluvial target 20km NW, 7500 tonnes potential tailings, 200m pebble lines, 1.5-2m thick, wash plant testing",
+        "priority": 1,
+    },
+    "baguley_limited/ophir_part2_presentation.json": {
+        "keywords": ["pebble lines", "hydraulic traps", "natural riffles", "paystreak", "in-situ gold", "alteration halo", "1000m x 500m", "chlorite", "epidote", "sericite", "potassic", "phyllic", "argillic", "propylitic", "trenching", "trench 0001", "clay alteration", "magnetism", "gold mineralization", "september 2026"],
+        "category": "baguley_limited",
+        "description": "Ophir Co Ltd — Part 2 Presentation: Pebble line significance, in-situ gold targets 5km+ east, alteration halo 1000m x 500m, alteration zonation model (potassic/phyllic/argillic/propylitic), trench 0001 results, September 2026 plans",
+        "priority": 1,
     },
 }
 

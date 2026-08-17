@@ -1,0 +1,82 @@
+[
+  {
+    "id": "ophir_part1_title",
+    "category": "baguley_limited",
+    "title": "Summary of Exploration Work - Logirim-Chukudum Gold Corridor (Part 1)",
+    "content": "A Summary of Exploration Work Carried Out in the Logirim-Chukudum Gold Corridor, West and South West of Kapoeta, South Sudan. Company: Ophir Company Ltd. Date: 5th August 2026. Author: Collins Asseto, B.Sc Nbi; M.S. Auburn.",
+    "tags": ["logirim", "chukudum", "gold corridor", "kapoeta", "part 1"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part1_introduction",
+    "category": "baguley_limited",
+    "title": "Part 1 - Introduction and License Area",
+    "content": "Ophir Company Limited acquired gold mineral prospecting and mining rights in East Equatorial State, South Sudan. Area exceeding 900 Km2 (Blue Rectangle) on Precambrian Basement of East African Orogen. Targeted approach: prioritized eastern regional strike-slip fault structure oriented at 320 degrees (Logrim-Chukudum Gold Corridor). Historical/current studies: artisanal colluvial, elluvial, alluvial gold workings within structural corridor. Reporting period: 8th July 2026 to 31st July 2026.",
+    "tags": ["900 km2", "320 degrees", "logrim-chukudum", "colluvial", "alluvial", "eluvial"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part1_geological_setting",
+    "category": "baguley_limited",
+    "title": "Part 1 - Geological Setting of Logirim-Chukudum Corridor",
+    "content": "Logirim-Chukudum Gold Corridor: gold mineralized geological terrane, >40 km strike length. Located East Equatorial State, South Sudan, west/southwest of Kapoeta. Rock types: migmatites, quartzo-feldspathic veins, granitoid gneiss, granulites, minor amphibolites, mafic volcanics, biotite gneisses, schists. Minor float occurrences of quartz porphyry (structurally sympathetic to conjugate regional fault systems).",
+    "tags": [">40 km strike", "migmatites", "granitoid gneiss", "granulites", "amphibolites", "quartz porphyry"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part1_target_identification",
+    "category": "baguley_limited",
+    "title": "Part 1 - Target Identification",
+    "content": "Target Identification: Colluvial/alluvial/eluvial target: 20km northwest of campsite. Hard-rock prospect sites identified east of campsite. Alteration haloes associated with 320 degree-oriented regional strike-slip fault structure. Gold trap sites along conjugate E-W structures.",
+    "tags": ["20km northwest", "hard-rock prospect", "320 degrees", "E-W structures", "gold trap"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part1_colluvial_target",
+    "category": "baguley_limited",
+    "title": "Part 1 - Colluvial/Alluvial/Eluvial Target Assessment",
+    "content": "Mine sites 20km northwest of camp. Site spans: at least 150m x 100m x 0.5m depth. Calculation: 1 tonne/m3 = 150m x 100m x 0.5m x 1t/m3 = 7,500 tonnes of potential tailings. Source postulated from E-W Gold trap sites along conjugate structures. Bound by Hill A and Hill B.",
+    "tags": ["150m x 100m x 0.5m", "7500 tonnes", "Hill A", "Hill B", "gold trap", "tailings"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part1_colluvial_definition",
+    "category": "baguley_limited",
+    "title": "Part 1 - Colluvial Deposits Definition",
+    "content": "Colluvial deposits: Accumulations of soil, rock fragments, debris moved down slope by gravity. Poorly sorted: chaotic mixture of fine clay/silt with large angular rock fragments. Form at bottom of steep slopes, cliffs, hillsides, concave depressions. Composition reflects local bedrock. Colluvial vs Alluvial: transport method difference (gravity vs flowing water). Eluvium: rock debris from weathering in original undisturbed place. Colluvial deposits serve as sedimentary archives. Testing by pitting planned for September 2026.",
+    "tags": ["colluvial", "alluvial", "eluvium", "pitting", "september 2026", "sedimentary archives"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part1_pebble_lines",
+    "category": "baguley_limited",
+    "title": "Part 1 - Pebble Lines Discovery",
+    "content": "Pebble lines totaling approximately 200m long within exploration license. Identified in two sites: UTM 36N 540003; 492860 and UTM 36N 539515; 492768. Thickness: 1.5m to 2m thick. Lateral extent to be determined prior to excavation. Testing by portable wash plant planned for September 2026.",
+    "tags": ["pebble lines", "200m long", "1.5-2m thick", "UTM 540003/492860", "UTM 539515/492768", "wash plant"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  },
+  {
+    "id": "ophir_part1_field_photos",
+    "category": "baguley_limited",
+    "title": "Part 1 - Field Photos and Observations",
+    "content": "Field photos show: Surveying extent of potential placer deposit. Sampling locally constructed gold trap site. Comparing notes about extent and depth of target. Loose unconsolidated material in basin. Large number of women artisanal miners panning for gold. Blue arrows point at gold tailings. Same area, pitting put on hold in favor of hard rock exploration 20km SE. Women artisanal miners present.",
+    "tags": ["field photos", "placer deposit", "gold trap", "women artisanal miners", "gold tailings", "panning"],
+    "country": "South Sudan",
+    "last_reviewed": "2026-08-05",
+    "revision": "1.0"
+  }
+]
