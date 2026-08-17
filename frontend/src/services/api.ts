@@ -222,17 +222,15 @@ class ChatAPI {
   }
 
   static getDocumentPreviewUrl(filePath: string): string {
-    const base = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-    return `${base}/api/documents/preview/${encodeURIComponent(filePath)}?api_key=${this.getApiKey()}`;
+    const base = import.meta.env.VITE_API_URL || '';
+    const token = this._authToken;
+    return token
+      ? `${base}/api/documents/preview/${encodeURIComponent(filePath)}`
+      : `${base}/api/documents/preview/${encodeURIComponent(filePath)}`;
   }
 
-  private static getApiKey(): string {
-    try {
-      const stored = localStorage.getItem('aios_api_key');
-      return stored || '';
-    } catch {
-      return '';
-    }
+  static getDocumentPreviewHeaders(): Record<string, string> {
+    return this.getHeaders(false);
   }
 
   // Satellite

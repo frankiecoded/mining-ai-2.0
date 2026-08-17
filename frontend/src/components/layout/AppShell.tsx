@@ -36,7 +36,7 @@ const MODULE_TITLES: Record<ModuleId, string> = {
   knowledge: 'Knowledge Base',
 };
 
-const BOOT_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const BOOT_URL = import.meta.env.VITE_API_URL || '';
 
 export function AppShell() {
   const [activeModule, setActiveModule] = useState<ModuleId>('chat');
