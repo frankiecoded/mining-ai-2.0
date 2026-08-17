@@ -1,0 +1,673 @@
+================================================================================
+                    MINING AI PLATFORM - USER MANUAL
+                         Version 2.0
+================================================================================
+
+TABLE OF CONTENTS
+-----------------
+  1. Overview
+  2. Getting Started
+  3. Command Center (Chat)
+  4. Knowledge Base
+  5. Satellite Remote Sensing
+  6. Document Reader
+  7. Mining Intelligence Dashboard
+  8. Finance Engine
+  9. Operations (Task Manager)
+  10. Memory System
+  11. API Reference
+  12. Tips & Best Practices
+
+
+================================================================================
+1. OVERVIEW
+================================================================================
+
+The Mining AI Platform is an autonomous mining intelligence system. It
+combines AI-powered chat, satellite remote sensing, document understanding,
+financial analysis, and operational management into a single platform.
+
+WHAT IT CAN DO:
+  - Answer any mining question using 1,479 indexed documents
+  - Analyze satellite imagery for mineral exploration
+  - Read and understand any document (PDF, DOCX, XLSX, CSV, TXT, images)
+  - Track gold, copper, lithium and other commodity prices
+  - Manage mining operations, tasks, and shift handovers
+  - Detect anomalies in production, safety, and cost data
+  - Generate automated reports (daily, weekly, monthly)
+  - Draw annotations on satellite images (drill targets, prospect zones)
+  - Export analysis results as GeoJSON, KML, or CSV
+
+ACCESS:
+  URL:      https://aios-vps.tail59eb2d.ts.net
+  Local:    http://localhost:8000
+  API Key:  Contact your administrator
+
+
+================================================================================
+2. GETTING STARTED
+================================================================================
+
+OPENING THE PLATFORM
+  1. Open your browser and navigate to the URL above
+  2. You will see a splash screen while the system boots
+  3. Once loaded, the Command Center (chat) opens by default
+
+NAVIGATION
+  The left sidebar has 5 modules:
+    - Command (Chat)     - Talk to the AI assistant
+    - Mining Intelligence - Dashboard with real-time mining data
+    - Finance Engine     - Commodity prices and financial analysis
+    - Operations        - Task management and shift tracking
+    - Knowledge Base    - Document browser and satellite analysis
+
+  On mobile, use the bottom tab bar to switch between modules.
+
+UPLOADING YOUR FIRST DOCUMENT
+  1. Click "Knowledge Base" in the sidebar
+  2. Drag and drop a file onto the upload area (or click to browse)
+  3. Supported formats: PDF, DOCX, XLSX, CSV, TXT, JSON, PNG, JPG, TIF
+  4. Click "Begin Ingestion" to index the document
+  5. The AI can now answer questions from this document
+
+ASKING YOUR FIRST QUESTION
+  1. Click "Command" in the sidebar
+  2. Type a question like "What is the gold grade at Kibali mine?"
+  3. The AI will search its 1,479 indexed documents and respond
+  4. You can attach files to your message for the AI to analyze
+
+
+================================================================================
+3. COMMAND CENTER (CHAT)
+================================================================================
+
+The chat is your primary interface with the AI. It uses a multi-agent system
+with 7 specialized mining agents.
+
+WHAT YOU CAN ASK:
+  Geology:
+    - "What minerals are found in the Kibali gold mine?"
+    - "Describe the geological setting of Tenke Fungurume"
+    - "What alteration minerals indicate porphyry copper?"
+
+  Operations:
+    - "What is the current shift status?"
+    - "Create a task for pit wall monitoring"
+    - "What are the safety concerns for today's blast?"
+
+  Financial:
+    - "What is the current gold price?"
+    - "Give me a cost report for this shift"
+    - "What is the recovery rate for the SX-EW circuit?"
+
+  Technical:
+    - "Analyze this satellite image for mineral exploration"
+    - "What spectral indices should I use for clay alteration?"
+    - "Read this PDF and summarize the key findings"
+
+  Environmental:
+    - "What is the vegetation health near the tailings dam?"
+    - "Track water quality parameters over time"
+    - "What reclamation progress has been made?"
+
+FILE ATTACHMENTS
+  - Click the paperclip icon in the chat input
+  - Select any file (PDF, DOCX, XLSX, CSV, TXT, images)
+  - The AI will read and analyze the file
+  - You can then ask questions about its contents
+
+MULTI-AGENT SYSTEM
+  The AI routes your questions to specialized agents:
+    - Geology Agent       - Mineralogy, alteration, structural geology
+    - Operations Agent    - Mining operations, equipment, production
+    - Safety Agent        - Hazard assessment, safety protocols
+    - Environmental Agent - Environmental monitoring, compliance
+    - Financial Agent     - Cost analysis, commodity prices
+    - Technical Agent     - Processing, metallurgy, engineering
+    - Research Agent      - Market data, literature review
+
+  The coordinator decides which agent(s) handle your query and
+  synthesizes the results into a comprehensive response.
+
+
+================================================================================
+4. KNOWLEDGE BASE
+================================================================================
+
+The Knowledge Base stores, indexes, and retrieves all documents ever shared
+with the platform. It has 3 tabs.
+
+TAB 1: DOCUMENTS
+  Uploading:
+    - Drag and drop any file onto the upload area
+    - Supported: PDF, DOCX, XLSX, CSV, TXT, JSON, PNG, JPG, TIF, GEOTIFF
+    - Files are automatically indexed and categorized
+    - You can search them instantly after upload
+
+  Browsing:
+    - View all documents in a grid layout
+    - Each document shows: filename, type icon, category, size, date
+    - File type icons are color-coded:
+        PDF = Red, DOCX = Blue, XLSX = Green, CSV = Orange,
+        TXT = Gray, Images = Purple
+
+  Searching:
+    - Type in the search bar to search across all document content
+    - Use category filter chips to narrow results:
+        All, Geological, Operational, Environmental, Financial,
+        Satellite, Other
+
+  Statistics Bar:
+    - Shows total documents, total size, and category breakdown
+
+TAB 2: SATELLITE INTELLIGENCE
+  (See Section 5 below for full details)
+
+TAB 3: DOCUMENT READER
+  - Select a document from the dropdown
+  - View the full text content in a formatted reader
+  - See document metadata: type, size, pages, word count
+  - View AI-generated summary
+  - View key findings extracted by the AI
+  - See extracted entities as colored badges:
+        Minerals = Gold badges
+        Equipment = Blue badges
+        Locations = Green badges
+        Chemicals = Purple badges
+        Processes = Orange badges
+  - See key terms as tags
+  - View mining relevance score (0-100%)
+
+
+================================================================================
+5. SATELLITE REMOTE SENSING
+================================================================================
+
+The satellite intelligence system can search for, download, process, and
+analyze satellite imagery for mineral exploration.
+
+QUICK START:
+  1. Go to Knowledge Base > Satellite Intelligence tab
+  2. Enter spectral band values (B02-B12) or paste JSON arrays
+  3. Optionally enter DEM data as a JSON array
+  4. Click "Run Full Analysis"
+  5. View results: spectral assessment, terrain, features, annotations
+
+BAND INPUTS
+  Sentinel-2 bands you can enter:
+    B02  - Blue (490nm)
+    B03  - Green (560nm)
+    B04  - Red (665nm)
+    B05  - Red Edge 1 (705nm)
+    B06  - Red Edge 2 (740nm)
+    B07  - Red Edge 3 (783nm)
+    B08  - NIR (842nm)
+    B8A  - NIR Narrow (865nm)
+    B11  - SWIR 1 (1610nm)
+    B12  - SWIR 2 (1930nm)
+
+  Enter comma-separated reflectance values, e.g.: 0.1, 0.2, 0.3, 0.4
+  Or paste a full JSON array: [0.1, 0.15, 0.2, 0.25, 0.3]
+
+FULL ANALYSIS PIPELINE
+  When you click "Run Full Analysis", the system performs:
+
+  1. SPECTRAL ANALYSIS (17 indices calculated):
+     Vegetation:
+       - NDVI (Normalized Difference Vegetation Index)
+       - EVI (Enhanced Vegetation Index)
+       - NDMI (Normalized Difference Moisture Index)
+     Mineral:
+       - BR42 (Iron Oxide - Red/Blue ratio)
+       - BR43 (Ferric Iron - Red/Green ratio)
+       - FER (Ferrous Iron Index)
+     Alteration:
+       - CLAY (Clay Ratio - SWIR1/SWIR2)
+       - ALUN (Alunite Index)
+       - SILICA (Silica Index)
+       - HALT (Hydrothermal Alteration Composite)
+     Water/Surface:
+       - NDWI (Normalized Difference Water Index)
+       - MNDWI (Modified NDWI)
+       - BSI (Bare Soil Index)
+       - THERM (Thermal Anomaly Index)
+
+     Output: Alteration score (0-100), confidence level, mineral
+     indicators, exploration recommendation
+
+  2. TERRAIN ANALYSIS (from DEM data):
+     - Slope calculation (degrees)
+     - Aspect (direction of slope)
+     - Curvature
+     - Topographic Position Index (TPI)
+     - Hillshade
+     - Drainage network analysis
+
+     Output: Slope statistics, terrain zones, mining implications
+
+  3. FEATURE EXTRACTION:
+     - Lineament detection (structural features)
+     - Circular feature detection (possible intrusions)
+     - Structural pattern analysis
+     - Exploration target identification
+
+     Output: Lineament count/orientation, targets with rationale
+
+  4. AUTO-ANNOTATION:
+     Results are automatically annotated on the image:
+     - Red polygons = Prospect zones
+     - Green markers = Drill targets
+     - Yellow lines = Lineaments
+     - Magenta circles = Alteration zones
+     - Orange zones = Hazard areas
+
+  5. REPORT GENERATION:
+     A comprehensive mineral exploration report is generated with:
+     - Executive summary
+     - Spectral analysis findings
+     - Terrain assessment
+     - Feature extraction results
+     - Priority recommendations
+
+SATELLITE DATA SEARCH
+  API: POST /api/satellite/search
+  You can search for satellite imagery by:
+    - Bounding box (west, south, east, north coordinates)
+    - Date range (start_date, end_date)
+    - Cloud cover (max_cloud_cover in %)
+
+  Example search:
+    {
+      "west": 28.0,
+      "south": -2.0,
+      "east": 28.5,
+      "north": -1.5,
+      "start_date": "2026-01-01",
+      "end_date": "2026-08-17",
+      "max_cloud_cover": 20
+    }
+
+  Sources searched:
+    - Copernicus Open Access Hub (Sentinel-2)
+    - USGS EarthExplorer (Landsat)
+    - DEM databases (SRTM, ASTER, Copernicus)
+
+TEMPORAL ANALYSIS
+  Compare satellite images over time to detect:
+    - Vegetation changes (NDVI time series)
+    - Mining expansion or reclamation
+    - Water body changes
+    - Vegetation stress detection
+    - Mining impact assessment
+
+  API: POST /api/satellite/temporal/detect-changes
+  API: POST /api/satellite/temporal/ndvi-timeseries
+  API: POST /api/satellite/temporal/vegetation-stress
+  API: POST /api/satellite/temporal/mining-impact
+
+IMAGE CLASSIFICATION
+  Unsupervised k-means classification of multi-band imagery.
+  Automatically identifies:
+    - Dense vegetation
+    - Sparse vegetation
+    - Bare soil/rock
+    - Iron oxide surfaces
+    - Clay alteration
+    - Water/shadow
+
+  API: POST /api/satellite/classify
+
+ANNOTATIONS
+  Create and manage annotations on satellite images:
+    - DRILL_TARGET      - Green marker for drilling locations
+    - PROSPECT_ZONE     - Red polygon for exploration areas
+    - LINEAMENT          - Yellow dashed line for structures
+    - ALTERATION         - Magenta circle for alteration zones
+    - HAZARD_ZONE        - Orange polygon for hazard areas
+    - MEASUREMENT        - Cyan line with distance label
+    - TEXT_LABEL         - Custom text annotation
+    - WATER_BODY         - Blue polygon
+    - TAILINGS           - Brown polygon
+    - INFRASTRUCTURE     - White marker
+    - VEGETATION_ANOMALY - Green marker
+    - GEOLOGICAL_CONTACT - Orange line
+
+  Create:   POST /api/satellite/annotations/create
+  Get all:  GET  /api/satellite/annotations/{image_id}
+  Delete:   DELETE /api/satellite/annotations/{image_id}/{annotation_id}
+
+IMAGE COMPOSITES
+  Create visual composites from band data:
+    - True Color (B04/B03/B02)
+    - False Color Infrared (B08/B04/B03)
+    - False Color SWIR (B12/B8A/B04)
+    - Geology (B12/B11/B02)
+    - Agriculture (B11/B08/B02)
+    - Mineral Detection (B11/B04/B02)
+
+  API: POST /api/satellite/process
+
+EXPORT OPTIONS
+  GeoJSON:  POST /api/satellite/export/geojson
+    - Export drill grids, lineaments, alteration zones as GeoJSON
+    - Compatible with QGIS, ArcGIS, Google Earth
+
+  KML:      POST /api/satellite/export/kml
+    - Export as KML for Google Earth visualization
+
+  CSV:      POST /api/satellite/export/csv
+    - Export time series and feature data as CSV
+
+  Reports:  POST /api/satellite/report
+    - Generate formatted reports (mineral, environmental, terrain)
+
+
+================================================================================
+6. DOCUMENT READER
+================================================================================
+
+The document reader extracts, understands, and analyzes any uploaded document.
+
+SUPPORTED FORMATS:
+  - PDF (text extraction, page-by-page)
+  - DOCX (paragraph extraction)
+  - XLSX (sheet data, statistics)
+  - CSV (headers, row count, sample data)
+  - TXT (raw text)
+  - JSON (structure analysis)
+  - Images (metadata, dimensions)
+
+WHAT IT EXTRACTS:
+  Content:
+    - Full text content
+    - Sections with headings and hierarchy
+    - Tables (detected and parsed)
+    - Key findings (auto-extracted)
+
+  Entities:
+    - Minerals (gold, copper, iron, lithium, cobalt, etc.)
+    - Equipment (excavator, crusher, drill rig, etc.)
+    - Locations (place names, coordinates)
+    - Chemicals (cyanide, sulfuric acid, etc.)
+    - Processes (leaching, flotation, smelting, etc.)
+    - Regulations (environmental, safety codes)
+
+  Analysis:
+    - Document type (feasibility study, EIA, technical report, etc.)
+    - Executive summary (auto-generated)
+    - Key terms extraction
+    - Mining relevance score (0-100%)
+    - Related topics
+    - Sentiment analysis (positive/neutral/negative)
+
+API ENDPOINTS:
+  POST /api/knowledge/read       - Basic document reading
+  POST /api/knowledge/understand - Deep understanding with entities
+
+
+================================================================================
+7. MINING INTELLIGENCE DASHBOARD
+================================================================================
+
+Real-time mining intelligence with live data feeds.
+
+FEATURES:
+  - Live commodity prices (gold, silver, copper, lithium, etc.)
+  - Production metrics tracking
+  - Safety incident monitoring
+  - Equipment status and health
+  - Shift handover information
+  - Environmental monitoring data
+
+DASHBOARD SECTIONS:
+  - Market Overview: Current prices, 24h/7d changes, alerts
+  - Production: Daily output, grade, recovery rates
+  - Safety: Incident count, near-misses, safety score
+  - Equipment: Fleet status, utilization, maintenance schedule
+  - Environmental: Water quality, air quality, noise levels
+
+
+================================================================================
+8. FINANCE ENGINE
+================================================================================
+
+Commodity price tracking and financial analysis.
+
+FEATURES:
+  - Real-time gold, silver, copper, lithium, cobalt prices
+  - Price history and trends
+  - Gold/silver ratio tracking
+  - Cost analysis per ounce/kg
+  - Budget tracking with alerts
+  - Shift and department cost breakdowns
+
+API ENDPOINTS:
+  GET  /api/research/gold-price     - Current gold/silver prices
+  GET  /api/research/market-prices  - Full market data
+  GET  /api/costs/report            - Cost analysis report
+  GET  /api/costs/report?period=shift - Shift cost breakdown
+
+COST TRACKER:
+  - Track costs per session, shift, and department
+  - Set budget limits with automatic alerts
+  - Monitor LLM token usage and costs
+  - View cost breakdowns by category
+
+
+================================================================================
+9. OPERATIONS (TASK MANAGER)
+================================================================================
+
+Task management for mining operations.
+
+FEATURES:
+  - Create and assign tasks
+  - Track task status (pending/running/completed)
+  - Shift task lists
+  - Safety checklists
+  - Dependency management
+  - Stall detection (tasks stuck too long)
+
+TASK TYPES:
+  - Analysis    - Data analysis and interpretation
+  - Inspection  - Site inspections and audits
+  - Monitoring  - Ongoing monitoring tasks
+  - Maintenance - Equipment maintenance
+  - Safety      - Safety-related tasks
+  - Environmental - Environmental monitoring
+  - Planning    - Planning and scheduling
+  - Reporting   - Report generation
+  - General     - General tasks
+
+API ENDPOINTS:
+  GET  /api/tasks              - List all tasks
+  POST /api/tasks              - Create a task
+  POST /api/tasks/update       - Update task status
+  GET  /api/todos              - List shift todos
+  POST /api/todos              - Add todo item
+  GET  /api/todos/safety-checklist - Safety checklist
+
+
+================================================================================
+10. MEMORY SYSTEM
+================================================================================
+
+Persistent memory for the AI to remember context across sessions.
+
+MEMORY TYPES:
+  - Operator      - Operator preferences and instructions
+  - Feedback      - User feedback and corrections
+  - Project       - Project-specific information
+  - Reference     - Reference materials and contacts
+  - Shift         - Shift-specific data and handover info
+  - Equipment     - Equipment specifications and history
+
+HOW IT WORKS:
+  - The AI automatically stores important information
+  - It recalls relevant memories based on your questions
+  - Memories persist across sessions
+  - Stale memories are automatically detected and updated
+  - You can manually store and recall memories
+
+API ENDPOINTS:
+  POST /api/memory/store    - Store a memory
+  POST /api/memory/recall   - Recall relevant memories
+  GET  /api/memory          - List all memories
+
+SESSION MEMORY:
+  - Live mine state document maintained during each session
+  - Tracks current context, decisions, and action items
+  - Auto-extracts key information from conversations
+
+  GET  /api/session/memory         - Get session memory
+  POST /api/session/memory/update  - Update session memory
+
+
+================================================================================
+11. API REFERENCE
+================================================================================
+
+All endpoints require the X-API-Key header.
+
+BASE URL: https://aios-vps.tail59eb2d.ts.net
+
+CORE ENDPOINTS:
+  GET  /health                          - Health check
+  GET  /api/system/telemetry            - System status
+
+CHAT:
+  POST /api/chat/stream                 - Stream chat response
+  GET  /api/chat/sessions               - List chat sessions
+  GET  /api/chat/history/{session_id}   - Chat history
+
+DOCUMENTS:
+  POST /api/documents/upload            - Upload document
+  POST /api/documents/analyze           - Analyze document
+  GET  /api/documents/analytics         - Document analytics
+
+KNOWLEDGE BASE:
+  GET  /api/knowledge/documents         - List all documents
+  GET  /api/knowledge/statistics        - Collection statistics
+  POST /api/knowledge/search            - Search documents
+  GET  /api/knowledge/recent            - Recent documents
+  POST /api/knowledge/read              - Read a document
+  POST /api/knowledge/understand        - Deep document analysis
+  GET  /api/knowledge/summary           - Knowledge summary
+
+SATELLITE:
+  POST /api/satellite/search            - Search satellite imagery
+  POST /api/satellite/spectral          - Spectral analysis
+  POST /api/satellite/terrain           - Terrain analysis
+  POST /api/satellite/features          - Feature extraction
+  POST /api/satellite/process           - Image processing
+  POST /api/satellite/spatial           - Spatial queries
+  POST /api/satellite/classify          - Image classification
+  POST /api/satellite/full-analysis     - Complete analysis pipeline
+  POST /api/satellite/report            - Generate report
+
+SATELLITE TEMPORAL:
+  POST /api/satellite/temporal/detect-changes
+  POST /api/satellite/temporal/ndvi-timeseries
+  POST /api/satellite/temporal/vegetation-stress
+  POST /api/satellite/temporal/mining-impact
+
+ANNOTATIONS:
+  POST   /api/satellite/annotations/create       - Create annotation
+  POST   /api/satellite/annotations/auto-annotate - Auto-annotate
+  GET    /api/satellite/annotations/{image_id}    - Get annotations
+  DELETE /api/satellite/annotations/{image_id}/{annotation_id}
+
+IMAGE:
+  POST /api/satellite/image/load      - Load satellite image
+  POST /api/satellite/image/analyze   - Analyze image
+  POST /api/satellite/image/detect    - Detect features
+  POST /api/satellite/image/pixel     - Get pixel values
+  POST /api/satellite/image/thumbnail - Get thumbnail
+
+EXPORT:
+  POST /api/satellite/export/geojson  - Export as GeoJSON
+  POST /api/satellite/export/kml      - Export as KML
+  POST /api/satellite/export/csv      - Export as CSV
+
+ANOMALIES & ALERTS:
+  GET  /api/anomalies/health          - Anomaly health score
+  GET  /api/alerts                    - Active alerts
+  GET  /api/alerts/statistics         - Alert statistics
+  POST /api/alerts/{id}/acknowledge   - Acknowledge alert
+
+PLANNING:
+  POST /api/plans                     - Create plan
+  POST /api/plans/approve             - Approve plan step
+  GET  /api/plans                     - Get current plan
+
+MEMORY:
+  POST /api/memory/store              - Store memory
+  POST /api/memory/recall             - Recall memory
+  POST /api/memory/index              - Index memory
+
+COSTS:
+  GET  /api/costs/report              - Cost report
+
+SKILLS:
+  GET  /api/skills                    - List mining skills
+
+SUGGESTIONS:
+  GET  /api/suggestions               - Get suggested actions
+
+
+================================================================================
+12. TIPS & BEST PRACTICES
+================================================================================
+
+GETTING THE BEST ANSWERS:
+  - Be specific: "What is the gold grade at Kibali?" not "Tell me about gold"
+  - Provide context: "I'm drilling at 28.1°E, 2.1°S - what formation?"
+  - Reference documents: Upload a report first, then ask about it
+  - Use mining terminology: The AI understands industry jargon
+
+SATELLITE ANALYSIS:
+  - Enter at least B02, B03, B04, B08 for basic vegetation analysis
+  - Add B11, B12 for mineral/alteration analysis
+  - Include DEM data for terrain analysis
+  - Use the full analysis pipeline for comprehensive results
+  - Export results as GeoJSON for use in QGIS or ArcGIS
+
+DOCUMENT MANAGEMENT:
+  - Upload all project documents for a complete knowledge base
+  - Use descriptive filenames for easier searching
+  - The AI auto-categorizes documents (geological, operational, etc.)
+  - Check the Document Reader tab to verify extraction quality
+
+COST MANAGEMENT:
+  - Monitor costs in the Finance Engine dashboard
+  - Set budget limits per shift and department
+  - The system tracks LLM token usage automatically
+
+WORKFLOW RECOMMENDATIONS:
+  1. Upload all existing documents to the Knowledge Base first
+  2. Set up satellite analysis parameters for your exploration area
+  3. Create task lists for ongoing operations
+  4. Use the chat to query across all your data
+  5. Export analysis results for reporting and presentations
+  6. Review anomaly alerts daily
+  7. Use shift handover reports for continuity
+
+TROUBLESHOOTING:
+  - If the AI doesn't find your document, try searching with different
+    keywords or check the Knowledge Base tab to verify it was uploaded
+  - If satellite analysis fails, ensure band values are comma-separated
+    numbers (not strings)
+  - If the chat seems slow, check the system telemetry in the right panel
+  - Backend restart takes ~2 minutes due to document indexing
+
+DATA FORMAT NOTES:
+  - Spectral band values should be reflectance (0.0 to 1.0)
+  - DEM values should be elevation in meters
+  - Coordinates use WGS84 (longitude, latitude)
+  - All timestamps are in ISO 8601 format
+  - File uploads are limited to 10 MB
+
+
+================================================================================
+                          END OF USER MANUAL
+================================================================================
