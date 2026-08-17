@@ -436,6 +436,17 @@ async def upload_document(file: UploadFile = File(...)):
         from ingestion.loader import index_documents_to_vector_db
         count = index_documents_to_vector_db(vector_client, docs_to_index, collection_name="company_knowledge")
 
+        # Also index into KnowledgeBase for document browsing
+        try:
+            from services.knowledge_base import KnowledgeBase
+            kb = KnowledgeBase()
+            kb.add_document(str(save_path), filename, {
+                "source": "upload",
+                "mime_type": file.content_type or "application/octet-stream"
+            })
+        except Exception as kb_err:
+            logger.warning(f"Knowledge base indexing skipped: {kb_err}")
+
         return {
             "status": "success",
             "filename": filename,
@@ -1585,9 +1596,10 @@ async def load_satellite_image(request: Request, current_user=Depends(verify_api
     for name, data in body.get("bands", {}).items():
         band_data[name] = np.array(data, dtype=np.float64)
     metadata = body.get("metadata", {})
-    image = reader.load_from_arrays(band_data, metadata)
+    reader.load_from_arrays(band_data, metadata)
     image_id = body.get("image_id", f"img_{hash(str(band_data)) % 100000}")
-    collection.add_image(image_id, image)
+    reader.image_id = image_id
+    collection.add_image(reader)
     return {"status": "success", "image_id": image_id, "summary": reader.get_summary()}
 
 
