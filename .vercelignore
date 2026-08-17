@@ -1,0 +1,11 @@
+backend/
+datasets/
+services/
+database/
+*.py
+*.pyc
+.venv/
+__pycache__/
+*.sql
+*.sh
+.git/
