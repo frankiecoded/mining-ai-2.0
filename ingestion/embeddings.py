@@ -88,22 +88,62 @@ def embed_batch(texts: List[str], batch_size: int = 64) -> List[List[float]]:
         return [[random.uniform(-0.1, 0.1) for _ in range(384)] for _ in texts]
 
 
-def chunk_text(text: str, max_chunk_size: int = 512, overlap: int = 64) -> List[str]:
+def chunk_text(text: str, max_chunk_size: int = 1000, overlap: int = 150) -> List[str]:
     """
-    Splits text into overlapping chunks by character count.
-    Respects word boundaries to avoid cutting mid-word.
-    Target: ~512 characters per chunk with ~64 character overlap.
+    Splits text into overlapping chunks with paragraph-boundary awareness.
+    Target: ~1000 characters per chunk with ~150 character overlap.
+    Tries to split at paragraph boundaries first, then sentence boundaries.
     """
     if len(text) <= max_chunk_size:
         return [text]
 
+    # First try splitting by paragraphs
+    paragraphs = [p.strip() for p in text.split("\n\n") if p.strip()]
+
+    if len(paragraphs) > 1:
+        chunks = []
+        current_chunk = []
+        current_size = 0
+
+        for para in paragraphs:
+            para_size = len(para)
+
+            if current_size + para_size > max_chunk_size and current_chunk:
+                chunk_str = "\n\n".join(current_chunk)
+                chunks.append(chunk_str)
+
+                # Keep last paragraph as overlap
+                overlap_paras = []
+                overlap_size = 0
+                for p in reversed(current_chunk):
+                    if overlap_size + len(p) > overlap:
+                        break
+                    overlap_paras.insert(0, p)
+                    overlap_size += len(p)
+
+                current_chunk = overlap_paras
+                current_size = overlap_size
+
+            current_chunk.append(para)
+            current_size += para_size
+
+        if current_chunk:
+            chunks.append("\n\n".join(current_chunk))
+
+        return chunks if len(chunks) > 1 else chunk_text_by_words(text, max_chunk_size, overlap)
+
+    return chunk_text_by_words(text, max_chunk_size, overlap)
+
+
+def chunk_text_by_words(text: str, max_chunk_size: int = 1000, overlap: int = 150) -> List[str]:
+    """Fallback: split by word count with overlap."""
     words = text.split()
     chunks = []
     current_chunk = []
     current_size = 0
 
     for word in words:
-        word_size = len(word) + 1  # +1 for space
+        word_size = len(word) + 1
 
         if current_size + word_size > max_chunk_size and current_chunk:
             chunk_str = " ".join(current_chunk)

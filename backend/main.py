@@ -428,8 +428,9 @@ async def upload_document(file: UploadFile = File(...)):
         save_path.write_bytes(raw)
         logger.info(f"Uploaded file saved: {save_path.name} ({len(raw)} bytes)")
 
-        # Index into vector DB (chunked for KB retrieval).
-        chunks = [content[i:i+1000] for i in range(0, len(content), 1000)]
+        # Index into vector DB (chunked for KB retrieval — paragraph-aware, 1000 chars, 150 overlap).
+        from ingestion.embeddings import chunk_text
+        chunks = chunk_text(content, max_chunk_size=1000, overlap=150)
         docs_to_index = []
         import hashlib
         for idx, chunk in enumerate(chunks):

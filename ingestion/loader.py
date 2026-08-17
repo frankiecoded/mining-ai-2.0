@@ -88,8 +88,8 @@ def prepare_documents_for_indexing() -> List[Dict[str, Any]]:
             content = record.get("content", "")
             tags = record.get("tags", [])
 
-            # Chunk long content
-            chunks = chunk_text(content, max_chunk_size=512, overlap=64)
+            # Chunk long content (1000 chars, 150 overlap — paragraph-aware)
+            chunks = chunk_text(content, max_chunk_size=1000, overlap=150)
 
             for i, chunk in enumerate(chunks):
                 chunk_id = f"{doc_id}_chunk_{i}" if len(chunks) > 1 else doc_id

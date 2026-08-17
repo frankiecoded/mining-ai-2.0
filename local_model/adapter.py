@@ -812,9 +812,53 @@ class LocalLLMAdapter(BaseChatModel):
 
         yield from self._stream_mock_tokens(messages, **kwargs)
 
+    def _manage_context_window(self, messages: List[BaseMessage], max_tokens: int = 6000) -> List[BaseMessage]:
+        """
+        Truncate conversation history to fit within context window.
+        Always keeps: system message (first), last user message, last 3 exchanges.
+        Summarizes older messages to preserve context.
+        """
+        if not messages:
+            return messages
+
+        # Estimate token count (rough: 1 token ≈ 4 chars)
+        def estimate_tokens(msgs):
+            return sum(len(str(m.content)) // 4 for m in msgs)
+
+        total = estimate_tokens(messages)
+        if total <= max_tokens:
+            return messages
+
+        # Always keep system message (index 0)
+        system_msg = [messages[0]] if messages[0].type == "system" else []
+        non_system = [m for m in messages if m.type != "system"]
+
+        if len(non_system) <= 4:
+            return messages  # Too few to truncate
+
+        # Keep last 6 messages (3 exchanges)
+        recent = non_system[-6:]
+        old = non_system[:-6]
+
+        # Summarize old messages into a single context message
+        old_summary_parts = []
+        for msg in old:
+            role = "User" if msg.type == "human" else "Assistant" if msg.type == "ai" else msg.type
+            content = str(msg.content)[:200]  # Truncate each old message
+            old_summary_parts.append(f"{role}: {content}")
+
+        summary = "[Earlier conversation summary]\n" + "\n".join(old_summary_parts)
+        summary_msg = SystemMessage(content=summary)
+
+        result = system_msg + [summary_msg] + recent
+        logger.info(f"Context window managed: {len(messages)} -> {len(result)} messages (saved ~{total - estimate_tokens(result)} tokens)")
+        return result
+
     def _stream_real_llm(self, messages: List[BaseMessage], **kwargs: Any) -> Iterator[ChatGenerationChunk]:
         """Stream response from LLM using SSE (Server-Sent Events) from OpenAI-compatible API."""
 
+        # Manage context window before sending
+        messages = self._manage_context_window(messages)
         api_messages = [self._message_to_api_dict(msg) for msg in messages]
 
         payload = {
@@ -904,6 +948,8 @@ class LocalLLMAdapter(BaseChatModel):
         Parses tool_calls from the response and returns structured AIMessage.
         """
 
+        # Manage context window before sending
+        messages = self._manage_context_window(messages)
         api_messages = [self._message_to_api_dict(msg) for msg in messages]
 
         payload = {

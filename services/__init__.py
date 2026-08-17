@@ -9,6 +9,12 @@ from .document_reader import (
     MINING_VOCABULARY,
 )
 
+from .knowledge_digest import (
+    load_relevant_datasets,
+    get_dataset_digest,
+    clear_cache,
+)
+
 __all__ = [
     "DocumentReader",
     "DocumentContent",
@@ -16,4 +22,7 @@ __all__ = [
     "TableData",
     "FigureDescription",
     "MINING_VOCABULARY",
+    "load_relevant_datasets",
+    "get_dataset_digest",
+    "clear_cache",
 ]

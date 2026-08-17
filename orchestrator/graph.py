@@ -211,7 +211,8 @@ Expert in regulations, technology scouting, competitive analysis.
 - Interaction Mode: {interaction_mode}
 {user_profile_section}
 {memory_context_section}
-{rag_context_section}"""
+{rag_context_section}
+{knowledge_digest_section}"""
 
 
 class AIOrchestrator:
@@ -363,27 +364,61 @@ class AIOrchestrator:
                 last_human = msg.content
                 break
 
+        # Enhanced RAG: search all 4 collections, 15 results, full content
         if last_human and self._should_rag(last_human):
             try:
                 from ingestion.embeddings import embed_text
                 query_vector = embed_text(last_human)
-                if query_vector:
-                    rag_results = self.mining_engine.vector_client.search_similarity(
-                        "company_knowledge", query_vector, limit=5
-                    ) if self.mining_engine.vector_client else []
-                    if rag_results:
+                if query_vector and self.mining_engine.vector_client:
+                    vc = self.mining_engine.vector_client
+                    all_results = []
+
+                    # Search all 4 collections
+                    for collection in ["company_knowledge", "production_data", "financial_data", "long_term_memories"]:
+                        try:
+                            hits = vc.search_similarity(collection, query_vector, limit=8, score_threshold=0.25)
+                            for hit in hits:
+                                hit["_collection"] = collection
+                            all_results.extend(hits)
+                        except Exception:
+                            continue
+
+                    # Sort by score, take top 15
+                    all_results.sort(key=lambda x: x.get("score", 0), reverse=True)
+                    top_results = all_results[:15]
+
+                    if top_results:
                         context_parts = []
-                        for hit in rag_results:
+                        for hit in top_results:
                             payload = hit.get("payload", {})
                             title = payload.get("title", "")
-                            preview = payload.get("content_preview", "")
+                            content = payload.get("content_preview", payload.get("content", ""))
                             score = hit.get("score", 0)
-                            if (title or preview) and score > 0.3:
-                                context_parts.append(f"- {title} (relevance: {score:.2f}): {preview[:200]}")
+                            collection = hit.get("_collection", "")
+                            if (title or content) and score > 0.25:
+                                # Use full content, not just 200 chars
+                                context_parts.append(f"[{collection}] {title} (relevance: {score:.2f}):\n{content[:1500]}")
                         if context_parts:
-                            rag_context_section = "Relevant Knowledge Base Context:\n" + "\n".join(context_parts)
+                            rag_context_section = "RELEVANT KNOWLEDGE BASE CONTEXT (from vector search across all collections):\n\n" + "\n\n---\n\n".join(context_parts)
             except Exception as e:
                 logger.debug(f"RAG retrieval failed: {e}")
+
+        # Knowledge Digest: ALWAYS inject dataset index + load matched datasets
+        knowledge_digest_section = ""
+        try:
+            from services.knowledge_digest import load_relevant_datasets, get_dataset_digest
+
+            # ALWAYS include the full dataset index so AI knows what exists
+            dataset_index = get_dataset_digest()
+            knowledge_digest_section = dataset_index
+
+            # ALSO load full content of matched datasets for the query
+            if last_human:
+                digest = load_relevant_datasets(last_human, max_chars=25000)
+                if digest:
+                    knowledge_digest_section = dataset_index + "\n\n" + digest
+        except Exception as e:
+            logger.debug(f"Knowledge digest failed: {e}")
 
         return COORDINATOR_PROMPT.format(
             phone_number=phone,
@@ -391,7 +426,8 @@ class AIOrchestrator:
             interaction_mode=interaction_mode,
             user_profile_section=user_profile_section,
             memory_context_section=memory_context_section,
-            rag_context_section=rag_context_section
+            rag_context_section=rag_context_section,
+            knowledge_digest_section=knowledge_digest_section
         )
 
     def node_preprocess_attachments(self, state: AgentState) -> Dict[str, Any]:
