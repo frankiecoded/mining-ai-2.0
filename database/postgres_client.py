@@ -115,6 +115,10 @@ class PostgresClient:
             );
             """
         ]
+        alter_queries = [
+            "ALTER TABLE tasks ADD COLUMN IF NOT EXISTS priority VARCHAR(20) DEFAULT 'medium';",
+            "ALTER TABLE knowledge_base ADD COLUMN IF NOT EXISTS document_type VARCHAR(50) DEFAULT 'general';",
+        ]
         index_queries = [
             "CREATE INDEX IF NOT EXISTS idx_conversations_updated_at ON conversations(updated_at);",
             "CREATE INDEX IF NOT EXISTS idx_conversations_session_id ON conversations(session_id);",
@@ -131,6 +135,8 @@ class PostgresClient:
         try:
             with self.conn.cursor() as cur:
                 for query in create_queries:
+                    cur.execute(query)
+                for query in alter_queries:
                     cur.execute(query)
                 for query in index_queries:
                     cur.execute(query)
@@ -194,6 +200,10 @@ class PostgresClient:
             );
             """
         ]
+        alter_queries = [
+            "ALTER TABLE tasks ADD COLUMN priority TEXT DEFAULT 'medium';",
+            "ALTER TABLE knowledge_base ADD COLUMN document_type TEXT DEFAULT 'general';",
+        ]
         index_queries = [
             "CREATE INDEX IF NOT EXISTS idx_conversations_updated_at ON conversations(updated_at);",
             "CREATE INDEX IF NOT EXISTS idx_conversations_session_id ON conversations(session_id);",
@@ -238,6 +248,11 @@ class PostgresClient:
             cur = self.conn.cursor()
             for query in create_queries:
                 cur.execute(query)
+            for query in alter_queries:
+                try:
+                    cur.execute(query)
+                except Exception:
+                    pass  # Column already exists
             for query in index_queries:
                 cur.execute(query)
             for query in fts_queries:

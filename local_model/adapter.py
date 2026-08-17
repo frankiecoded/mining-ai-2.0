@@ -354,7 +354,7 @@ TOOL_DEFINITIONS = [
                     "append": {
                         "type": "boolean",
                         "description": "If true, append to existing content. If false, replace.",
-                        "default": false
+                        "default": False
                     }
                 },
                 "required": ["section", "content"]
