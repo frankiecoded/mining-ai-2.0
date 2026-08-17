@@ -22,7 +22,7 @@ class ChatAPI {
   }
 
   private static get baseUrl(): string {
-    return import.meta.env.VITE_API_URL || 'http://localhost:8000';
+    return import.meta.env.VITE_API_URL || '';
   }
 
   private static getHeaders(withJson = true): Record<string, string> {

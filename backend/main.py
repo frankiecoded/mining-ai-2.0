@@ -177,6 +177,15 @@ app.add_middleware(
     allow_headers=["Authorization", "Content-Type", "X-API-Key"],
 )
 
+# ---------- Static Frontend Serving ----------
+STATIC_DIR = Path(__file__).parent.parent / "static"
+_has_static = STATIC_DIR.exists() and (STATIC_DIR / "index.html").exists()
+if _has_static:
+    from starlette.staticfiles import StaticFiles
+    from starlette.responses import FileResponse
+    # Mount hashed JS/CSS bundles
+    app.mount("/assets", StaticFiles(directory=str(STATIC_DIR / "assets")), name="static-assets")
+
 # ---------- Security Headers Middleware ----------
 @app.middleware("http")
 async def add_security_headers(request: Request, call_next):
@@ -310,6 +319,11 @@ async def validate_token(auth: AuthPayload = Depends(verify_jwt)):
 # ---------- Routes ----------
 @app.get("/", tags=["Diagnostic"])
 def get_system_status():
+    if _has_static:
+        index = STATIC_DIR / "index.html"
+        if index.exists():
+            from starlette.responses import FileResponse
+            return FileResponse(str(index))
     return {
         "status": "online",
         "system": "AI Mining Operating System v2.0.0",
@@ -1985,3 +1999,16 @@ async def preview_document(
         media_type=ALLOWED_PREVIEW_EXTENSIONS[ext],
         filename=full_path.name,
     )
+
+
+# ---------- SPA Catch-All (must be last route) ----------
+if _has_static:
+    @app.get("/{full_path:path}", include_in_schema=False)
+    async def serve_spa(full_path: str):
+        file_path = STATIC_DIR / full_path
+        if full_path and file_path.is_file():
+            return FileResponse(str(file_path))
+        index = STATIC_DIR / "index.html"
+        if index.exists():
+            return FileResponse(str(index))
+        return {"status": "online", "system": "AI Mining OS v2.0.0"}
