@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Bot, User, Wrench, CheckCircle2 } from 'lucide-react';
+import { Bot, User, Wrench, CheckCircle2, FileDown, FileText } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { ChatMessage } from '../../types';
@@ -76,6 +76,39 @@ export function MessageBubble({ message }: { message: ChatMessage }) {
                 </span>
               </div>
             ))}
+          </div>
+        )}
+
+        {message.attachments && message.attachments.length > 0 && (
+          <div className="flex flex-col gap-2 mt-2 w-full">
+            {message.attachments.map((file, idx) => {
+              const isPdf = file.mime_type === 'application/pdf' || file.filename.endsWith('.pdf');
+              const sizeKb = file.size_bytes ? Math.round(file.size_bytes / 1024) : null;
+              const fullUrl = file.file_url.startsWith('http') ? file.file_url : `${import.meta.env.VITE_API_URL || ''}${file.file_url}`;
+              return (
+                <div key={idx} className="flex items-center gap-3 self-start rounded-xl glass-faint px-4 py-3 group">
+                  {isPdf ? (
+                    <FileText className="w-5 h-5 text-sky-300 shrink-0" />
+                  ) : (
+                    <FileDown className="w-5 h-5 text-sky-300 shrink-0" />
+                  )}
+                  <div className="flex flex-col min-w-0">
+                    <span className="text-[13px] font-medium text-zinc-200 truncate max-w-[220px]">{file.filename}</span>
+                    {sizeKb !== null && <span className="text-[10px] text-zinc-500">{sizeKb} KB</span>}
+                  </div>
+                  <a
+                    href={fullUrl}
+                    download={file.filename}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="ml-auto shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-sky-500/20 text-sky-300 text-[11px] font-semibold hover:bg-sky-500/30 transition-colors"
+                  >
+                    <FileDown className="w-3.5 h-3.5" />
+                    Download
+                  </a>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>

@@ -120,6 +120,14 @@ export function ChatView({ activeSessionId, onSessionCreated, onActivity }: Chat
                 : m,
             ),
           );
+        } else if (event.type === 'file') {
+          setMessages((prev) =>
+            prev.map((m) =>
+              m.id === assistantId
+                ? { ...m, attachments: [...(m.attachments ?? []), { filename: event.filename, file_url: event.file_url, mime_type: event.mime_type, size_bytes: event.size_bytes }] }
+                : m,
+            ),
+          );
         } else if (event.type === 'error') {
           setMessages((prev) => [
             ...prev,

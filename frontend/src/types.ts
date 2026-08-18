@@ -6,6 +6,7 @@ export type ChatEvent =
   | { type: 'start'; session_id: string }
   | { type: 'message'; content: string }
   | { type: 'tool_call'; name: string; args: Record<string, unknown> }
+  | { type: 'file'; filename: string; file_url: string; mime_type: string; size_bytes: number }
   | { type: 'error'; message: string }
   | { type: 'end' };
 
@@ -20,6 +21,7 @@ export interface ChatMessage {
   role: 'user' | 'assistant' | 'system';
   content: string;
   toolCalls?: Array<{ name: string; args: Record<string, unknown> }>;
+  attachments?: Array<{ filename: string; file_url: string; mime_type: string; size_bytes: number }>;
 }
 
 export interface SystemTelemetry {

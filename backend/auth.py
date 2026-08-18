@@ -59,10 +59,10 @@ USERS: dict[str, TenantUser] = {}
 def _init_users():
     global USERS
     USERS = {
-        "baguley": TenantUser(
-            username="baguley",
+        "buguley": TenantUser(
+            username="buguley",
             password_hash=_hash_password("Frankie578"),
-            display_name="Baguley Limited",
+            display_name="Buguley Limited",
             role="user",
             tenant_id="baguley",
             allowed_datasets=["baguley_limited", "regions"],

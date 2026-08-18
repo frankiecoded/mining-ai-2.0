@@ -106,6 +106,30 @@ def verify_api_key(request: Request):
     """Legacy wrapper — uses JWT auth. Kept for route compatibility."""
     return verify_jwt(request)
 
+def optional_jwt(request: Request) -> Optional[AuthPayload]:
+    """Like verify_jwt but returns None instead of raising 401."""
+    auth_header = request.headers.get("Authorization", "")
+    token = ""
+    if auth_header.startswith("Bearer "):
+        token = auth_header[7:]
+    if not token:
+        token = request.headers.get("X-API-Key", "")
+    if not token:
+        token = request.query_params.get("api_key", "")
+    if not token:
+        return None
+    payload = verify_token(token)
+    if not payload:
+        return None
+    user = get_user(payload)
+    if not user:
+        return None
+    return AuthPayload(payload=payload, user=user)
+
+def extract_api_key(request: Optional[Request]):
+    """Extract API key from request (for backward compat)."""
+    return None
+
 # ---------- Initialize Infrastructure (All Local) ----------
 # Database: uses SQLite locally (auto-fallback in PostgresClient)
 postgres_client = PostgresClient(dsn="")
@@ -334,15 +358,30 @@ def get_system_status():
 def health_check():
     return {"status": "healthy", "timestamp": time.time()}
 
-@app.get("/files/{file_path:path}", tags=["Media"], dependencies=[Depends(verify_api_key)])
-def get_stored_file(file_path: str):
-    local_dir = settings.storage_dir
-    full_path = os.path.realpath(os.path.join(local_dir, file_path))
-    if not full_path.startswith(os.path.realpath(local_dir)):
-        raise HTTPException(status_code=403, detail="Access denied")
-    if not os.path.exists(full_path):
+@app.get("/files/{file_path:path}", tags=["Media"])
+def get_stored_file(file_path: str, auth: Optional[AuthPayload] = Depends(optional_jwt)):
+    project_root = Path(__file__).parent.parent
+    candidates = [
+        project_root / "storage" / "local_buckets" / "ai-os-storage" / file_path,
+        project_root / "storage" / "local_data" / file_path,
+        Path(settings.storage_dir) / file_path,
+        Path(settings.storage_dir) / "ai-os-storage" / file_path,
+        Path(settings.UPLOAD_DIR) / file_path,
+        project_root / settings.UPLOAD_DIR / file_path,
+    ]
+    full_path = None
+    for candidate in candidates:
+        resolved = candidate.resolve()
+        if resolved.exists() and (
+            str(resolved).startswith(str((project_root / "storage").resolve()))
+            or str(resolved).startswith(str(Path(settings.storage_dir).resolve()))
+            or str(resolved).startswith(str((project_root / settings.UPLOAD_DIR).resolve()))
+        ):
+            full_path = resolved
+            break
+    if full_path is None:
         raise HTTPException(status_code=404, detail="File not found")
-    return FileResponse(full_path)
+    return FileResponse(full_path, filename=os.path.basename(full_path))
 
 # ---------- Tasks & Procurement ----------
 @app.post("/tasks", tags=["Management"], dependencies=[Depends(verify_api_key), Depends(check_rate_limit)])
@@ -372,6 +411,7 @@ async def stream_chat(req: ChatStreamRequest, auth: AuthPayload = Depends(verify
 
         assistant_content = ""
         tool_calls = []
+        file_attachments = []
         try:
             # Load prior history (excluding the message being sent right now).
             raw_history = postgres_client.get_conversation(session_id) or []
@@ -409,14 +449,20 @@ async def stream_chat(req: ChatStreamRequest, auth: AuthPayload = Depends(verify
                 elif ev["type"] == "tool_call":
                     tool_calls.append({"name": ev["name"], "args": ev["args"]})
                     yield f"data: {json.dumps({'type': 'tool_call', 'name': ev['name'], 'args': ev['args']})}\n\n"
+                elif ev["type"] == "file":
+                    yield f"data: {json.dumps({'type': 'file', 'filename': ev['filename'], 'file_url': ev['file_url'], 'mime_type': ev['mime_type'], 'size_bytes': ev['size_bytes']})}\n\n"
+                    file_attachments.append({"filename": ev["filename"], "file_url": ev["file_url"], "mime_type": ev["mime_type"], "size_bytes": ev["size_bytes"]})
                 # 'done' events carry no payload; the assistant text already streamed.
 
             # Persist the assistant reply so the session can be resumed later.
             if assistant_content:
+                assistant_msg = {"role": "assistant", "content": assistant_content}
+                if file_attachments:
+                    assistant_msg["attachments"] = file_attachments
                 postgres_client.append_conversation(
                     session_id,
                     req.session_id,
-                    [{"role": "assistant", "content": assistant_content}],
+                    [assistant_msg],
                 )
 
             yield f"data: {json.dumps({'type': 'end'})}\n\n"
@@ -1475,6 +1521,217 @@ async def generate_satellite_report(
     return {"status": "success", "report": report}
 
 
+# ---------- Satellite Annotation & Image Reader Endpoints ----------
+
+@app.post("/api/satellite/annotations/create", tags=["Satellite"])
+async def create_annotation(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    body = await request.json()
+    from satellite.annotation_engine import SatelliteAnnotationEngine
+    engine = SatelliteAnnotationEngine()
+    result = engine.create_annotation(
+        image_id=body.get("image_id", "default"),
+        annotation_type=body.get("annotation_type", "point"),
+        coordinates=body.get("coordinates", []),
+        properties=body.get("properties", {}),
+        style=body.get("style", {}),
+        author=auth.username,
+    )
+    return {"status": "success", "annotation": result}
+
+
+@app.post("/api/satellite/annotations/auto-annotate", tags=["Satellite"])
+async def auto_annotate(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    body = await request.json()
+    from satellite.annotation_engine import SatelliteAnnotationEngine
+    engine = SatelliteAnnotationEngine()
+    result = engine.auto_annotate(
+        image_id=body.get("image_id", "default"),
+        analysis_type=body.get("analysis_type", "spectral"),
+        results=body.get("results", {}),
+    )
+    return {"status": "success", "annotations_created": result.get("count", 0)}
+
+
+@app.get("/api/satellite/annotations/{image_id}", tags=["Satellite"])
+async def get_annotations(image_id: str, auth: AuthPayload = Depends(verify_jwt)):
+    from satellite.annotation_engine import SatelliteAnnotationEngine
+    engine = SatelliteAnnotationEngine()
+    result = engine.get_annotations(image_id)
+    return {"status": "success", "annotations": result}
+
+
+@app.delete("/api/satellite/annotations/{image_id}/{annotation_id}", tags=["Satellite"])
+async def delete_annotation(image_id: str, annotation_id: str, auth: AuthPayload = Depends(verify_jwt)):
+    from satellite.annotation_engine import SatelliteAnnotationEngine
+    engine = SatelliteAnnotationEngine()
+    result = engine.delete_annotation(image_id, annotation_id)
+    success = result.get("deleted", False)
+    return {"status": "success" if success else "error", "deleted": success}
+
+
+@app.post("/api/satellite/image/load", tags=["Satellite"])
+async def load_satellite_image(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    body = await request.json()
+    from satellite.image_reader import get_image_reader
+    svc = get_image_reader()
+    result = svc.load_image(
+        bands=body.get("bands", {}),
+        metadata=body.get("metadata", {}),
+        image_id=body.get("image_id"),
+    )
+    return {"status": "success", **result}
+
+
+@app.post("/api/satellite/image/analyze", tags=["Satellite"])
+async def analyze_satellite_image(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    from satellite.image_reader import get_image_reader
+    svc = get_image_reader()
+    result = svc.analyze_image()
+    return {"status": "success", **result}
+
+
+@app.post("/api/satellite/image/detect", tags=["Satellite"])
+async def detect_features_in_image(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    body = await request.json()
+    from satellite.image_reader import get_image_reader
+    svc = get_image_reader()
+    result = svc.detect_features(detection_type=body.get("detection_type", "all"))
+    return {"status": "success", "results": result}
+
+
+@app.post("/api/satellite/image/pixel", tags=["Satellite"])
+async def get_pixel_info(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    body = await request.json()
+    from satellite.image_reader import get_image_reader
+    svc = get_image_reader()
+    result = svc.get_pixel_info(image_id=body.get("image_id", "default"), longitude=body.get("longitude", 0), latitude=body.get("latitude", 0))
+    return {"status": "success", "result": result}
+
+
+@app.post("/api/satellite/image/thumbnail", tags=["Satellite"])
+async def get_image_thumbnail(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    body = await request.json()
+    from satellite.image_reader import get_image_reader
+    svc = get_image_reader()
+    result = svc.get_thumbnail(image_id=body.get("image_id", "default"), width=body.get("width", 256), height=body.get("height", 256))
+    return {"status": "success", "thumbnail": result}
+
+
+@app.post("/api/satellite/composites/create", tags=["Satellite"])
+async def create_composite(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    body = await request.json()
+    from satellite.image_collection import ImageCollection
+    svc = ImageCollection()
+    result = svc.create_composite(
+        composite_type=body.get("composite_type", "true_color"),
+        image_id=body.get("image_id"),
+    )
+    return {"status": "success", **result}
+
+
+@app.post("/api/satellite/terrain/analyze", tags=["Satellite"])
+async def analyze_terrain(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    body = await request.json()
+    from satellite.image_collection import ImageCollection
+    svc = ImageCollection()
+    result = svc.analyze_terrain(dem=body.get("dem", []))
+    return {"status": "success", **result}
+
+
+@app.post("/api/satellite/full-analysis", tags=["Satellite"])
+async def full_satellite_analysis(request: Request, auth: AuthPayload = Depends(verify_jwt)):
+    import numpy as _np
+    body = await request.json()
+    bands = body.get("bands", {})
+    dem_raw = body.get("dem", [])
+
+    from services.spectral_analysis import SpectralCalculator
+    from services.terrain_analysis import TerrainAnalyzer
+    from services.feature_extraction import FeatureExtractor
+    from services.satellite_export import ReportGenerator
+
+    spectral_calc = SpectralCalculator()
+    terrain_analyzer = TerrainAnalyzer()
+    feature_extractor = FeatureExtractor()
+    report_gen = ReportGenerator()
+
+    spectral_results = {}
+    terrain_results = {}
+    feature_results = {}
+
+    if bands:
+        try:
+            spectral_results = spectral_calc.get_exploration_assessment(bands)
+        except Exception as e:
+            spectral_results = {"error": str(e)}
+
+    dem_valid = False
+    if dem_raw:
+        try:
+            dem_arr = _np.array(dem_raw, dtype=_np.float64)
+            if dem_arr.ndim >= 2:
+                terrain_results = terrain_analyzer.get_terrain_assessment(dem_raw)
+                feature_results = feature_extractor.extract_all_features(dem_raw, bands if bands else None)
+                targets = feature_extractor.get_exploration_targets(feature_results)
+                feature_results["exploration_targets"] = targets
+                dem_valid = True
+        except Exception as e:
+            terrain_results = {"error": str(e)}
+            feature_results = {"error": str(e)}
+
+    if not dem_valid and bands:
+        feature_results = {"multispectral": {}}
+        try:
+            from services.feature_extraction import FeatureExtractor
+            fe = FeatureExtractor()
+            feature_results["multispectral"] = fe.extract_from_multispectral(bands)
+        except Exception as e:
+            feature_results["multispectral"] = {"error": str(e)}
+
+    from satellite.annotation_engine import SatelliteAnnotationEngine
+    engine = SatelliteAnnotationEngine()
+    image_id = body.get("image_id", "full_analysis")
+
+    if spectral_results and "error" not in spectral_results:
+        try:
+            engine.auto_annotate(image_id=image_id, analysis_type="exploration", results=spectral_results)
+        except Exception:
+            pass
+    if terrain_results and "error" not in terrain_results:
+        try:
+            engine.auto_annotate(image_id=image_id, analysis_type="terrain", results=terrain_results)
+        except Exception:
+            pass
+    if feature_results and "error" not in feature_results:
+        try:
+            engine.auto_annotate(image_id=image_id, analysis_type="features", results=feature_results)
+        except Exception:
+            pass
+
+    report = {}
+    try:
+        report = report_gen.generate_mineral_report(
+            spectral=spectral_results,
+            terrain=terrain_results,
+            features=feature_results
+        )
+    except Exception as e:
+        report = {"error": str(e)}
+
+    annotations = engine.get_annotations(image_id)
+
+    return {
+        "status": "success",
+        "results": {
+            "spectral": spectral_results,
+            "terrain": terrain_results,
+            "features": feature_results,
+            "annotations": annotations,
+            "report": report
+        }
+    }
+
+
 # Knowledge Base Endpoints
 @app.get("/api/knowledge/documents", tags=["Knowledge"])
 async def list_knowledge_documents(auth: AuthPayload = Depends(verify_jwt)):
@@ -1512,51 +1769,32 @@ async def recent_documents(limit: int = 20, auth: AuthPayload = Depends(verify_j
 
 @app.post("/api/knowledge/read", tags=["Knowledge"])
 async def read_document(request: Request, current_user=Depends(verify_api_key)):
-    from services.document_reader import DocumentReader
     body = await request.json()
-    kb = get_knowledge_base()
     doc_id = body.get("doc_id")
     file_path = body.get("file_path")
-    if doc_id:
-        doc = kb.get_document(doc_id)
-        if doc:
-            file_path = doc.get("file_path") or doc.get("original_filename")
-    reader = DocumentReader()
-    result = reader.read_document(file_path) if file_path else {"error": "No file path provided"}
-    return {"status": "success", "result": result}
+    from knowledge_base.knowledge import KnowledgeBase
+    kb = KnowledgeBase()
+    result = kb.read_document(doc_id=doc_id, file_path=file_path)
+    return {"status": "success", "results": result}
 
 
 @app.post("/api/knowledge/understand", tags=["Knowledge"])
 async def understand_document(request: Request, current_user=Depends(verify_api_key)):
-    from services.document_reader import DocumentReader
     body = await request.json()
-    kb = get_knowledge_base()
     doc_id = body.get("doc_id")
     file_path = body.get("file_path")
-    if doc_id:
-        doc = kb.get_document(doc_id)
-        if doc:
-            file_path = doc.get("file_path") or doc.get("original_filename")
-    reader = DocumentReader()
-    result = reader.read_and_understand(file_path) if file_path else {"error": "No file path provided"}
-    return {"status": "success", "result": result}
+    from knowledge_base.knowledge import KnowledgeBase
+    kb = KnowledgeBase()
+    result = kb.understand_document(doc_id=doc_id, file_path=file_path)
+    return {"status": "success", "results": result}
 
 
 @app.get("/api/knowledge/summary", tags=["Knowledge"])
-async def knowledge_summary(current_user=Depends(verify_api_key)):
-    kb = get_knowledge_base()
-    return {"status": "success", "summary": kb.get_knowledge_summary()}
-
-
-# Annotation Endpoints
-_annotation_engine = None
-
-def get_annotation_engine():
-    global _annotation_engine
-    if _annotation_engine is None:
-        from services.annotation_engine import AnnotationEngine
-        _annotation_engine = AnnotationEngine()
-    return _annotation_engine
+async def knowledge_summary(auth: AuthPayload = Depends(verify_jwt)):
+    from knowledge_base.knowledge import KnowledgeBase
+    kb = KnowledgeBase()
+    result = kb.get_summary()
+    return {"status": "success", "results": result}
 
 
 # ---------- Lazy singleton helpers for per-request services ----------
@@ -1692,216 +1930,7 @@ def get_report_generator():
     return _report_generator
 
 
-@app.post("/api/satellite/annotations/create", tags=["Satellite"])
-async def create_annotation(request: Request, current_user=Depends(verify_api_key)):
-    engine = get_annotation_engine()
-    body = await request.json()
-    from services.annotation_engine import Annotation, AnnotationType, Coordinate, Style
-    from datetime import datetime
-    raw_type = body.get("annotation_type", "point").upper()
-    ann_type = AnnotationType[raw_type] if raw_type in AnnotationType.__members__ else AnnotationType.POINT
-    now = datetime.now()
-    raw_coords = body.get("coordinates", [[0, 0]])
-    coordinates = []
-    for c in raw_coords:
-        if isinstance(c, (list, tuple)):
-            coordinates.append(Coordinate(x=c[0], y=c[1], z=c[2] if len(c) > 2 else None))
-        elif isinstance(c, dict):
-            coordinates.append(Coordinate(x=c.get("x", 0), y=c.get("y", 0), z=c.get("z")))
-        else:
-            coordinates.append(c)
-    raw_style = body.get("style", {})
-    style = Style(
-        fill_color=raw_style.get("fill", "#CCCCCC"),
-        stroke_color=raw_style.get("stroke", "#999999"),
-        stroke_width=float(raw_style.get("strokeWidth", 2)),
-        opacity=float(raw_style.get("opacity", 0.5)),
-    )
-    annotation = Annotation(
-        annotation_id="",
-        annotation_type=ann_type,
-        image_id=body.get("image_id", "default"),
-        coordinates=coordinates,
-        properties=body.get("properties", {}),
-        style=style,
-        created_at=now,
-        updated_at=now,
-        author=body.get("author", "user")
-    )
-    engine._store(annotation)
-    return {"status": "success", "annotation": annotation.to_geojson()}
 
-
-@app.post("/api/satellite/annotations/auto-annotate", tags=["Satellite"])
-async def auto_annotate(request: Request, current_user=Depends(verify_api_key)):
-    engine = get_annotation_engine()
-    body = await request.json()
-    image_id = body.get("image_id", "default")
-    analysis_type = body.get("analysis_type", "spectral")
-    results = body.get("results", {})
-
-    if analysis_type == "spectral":
-        annotations = engine.auto_annotate_spectral(results, image_id)
-    elif analysis_type == "terrain":
-        annotations = engine.auto_annotate_terrain(results, image_id)
-    elif analysis_type == "features":
-        annotations = engine.auto_annotate_features(results, image_id)
-    elif analysis_type == "exploration":
-        annotations = engine.auto_annotate_from_exploration_assessment(results, image_id)
-    else:
-        annotations = []
-
-    return {"status": "success", "annotations_created": len(annotations)}
-
-
-@app.get("/api/satellite/annotations/{image_id}", tags=["Satellite"])
-async def get_annotations(image_id: str, current_user=Depends(verify_api_key)):
-    engine = get_annotation_engine()
-    geojson = engine.get_annotations_geojson(image_id)
-    return {"status": "success", "annotations": geojson}
-
-
-@app.delete("/api/satellite/annotations/{image_id}/{annotation_id}", tags=["Satellite"])
-async def delete_annotation(image_id: str, annotation_id: str, current_user=Depends(verify_api_key)):
-    engine = get_annotation_engine()
-    success = engine.delete_annotation(image_id, annotation_id)
-    return {"status": "success" if success else "error", "deleted": success}
-
-
-# Image Reader Endpoints
-_image_reader = None
-_image_collection = None
-
-def get_image_reader():
-    global _image_reader
-    if _image_reader is None:
-        from services.satellite_image_reader import SatelliteImageReader
-        _image_reader = SatelliteImageReader()
-    return _image_reader
-
-def get_image_collection():
-    global _image_collection
-    if _image_collection is None:
-        from services.satellite_image_reader import ImageCollection
-        _image_collection = ImageCollection()
-    return _image_collection
-
-
-@app.post("/api/satellite/image/load", tags=["Satellite"])
-async def load_satellite_image(request: Request, current_user=Depends(verify_api_key)):
-    reader = get_image_reader()
-    collection = get_image_collection()
-    body = await request.json()
-    import numpy as np
-    band_data = {}
-    for name, data in body.get("bands", {}).items():
-        band_data[name] = np.array(data, dtype=np.float64)
-    metadata = body.get("metadata", {})
-    reader.load_from_arrays(band_data, metadata)
-    image_id = body.get("image_id", f"img_{hash(str(band_data)) % 100000}")
-    reader.image_id = image_id
-    collection.add_image(reader)
-    return {"status": "success", "image_id": image_id, "summary": reader.get_summary()}
-
-
-@app.post("/api/satellite/image/analyze", tags=["Satellite"])
-async def analyze_satellite_image(request: Request, current_user=Depends(verify_api_key)):
-    reader = get_image_reader()
-    body = await request.json()
-    stats = reader.get_image_stats()
-    composites = {}
-    try:
-        composites["true_color"] = reader.get_true_color_composite()
-        composites["false_color"] = reader.get_false_color_composite()
-        composites["mineral"] = reader.get_mineral_composite()
-    except Exception:
-        pass
-    return {"status": "success", "stats": stats, "composites": composites, "summary": reader.get_summary()}
-
-
-@app.post("/api/satellite/image/detect", tags=["Satellite"])
-async def detect_features_in_image(request: Request, current_user=Depends(verify_api_key)):
-    reader = get_image_reader()
-    body = await request.json()
-    detection_type = body.get("detection_type", "all")
-    results = {}
-    if detection_type in ("clouds", "all"):
-        results["clouds"] = reader.detect_clouds()
-    if detection_type in ("water", "all"):
-        results["water"] = reader.detect_water()
-    if detection_type in ("vegetation", "all"):
-        results["vegetation"] = reader.detect_vegetation()
-    if detection_type in ("bare_soil", "all"):
-        results["bare_soil"] = reader.detect_bare_soil()
-    return {"status": "success", "results": results}
-
-
-@app.post("/api/satellite/image/pixel", tags=["Satellite"])
-async def get_pixel_info(request: Request, current_user=Depends(verify_api_key)):
-    reader = get_image_reader()
-    body = await request.json()
-    lon = body.get("longitude", 0)
-    lat = body.get("latitude", 0)
-    result = reader.get_pixel_value(lon, lat)
-    return {"status": "success", "result": result}
-
-
-@app.post("/api/satellite/image/thumbnail", tags=["Satellite"])
-async def get_image_thumbnail(request: Request, current_user=Depends(verify_api_key)):
-    reader = get_image_reader()
-    body = await request.json()
-    width = body.get("width", 256)
-    height = body.get("height", 256)
-    result = reader.generate_thumbnail(width, height)
-    return {"status": "success", "thumbnail": result}
-
-
-@app.post("/api/satellite/full-analysis", tags=["Satellite"])
-async def full_satellite_analysis(request: Request, current_user=Depends(verify_api_key)):
-    body = await request.json()
-    bands = body.get("bands", {})
-    dem = body.get("dem", [])
-
-    from services.spectral_analysis import SpectralCalculator
-    from services.terrain_analysis import TerrainAnalyzer
-    from services.feature_extraction import FeatureExtractor
-    from services.satellite_export import ReportGenerator
-
-    spectral_calc = SpectralCalculator()
-    terrain_analyzer = TerrainAnalyzer()
-    feature_extractor = FeatureExtractor()
-    report_gen = ReportGenerator()
-
-    spectral_results = spectral_calc.get_exploration_assessment(bands)
-    terrain_results = terrain_analyzer.get_terrain_assessment(dem)
-    feature_results = feature_extractor.extract_all_features(dem, bands)
-    targets = feature_extractor.get_exploration_targets(feature_results)
-    feature_results["exploration_targets"] = targets
-
-    engine = get_annotation_engine()
-    image_id = body.get("image_id", "full_analysis")
-    engine.auto_annotate_from_exploration_assessment(spectral_results, image_id)
-    engine.auto_annotate_terrain(terrain_results, image_id)
-    engine.auto_annotate_features(feature_results, image_id)
-
-    report = report_gen.generate_mineral_report(
-        spectral=spectral_results,
-        terrain=terrain_results,
-        features=feature_results
-    )
-
-    annotations = engine.get_annotations_geojson(image_id)
-
-    return {
-        "status": "success",
-        "results": {
-            "spectral": spectral_results,
-            "terrain": terrain_results,
-            "features": feature_results,
-            "annotations": annotations,
-            "report": report
-        }
-    }
 
 
 # ---------- Document Preview ----------

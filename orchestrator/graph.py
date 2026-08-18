@@ -1275,6 +1275,24 @@ class AIOrchestrator:
                 yield {"type": "tool_call", "name": tc["name"], "args": tc["args"]}
                 tool_content = self._execute_tool(tc["name"], tc, base_state)
                 full_messages.append(ToolMessage(content=tool_content, tool_call_id=tc["id"]))
+                if base_state.get("output_report"):
+                    report = base_state["output_report"]
+                    storage_uri = report.get("storage_uri", "")
+                    if storage_uri.startswith("local://"):
+                        file_key = storage_uri.split("/", 3)[-1]
+                    elif storage_uri.startswith("s3://"):
+                        parts = storage_uri.split("/", 3)
+                        file_key = "/".join(parts[2:]) if len(parts) > 2 else storage_uri
+                    else:
+                        file_key = storage_uri
+                    yield {
+                        "type": "file",
+                        "filename": report.get("filename", "report.pdf"),
+                        "file_url": f"/files/{file_key}",
+                        "mime_type": report.get("mime_type", "application/pdf"),
+                        "size_bytes": report.get("size_bytes", 0),
+                    }
+                    base_state["output_report"] = None
 
         self._auto_store_memory(text_message, full_content, session_id)
 
