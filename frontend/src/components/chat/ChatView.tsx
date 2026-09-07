@@ -29,6 +29,9 @@ export function ChatView({ activeSessionId, onSessionCreated, onActivity }: Chat
   const [loading, setLoading] = useState(false);
   const [streaming, setStreaming] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  // Sessions created locally (not yet persisted) must not trigger a history
+  // refetch that would wipe the optimistic messages while the stream runs.
+  const locallyCreatedRef = useRef<Set<string>>(new Set());
 
   const scrollToBottom = useCallback(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -42,6 +45,12 @@ export function ChatView({ activeSessionId, onSessionCreated, onActivity }: Chat
     let cancelled = false;
     if (!activeSessionId) {
       setMessages([WELCOME]);
+      return;
+    }
+    if (locallyCreatedRef.current.has(activeSessionId)) {
+      // New session created in this component — keep the optimistic messages;
+      // the stream is already rendering into them.
+      locallyCreatedRef.current.delete(activeSessionId);
       return;
     }
 
@@ -94,7 +103,10 @@ export function ChatView({ activeSessionId, onSessionCreated, onActivity }: Chat
     setStreaming(true);
 
     const sessionId = activeSessionId ?? `sess_${crypto.randomUUID().slice(0, 9)}`;
-    if (!activeSessionId) onSessionCreated(sessionId);
+    if (!activeSessionId) {
+      locallyCreatedRef.current.add(sessionId);
+      onSessionCreated(sessionId);
+    }
 
     const pruneEmptyAssistant = () => {
       setMessages((prev) =>

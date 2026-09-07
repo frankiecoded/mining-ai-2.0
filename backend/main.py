@@ -398,10 +398,24 @@ def create_procurement(req: ProcurementRequest):
     return finance_engine.submit_procurement_request("authenticated_user", req.item, req.cost)
 
 # ---------- Streaming Chat ----------
+def _normalize_session_id(auth: AuthPayload, raw: str) -> str:
+    """Return the canonical tenant-prefixed session id for a user.
+
+    Accepts both raw (`sess_x`) and already-prefixed (`baguley:sess_x`) ids,
+    so the frontend never double-prefixes and lookups always resolve.
+    """
+    if ":" in raw:
+        prefix, _, rest = raw.partition(":")
+        if prefix in USERS:
+            return f"{prefix}:{rest}"
+        return f"{auth.tenant_id}:{rest}"
+    return f"{auth.tenant_id}:{raw}"
+
+
 @app.post("/api/chat/stream", tags=["Streaming"], dependencies=[Depends(check_rate_limit)])
 async def stream_chat(req: ChatStreamRequest, auth: AuthPayload = Depends(verify_jwt)):
     """Server-Sent Events (SSE) streaming endpoint for real-time LLM responses."""
-    session_id = f"{auth.tenant_id}:{req.session_id}"
+    session_id = _normalize_session_id(auth, req.session_id)
 
     def event_generator():
         import json
@@ -522,7 +536,8 @@ def get_chat_sessions(auth: AuthPayload = Depends(verify_jwt)):
 
 @app.get("/api/chat/history/{session_id}", tags=["UI Integration"])
 def get_chat_history(session_id: str, auth: AuthPayload = Depends(verify_jwt)):
-    # Ensure the session belongs to this tenant
+    # Normalize raw ids (sess_x) and prefixed ids, then enforce tenant isolation.
+    session_id = _normalize_session_id(auth, session_id)
     if not session_id.startswith(f"{auth.tenant_id}:") and auth.role != "admin":
         raise HTTPException(status_code=403, detail="Access denied to this session.")
     messages = postgres_client.get_conversation(session_id) or []
