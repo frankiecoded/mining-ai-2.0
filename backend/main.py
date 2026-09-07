@@ -451,7 +451,7 @@ async def stream_chat(req: ChatStreamRequest, auth: AuthPayload = Depends(verify
             # Stream tokens from the LLM (fast first token, ChatGPT-like).
             for ev in orchestrator.stream_conversation(
                 session_id=session_id,
-                phone_number=req.session_id,
+                phone_number=auth.tenant_id,
                 text_message=req.message,
                 interaction_mode=req.interaction_mode,
                 history=history,

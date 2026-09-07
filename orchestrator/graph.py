@@ -332,9 +332,16 @@ class AIOrchestrator:
         session = state.get("session_id", "unknown")
         interaction_mode = state.get("interaction_mode", "web_chat")
 
+        # Memories are keyed by tenant user (e.g. "baguley"), while the stream
+        # carries a tenant-prefixed session id ("baguley:sess_xxx"). Always
+        # derive the memory key from the session prefix so profile lookup hits.
+        memory_user = phone
+        if ":" in str(session):
+            memory_user = str(session).split(":", 1)[0]
+
         user_profile_section = ""
         try:
-            profile = self.memory_engine.retrieve_user_profile(phone)
+            profile = self.memory_engine.retrieve_user_profile(memory_user)
             if profile:
                 profile_lines = [f"- {k}: {v}" for k, v in profile.items() if k != "history"]
                 user_profile_section = "User Profile:\n" + "\n".join(profile_lines)
@@ -1000,9 +1007,13 @@ class AIOrchestrator:
         tool_call = tool_calls[0]
         phone = tool_call["args"].get("phone_number", state.get("phone_number", ""))
         try:
-            profile = self.memory_engine.retrieve_user_profile(phone)
-            content = f"Retrieved User Memory profile for {phone}: {profile}" if profile else \
-                    f"No stored memories found for {phone}. This may be a new user."
+            session_id = state.get("session_id", "")
+            memory_user = phone
+            if ":" in str(session_id):
+                memory_user = str(session_id).split(":", 1)[0]
+            profile = self.memory_engine.retrieve_user_profile(memory_user)
+            content = f"Retrieved User Memory profile for {memory_user}: {profile}" if profile else \
+                    f"No stored memories found for {memory_user}. This may be a new user."
         except Exception as e:
             logger.error(f"Memory retrieval failed: {e}")
             content = f"Memory retrieval error: {str(e)}"
