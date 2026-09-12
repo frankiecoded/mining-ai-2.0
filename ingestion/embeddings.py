@@ -17,6 +17,11 @@ def _get_model():
     if _model is not None:
         return _model
 
+    # Use the configured HF token (if any) for authenticated model downloads,
+    # mirroring the LLM API key used by the backend router.
+    if not os.environ.get("HF_TOKEN") and os.environ.get("LOCAL_LLM_API_KEY"):
+        os.environ["HF_TOKEN"] = os.environ["LOCAL_LLM_API_KEY"]
+
     try:
         from sentence_transformers import SentenceTransformer
         model_name = os.getenv("EMBEDDING_MODEL", "all-MiniLM-L6-v2")

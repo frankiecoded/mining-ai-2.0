@@ -52,19 +52,23 @@ class VectorDBClient:
             return
 
         for name, dim in COLLECTIONS.items():
-            try:
-                exists = self.client.collection_exists(collection_name=name)
-                if not exists:
-                    self.client.create_collection(
-                        collection_name=name,
-                        vectors_config=qmodels.VectorParams(
-                            size=dim,
-                            distance=qmodels.Distance.COSINE
-                        )
-                    )
-                    logger.info(f"Created Qdrant collection: {name} ({dim}d)")
-            except Exception as e:
-                logger.error(f"Error creating collection {name}: {e}")
+            self.ensure_collection(name, dim)
+
+    def ensure_collection(self, name: str, dim: int = 384):
+        """Create a collection if it does not exist (used for per-tenant KB)."""
+        if self.is_mocked:
+            if name not in self.mock_collections:
+                self.mock_collections[name] = []
+            return
+        try:
+            if not self.client.collection_exists(collection_name=name):
+                self.client.create_collection(
+                    collection_name=name,
+                    vectors_config=qmodels.VectorParams(size=dim, distance=qmodels.Distance.COSINE)
+                )
+                logger.info(f"Created Qdrant collection: {name} ({dim}d)")
+        except Exception as e:
+            logger.error(f"Error creating collection {name}: {e}")
 
     def upsert_document(self, collection_name: str, doc_id: int, vector: List[float], payload: Dict[str, Any]):
         if len(vector) != 384:
@@ -84,6 +88,7 @@ class VectorDBClient:
             })
             return
 
+        self.ensure_collection(collection_name)
         try:
             self.client.upsert(
                 collection_name=collection_name,
@@ -124,6 +129,7 @@ class VectorDBClient:
                 self.mock_collections[cid].append(doc)
             return len(documents)
 
+        self.ensure_collection(collection_name)
         total = 0
         for start in range(0, len(documents), batch_size):
             batch = documents[start : start + batch_size]
