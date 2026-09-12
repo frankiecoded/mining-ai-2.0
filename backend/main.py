@@ -2030,7 +2030,7 @@ async def read_document(request: Request, current_user=Depends(verify_api_key)):
     from knowledge_base.knowledge import KnowledgeBase
     kb = KnowledgeBase()
     result = kb.read_document(doc_id=doc_id, file_path=file_path)
-    return {"status": "success", "results": result}
+    return {"status": "success", "result": result}
 
 
 @app.post("/api/knowledge/understand", tags=["Knowledge"])
@@ -2041,7 +2041,7 @@ async def understand_document(request: Request, current_user=Depends(verify_api_
     from knowledge_base.knowledge import KnowledgeBase
     kb = KnowledgeBase()
     result = kb.understand_document(doc_id=doc_id, file_path=file_path)
-    return {"status": "success", "results": result}
+    return {"status": "success", "result": result}
 
 
 @app.get("/api/knowledge/summary", tags=["Knowledge"])

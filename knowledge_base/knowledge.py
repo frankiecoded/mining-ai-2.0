@@ -39,28 +39,32 @@ class KnowledgeBase:
         if doc_id:
             doc = self._kb.get_document(doc_id)
             if doc:
+                content = doc.content_text[:10000]
                 return {
                     "doc_id": doc.doc_id,
                     "filename": doc.original_filename,
                     "title": doc.title,
-                    "content": doc.content_text[:10000],
+                    "content_text": content,
                     "category": doc.category,
                     "tags": doc.tags,
                     "file_type": doc.file_type,
                     "metadata": doc.metadata,
+                    "word_count": len(content.split()),
                     "created_at": doc.created_at,
                 }
             return {"error": "Document not found"}
         if file_path and os.path.exists(file_path):
             doc = self._kb.add_document(file_path, os.path.basename(file_path))
+            content = doc.content_text[:10000]
             return {
                 "doc_id": doc.doc_id,
                 "filename": doc.original_filename,
                 "title": doc.title,
-                "content": doc.content_text[:10000],
+                "content_text": content,
                 "category": doc.category,
                 "tags": doc.tags,
                 "file_type": doc.file_type,
+                "word_count": len(content.split()),
             }
         return {"error": "File not found"}
 
@@ -85,10 +89,12 @@ class KnowledgeBase:
             "filename": doc.original_filename,
             "title": doc.title,
             "category": doc.category,
+            "content_text": doc.content_text[:10000],
             "summary": summary[:2000],
             "key_terms": terms[:20],
             "key_sentences": key_sentences,
             "word_count": doc.metadata.get("word_count", len(doc.content_text.split())),
+            "mining_relevance": self._assess_mining_relevance(doc.content_text),
             "relevance_to_mining": self._assess_mining_relevance(doc.content_text),
         }
 

@@ -232,20 +232,64 @@ class ChatAPI {
     return this.request(`/api/knowledge/recent?limit=${limit}`, { headers: this.getHeaders() });
   }
 
-  static readDocument(docId: string): Promise<{ status: string; result: DocumentReadResult }> {
-    return this.request('/api/knowledge/read', {
-      method: 'POST',
-      headers: this.getHeaders(),
-      body: JSON.stringify({ doc_id: docId }),
-    });
+  private static normalizeReadResult(payload: unknown): { status: string; result: DocumentReadResult } {
+    const raw = (payload as Record<string, unknown> | null)?.result ?? (payload as Record<string, unknown> | null)?.results ?? null;
+    const src = (raw ?? {}) as Record<string, unknown>;
+    const content = String(src.content_text ?? src.content ?? '');
+    const wordCount =
+      typeof src.word_count === 'number'
+        ? src.word_count
+        : content.split(/\s+/).filter(Boolean).length;
+    return {
+      status: 'success',
+      result: {
+        doc_id: String(src.doc_id ?? ''),
+        filename: String(src.filename ?? src.title ?? 'Document'),
+        file_type: String(src.file_type ?? ''),
+        content_text: content,
+        word_count: wordCount,
+        page_count: typeof src.page_count === 'number' ? src.page_count : 0,
+        sections: Array.isArray(src.sections) ? src.sections : [],
+        key_findings: Array.isArray(src.key_findings) ? src.key_findings : [],
+        summary: String(src.summary ?? ''),
+        key_terms: Array.isArray(src.key_terms)
+          ? src.key_terms
+          : Array.isArray(src.key_sentences)
+            ? src.key_sentences
+            : [],
+        mining_relevance:
+          typeof src.mining_relevance === 'number'
+            ? src.mining_relevance
+            : typeof src.relevance_to_mining === 'number'
+              ? src.relevance_to_mining
+              : 0,
+        entities: (src.entities as DocumentReadResult['entities']) ?? {
+          minerals: [],
+          equipment: [],
+          locations: [],
+          chemicals: [],
+          processes: [],
+        },
+      },
+    };
   }
 
-  static understandDocument(docId: string): Promise<{ status: string; result: DocumentReadResult }> {
-    return this.request('/api/knowledge/understand', {
+  static async readDocument(docId: string): Promise<{ status: string; result: DocumentReadResult }> {
+    const payload = await this.request<unknown>('/api/knowledge/read', {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({ doc_id: docId }),
     });
+    return this.normalizeReadResult(payload);
+  }
+
+  static async understandDocument(docId: string): Promise<{ status: string; result: DocumentReadResult }> {
+    const payload = await this.request<unknown>('/api/knowledge/understand', {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ doc_id: docId }),
+    });
+    return this.normalizeReadResult(payload);
   }
 
   static fetchKnowledgeSummary(): Promise<{ status: string; summary: KnowledgeSummary }> {

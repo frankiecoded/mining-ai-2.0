@@ -668,6 +668,18 @@ function ReaderTab({
     }
   };
 
+  const loadDeepUnderstand = async (doc: KnowledgeDocument) => {
+    setLoading(true);
+    try {
+      const res = await ChatAPI.understandDocument(doc.doc_id);
+      setReadResult(res.result || null);
+    } catch {
+      // silent
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (activeDoc) loadDocument(activeDoc);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -915,7 +927,7 @@ function ReaderTab({
             {/* Actions */}
             <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="glass rounded-2xl p-5 space-y-2">
               <button
-                onClick={() => { if (activeDoc) ChatAPI.understandDocument(activeDoc.doc_id); }}
+                onClick={() => { if (activeDoc) void loadDeepUnderstand(activeDoc); }}
                 className="w-full btn-primary rounded-xl py-2.5 text-sm font-semibold flex items-center justify-center gap-2"
               >
                 <Sparkles className="w-4 h-4" />Deep Understand
