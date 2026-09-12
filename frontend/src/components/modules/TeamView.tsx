@@ -56,9 +56,7 @@ export function TeamView() {
   }
 
   return (
-    <div className="h-full overflow-hidden flex flex-col app-aurora app-grain relative">
-      <div className="aurora-blob w-[360px] h-[360px] top-1/4 -right-24 bg-sky-600/30" />
-
+    <div className="h-full overflow-hidden flex flex-col relative">
       {/* Header */}
       <div className="flex items-center justify-between px-5 md:px-8 pt-6 pb-4 relative z-10">
         <div className="flex items-center gap-3">

@@ -12,6 +12,7 @@ import { Sheet } from '../ui/Sheet';
 import { IconButton } from '../ui/IconButton';
 import { Button } from '../ui/Button';
 import { Spinner } from '../ui/Spinner';
+import { ErrorBoundary } from '../ui/ErrorBoundary';
 import { useTelemetry } from '../../hooks/useTelemetry';
 import { useVisualViewportHeight } from '../../hooks/useVisualViewportHeight';
 import type { ModuleId } from '../../types';
@@ -213,26 +214,28 @@ export function AppShell() {
               transition={{ duration: 0.22, ease: 'easeOut' }}
               className="h-full"
             >
-              {activeModule === 'chat' && (
-                <ChatView
-                  activeSessionId={activeSessionId}
-                  onSessionCreated={setActiveSessionId}
-                  onActivity={handleActivity}
-                />
-              )}
-              <Suspense
-                fallback={
-                  <div className="h-full flex items-center justify-center text-sky-300">
-                    <Spinner className="w-6 h-6" />
-                  </div>
-                }
-              >
-                {activeModule === 'intel' && <MiningIntelView />}
-                {activeModule === 'finance' && <FinanceView />}
-                {activeModule === 'tasks' && <TaskView />}
-                {activeModule === 'knowledge' && <KnowledgeView />}
-                {activeModule === 'team' && <TeamView />}
-              </Suspense>
+              <ErrorBoundary>
+                {activeModule === 'chat' && (
+                  <ChatView
+                    activeSessionId={activeSessionId}
+                    onSessionCreated={setActiveSessionId}
+                    onActivity={handleActivity}
+                  />
+                )}
+                <Suspense
+                  fallback={
+                    <div className="h-full flex items-center justify-center text-sky-300">
+                      <Spinner className="w-6 h-6" />
+                    </div>
+                  }
+                >
+                  {activeModule === 'intel' && <MiningIntelView />}
+                  {activeModule === 'finance' && <FinanceView />}
+                  {activeModule === 'tasks' && <TaskView />}
+                  {activeModule === 'knowledge' && <KnowledgeView />}
+                  {activeModule === 'team' && <TeamView />}
+                </Suspense>
+              </ErrorBoundary>
             </motion.div>
           </AnimatePresence>
         </div>
