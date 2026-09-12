@@ -85,7 +85,20 @@ class ChatAPI {
     });
   }
 
-  static fetchTeam(): Promise<{ status: string; members: Array<{ username: string; email: string; display_name: string; role: string; tenant_id: string; role_title: string; provisioned: boolean; memory_profile: Record<string, string> }> }> {
+  static fetchTeam(): Promise<{
+    status: string;
+    members: Array<{
+      username: string;
+      email: string;
+      display_name: string;
+      role: string;
+      tenant_id: string;
+      role_title: string;
+      provisioned: boolean;
+      allowed_datasets?: string[];
+      memory_profile: import('../types').MemoryProfile | null;
+    }>;
+  }> {
     return this.request('/api/team', { headers: this.getHeaders() });
   }
 

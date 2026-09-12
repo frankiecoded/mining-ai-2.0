@@ -403,6 +403,7 @@ async def get_team(auth: AuthPayload = Depends(verify_jwt)):
         out.append(
             {
                 **user.to_dict(),
+                "allowed_datasets": user.allowed_datasets,
                 "memory_profile": profile,
             }
         )

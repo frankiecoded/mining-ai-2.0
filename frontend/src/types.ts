@@ -95,6 +95,18 @@ export interface UploadResponse {
 
 export type ModuleId = 'chat' | 'intel' | 'finance' | 'tasks' | 'knowledge' | 'team';
 
+export interface MemoryFact {
+  title: string;
+  content: string;
+}
+
+export interface MemoryProfile {
+  phone?: string;
+  preferences?: Record<string, string>;
+  history?: MemoryFact[];
+  [key: string]: unknown;
+}
+
 export interface TeamMember {
   username: string;
   email: string;
@@ -103,7 +115,8 @@ export interface TeamMember {
   tenant_id: string;
   role_title: string;
   provisioned: boolean;
-  memory_profile: Record<string, string>;
+  allowed_datasets?: string[];
+  memory_profile: MemoryProfile | null;
 }
 
 export interface KnowledgeDocument {
