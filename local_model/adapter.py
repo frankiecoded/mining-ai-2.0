@@ -10,6 +10,32 @@ from langchain_core.callbacks.manager import CallbackManagerForLLMRun
 
 logger = logging.getLogger("ai_os.local_model")
 
+# ── Token conservation: singleton cost tracker shared with the API layer ──
+_costs_lock = __import__("threading").Lock()
+_costs_tracker = None
+
+
+def get_cost_tracker():
+    """Process-wide CostTracker, shared so the /api/costs/report endpoint and
+    the adapter meter the same counters."""
+    global _costs_tracker
+    if _costs_tracker is None:
+        with _costs_lock:
+            if _costs_tracker is None:
+                from services.cost_tracker import CostTracker
+
+                _costs_tracker = CostTracker()
+    return _costs_tracker
+
+
+def _safe_err(e: Exception) -> str:
+    """Return a short, safe representation of an exception."""
+    try:
+        msg = str(e) or type(e).__name__
+        return msg[:300]
+    except Exception:
+        return type(e).__name__
+
 # Small-talk / greeting tokens that should get a fast conversational reply
 # instead of a heavy knowledge-base lookup.
 GREETING_TOKENS = (
@@ -630,7 +656,7 @@ class LocalLLMAdapter(BaseChatModel):
     Adapter for locally-hosted LLM via Ollama/vLLM OpenAI-compatible API.
     Inherits from LangChain's BaseChatModel for seamless LangGraph integration.
     Supports real tool calling via the OpenAI function calling protocol.
-    Falls back to intelligent mock reasoning when LLM server is unavailable.
+    In production, failures surface as errors rather than fabricated mock output.
     """
     model_name: str = "llama3.1:8b"
     api_url: str = "http://localhost:11434/v1"
@@ -642,23 +668,15 @@ class LocalLLMAdapter(BaseChatModel):
         super().__init__(**kwargs)
         try:
             from backend.config import settings
-            _cfg = settings
+            object.__setattr__(self, "_cfg", settings)
         except Exception:
-            _cfg = None
+            object.__setattr__(self, "_cfg", None)
 
-        def _env(key: str, default: str = "") -> str:
-            val = os.getenv(key)
-            if val is not None:
-                return val
-            if _cfg is not None:
-                return str(getattr(_cfg, key, "") or "")
-            return default
-
-        self.api_url = _env("LOCAL_LLM_URL", self.api_url)
-        self.model_name = _env("LOCAL_LLM_MODEL", self.model_name)
-        self.api_key = _env("LOCAL_LLM_API_KEY", "")
-        self.reasoning_effort = _env("REASONING_EFFORT", "")
-        self.use_mock = (_env("MOCK_LLM", "false") or "false").lower() == "true"
+        self.api_url = kwargs.get("api_url") or self._env("LOCAL_LLM_URL", self.api_url)
+        self.model_name = kwargs.get("model_name") or self._env("LOCAL_LLM_MODEL", self.model_name)
+        self.api_key = kwargs.get("api_key") or self._env("LOCAL_LLM_API_KEY", "")
+        self.reasoning_effort = kwargs.get("reasoning_effort") or self._env("REASONING_EFFORT", "")
+        self.use_mock = (self._env("MOCK_LLM", "false") or "false").lower() == "true"
         # Health-check once per process; the server state doesn't change between
         # rapid requests, so skipping this removes ~0.5-1s of overhead per turn.
         object.__setattr__(self, "_health_verified", False)
@@ -675,6 +693,18 @@ class LocalLLMAdapter(BaseChatModel):
             idle_timeout_minutes=int(os.getenv("GPU_IDLE_TIMEOUT_MINUTES", "5")),
             health_check_url=self.api_url
         ))
+
+    def _env(self, key: str, default: str = "") -> str:
+        """Resolve a setting: process env wins, then the pydantic Settings model
+        (which reads ``.env``), then the caller's default. Shared by init and the
+        token-conservation paths so budgets read from .env everywhere."""
+        val = os.getenv(key)
+        if val is not None:
+            return val
+        cfg = getattr(self, "_cfg", None)
+        if cfg is not None:
+            return str(getattr(cfg, key, "") or "")
+        return default
 
     def _ensure_server(self):
         """Start/verify the LLM server once per process, then just stamp time."""
@@ -781,7 +811,9 @@ class LocalLLMAdapter(BaseChatModel):
                         time.sleep(delay)
             logger.warning(f"Falling back to mock reasoning after {len(backoffs)} failed attempts: {last_exc}")
 
-        return self._call_mock_llm(messages, **kwargs)
+        if self.use_mock or is_testing:
+            return self._call_mock_llm(messages, **kwargs)
+        raise RuntimeError(f"LLM unavailable after retries: {_safe_err(last_exc)}")
 
     def _stream(
         self,
@@ -810,49 +842,82 @@ class LocalLLMAdapter(BaseChatModel):
                         time.sleep(delay)
             logger.warning(f"All streaming attempts failed, falling back to mock.")
 
-        yield from self._stream_mock_tokens(messages, **kwargs)
+        if self.use_mock or is_testing:
+            yield from self._stream_mock_tokens(messages, **kwargs)
+            return
+        raise RuntimeError("LLM streaming unavailable after retries - no fabricated response emitted.")
 
-    def _manage_context_window(self, messages: List[BaseMessage], max_tokens: int = 6000) -> List[BaseMessage]:
+    def _manage_context_window(self, messages: List[BaseMessage], max_tokens: Optional[int] = None) -> List[BaseMessage]:
+        """Fit ``messages`` inside the configured context budget.
+
+        Powered by :mod:`local_model.token_policy`: the system brief and the
+        most recent few exchanges are preserved verbatim; aged history rolls
+        into one compact summary. Budget defaults to TOKEN_CONTEXT_BUDGET.
         """
-        Truncate conversation history to fit within context window.
-        Always keeps: system message (first), last user message, last 3 exchanges.
-        Summarizes older messages to preserve context.
-        """
-        if not messages:
+        budget = max_tokens or int(self._env("TOKEN_CONTEXT_BUDGET", "6000"))
+        try:
+            from local_model.token_policy import pack_messages, estimate_messages_tokens
+
+            before = estimate_messages_tokens(messages)
+            result = pack_messages(messages, budget_tokens=budget)
+            after = estimate_messages_tokens(result)
+            if after < before:
+                logger.info(
+                    f"Context window packed: {len(messages)} -> {len(result)} messages "
+                    f"(~{before} -> ~{after} tokens, saved ~{before - after})"
+                )
+            return result
+        except Exception as e:  # never let budget policy break the chat
+            logger.warning(f"Context packing skipped: {e}")
             return messages
 
-        # Estimate token count (rough: 1 token ≈ 4 chars)
-        def estimate_tokens(msgs):
-            return sum(len(str(m.content)) // 4 for m in msgs)
+    def _tool_payload(self, tools: Optional[List[Dict[str, Any]]]) -> Dict[str, Any]:
+        """Return the tools/`tool_choice` slice of a payload.
 
-        total = estimate_tokens(messages)
-        if total <= max_tokens:
-            return messages
+        ``tools=None`` -> full schema (cooperative default).
+        ``tools=[]``   -> schema omitted entirely: saves ~6.4K tokens and makes
+                          the model answer directly, never chase tools.
+        """
+        if tools is None:
+            return {"tools": TOOL_DEFINITIONS, "tool_choice": "auto"}
+        if tools:
+            return {"tools": tools, "tool_choice": "auto"}
+        return {}
 
-        # Always keep system message (index 0)
-        system_msg = [messages[0]] if messages[0].type == "system" else []
-        non_system = [m for m in messages if m.type != "system"]
+    def _meter(
+        self,
+        input_tokens: int,
+        output_tokens: int,
+        tool_calls: int = 0,
+        department: str = "general",
+        session_id: str = "",
+        cache_read: int = 0,
+    ) -> None:
+        """Record an interaction into the shared cost tracker (never fatal)."""
+        try:
+            tracker = get_cost_tracker()
+            tracker.record_interaction(
+                session_id or "chat",
+                self.model_name,
+                input_tokens,
+                output_tokens,
+                tool_calls=tool_calls,
+                department=department,
+                cache_read_tokens=cache_read,
+            )
+        except Exception as e:
+            logger.debug(f"Cost metering skipped: {e}")
 
-        if len(non_system) <= 4:
-            return messages  # Too few to truncate
-
-        # Keep last 6 messages (3 exchanges)
-        recent = non_system[-6:]
-        old = non_system[:-6]
-
-        # Summarize old messages into a single context message
-        old_summary_parts = []
-        for msg in old:
-            role = "User" if msg.type == "human" else "Assistant" if msg.type == "ai" else msg.type
-            content = str(msg.content)[:200]  # Truncate each old message
-            old_summary_parts.append(f"{role}: {content}")
-
-        summary = "[Earlier conversation summary]\n" + "\n".join(old_summary_parts)
-        summary_msg = SystemMessage(content=summary)
-
-        result = system_msg + [summary_msg] + recent
-        logger.info(f"Context window managed: {len(messages)} -> {len(result)} messages (saved ~{total - estimate_tokens(result)} tokens)")
-        return result
+    @staticmethod
+    def _extract_usage(usage: Optional[Dict[str, Any]]) -> tuple[int, int, int]:
+        """Pull (prompt, completion, cached) token counts from an OpenAI-compatible
+        ``usage`` block. Empty values fall back to honest zeros so the caller can
+        decide whether to substitute its own estimate."""
+        usage = usage or {}
+        prompt = int(usage.get("prompt_tokens") or 0)
+        completion = int(usage.get("completion_tokens") or 0)
+        cached = int((usage.get("prompt_tokens_details") or {}).get("cached_tokens") or 0)
+        return prompt, completion, cached
 
     def _stream_real_llm(self, messages: List[BaseMessage], **kwargs: Any) -> Iterator[ChatGenerationChunk]:
         """Stream response from LLM using SSE (Server-Sent Events) from OpenAI-compatible API."""
@@ -861,21 +926,28 @@ class LocalLLMAdapter(BaseChatModel):
         messages = self._manage_context_window(messages)
         api_messages = [self._message_to_api_dict(msg) for msg in messages]
 
+        input_tokens = sum(len(str(m.get("content", ""))) // 4 for m in api_messages)
+
         payload = {
             "model": self.model_name,
             "messages": api_messages,
-            "tools": TOOL_DEFINITIONS,
-            "tool_choice": "auto",
+            **self._tool_payload(kwargs.get("tools")),
             "temperature": kwargs.get("temperature", 0.1),
             "stream": True,
             **self._payload_extras(),
             **self._keep_alive()
         }
+        max_tokens = kwargs.get("max_tokens")
+        if max_tokens is None:
+            max_tokens = int(self._env("TOKEN_MAX_OUTPUT", "1024"))
+        if max_tokens and max_tokens > 0:
+            payload["max_tokens"] = max_tokens
 
         url = f"{self.api_url.rstrip('/')}/chat/completions"
-        logger.info(f"Streaming LLM from {url} with {len(api_messages)} messages")
+        logger.info(f"Streaming LLM from {url} with {len(api_messages)} messages (~{input_tokens} tokens)")
 
         accumulated_tool_calls = {}
+        usage_report: Optional[Dict[str, Any]] = {}
 
         with self._http_client.stream("POST", url, json=payload, headers=self._headers()) as response:
             if response.status_code != 200:
@@ -898,13 +970,19 @@ class LocalLLMAdapter(BaseChatModel):
                 except json.JSONDecodeError:
                     continue
 
-                delta = chunk.get("choices", [{}])[0].get("delta", {})
+                if chunk.get("usage"):
+                    usage_report = chunk.get("usage")
+
+                choices = chunk.get("choices") or []
+                if not choices:
+                    continue
+                delta = choices[0].get("delta", {})
 
                 content = delta.get("content", "")
                 if content:
                     yield ChatGenerationChunk(message=AIMessageChunk(content=content))
 
-                tool_calls = delta.get("tool_calls", [])
+                tool_calls = delta.get("tool_calls") or []
                 for tc in tool_calls:
                     tc_idx = tc.get("index", 0)
                     if tc_idx not in accumulated_tool_calls:
@@ -920,6 +998,15 @@ class LocalLLMAdapter(BaseChatModel):
                         accumulated_tool_calls[tc_idx]["name"] = func["name"]
                     if "arguments" in func:
                         accumulated_tool_calls[tc_idx]["args"] += func["arguments"]
+
+        # Prefer the server-reported usage (HF router returns exact counts).
+        prompt_usage, completion_usage, cached_usage = self._extract_usage(usage_report)
+        self._meter(
+            prompt_usage or input_tokens,
+            completion_usage,
+            tool_calls=len(accumulated_tool_calls),
+            cache_read=cached_usage,
+        )
 
         if accumulated_tool_calls:
             parsed_tool_calls = []
@@ -955,16 +1042,21 @@ class LocalLLMAdapter(BaseChatModel):
         payload = {
             "model": self.model_name,
             "messages": api_messages,
-            "tools": TOOL_DEFINITIONS,
-            "tool_choice": "auto",
+            **self._tool_payload(kwargs.get("tools")),
             "temperature": kwargs.get("temperature", 0.1),
             "stream": False,
             **self._payload_extras(),
             **self._keep_alive()
         }
+        max_tokens = kwargs.get("max_tokens")
+        if max_tokens is None:
+            max_tokens = int(self._env("TOKEN_MAX_OUTPUT", "1024"))
+        if max_tokens and max_tokens > 0:
+            payload["max_tokens"] = max_tokens
 
         url = f"{self.api_url.rstrip('/')}/chat/completions"
-        logger.info(f"Calling LLM at {url} with {len(api_messages)} messages and {len(TOOL_DEFINITIONS)} tools")
+        input_tokens = sum(len(str(m.get("content", ""))) // 4 for m in api_messages)
+        logger.info(f"Calling LLM at {url} with {len(api_messages)} messages and {len(payload.get('tools', []))} tools")
 
         response = self._http_client.post(url, json=payload, headers=self._headers())
 
@@ -1001,6 +1093,13 @@ class LocalLLMAdapter(BaseChatModel):
             ai_kwargs["tool_calls"] = parsed_tool_calls
 
         ai_msg = AIMessage(content=content, **ai_kwargs)
+        prompt_usage, completion_usage, cached_usage = self._extract_usage(data.get("usage"))
+        self._meter(
+            prompt_usage or input_tokens,
+            completion_usage if completion_usage else (len(content) // 4),
+            tool_calls=len(parsed_tool_calls),
+            cache_read=cached_usage,
+        )
         return ChatResult(generations=[ChatGeneration(message=ai_msg)])
 
     def _mock_response(self, messages: List[BaseMessage]) -> Tuple[str, List[Dict[str, Any]]]:
@@ -1143,6 +1242,10 @@ class LocalLLMAdapter(BaseChatModel):
         if self.use_mock:
             return self._mock_extract_facts(conversation_text)
 
+        # Token gate: skip extraction on trivial/short exchanges entirely.
+        if not conversation_text or len(conversation_text) < int(self._env("TOKEN_FACT_MIN_CHARS", "20")):
+            return {}
+
         extraction_prompt = [
             {"role": "system", "content": (
                 "Extract key facts about the user from this conversation. "
@@ -1150,7 +1253,7 @@ class LocalLLMAdapter(BaseChatModel):
                 "Examples: {\"name\": \"John\", \"role\": \"geologist\", \"preference\": \"prefers PDF reports\"}. "
                 "Return {} if no user-specific facts found."
             )},
-            {"role": "user", "content": conversation_text}
+            {"role": "user", "content": conversation_text[:4000]}
         ]
 
         try:
@@ -1159,13 +1262,16 @@ class LocalLLMAdapter(BaseChatModel):
                 "messages": extraction_prompt,
                 "temperature": 0.0,
                 "stream": False,
+                "max_tokens": 200,
                 **self._payload_extras(),
                 **self._keep_alive()
             }
             url = f"{self.api_url.rstrip('/')}/chat/completions"
+            input_tokens = sum(len(str(m.get("content", ""))) // 4 for m in extraction_prompt)
             response = self._http_client.post(url, json=payload, headers=self._headers(), timeout=30.0)
             if response.status_code == 200:
                 content = response.json()["choices"][0]["message"]["content"]
+                self._meter(input_tokens, len(content) // 4, tool_calls=0)
                 # Try to parse JSON from the response
                 import re
                 json_match = re.search(r'\{[^}]*\}', content)

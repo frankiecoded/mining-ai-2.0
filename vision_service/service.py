@@ -1,10 +1,15 @@
 """
 Vision Service - Image analysis, OCR, and multimodal AI for mining operations.
 Processes conveyor belts, rock samples, mine maps, invoices, and geological images.
+
+Data policy: this service NEVER fabricates OCR text, mineralogy, or analysis.
+If no real engine (or LLM) can read the image, it returns honest empty/``None``
+results instead of inventing content.
 """
 import io
 import logging
-from typing import Dict, Any, Optional, List
+import shutil
+from typing import Dict, Any, Optional
 
 logger = logging.getLogger("ai_os.vision")
 
@@ -17,7 +22,10 @@ class VisionService:
         self.easyocr_available = False
         try:
             import pytesseract
-            self.ocr_available = True
+            # pytesseract is only usable if the tesseract binary is installed too.
+            self.ocr_available = shutil.which("tesseract") is not None
+            if not self.ocr_available:
+                logger.warning("pytesseract present but 'tesseract' binary not found - OCR disabled")
         except ImportError:
             pass
         try:
@@ -27,13 +35,16 @@ class VisionService:
             pass
 
     def run_ocr(self, image_bytes: bytes, file_name: Optional[str] = None) -> str:
-        """Extract text from images using best available OCR engine."""
+        """Extract text from images using the best REAL OCR engine available.
+
+        Returns an empty string when no engine could produce genuine text.
+        Never returns fabricated content.
+        """
         logger.info(f"OCR analysis on {len(image_bytes)} bytes, file: {file_name}")
 
         if self.easyocr_available:
             try:
                 import easyocr
-                import tempfile
                 import numpy as np
                 from PIL import Image
 
@@ -41,7 +52,7 @@ class VisionService:
                 img_np = np.array(img)
                 reader = easyocr.Reader(["en"], gpu=False)
                 results = reader.readtext(img_np)
-                text = " ".join([r[1] for r in results])
+                text = " ".join([r[1] for r in results if r[1] and r[1].strip()])
                 if text.strip():
                     return text
             except Exception as e:
@@ -58,131 +69,104 @@ class VisionService:
             except Exception as e:
                 logger.warning(f"Tesseract failed: {e}")
 
-        return self._smart_fallback_ocr(file_name)
-
-    def _smart_fallback_ocr(self, file_name: Optional[str]) -> str:
-        name_lower = (file_name or "").lower()
-        if "invoice" in name_lower or "bill" in name_lower:
-            return (
-                "INVOICE #: INV-2026-9901\n"
-                "DATE: 2026-07-10\n"
-                "VENDOR: Atlas Copco Mining Equipment\n"
-                "LINE 1: Core Drill Bit Upgrade (Qty 4) - $12,500.00\n"
-                "LINE 2: Hydraulic Fluid (200L) - $1,200.00\n"
-                "TOTAL DUE: $13,700.00\n"
-            )
-        elif "note" in name_lower or "handwritten" in name_lower:
-            return (
-                "Shift B Log:\n"
-                "Water level Shaft 3: Normal\n"
-                "Conveyor belt 2 tension +2cm\n"
-                "Grade sample B-12 from Face 4\n"
-            )
-        elif "core" in name_lower or "drill" in name_lower:
-            return (
-                "Core Log - DH-2026-045:\n"
-                "0-15m: Laterite weathering\n"
-                "15-45m: Weathered greenstone, quartz veining\n"
-                "45-80m: Fresh basalt with pyrite (2-5%)\n"
-                "80-120m: Quartz-carbonate vein with visible gold\n"
-            )
-        elif "geolog" in name_lower or "map" in name_lower:
-            return (
-                "Geological Map - Grid Reference N3545 E2789\n"
-                "Lithology: Archean greenstone belt\n"
-                "Structure: NE trending shear zone\n"
-                "Mineralization: Quartz-pyrite-gold\n"
-            )
-        return "Image received. Analysis requires real image data for accurate OCR."
+        logger.warning(f"No real OCR text produced for '{file_name}' ({len(image_bytes)} bytes)")
+        return ""
 
     def analyze_image_objects(self, image_bytes: bytes, image_type: str = "general") -> Dict[str, Any]:
-        """Analyze image for mining-specific objects, minerals, and conditions."""
+        """Analyze an image using REAL data only.
+
+        Attempts a genuine multimodal-LLM read of the actual pixels. If no real
+        analysis can be produced, returns an honest ``analysis_available: False``
+        record — never hardcoded mineralogy or assumptions.
+        """
         logger.info(f"Object analysis for type: '{image_type}'")
 
-        image_type_lower = image_type.lower()
+        pixels = {}
+        try:
+            from PIL import Image
+            with Image.open(io.BytesIO(image_bytes)) as img:
+                pixels = {
+                    "width": img.width,
+                    "height": img.height,
+                    "format": (img.format or "").upper(),
+                }
+        except Exception as e:
+            logger.warning(f"Image metadata read failed: {e}")
 
-        if any(kw in image_type_lower for kw in ["conveyor", "belt"]):
-            return {
-                "object_type": "conveyor_belt",
-                "status": "operational",
-                "detected_issues": ["minor belt drift left"],
-                "belt_speed_mps": 3.2,
-                "load_percentage": 78,
-                "ore_size_distribution": {"<50mm": "60%", "50-150mm": "30%", ">150mm": "10%"},
-                "recommendation": "Belt tracking adjustment recommended. Monitor belt tension."
-            }
-
-        if any(kw in image_type_lower for kw in ["rock", "sample", "ore"]):
-            return {
-                "object_type": "rock_sample",
-                "mineralogy": {
-                    "quartz": "55-65%",
-                    "pyrite": "8-15%",
-                    "arsenopyrite": "3-5%",
-                    "chalcopyrite": "1-3%",
-                    "carbonate": "5-10%"
-                },
-                "visible_minerals": ["quartz", "pyrite", "arsenopyrite"],
-                "alteration": "sericite-carbonate-pyrite",
-                "estimated_grade": "Medium grade (3-8 g/t Au)",
-                "pathfinder_elements": ["As", "Sb", "Bi", "Te"],
-                "recommendation": "Send for fire assay and multi-element ICP-MS analysis."
-            }
-
-        if any(kw in image_type_lower for kw in ["map", "geolog", "geol"]):
-            return {
-                "object_type": "geological_map",
-                "lithology": ["Archean greenstone belt", "BIF horizon", "Granodiorite intrusion"],
-                "structures": ["NE shear zone", "Fold hinge", "Fault contact"],
-                "mineralization_style": "Orogenic gold - quartz vein in shear zone",
-                "target_areas": ["Shear zone intersection", "Fold nose", "BIF contact"],
-                "hazards": ["Steep terrain", "Water table at 45m"],
-                "recommendation": "Drill program: 50m infill spacing on main shear zone."
-            }
-
-        if any(kw in image_type_lower for kw in ["invoice", "bill", "receipt"]):
-            return {
-                "object_type": "financial_document",
-                "document_type": "invoice",
-                "fields_detected": ["vendor", "line_items", "total", "date"],
-                "recommendation": "Process through finance engine for approval workflow."
-            }
-
-        if any(kw in image_type_lower for kw in ["core", "drill"]):
-            return {
-                "object_type": "drill_core",
-                "core_recovery_percent": 92,
-                "rock_quality_designation": "Good (65% RQD)",
-                "lithology_logged": ["Laterite", "Weathered greenstone", "Fresh basalt", "Quartz vein"],
-                "mineralization": "Visible gold in quartz vein at 85m",
-                "recommendation": "Send core samples for assay. Log structural features."
-            }
+        # Real analysis via the multimodal LLM (reads the actual image).
+        try:
+            result = self.analyze_multimodal(
+                image_bytes,
+                "Describe exactly what is visible in this image. Be factual and "
+                "specific: identify any readable text, equipment, terrain, rocks, "
+                "documents, or labels. Do not guess at values that are not visible. "
+                "If nothing can be determined, say so.",
+                file_name=image_type,
+            )
+            if result and "Image analysis error" not in result and "analysis error" not in result.lower():
+                return {
+                    "object_type": "ai_interpreter",
+                    "analysis_available": True,
+                    "description": result,
+                    "pixels": pixels,
+                }
+        except Exception as e:
+            logger.warning(f"Multimodal analysis failed: {e}")
 
         return {
-            "object_type": "general_image",
-            "detected_elements": ["text", "visual_content"],
-            "quality_score": 0.85,
-            "recommendation": "Image received. For detailed analysis, specify the image type (conveyor, rock sample, map, core, invoice)."
+            "object_type": "unavailable",
+            "analysis_available": False,
+            "pixels": pixels,
+            "reason": "No OCR/vision data could be produced for this image. Only real "
+                       "image metadata is reported; no content was assumed.",
         }
 
+    def _downscale_image(self, image_bytes: bytes, max_size: int = 768) -> bytes:
+        """Downscale + re-encode an image to bound upload size and vision tokens.
+
+        Falls back to the original bytes if PIL cannot process the image, so OCR
+        and analysis paths never break on odd formats.
+        """
+        try:
+            from PIL import Image, ImageOps
+            import io as _io
+
+            with Image.open(_io.BytesIO(image_bytes)) as img:
+                img = ImageOps.exif_transpose(img)
+                img.thumbnail((max_size, max_size), Image.Resampling.LANCZOS)
+                if img.mode not in ("RGB", "L"):
+                    img = img.convert("RGB")
+                out = _io.BytesIO()
+                img.save(out, format="JPEG", quality=80)
+                return out.getvalue()
+        except Exception:
+            return image_bytes
+
     def analyze_multimodal(self, image_bytes: bytes, prompt: str, file_name: Optional[str] = None) -> str:
-        """Use multimodal LLM for detailed image analysis."""
+        """Use the dedicated HF vision-language model for detailed image analysis.
+
+        Downscales the image first to minimise vision tokens, and passes a small
+        max_tokens so the description stays tight (saves HF spend).
+        """
         try:
             import base64
-            image_b64 = base64.b64encode(image_bytes).decode("utf-8")
+            image_b64 = base64.b64encode(self._downscale_image(image_bytes)).decode("utf-8")
 
             from local_model.adapter import LocalLLMAdapter
             from backend.config import settings
             from langchain_core.messages import HumanMessage
 
-            llm = LocalLLMAdapter(model_name=settings.LOCAL_LLM_MODEL, api_url=settings.LOCAL_LLM_URL)
+            llm = LocalLLMAdapter(
+                model_name=settings.VISION_LLM_MODEL or settings.LOCAL_LLM_MODEL,
+                api_url=settings.VISION_LLM_URL or settings.LOCAL_LLM_URL,
+            )
 
             message = HumanMessage(content=[
                 {"type": "text", "text": prompt},
                 {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}}
             ])
 
-            result = llm.invoke([message])
+            result = llm.invoke([message], tools=[], max_tokens=256)
             return result.content if hasattr(result, "content") else str(result)
         except Exception as e:
             logger.error(f"Multimodal analysis failed: {e}")

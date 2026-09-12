@@ -510,7 +510,8 @@ def load_relevant_datasets(query: str, max_chars: int = 25000) -> str:
         return ""
 
     result = "\n\n".join(sections)
-    logger.info(f"Loaded {len(matched)} matched datasets + {len(COMPULSARY_DATASETS)} compulsory for query: {query[:80]}...")
+    loaded_compulsory = " + ".join(p for p in COMPULSORY_DATASETS if any(p in s for s in sections))
+    logger.info(f"Loaded {len(matched)} matched datasets + {len(loaded_compulsory.split(' + ')) if loaded_compulsory else 0} compulsory for query: {query[:80]}...")
     return result
 
 
@@ -565,15 +566,25 @@ def _get_dataset_summary(file_path: str) -> str:
         return "Structured mining data"
 
 
-def get_dataset_digest() -> str:
+def get_dataset_digest(max_chars: int = 0) -> str:
     """
     Get a pre-computed digest of ALL datasets — a concise summary of every file
     so the AI always knows what information exists and where to find it.
-    This is ALWAYS injected into the system prompt (~2-3KB).
+    ``max_chars`` (0 = unlimited) caps the injected index so the system prompt
+    stays inside the token-conservation budget.
     """
+    _build_digest()
+
+    if max_chars > 0 and len(_digest_cache) > max_chars:
+        from local_model.token_policy import truncate_text
+        return truncate_text(_digest_cache, max_chars)
+    return _digest_cache
+
+
+def _build_digest():
     global _digest_cache
     if _digest_cache:
-        return _digest_cache
+        return
 
     lines = [
         "## COMPLETE COMPANY DATA INDEX — ALWAYS AVAILABLE",
@@ -619,7 +630,6 @@ def get_dataset_digest() -> str:
         lines.append("")
 
     _digest_cache = "\n".join(lines)
-    return _digest_cache
 
 
 def clear_cache():

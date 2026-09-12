@@ -31,10 +31,14 @@ def test_health_check():
 
 
 def test_chat_stream():
+    from backend.auth import create_token
+
+    token = create_token("baguley")
+    headers = {"Authorization": f"Bearer {token}"}
     response = client.post("/api/chat/stream", json={
         "message": "What is the current gold production at Shaft 2?",
         "session_id": "test_user",
         "interaction_mode": "web_chat"
-    })
+    }, headers=headers)
     assert response.status_code == 200
     assert response.headers["content-type"].startswith("text/event-stream")

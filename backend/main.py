@@ -4,6 +4,7 @@ import time
 import hmac
 import logging
 import asyncio
+import numpy as np
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 from collections import defaultdict
@@ -21,7 +22,29 @@ except ImportError:
 
 from backend.config import settings
 from backend.file_reader import extract_text
-from backend.auth import authenticate, verify_token, get_user, is_admin, can_access_dataset, get_tenant_id, TenantUser, USERS
+
+# Surface the HF token to process-level consumers (e.g. sentence-transformers
+# model downloads) without exposing it in logs or the repo.
+if settings.HF_TOKEN and not os.environ.get("HF_TOKEN"):
+    os.environ["HF_TOKEN"] = settings.HF_TOKEN
+if settings.LOCAL_LLM_API_KEY and not os.environ.get("LOCAL_LLM_API_KEY"):
+    os.environ["LOCAL_LLM_API_KEY"] = settings.LOCAL_LLM_API_KEY
+    os.environ.setdefault("HF_TOKEN", settings.LOCAL_LLM_API_KEY)
+from backend.auth import (
+    authenticate,
+    verify_token,
+    get_user,
+    is_admin,
+    can_access_dataset,
+    get_tenant_id,
+    TenantUser,
+    USERS,
+    provision_user,
+    create_token,
+    signup_status,
+    is_signup_open,
+    team_members,
+)
 from database.postgres_client import PostgresClient
 from vector_db.qdrant_client import VectorDBClient
 
@@ -297,48 +320,90 @@ def _sanitize_error(e: Exception) -> str:
 
 # ---------- Auth Endpoints (No API key required) ----------
 class LoginRequest(BaseModel):
-    username: str = Field(..., min_length=1, max_length=50)
+    username: str = Field(..., min_length=1, max_length=100, description="Username or email")
     password: str = Field(..., min_length=1, max_length=100)
+
+
+class SignupRequest(BaseModel):
+    name: str = Field(..., min_length=2, max_length=80)
+    email: str = Field(..., min_length=5, max_length=120)
+    password: str = Field(..., min_length=6, max_length=100)
+    role_title: str = Field(default="Team Member", max_length=80)
+
+
+def _public_user(user: TenantUser) -> dict:
+    """Project a TenantUser into the client-safe shape."""
+    return {
+        "username": user.username,
+        "display_name": user.display_name,
+        "role": user.role,
+        "tenant_id": user.tenant_id,
+        "email": user.email,
+        "role_title": user.role_title,
+        "provisioned": user.provisioned,
+    }
+
 
 @app.post("/api/auth/login", tags=["Auth"])
 async def login(body: LoginRequest, request: Request):
-    """Authenticate and receive a JWT token. No signup — accounts are fixed."""
+    """Authenticate and receive a JWT token (accepts username or email)."""
     token = authenticate(body.username, body.password)
     if not token:
         # Delay response to slow brute-force
         import asyncio
+
         await asyncio.sleep(1.5)
         raise HTTPException(status_code=401, detail="Invalid username or password.")
 
-    user = USERS[body.username]
-    return {
-        "status": "success",
-        "token": token,
-        "user": {
-            "username": user.username,
-            "display_name": user.display_name,
-            "role": user.role,
-            "tenant_id": user.tenant_id,
-        },
-    }
+    user = USERS[verify_token(token)["sub"]]
+    return {"status": "success", "token": token, "user": _public_user(user)}
+
+
+@app.post("/api/auth/signup", tags=["Auth"])
+async def signup(body: SignupRequest):
+    """Create one of the limited team accounts. Auto-closes at MAX_TEAM_SLOTS."""
+    try:
+        user = provision_user(body.name, body.email, body.password, body.role_title)
+    except ValueError as e:
+        status = 409 if not is_signup_open() else 400
+        raise HTTPException(status_code=status, detail=str(e))
+    token = create_token(user.username)
+    return {"status": "success", "token": token, "user": _public_user(user), "signup": signup_status()}
+
+
+@app.get("/api/auth/signup/status", tags=["Auth"])
+async def get_signup_status():
+    """Report whether team sign-up is still open (auto-disables at capacity)."""
+    return {"status": "success", **signup_status()}
+
 
 @app.get("/api/auth/me", tags=["Auth"])
 async def get_current_user(auth: AuthPayload = Depends(verify_jwt)):
     """Return the current authenticated user's profile."""
-    return {
-        "status": "success",
-        "user": {
-            "username": auth.username,
-            "display_name": auth.user.display_name,
-            "role": auth.role,
-            "tenant_id": auth.tenant_id,
-        },
-    }
+    return {"status": "success", "user": _public_user(auth.user)}
+
 
 @app.post("/api/auth/validate", tags=["Auth"])
 async def validate_token(auth: AuthPayload = Depends(verify_jwt)):
     """Validate that a token is still valid. Used by frontend on reload."""
-    return {"status": "valid", "user": {"username": auth.username, "role": auth.role}}
+    return {"status": "valid", "user": _public_user(auth.user)}
+
+
+@app.get("/api/team", tags=["Auth"])
+async def get_team(auth: AuthPayload = Depends(verify_jwt)):
+    """Admin view of every account + their stored memory profile (linked to Frank)."""
+    if auth.role != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required.")
+    out = []
+    for user in team_members():
+        profile = memory_engine.retrieve_user_profile(user.username) if memory_engine else {}
+        out.append(
+            {
+                **user.to_dict(),
+                "memory_profile": profile,
+            }
+        )
+    return {"status": "success", "members": out}
 
 # ---------- Routes ----------
 @app.get("/", tags=["Diagnostic"])
@@ -347,7 +412,7 @@ def get_system_status():
         index = STATIC_DIR / "index.html"
         if index.exists():
             from starlette.responses import FileResponse
-            return FileResponse(str(index))
+            return FileResponse(str(index), headers={"Cache-Control": "no-cache"})
     return {
         "status": "online",
         "system": "AI Mining Operating System v2.0.0",
@@ -364,6 +429,8 @@ def get_stored_file(file_path: str, auth: Optional[AuthPayload] = Depends(option
     candidates = [
         project_root / "storage" / "local_buckets" / "ai-os-storage" / file_path,
         project_root / "storage" / "local_data" / file_path,
+        project_root / "storage" / "renders" / file_path,
+        project_root / "storage" / file_path,
         Path(settings.storage_dir) / file_path,
         Path(settings.storage_dir) / "ai-os-storage" / file_path,
         Path(settings.UPLOAD_DIR) / file_path,
@@ -428,7 +495,9 @@ async def stream_chat(req: ChatStreamRequest, auth: AuthPayload = Depends(verify
         file_attachments = []
         try:
             # Load prior history (excluding the message being sent right now).
-            raw_history = postgres_client.get_conversation(session_id) or []
+            # Capped to the token-conservation budget: 2 messages per turn.
+            history_turns = int(getattr(settings, "TOKEN_HISTORY_TURNS", 40) or 40)
+            raw_history = postgres_client.get_conversation(session_id, limit=history_turns * 2) or []
             history = []
             for msg_data in raw_history:
                 if msg_data.get("role") == "user":
@@ -466,6 +535,9 @@ async def stream_chat(req: ChatStreamRequest, auth: AuthPayload = Depends(verify
                 elif ev["type"] == "file":
                     yield f"data: {json.dumps({'type': 'file', 'filename': ev['filename'], 'file_url': ev['file_url'], 'mime_type': ev['mime_type'], 'size_bytes': ev['size_bytes']})}\n\n"
                     file_attachments.append({"filename": ev["filename"], "file_url": ev["file_url"], "mime_type": ev["mime_type"], "size_bytes": ev["size_bytes"]})
+                elif ev["type"] == "image":
+                    yield f"data: {json.dumps({'type': 'image', 'filename': ev['filename'], 'file_url': ev['file_url'], 'mime_type': ev['mime_type'], 'size_bytes': ev['size_bytes']})}\n\n"
+                    file_attachments.append({"filename": ev["filename"], "file_url": ev["file_url"], "mime_type": ev["mime_type"], "size_bytes": ev["size_bytes"]})
                 # 'done' events carry no payload; the assistant text already streamed.
 
             # Persist the assistant reply so the session can be resumed later.
@@ -482,7 +554,7 @@ async def stream_chat(req: ChatStreamRequest, auth: AuthPayload = Depends(verify
             yield f"data: {json.dumps({'type': 'end'})}\n\n"
 
         except Exception as e:
-            logger.error(f"Streaming error: {_sanitize_error(e)}")
+            logger.error(f"Streaming error: {_sanitize_error(e)}", exc_info=True)
             yield f"data: {json.dumps({'type': 'error', 'message': 'An error occurred'})}\n\n"
 
     return StreamingResponse(
@@ -531,7 +603,15 @@ async def get_gold_price():
 # ---------- UI Integration Routes ----------
 @app.get("/api/chat/sessions", tags=["UI Integration"])
 def get_chat_sessions(auth: AuthPayload = Depends(verify_jwt)):
-    sessions = postgres_client.get_chat_sessions(limit=50, tenant_id=auth.tenant_id)
+    # Admin (Frank) sees every team member's sessions; users only see their own.
+    tenant_filter = None if auth.role == "admin" else auth.tenant_id
+    sessions = postgres_client.get_chat_sessions(limit=100, tenant_id=tenant_filter)
+    # Tag each session with its owning account so the UI can render a name.
+    for s in sessions:
+        head = s.get("id", "").split(":", 1)[0]
+        owner = USERS.get(head)
+        s["tenant_id"] = head
+        s["owner_display"] = owner.display_name if owner else head
     return {"sessions": sessions}
 
 @app.get("/api/chat/history/{session_id}", tags=["UI Integration"])
@@ -577,6 +657,24 @@ async def upload_document(file: UploadFile = File(...), auth: AuthPayload = Depe
         file_id = uuid.uuid4().hex[:16]
         content = extract_text(filename, raw)
 
+        # Real OCR for images (only genuine engine output — never fabricated).
+        mime_type = file.content_type or "application/octet-stream"
+        low_name = filename.lower()
+        is_image = mime_type.startswith("image/") or low_name.endswith(
+            (".png", ".jpg", ".jpeg", ".gif", ".bmp", ".webp", ".tif", ".tiff")
+        )
+        ocr_text = ""
+        if is_image:
+            try:
+                ocr_text = vision_service.run_ocr(raw, filename).strip()
+            except Exception as ocr_err:
+                logger.warning(f"OCR failed for '{filename}': {ocr_err}")
+            if ocr_text:
+                content = f"[Image: {filename}]\n\nRendered OCR text:\n{ocr_text}\n\n(image file stored for reference: {file_id}_{filename})"
+            else:
+                content = f"[Image: {filename}] No readable text could be extracted from this image (real OCR only; no assumed content)."
+                logger.info(f"Image '{filename}' uploaded with no OCR text — stored for reference only.")
+
         # Save raw file to disk so the chat attachment path can re-read it later.
         save_path = _uploads_dir() / f"{file_id}_{filename}"
         save_path.write_bytes(raw)
@@ -592,7 +690,14 @@ async def upload_document(file: UploadFile = File(...), auth: AuthPayload = Depe
             docs_to_index.append({
                 "id": doc_id,
                 "text": chunk,
-                "payload": {"source": "knowledge_base", "filename": filename, "chunk_index": idx, "tenant_id": tenant_id}
+                "payload": {
+                    "source": "knowledge_base",
+                    "filename": filename,
+                    "chunk_index": idx,
+                    "tenant_id": tenant_id,
+                    "content_preview": chunk[:500],
+                    "title": filename,
+                }
             })
 
         collection_name = f"company_knowledge_{tenant_id}"
@@ -1536,6 +1641,137 @@ async def generate_satellite_report(
     return {"status": "success", "report": report}
 
 
+# ---------- Image Rendering & Annotation Endpoints ----------
+
+class RenderCompositeRequest(BaseModel):
+    """Render satellite band data to a PNG image.
+
+    `bands` is a dict of band-name -> 2D array (nested list). All pixel values
+    come from this data — the renderer never fabricates bands.
+    `composite` selects the RGB mapping:
+      - "true_color"  (R=B04 G=B03 B=B02)
+      - "false_color" (R=B08 G=B04 B=B03)
+      - "mineral"     (R=B11 G=B04 B=B02)
+      - "swir"        (R=B12 G=B11 B=B08)
+      - "vegetation"  (R=B08 G=B04 B=B03)
+      - or a custom dict {"R": "...", "G": "...", "B": "..."}
+    `annotations` (optional): list of AnnotationSpec dicts drawn at explicit
+    pixel coordinates (x/y, x1/y1/x2/y2, sx/sy/ex/ey, cx/cy).
+    """
+    bands: dict
+    composite: Any = "true_color"
+    width: Optional[int] = None
+    height: Optional[int] = None
+    annotations: Optional[list] = None
+
+
+class RenderIndexRequest(BaseModel):
+    """Compute a spectral index from `bands` and render it as a PNG.
+
+    Requires specific bands documented in services.image_renderer.compute_index.
+    Never returns a fabricated image — errors if required bands are absent.
+    """
+    bands: dict
+    index: str = "ndvi"
+    colormap: str = "viridis"
+    width: Optional[int] = None
+    height: Optional[int] = None
+
+
+class AnnotateImageRequest(BaseModel):
+    """Burn annotations onto an existing rendered image.
+
+    `image_file_key` is the path under /files/ (e.g. "renders/xxx.png").
+    `annotations` are drawn at explicit pixel coordinates.
+    """
+    image_file_key: str
+    annotations: list
+
+
+@app.post("/api/images/render-composite", tags=["Image Rendering"])
+async def render_composite(req: RenderCompositeRequest, auth: AuthPayload = Depends(verify_jwt)):
+    from services.image_renderer import render_satellite_composite
+    bands = {}
+    for name, data in req.bands.items():
+        try:
+            bands[name] = np.array(data, dtype=np.float64)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Invalid band '{name}': {str(e)}")
+        if bands[name].ndim != 2:
+            raise HTTPException(status_code=400, detail=f"Band '{name}' must be 2D, got {bands[name].ndim}D")
+    try:
+        result = render_satellite_composite(
+            bands,
+            req.composite,
+            width=req.width,
+            height=req.height,
+            annotations=req.annotations,
+            subdir=auth.tenant_id,
+        )
+        return {"status": "success", **result}
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/images/render-index", tags=["Image Rendering"])
+async def render_index(req: RenderIndexRequest, auth: AuthPayload = Depends(verify_jwt)):
+    from services.image_renderer import compute_index, index_to_rgb, _save_rgb_to_file
+    try:
+        bands = {}
+        for name, data in req.bands.items():
+            arr = np.array(data, dtype=np.float64)
+            if arr.ndim != 2:
+                raise ValueError(f"Band '{name}' must be 2D, got {arr.ndim}D")
+            bands[name] = arr
+        index_arr = compute_index(bands, req.index)
+        rgb = index_to_rgb(index_arr, colormap=req.colormap)
+        if req.width and req.height:
+            from services.image_renderer import build_rgb
+        file_key, abs_path = _save_rgb_to_file(rgb, ext="png", subdir=auth.tenant_id)
+        return {
+            "status": "success",
+            "file_key": file_key,
+            "file_url": f"/files/{file_key}",
+            "mime_type": "image/png",
+            "index": req.index,
+            "width": rgb.shape[1],
+            "height": rgb.shape[0],
+            "size_bytes": abs_path.stat().st_size,
+        }
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/images/annotate", tags=["Image Rendering"])
+async def annotate_image(req: AnnotateImageRequest, auth: AuthPayload = Depends(verify_jwt)):
+    from services.image_renderer import annotate_existing_image
+    try:
+        result = annotate_existing_image(
+            req.image_file_key,
+            req.annotations,
+            subdir=auth.tenant_id,
+        )
+        return {"status": "success", **result}
+    except (ValueError, FileNotFoundError) as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
+@app.post("/api/images/render-upload", tags=["Image Rendering"])
+async def render_uploaded_image(
+    file: UploadFile = File(...),
+    auth: AuthPayload = Depends(verify_jwt),
+):
+    from services.image_renderer import render_user_image
+    raw = await file.read()
+    if not raw:
+        raise HTTPException(status_code=400, detail="Empty file")
+    try:
+        result = render_user_image(raw, subdir=auth.tenant_id)
+        return {"status": "success", **result, "original_name": file.filename or ""}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Could not render image: {str(e)}")
+
+
 # ---------- Satellite Annotation & Image Reader Endpoints ----------
 
 @app.post("/api/satellite/annotations/create", tags=["Satellite"])
@@ -1887,10 +2123,13 @@ def get_skill_manager():
 _cost_tracker = None
 
 def get_cost_tracker():
+    """Return the process-wide CostTracker shared with the LLM adapter so both
+    the adapter's per-call metering and the /api/costs/report endpoint count
+    against the SAME instance."""
     global _cost_tracker
     if _cost_tracker is None:
-        from services.cost_tracker import CostTracker
-        _cost_tracker = CostTracker()
+        from local_model.adapter import get_cost_tracker as _shared
+        _cost_tracker = _shared()
     return _cost_tracker
 
 
@@ -2054,5 +2293,5 @@ if _has_static:
             return FileResponse(str(file_path))
         index = STATIC_DIR / "index.html"
         if index.exists():
-            return FileResponse(str(index))
+            return FileResponse(str(index), headers={"Cache-Control": "no-cache"})
         return {"status": "online", "system": "AI Mining OS v2.0.0"}

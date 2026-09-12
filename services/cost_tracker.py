@@ -55,7 +55,12 @@ class CostTracker:
     """
 
     MODEL_PRICING = {
-        "openai/gpt-oss-120b": {"input": 0.15, "output": 0.60},
+        "openai/gpt-oss-120b": {"input": 0.037, "output": 0.17},
+        "openai/gpt-oss-20b": {"input": 0.03, "output": 0.14},
+        "Qwen/Qwen3-VL-30B-A3B-Instruct": {"input": 0.15, "output": 0.60},
+        "openai/gpt-oss-120b:groq": {"input": 0.15, "output": 0.75},
+        "openai/gpt-oss-120b:cheapest": {"input": 0.037, "output": 0.17},
+        "local/qwen3-coder:30b": {"input": 0.0, "output": 0.0},
         "qwen3-coder:30b": {"input": 0.0, "output": 0.0},
         "default": {"input": 0.15, "output": 0.60},
     }
@@ -72,13 +77,14 @@ class CostTracker:
 
     def _get_pricing(self, model: str) -> Dict[str, float]:
         for key, pricing in self.MODEL_PRICING.items():
-            if key in model:
+            if key.lower() in model.lower():
                 return pricing
         return self.MODEL_PRICING["default"]
 
     def record_interaction(self, session_id: str, model: str, input_tokens: int,
                           output_tokens: int, tool_calls: int = 0,
-                          department: str = "general", site: str = "default") -> Dict[str, Any]:
+                          department: str = "general", site: str = "default",
+                          cache_read_tokens: int = 0) -> Dict[str, Any]:
         pricing = self._get_pricing(model)
         cost = (input_tokens * pricing["input"] + output_tokens * pricing["output"]) / 1_000_000
 
@@ -97,6 +103,7 @@ class CostTracker:
         session.by_model[model].input_tokens += input_tokens
         session.by_model[model].output_tokens += output_tokens
         session.by_model[model].tool_calls += tool_calls
+        session.by_model[model].cache_read_tokens += cache_read_tokens
         session.by_model[model].cost_usd += cost
 
         shift_id = self._current_shift_id(site)

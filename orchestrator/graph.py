@@ -1,6 +1,7 @@
 import os
 import re
 import json
+import time
 import logging
 import asyncio
 from typing import Dict, Any, List, Optional, Iterator
@@ -33,6 +34,18 @@ from services.audit_trail import AuditTrail, ActionType, ActionStatus
 from services.report_generator import ReportGenerator, ReportData, ReportType
 
 logger = logging.getLogger("ai_os.orchestrator")
+
+#: Domain keywords that force a real (tool-backed) answer even for short
+#: casual-looking messages — mirrors the mock router so lite-mode never breaks
+#: genuinely actionable questions like "list tasks".
+DOMAIN_KEYWORDS = frozenset([
+    "price", "gold", "silver", "market", "budget", "finance", "payroll",
+    "procurement", "cost", "spend", "task", "production", "report", "mining",
+    "equipment", "grade", "drill", "ore", "conveyor", "shaft", "sop",
+    "search", "internet", "news", "regulation", "ocr", "image", "invoice",
+    "photo", "document", "pdf", "export", "summary", "memory", "team",
+    "geology", "variant",
+])
 
 
 def _safe_str(e: Exception) -> str:
@@ -130,6 +143,9 @@ Expert in regulations, technology scouting, competitive analysis.
 30. **analyze_document** - AI-powered document analysis, extraction, and compliance checking
 31. **get_audit_log** - Query complete audit trail of all system activity and AI decisions
 32. **generate_report_from_data** - Generate comprehensive PDF/DOCX reports from mine data
+33. **render_satellite** - Render satellite band data (bands: {name: 2D array}; composite: true_color/false_color/mineral/swir/vegetation or {R,G,B} mapping) to a PNG shown inline in the chat. Optional annotations at explicit pixel coords. USE to show satellite imagery as an inline, downloadable photo.
+34. **render_index** - Compute a spectral index (ndvi, ndwi, ndmi, bsi, iron_oxide, ferrous) from provided bands and render it as an inline PNG with a colormap.
+35. **annotate_image** - Burn labels/boxes/arrows/circles onto an existing rendered image (image_file_key) at explicit pixel coordinates and add the annotated copy to the chat.
 
 ## Coordinator Behavior (ALWAYS follow)
 
@@ -191,6 +207,44 @@ Expert in regulations, technology scouting, competitive analysis.
 - Track operator preferences and feedback
 - Note equipment patterns and recurring issues
 
+### Continuity & Follow-Up (Act like a partner, not a stateless API)
+- The personalised user context above is YOUR memory of this user. Use it.
+- Greet or respond as someone who already knows them: reference their concession,
+  equipment, FX rate, and past decisions naturally — never explain that you
+  "found a memory".
+- When the user references something from a past session or "before", surface it
+  from the personalised context instead of asking them to re-supply it.
+- Look for OPEN THREADS from previous sessions (earlier user questions that were
+  answered but never acted on). If this query continues one, say so and carry the
+  thread forward.
+- At the END of complex replies, proactively offer the most useful next question
+  or action based on THEIR situation (e.g. pull satellite imagery for their exact
+  coordinates, price their Kapoeta gold at black-market rate, update equipment
+  registers). Suggest concrete follow-ups once, briefly — do not spam them.
+- If new personal facts emerge in this conversation (owner names, mineral finds,
+  machine additions, price agreements, preferences), state that you will remember
+  them going forward.
+- Never hallucinate facts you don't have. When unsure about a user detail, ask a
+  concise clarifying question rather than guessing.
+
+### Visual Sharing (Show, don't just tell)
+- When the user asks about satellite imagery, terrain, spectral data, or any
+  pixel-based mining analysis, USE render_satellite / render_index and present
+  the actual rendered image INLINE in the chat so they can see and download it.
+  Never answer with text alone when an image is clearly valuable.
+- Unless the user explicitly requests the original GeoTIFF/raw format, deliver
+  satellite imagery as a rendered PNG photo (true_color or false_color) via
+  render_satellite.
+- When a satellite or photo is analysed and annotated, create an annotated copy
+  with annotate_image (boxes, labels, arrows at the actual coordinates of the
+  finding) and share that annotated version inline.
+- You may only render what you actually have. bands for render_satellite/
+  render_index MUST come from real data already in the conversation or provided
+  by the user. If you do not have band data, say so and ask, or point them to
+  /api/satellite endpoints — NEVER invent band values, coordinates, or pixels.
+- annotate_image coordinates MUST be the actual pixel coordinates of a real
+  feature in the image. Never draw annotations at guessed positions.
+
 ## Response Guidelines
 - Conversational tone, not robotic. Explain meaning, not just numbers.
 - Your audience ranges from beginners to experts. No jargon without explanation.
@@ -209,7 +263,9 @@ Expert in regulations, technology scouting, competitive analysis.
 - Phone: {phone_number}
 - Session: {session_id}
 - Interaction Mode: {interaction_mode}
+{persona_section}
 {user_profile_section}
+{team_section}
 {memory_context_section}
 {rag_context_section}
 {knowledge_digest_section}"""
@@ -271,6 +327,14 @@ class AIOrchestrator:
         self._system_prompt_cache = None
         self._system_prompt_cache_key = None
 
+        # Token-conservation caches (thread-safe, TTL-bounded)
+        self._rag_cache = {}
+        self._rag_cache_ts = {}
+        self._team_digest_cache = {}
+        self._team_digest_cache_ts = {}
+        self._fact_gate = {}
+        self._module_lock = __import__("threading").RLock()
+
         self.workflow = self._build_workflow()
 
     def _build_workflow(self) -> StateGraph:
@@ -327,28 +391,167 @@ class AIOrchestrator:
         words = [w for w in re.findall(r"[a-z']+", lowered) if w]
         return len(words) > 4
 
+    # ── Token conservation helpers ────────────────────────────────────────
+
+    def _env_int(self, key: str, default: int) -> int:
+        try:
+            return int(os.getenv(key, str(default)))
+        except (TypeError, ValueError):
+            return default
+
+    def _env_float(self, key: str, default: float) -> float:
+        try:
+            return float(os.getenv(key, str(default)))
+        except (TypeError, ValueError):
+            return default
+
+    def _is_casual_message(self, message: str) -> bool:
+        """True = answer without tools (saves ~6.4K tool-schema tokens/turn).
+
+        Mirrors the mock router's conversational path: greetings, or short
+        non-domain chit-chat. Domain keywords force tools, keeping the
+        assistant fully cooperative on anything actionable.
+        """
+        text = (message or "").strip()
+        if not text:
+            return True
+        lowered = text.lower()
+        if any(tok in lowered for tok in GREETING_TOKENS):
+            return True
+        words = [w for w in re.findall(r"[a-z']+", lowered) if w]
+        if len(words) <= 4 and not any(k in lowered for k in DOMAIN_KEYWORDS):
+            return True
+        return False
+
+    def _cached(self, cache: dict, cache_ts: dict, key: str, ttl: Optional[float] = None) -> Optional[Any]:
+        if ttl is None:
+            ttl = self._env_float("TOKEN_CACHE_TTL_S", 300.0)
+        with self._module_lock:
+            if key in cache_ts:
+                age = time.time() - cache_ts[key]
+                if age < ttl:
+                    return cache.get(key)
+                cache.pop(key, None)
+                cache_ts.pop(key, None)
+        return None
+
+    def _store_cached(self, cache: dict, cache_ts: dict, key: str, value: Any) -> None:
+        with self._module_lock:
+            cache[key] = value
+            cache_ts[key] = time.time()
+            if len(cache) > 256:
+                for oldest in sorted(cache_ts, key=cache_ts.get)[:128]:
+                    cache.pop(oldest, None)
+                    cache_ts.pop(oldest, None)
+
+    def _build_team_digest(self, admin_user) -> str:
+        """Aggregate every team account's identity + memory + recent activity so the
+        admin (Frank) agent sees the full team in one context block."""
+        try:
+            from backend.auth import team_members
+            parts = []
+            for member in team_members():
+                name = member.display_name or member.username
+                role = member.role_title or member.role
+                lines = [f"- {name} (username: {member.username}) — {role}"]
+                if member.email:
+                    lines.append(f"  email: {member.email}")
+                profile = self.memory_engine.retrieve_user_profile(member.username) if self.memory_engine else {}
+                if profile:
+                    facts = [f"    {k}: {v}" for k, v in profile.items() if k != "history"]
+                    if facts:
+                        lines.append("  memory profile:")
+                        lines.extend(facts[:12])
+                # Last few exchanges for this member across sessions
+                try:
+                    recent = self._recent_member_exchanges(member.username, 3)
+                except Exception:
+                    recent = ""
+                if recent:
+                    lines.append("  recent work:")
+                    lines.append("    " + "\n    ".join(recent.splitlines()))
+                parts.append("\n".join(lines))
+            return "\n\n".join(parts)
+        except Exception as e:
+            logger.debug(f"Team digest build failed: {e}")
+            return ""
+
+    def _recent_member_exchanges(self, tenant_id: str, cap: int = 3) -> str:
+        """Pull the most recent user/assistant exchanges for a tenant."""
+        if not (self.memory_engine and self.memory_engine.postgres_client):
+            return ""
+        convos = self.memory_engine.postgres_client.get_recent_conversations(limit=6, tenant_id=tenant_id) or []
+        out_lines = []
+        for conv in convos:
+            for msg in (conv.get("messages") or []):
+                role = msg.get("role", "")
+                content = (msg.get("content", "") or "").strip()
+                if not content or content.startswith("[Attached:"):
+                    continue
+                if role in ("user", "assistant") and len(out_lines) < cap * 2:
+                    out_lines.append(f"{role}: {content[:200]}")
+                if len(out_lines) >= cap * 2:
+                    break
+            if len(out_lines) >= cap * 2:
+                break
+        return "\n".join(out_lines)
+
     def _build_system_prompt(self, state: AgentState) -> str:
         phone = state.get("phone_number", "unknown")
         session = state.get("session_id", "unknown")
         interaction_mode = state.get("interaction_mode", "web_chat")
 
-        # Memories are keyed by tenant user (e.g. "baguley"), while the stream
-        # carries a tenant-prefixed session id ("baguley:sess_xxx"). Always
-        # derive the memory key from the session prefix so profile lookup hits.
+        # Memories and conversation history are keyed by tenant user (e.g.
+        # "baguley") while the stream carries a tenant-prefixed session id
+        # ("baguley:sess_xxx"). Always derive the memory key from the session
+        # prefix so profile lookup and awareness context hit the right user.
         memory_user = phone
         if ":" in str(session):
             memory_user = str(session).split(":", 1)[0]
 
         user_profile_section = ""
         try:
-            profile = self.memory_engine.retrieve_user_profile(memory_user)
-            if profile:
-                profile_lines = [f"- {k}: {v}" for k, v in profile.items() if k != "history"]
-                user_profile_section = "User Profile:\n" + "\n".join(profile_lines)
+            awareness = self.memory_engine.build_awareness_context(
+                memory_user,
+                recent_limit=6,
+                message_budget=3500,
+                exclude_session=session,
+            )
+            if awareness:
+                user_profile_section = "## Personalised User Context (this user, across all time)\n" + awareness
             else:
-                user_profile_section = "User Profile: No prior information stored."
+                user_profile_section = "## Personalised User Context\nNo prior information stored about this user yet."
         except Exception:
-            user_profile_section = "User Profile: Unable to retrieve."
+            user_profile_section = "## Personalised User Context\nUnable to retrieve user context."
+
+        # Persona: each provisioned team member gets their own professional persona.
+        persona_section = ""
+        try:
+            from backend.auth import USERS as AUTH_USERS, persona_prompt
+            persona = persona_prompt(AUTH_USERS.get(memory_user))
+            if persona:
+                persona_section = "## Your Persona\n" + persona
+        except Exception:
+            pass
+
+        # Team visibility for admins (Frank): surface every team account so the
+        # agent can answer questions about the whole team and their work.
+        # Cached ~TTL to avoid re-aggregating every member's profile/exchanges.
+        team_section = ""
+        try:
+            from backend.auth import team_members, USERS as AUTH_USERS
+            user_obj = AUTH_USERS.get(memory_user)
+            if user_obj and user_obj.role == "admin":
+                cached = self._cached(self._team_digest_cache, self._team_digest_cache_ts, f"team:{memory_user}")
+                if cached is None:
+                    digest = self._build_team_digest(user_obj)
+                    self._store_cached(self._team_digest_cache, self._team_digest_cache_ts, f"team:{memory_user}", digest)
+                else:
+                    digest = cached
+                if digest:
+                    team_section = "## Team Overview (visible to you as admin)\n" + digest
+        except Exception:
+            team_section = ""
 
         memory_context_section = ""
         try:
@@ -371,71 +574,106 @@ class AIOrchestrator:
                 last_human = msg.content
                 break
 
-        # Enhanced RAG: search all 4 collections, 15 results, full content
+        # RAG: search all collections but cap breadth + per-hit snippet so the
+        # context block stays inside the token budget. Results are cached by
+        # (tenant, normalized query) so repeated questions skip the re-embed.
+        rag_context_section = ""
+        last_human = ""
+        for msg in reversed(state.get("messages", [])):
+            if isinstance(msg, HumanMessage):
+                last_human = msg.content
+                break
+
+        rag_limit = self._env_int("TOKEN_RAG_LIMIT", 12)
+        snippet_chars = self._env_int("TOKEN_RAG_SNIPPET_CHARS", 800)
         if last_human and self._should_rag(last_human):
-            try:
-                from ingestion.embeddings import embed_text
-                query_vector = embed_text(last_human)
-                if query_vector and self.mining_engine.vector_client:
-                    vc = self.mining_engine.vector_client
-                    all_results = []
+            query_key = f"{memory_user}|{last_human.strip().lower()}"
+            cached = self._cached(self._rag_cache, self._rag_cache_ts, query_key)
+            if cached is not None:
+                rag_context_section = cached
+            else:
+                try:
+                    from ingestion.embeddings import embed_text
+                    query_vector = embed_text(last_human)
+                    if query_vector and self.mining_engine.vector_client:
+                        vc = self.mining_engine.vector_client
+                        all_results = []
 
-                    # Search all 4 collections
-                    for collection in ["company_knowledge", "production_data", "financial_data", "long_term_memories"]:
+                        # Search all 4 static collections PLUS this tenant's own KB.
+                        collections = ["company_knowledge", "production_data", "financial_data", "long_term_memories"]
+                        tenant_collection = f"company_knowledge_{memory_user}"
+                        if tenant_collection not in collections:
+                            collections.append(tenant_collection)
+                        # Admin (Frank) also searches every team member's KB so he can
+                        # see/answer from the whole team's documents and memories.
                         try:
-                            hits = vc.search_similarity(collection, query_vector, limit=8, score_threshold=0.25)
-                            for hit in hits:
-                                hit["_collection"] = collection
-                            all_results.extend(hits)
+                            from backend.auth import team_members, USERS as AUTH_USERS
+                            user_obj = AUTH_USERS.get(memory_user)
+                            if user_obj and user_obj.role == "admin":
+                                for member in team_members():
+                                    col = f"company_knowledge_{member.username}"
+                                    if col not in collections:
+                                        collections.append(col)
                         except Exception:
-                            continue
+                            pass
+                        for collection in collections:
+                            try:
+                                hits = vc.search_similarity(collection, query_vector, limit=8, score_threshold=0.30)
+                                for hit in hits:
+                                    hit["_collection"] = collection
+                                all_results.extend(hits)
+                            except Exception:
+                                continue
 
-                    # Sort by score, take top 15
-                    all_results.sort(key=lambda x: x.get("score", 0), reverse=True)
-                    top_results = all_results[:15]
+                        # Sort by score, take the configured top-N.
+                        all_results.sort(key=lambda x: x.get("score", 0), reverse=True)
+                        top_results = all_results[:rag_limit]
 
-                    if top_results:
-                        context_parts = []
-                        for hit in top_results:
-                            payload = hit.get("payload", {})
-                            title = payload.get("title", "")
-                            content = payload.get("content_preview", payload.get("content", ""))
-                            score = hit.get("score", 0)
-                            collection = hit.get("_collection", "")
-                            if (title or content) and score > 0.25:
-                                # Use full content, not just 200 chars
-                                context_parts.append(f"[{collection}] {title} (relevance: {score:.2f}):\n{content[:1500]}")
-                        if context_parts:
-                            rag_context_section = "RELEVANT KNOWLEDGE BASE CONTEXT (from vector search across all collections):\n\n" + "\n\n---\n\n".join(context_parts)
-            except Exception as e:
-                logger.debug(f"RAG retrieval failed: {e}")
+                        if top_results:
+                            context_parts = []
+                            for hit in top_results:
+                                payload = hit.get("payload", {})
+                                title = payload.get("title", "")
+                                content = payload.get("content_preview", payload.get("content", ""))
+                                score = hit.get("score", 0)
+                                collection = hit.get("_collection", "")
+                                if (title or content) and score > 0.30:
+                                    from local_model.token_policy import truncate_text
+                                    context_parts.append(f"[{collection}] {title} (relevance: {score:.2f}):\n{truncate_text(content, snippet_chars)}")
+                            if context_parts:
+                                rag_context_section = "RELEVANT KNOWLEDGE BASE CONTEXT (from vector search across all collections):\n\n" + "\n\n---\n\n".join(context_parts)
+                        self._store_cached(self._rag_cache, self._rag_cache_ts, query_key, rag_context_section)
+                except Exception as e:
+                    logger.debug(f"RAG retrieval failed: {e}")
 
-        # Knowledge Digest: ALWAYS inject dataset index + load matched datasets
+        # Knowledge digest: compact dataset index, injected ONLY for substantive
+        # queries and capped to the configured budget. Full file content is
+        # fetched on demand by load_knowledge_base_file — not auto-injected.
         knowledge_digest_section = ""
         try:
-            from services.knowledge_digest import load_relevant_datasets, get_dataset_digest
+            from services.knowledge_digest import get_dataset_digest
 
-            # ALWAYS include the full dataset index so AI knows what exists
-            dataset_index = get_dataset_digest()
-            knowledge_digest_section = dataset_index
-
-            # ALSO load full content of matched datasets for the query
-            if last_human:
-                digest = load_relevant_datasets(last_human, max_chars=25000)
-                if digest:
-                    knowledge_digest_section = dataset_index + "\n\n" + digest
+            digest_chars = self._env_int("TOKEN_DIGEST_CHARS", 6000)
+            if last_human and self._should_rag(last_human) and digest_chars > 0:
+                dataset_index = get_dataset_digest(max_chars=digest_chars)
+                if dataset_index:
+                    knowledge_digest_section = "## Available Knowledge Bases (index only — load full files on demand)\n" + dataset_index
         except Exception as e:
             logger.debug(f"Knowledge digest failed: {e}")
 
-        return COORDINATOR_PROMPT.format(
-            phone_number=phone,
-            session_id=session,
-            interaction_mode=interaction_mode,
-            user_profile_section=user_profile_section,
-            memory_context_section=memory_context_section,
-            rag_context_section=rag_context_section,
-            knowledge_digest_section=knowledge_digest_section
-        )
+        # Manual replacement instead of str.format() so literal braces in the
+        # template (e.g. {R,G,B} mappings in tool docs) are preserved verbatim.
+        prompt = COORDINATOR_PROMPT
+        prompt = prompt.replace("{phone_number}", phone)
+        prompt = prompt.replace("{session_id}", session)
+        prompt = prompt.replace("{interaction_mode}", interaction_mode)
+        prompt = prompt.replace("{user_profile_section}", user_profile_section)
+        prompt = prompt.replace("{persona_section}", persona_section)
+        prompt = prompt.replace("{team_section}", team_section)
+        prompt = prompt.replace("{memory_context_section}", memory_context_section)
+        prompt = prompt.replace("{rag_context_section}", rag_context_section)
+        prompt = prompt.replace("{knowledge_digest_section}", knowledge_digest_section)
+        return prompt
 
     def node_preprocess_attachments(self, state: AgentState) -> Dict[str, Any]:
         logger.info("Node: Preprocessing Attachments...")
@@ -495,7 +733,10 @@ class AIOrchestrator:
         if "vision_objects" in extracted:
             system_content += f"\n\nVisual Analysis:\n{extracted['vision_objects']}"
         full_messages = [SystemMessage(content=system_content)] + messages
-        response = self.llm.invoke(full_messages)
+        tools = None
+        if self._env_int("TOKEN_LITE_TOOLS", 1) and self._is_casual_message(last_human):
+            tools = []
+        response = self.llm.invoke(full_messages, tools=tools)
         return {"messages": [response]}
 
     def node_coordinator(self, state: AgentState) -> Dict[str, Any]:
@@ -509,6 +750,7 @@ class AIOrchestrator:
         tool_name = tool_call["name"]
         args = tool_call["args"]
         session_id = state.get("session_id", "default")
+        phone = state.get("phone_number", "")
 
         try:
             if tool_name == "delegate_to_agent":
@@ -762,6 +1004,87 @@ class AIOrchestrator:
                     entries = self.audit_trail.query_entries(query)
                     result = self.audit_trail.format_entries_for_display(entries, limit)
 
+            elif tool_name == "render_satellite":
+                # Renders satellite band data to a PNG shown inline in the chat.
+                # Data is passed in `bands` (band-name -> 2D array). composite is
+                # "true_color"/"false_color"/"mineral"/"swir"/"vegetation" or a
+                # custom {"R":..., "G":..., "B":...} mapping. Optional `annotations`
+                # drawn at explicit pixel coordinates.
+                bands_arg = args.get("bands", {}) or {}
+                composite = args.get("composite", "true_color")
+                width = args.get("width")
+                height = args.get("height")
+                annotations = args.get("annotations") or []
+                import numpy as _np
+                bands = {}
+                for name, data in bands_arg.items():
+                    arr = _np.array(data, dtype=_np.float64)
+                    if arr.ndim != 2:
+                        raise ValueError(f"Band '{name}' must be 2D, got {arr.ndim}D")
+                    bands[name] = arr
+                from services.image_renderer import render_satellite_composite
+                img = render_satellite_composite(bands, composite, width=width, height=height, annotations=annotations, subdir=str(phone or ""))
+                _output_report = {
+                    "filename": f"satellite_{composite if isinstance(composite, str) else 'custom'}.png",
+                    "storage_uri": f"local://{img['file_key']}",
+                    "mime_type": "image/png",
+                    "size_bytes": img["size_bytes"],
+                    "image": True,
+                }
+                result = f"Rendered satellite image ({img['width']}x{img['height']}) and added it to the chat as an image. URL: {img['file_url']}"
+
+            elif tool_name == "render_index":
+                bands_arg = args.get("bands", {}) or {}
+                index = args.get("index", "ndvi")
+                colormap = args.get("colormap", "viridis")
+                width = args.get("width")
+                height = args.get("height")
+                import numpy as _np
+                from services.image_renderer import compute_index, index_to_rgb, _save_rgb_to_file
+                bands = {}
+                for name, data in bands_arg.items():
+                    arr = _np.array(data, dtype=_np.float64)
+                    if arr.ndim != 2:
+                        raise ValueError(f"Band '{name}' must be 2D, got {arr.ndim}D")
+                    bands[name] = arr
+                index_arr = compute_index(bands, index)
+                rgb = index_to_rgb(index_arr, colormap=colormap)
+                if width and height:
+                    from services.image_renderer import build_rgb
+                    h, w = rgb.shape[:2]
+                    if h != height or w != width:
+                        raise ValueError(f"Rendered size {w}x{h} does not match requested {width}x{height}")
+                file_key, abs_path = _save_rgb_to_file(rgb, ext="png", subdir=str(phone or ""))
+                _output_report = {
+                    "filename": f"{index}_{colormap}.png",
+                    "storage_uri": f"local://{file_key}",
+                    "mime_type": "image/png",
+                    "size_bytes": abs_path.stat().st_size,
+                    "image": True,
+                }
+                result = f"Computed and rendered the {index} index ({rgb.shape[1]}x{rgb.shape[0]}) and added it to the chat as an image. URL: /files/{file_key}"
+
+            elif tool_name == "annotate_image":
+                # Burn annotations onto an existing rendered image. image_file_key
+                # refers to a file under /files/ (e.g. "renders/xxx.png"). All
+                # annotation coordinates are explicit pixel values — no guessing.
+                image_file_key = args.get("image_file_key", "")
+                annotations = args.get("annotations", []) or []
+                if not image_file_key:
+                    raise ValueError("image_file_key is required")
+                if not annotations:
+                    raise ValueError("annotations list must not be empty")
+                from services.image_renderer import annotate_existing_image
+                out = annotate_existing_image(image_file_key, annotations, subdir=str(phone or ""))
+                _output_report = {
+                    "filename": "annotated_image.png",
+                    "storage_uri": f"local://{out['file_key']}",
+                    "mime_type": "image/png",
+                    "size_bytes": out["size_bytes"],
+                    "image": True,
+                }
+                result = f"Annotated the image and added it to the chat. Annotated copy URL: {out['file_url']}"
+
             elif tool_name == "generate_report_from_data":
                 report_type_str = args.get("report_type", "production")
                 title = args.get("title", None)
@@ -805,7 +1128,7 @@ class AIOrchestrator:
             result = f"Coordinator error: {_safe_str(e)}"
 
         t_msg = ToolMessage(content=result, tool_call_id=tool_call["id"])
-        return {"messages": [t_msg]}
+        return {"messages": [t_msg], "output_report": locals().get("_output_report")}
 
     def node_research(self, state: AgentState) -> Dict[str, Any]:
         logger.info("Node: Executing Research Service...")
@@ -842,6 +1165,11 @@ class AIOrchestrator:
                 file_type=file_type
             )
             result = f"Report generated successfully. Link: {report_meta['storage_uri']}"
+            # Store the report content into the tenant's knowledge base so it
+            # becomes retrievable later (REAL content only).
+            tenant = str(state.get("phone_number", "") or "").split(":", 1)[0]
+            if tenant and content.strip():
+                self._index_into_tenant_kb(tenant, content, "report", f"Report_{state['session_id']}.pdf")
             return {"messages": [ToolMessage(content=result, tool_call_id=tool_call["id"])], "output_report": report_meta}
         except Exception as e:
             logger.error(f"Document generation failed: {e}")
@@ -1086,6 +1414,9 @@ class AIOrchestrator:
             "analyze_document": "coordinator",
             "get_audit_log": "coordinator",
             "generate_report_from_data": "coordinator",
+            "render_satellite": "coordinator",
+            "render_index": "coordinator",
+            "annotate_image": "coordinator",
         }
         return routing_map.get(call_name, "end")
 
@@ -1182,6 +1513,9 @@ class AIOrchestrator:
             "analyze_document": self.node_coordinator,
             "get_audit_log": self.node_coordinator,
             "generate_report_from_data": self.node_coordinator,
+            "render_satellite": self.node_coordinator,
+            "render_index": self.node_coordinator,
+            "annotate_image": self.node_coordinator,
         }
 
     def _execute_tool(self, name, tool_call, base_state) -> str:
@@ -1194,6 +1528,8 @@ class AIOrchestrator:
         try:
             result = node(state)
             messages = result.get("messages", [])
+            if result.get("output_report"):
+                base_state["output_report"] = result["output_report"]
             last = messages[-1] if messages else None
             if isinstance(last, ToolMessage):
                 return last.content
@@ -1203,6 +1539,47 @@ class AIOrchestrator:
         except Exception as e:
             logger.error(f"Tool '{name}' failed: {e}")
             return f"Tool execution failed: {_safe_str(e)}"
+
+    def _index_into_tenant_kb(self, tenant_id: str, text: str, source: str, filename: str = ""):
+        """Chunk + embed + upsert real text into the tenant's knowledge base
+        collection (company_knowledge_{tenant_id}) so uploaded/generated
+        content becomes retrievable by RAG. No-op on missing deps or errors."""
+        try:
+            if not tenant_id or not text or not text.strip():
+                return 0
+            if not self.mining_engine or not self.mining_engine.vector_client:
+                return 0
+            from ingestion.embeddings import chunk_text
+            from ingestion.loader import index_documents_to_vector_db
+            import hashlib
+
+            chunks = chunk_text(text, max_chunk_size=1000, overlap=150)
+            if not chunks:
+                return 0
+            docs = []
+            for idx, chunk in enumerate(chunks):
+                doc_id = hashlib.md5(f"{tenant_id}_{source}_{filename}_{idx}".encode()).hexdigest()
+                docs.append({
+                    "id": doc_id,
+                    "text": chunk,
+                    "payload": {
+                        "source": source,
+                        "filename": filename or tenant_id,
+                        "chunk_index": idx,
+                        "tenant_id": tenant_id,
+                        "content_preview": chunk[:500],
+                        "title": filename or source,
+                    },
+                })
+            collection = f"company_knowledge_{tenant_id}"
+            count = index_documents_to_vector_db(
+                self.mining_engine.vector_client, docs, collection_name=collection
+            )
+            logger.info(f"Indexed {count} chunks into {collection} (source={source})")
+            return count
+        except Exception as e:
+            logger.warning(f"Tenant KB indexing failed ({source}): {e}")
+            return 0
 
     def _auto_store_memory(self, query: str, response: str, session_id: str = ""):
         try:
@@ -1254,12 +1631,17 @@ class AIOrchestrator:
         full_content = ""
         executed_tool_calls = []
         rounds = 0
-        max_rounds = 15
+        max_rounds = self._env_int("TOKEN_MAX_ROUNDS", 8)
+        # Casual (greeting / short non-domain) messages answer without the
+        # 31-tool schema — saves ~6.4K tool-definition tokens per turn.
+        tools = None
+        if self._env_int("TOKEN_LITE_TOOLS", 1) and self._is_casual_message(text_message):
+            tools = []
         while rounds < max_rounds:
             rounds += 1
             pending_tool_calls = {}
             try:
-                for chunk in self.llm.stream(full_messages):
+                for chunk in self.llm.stream(full_messages, tools=tools):
                     delta = getattr(chunk, "content", "") or ""
                     if delta:
                         full_content += delta
@@ -1290,14 +1672,16 @@ class AIOrchestrator:
                     report = base_state["output_report"]
                     storage_uri = report.get("storage_uri", "")
                     if storage_uri.startswith("local://"):
-                        file_key = storage_uri.split("/", 3)[-1]
+                        file_key = storage_uri[len("local://"):]
                     elif storage_uri.startswith("s3://"):
                         parts = storage_uri.split("/", 3)
                         file_key = "/".join(parts[2:]) if len(parts) > 2 else storage_uri
                     else:
                         file_key = storage_uri
+                    is_image = bool(report.get("image", False)) or str(report.get("mime_type", "")).startswith("image/")
+                    event_type = "image" if is_image else "file"
                     yield {
-                        "type": "file",
+                        "type": event_type,
                         "filename": report.get("filename", "report.pdf"),
                         "file_url": f"/files/{file_key}",
                         "mime_type": report.get("mime_type", "application/pdf"),
@@ -1306,5 +1690,33 @@ class AIOrchestrator:
                     base_state["output_report"] = None
 
         self._auto_store_memory(text_message, full_content, session_id)
+
+        # LLM-based auto-learning: extract durable user facts from the exchange.
+        # Gated to substantive, non-casual messages, throttled per session, and
+        # run in a background thread so the chat stream is never blocked.
+        try:
+            if self.memory_engine and full_content and text_message:
+                min_chars = self._env_int("TOKEN_FACT_MIN_CHARS", 20)
+                interval_s = self._env_float("TOKEN_FACT_MIN_INTERVAL_S", 60.0)
+                memory_user = str(session_id or "").split(":", 1)[0] if ":" in str(session_id) else phone_number
+                if (
+                    len(text_message.strip()) >= min_chars
+                    and not self._is_casual_message(text_message)
+                ):
+                    now = time.time()
+                    gate_key = str(session_id or memory_user)
+                    last_run = self._fact_gate.get(gate_key, 0.0)
+                    if last_run and (now - last_run) < interval_s:
+                        logger.debug(f"Fact extraction throttled for {gate_key}")
+                    else:
+                        self._fact_gate[gate_key] = now
+                        import threading
+                        threading.Thread(
+                            target=self.memory_engine.extract_and_store_facts,
+                            args=(memory_user, f"User: {text_message}\nAssistant: {full_content}", self.llm),
+                            daemon=True,
+                        ).start()
+        except Exception as e:
+            logger.debug(f"Fact extraction/store skipped: {e}")
 
         yield {"type": "done", "content": full_content, "tool_calls": executed_tool_calls}

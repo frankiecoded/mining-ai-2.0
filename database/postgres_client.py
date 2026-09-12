@@ -324,6 +324,30 @@ class PostgresClient:
                 return None
 
     # Conversation queries
+    def get_recent_conversations(self, limit: int = 10, tenant_id: Optional[str] = None) -> List[Dict[str, Any]]:
+        """Return full recent conversations, optionally scoped to a tenant prefix."""
+        if tenant_id:
+            prefix = f"{tenant_id}:"
+            sql = "SELECT session_id, phone_number, updated_at, messages FROM conversations WHERE session_id LIKE %s ORDER BY updated_at DESC LIMIT %s;"
+            rows = self._execute(sql, (f"{prefix}%", limit), fetch="all") or []
+        else:
+            sql = "SELECT session_id, phone_number, updated_at, messages FROM conversations ORDER BY updated_at DESC LIMIT %s;"
+            rows = self._execute(sql, (limit,), fetch="all") or []
+        conversations = []
+        for row in rows:
+            messages = row.get("messages")
+            try:
+                if isinstance(messages, str):
+                    messages = json.loads(messages)
+            except Exception:
+                messages = []
+            conversations.append({
+                "session_id": row.get("session_id"),
+                "updated_at": row.get("updated_at"),
+                "messages": messages or [],
+            })
+        return conversations
+
     def get_chat_sessions(self, limit: int = 25, tenant_id: Optional[str] = None) -> List[Dict[str, Any]]:
         if tenant_id:
             prefix = f"{tenant_id}:"
@@ -349,12 +373,16 @@ class PostgresClient:
             })
         return sessions
 
-    def get_conversation(self, session_id: str) -> List[Dict[str, Any]]:
+    def get_conversation(self, session_id: str, limit: Optional[int] = None) -> List[Dict[str, Any]]:
         sql = "SELECT messages FROM conversations WHERE session_id = %s;"
         row = self._execute(sql, (session_id,), fetch="one")
         if row:
             msg_data = row["messages"]
-            return json.loads(msg_data) if isinstance(msg_data, str) else msg_data
+            messages = json.loads(msg_data) if isinstance(msg_data, str) else msg_data
+            if limit and limit > 0 and isinstance(messages, list) and len(messages) > limit:
+                # Keep the newest tail; saves tokens without losing the current turn.
+                messages = messages[-limit:]
+            return messages
         return []
 
     def save_conversation(self, session_id: str, phone_number: str, messages: List[Dict[str, Any]]):
