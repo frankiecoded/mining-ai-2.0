@@ -215,6 +215,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "https://aios-vps.tail59eb2d.ts.net",
+        "https://mining-ai.vercel.app",
         "http://localhost:5173",
         "http://localhost:3000",
         "http://127.0.0.1:5173",
