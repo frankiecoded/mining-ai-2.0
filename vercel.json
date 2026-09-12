@@ -3,7 +3,24 @@
   "installCommand": "cd frontend && npm ci",
   "buildCommand": "cd frontend && npm run build",
   "outputDirectory": "frontend/dist",
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "ophirbot.org"
+        }
+      ],
+      "destination": "https://www.ophirbot.org/$1",
+      "permanent": true
+    }
+  ],
   "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://aios-vps.tail59eb2d.ts.net/api/:path*"
+    },
     {
       "source": "/((?!assets|favicon|icons).*)",
       "destination": "/index.html"
