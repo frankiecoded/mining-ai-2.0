@@ -234,19 +234,19 @@ function DocumentsTab({
           <SectionLabel>Collection Overview</SectionLabel>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-3">
             <div className="glass-faint rounded-xl p-3 text-center">
-              <div className="text-2xl font-bold text-white">{stats.total_documents}</div>
+              <div className="text-2xl font-bold text-white break-words">{stats.total_documents}</div>
               <div className="text-[11px] text-zinc-500 mt-0.5">Documents</div>
             </div>
             <div className="glass-faint rounded-xl p-3 text-center">
-              <div className="text-2xl font-bold text-white">{formatBytes(stats.total_size_bytes)}</div>
+              <div className="text-2xl font-bold text-white break-words">{formatBytes(stats.total_size_bytes)}</div>
               <div className="text-[11px] text-zinc-500 mt-0.5">Total Size</div>
             </div>
             <div className="glass-faint rounded-xl p-3 text-center">
-              <div className="text-2xl font-bold text-white">{stats.total_words?.toLocaleString() || '0'}</div>
+              <div className="text-2xl font-bold text-white break-words">{stats.total_words?.toLocaleString() || '0'}</div>
               <div className="text-[11px] text-zinc-500 mt-0.5">Total Words</div>
             </div>
             <div className="glass-faint rounded-xl p-3 text-center">
-              <div className="text-2xl font-bold text-white">{Object.keys(stats.by_category || {}).length}</div>
+              <div className="text-2xl font-bold text-white break-words">{Object.keys(stats.by_category || {}).length}</div>
               <div className="text-[11px] text-zinc-500 mt-0.5">Categories</div>
             </div>
           </div>
@@ -309,7 +309,7 @@ function DocumentsTab({
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-3 py-1.5 rounded-lg text-[12px] font-medium transition-all ${
+              className={`px-3.5 py-2.5 rounded-lg text-[12px] font-medium transition-all min-h-[40px] ${
                 activeCategory === cat
                   ? 'bg-sky-400/15 text-sky-300 border border-sky-400/30'
                   : 'glass-faint text-zinc-400 hover:text-zinc-200 border border-transparent'
@@ -961,14 +961,14 @@ export function KnowledgeView() {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-[13px] font-medium transition-all ${
+              className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-[13px] font-medium transition-all ${
                 activeTab === id
                   ? 'bg-gradient-to-r from-sky-500/20 to-violet-600/20 text-white border border-sky-400/20'
                   : 'text-zinc-500 hover:text-zinc-300'
               }`}
             >
               <Icon className="w-4 h-4" />
-              <span className="hidden sm:inline">{label}</span>
+              <span className="hidden md:inline">{label}</span>
             </button>
           ))}
         </div>

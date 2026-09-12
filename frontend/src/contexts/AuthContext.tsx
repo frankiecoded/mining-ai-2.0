@@ -6,6 +6,16 @@ export interface AuthUser {
   display_name: string;
   role: 'admin' | 'user';
   tenant_id: string;
+  email?: string;
+  role_title?: string;
+  provisioned?: boolean;
+}
+
+export interface SignupStatus {
+  open: boolean;
+  total: number;
+  filled: number;
+  remaining: number;
 }
 
 interface AuthContextValue {
@@ -13,6 +23,9 @@ interface AuthContextValue {
   token: string | null;
   loading: boolean;
   login: (username: string, password: string) => Promise<{ error?: string }>;
+  signup: (name: string, email: string, password: string, roleTitle: string) => Promise<{ error?: string }>;
+  signupStatus: SignupStatus | null;
+  refreshSignupStatus: () => Promise<void>;
   logout: () => void;
 }
 
@@ -25,6 +38,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [signupStatus, setSignupStatus] = useState<SignupStatus | null>(null);
 
   // Restore session on mount
   useEffect(() => {
@@ -74,6 +88,35 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
+  const signup = useCallback(async (name: string, email: string, password: string, roleTitle: string) => {
+    try {
+      const res = await ChatAPI.signup(name, email, password, roleTitle);
+      if (res.status === 'success' && res.token) {
+        const u = res.user as AuthUser;
+        setToken(res.token);
+        setUser(u);
+        localStorage.setItem(STORAGE_KEY, res.token);
+        localStorage.setItem(USER_KEY, JSON.stringify(u));
+        ChatAPI.setAuthToken(res.token);
+        // Refresh capacity after a successful signup.
+        void ChatAPI.signupStatus().then((s) => setSignupStatus(s)).catch(() => {});
+        return {};
+      }
+      return { error: res.detail || 'Sign-up failed' };
+    } catch (e) {
+      return { error: e instanceof Error ? e.message : 'Sign-up failed' };
+    }
+  }, []);
+
+  const refreshSignupStatus = useCallback(async () => {
+    try {
+      const s = await ChatAPI.signupStatus();
+      setSignupStatus(s);
+    } catch {
+      // Backend unreachable — keep last known state.
+    }
+  }, []);
+
   const logout = useCallback(() => {
     setUser(null);
     setToken(null);
@@ -90,7 +133,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ user, token, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, token, loading, login, signup, signupStatus, refreshSignupStatus, logout }}>
       {children}
     </AuthContext.Provider>
   );

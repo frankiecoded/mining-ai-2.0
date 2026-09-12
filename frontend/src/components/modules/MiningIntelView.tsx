@@ -76,7 +76,7 @@ export function MiningIntelView() {
             {/* Metals */}
             <section className="space-y-4">
               <SectionLabel>Metals</SectionLabel>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3.5">
                 {METALS.map((m, i) => {
                   const meta = metals[m.key] as MetalPrice | undefined;
                   const change = meta?.change_24h ?? 0;

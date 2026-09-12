@@ -7,6 +7,7 @@ export type ChatEvent =
   | { type: 'message'; content: string }
   | { type: 'tool_call'; name: string; args: Record<string, unknown> }
   | { type: 'file'; filename: string; file_url: string; mime_type: string; size_bytes: number }
+  | { type: 'image'; filename: string; file_url: string; mime_type: string; size_bytes: number }
   | { type: 'error'; message: string }
   | { type: 'end' };
 
@@ -14,6 +15,8 @@ export interface ChatSession {
   id: string;
   title: string;
   time: string;
+  tenant_id?: string;
+  owner_display?: string;
 }
 
 export interface ChatMessage {
@@ -22,6 +25,7 @@ export interface ChatMessage {
   content: string;
   toolCalls?: Array<{ name: string; args: Record<string, unknown> }>;
   attachments?: Array<{ filename: string; file_url: string; mime_type: string; size_bytes: number }>;
+  images?: Array<{ filename: string; file_url: string; mime_type: string; size_bytes: number }>;
 }
 
 export interface SystemTelemetry {
@@ -89,7 +93,18 @@ export interface UploadResponse {
   chunks_indexed: number;
 }
 
-export type ModuleId = 'chat' | 'intel' | 'finance' | 'tasks' | 'knowledge';
+export type ModuleId = 'chat' | 'intel' | 'finance' | 'tasks' | 'knowledge' | 'team';
+
+export interface TeamMember {
+  username: string;
+  email: string;
+  display_name: string;
+  role: string;
+  tenant_id: string;
+  role_title: string;
+  provisioned: boolean;
+  memory_profile: Record<string, string>;
+}
 
 export interface KnowledgeDocument {
   doc_id: string;

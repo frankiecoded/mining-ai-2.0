@@ -34,6 +34,11 @@ class ChatAPI {
     return headers;
   }
 
+  /** Expose auth headers for out-of-band fetches (e.g. image URL warm-up). */
+  static authHeaders(withJson = false): Record<string, string> {
+    return this.getHeaders(withJson);
+  }
+
   private static async request<T>(path: string, init?: RequestInit): Promise<T> {
     const res = await fetch(`${this.baseUrl}${path}`, init);
     if (!res.ok) {
@@ -57,12 +62,31 @@ class ChatAPI {
   }
 
   // ─── Auth Endpoints ───
-  static login(username: string, password: string): Promise<{ status: string; token?: string; user?: { username: string; display_name: string; role: string; tenant_id: string }; detail?: string }> {
+  static login(username: string, password: string): Promise<{ status: string; token?: string; user?: { username: string; display_name: string; role: string; tenant_id: string; email?: string; role_title?: string; provisioned?: boolean }; detail?: string }> {
     return this.request('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, password }),
     });
+  }
+
+  static signup(name: string, email: string, password: string, roleTitle: string): Promise<{ status: string; token?: string; user?: { username: string; display_name: string; role: string; tenant_id: string; email?: string; role_title?: string; provisioned?: boolean }; detail?: string }> {
+    return this.request('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password, role_title: roleTitle }),
+    });
+  }
+
+  static signupStatus(): Promise<{ status: string; open: boolean; total: number; filled: number; remaining: number }> {
+    return this.request('/api/auth/signup/status', {
+      method: 'GET',
+      headers: this.getHeaders(),
+    });
+  }
+
+  static fetchTeam(): Promise<{ status: string; members: Array<{ username: string; email: string; display_name: string; role: string; tenant_id: string; role_title: string; provisioned: boolean; memory_profile: Record<string, string> }> }> {
+    return this.request('/api/team', { headers: this.getHeaders() });
   }
 
   static validateToken(token: string): Promise<{ status: string }> {
@@ -259,6 +283,41 @@ class ChatAPI {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({ type, ...data }),
+    });
+  }
+
+  // ─── Image Rendering & Annotation ───
+  static renderComposite(
+    bands: Record<string, number[][]>,
+    composite: string | Record<string, string> = 'true_color',
+    annotations?: unknown[],
+  ): Promise<{ status: string; file_url: string; mime_type: string; width: number; height: number }> {
+    return this.request('/api/images/render-composite', {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ bands, composite, annotations: annotations ?? [] }),
+    });
+  }
+
+  static renderIndex(
+    bands: Record<string, number[][]>,
+    index = 'ndvi',
+    colormap = 'viridis',
+  ): Promise<{ status: string; file_url: string; mime_type: string; width: number; height: number }> {
+    return this.request('/api/images/render-index', {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ bands, index, colormap }),
+    });
+  }
+
+  static renderUploadedImage(file: File): Promise<{ status: string; file_url: string; mime_type: string; width: number; height: number }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.request('/api/images/render-upload', {
+      method: 'POST',
+      headers: this.getHeaders(false),
+      body: formData,
     });
   }
 }

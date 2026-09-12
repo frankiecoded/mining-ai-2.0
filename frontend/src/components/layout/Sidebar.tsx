@@ -13,6 +13,7 @@ import {
   LogOut,
   Shield,
   User,
+  Users,
 } from 'lucide-react';
 import { useSessions } from '../../hooks/useSessions';
 import { useAuth } from '../../contexts/AuthContext';
@@ -27,6 +28,12 @@ const MODULES: Array<{ id: ModuleId; label: string; icon: ComponentType<{ classN
   { id: 'tasks', label: 'Operations', icon: FolderKanban },
   { id: 'knowledge', label: 'Knowledge', icon: Database },
 ];
+
+const TEAM_MODULE: { id: ModuleId; label: string; icon: ComponentType<{ className?: string }> } = {
+  id: 'team',
+  label: 'Team',
+  icon: Users,
+};
 
 interface SidebarProps {
   activeModule: ModuleId;
@@ -106,6 +113,25 @@ export function Sidebar({
             </button>
           );
         })}
+        {user?.role === 'admin' && (
+          <button
+            key={TEAM_MODULE.id}
+            onClick={() => onSelectModule(TEAM_MODULE.id)}
+            className={`relative w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors duration-200 ${
+              activeModule === TEAM_MODULE.id ? 'text-white' : 'text-zinc-500 hover:text-zinc-200 hover:bg-white/[0.05]'
+            }`}
+          >
+            {activeModule === TEAM_MODULE.id && (
+              <motion.span
+                layoutId="module-active"
+                className="absolute inset-0 rounded-xl glass-faint"
+                transition={{ type: 'spring', stiffness: 400, damping: 34 }}
+              />
+            )}
+            <TEAM_MODULE.icon className={`w-[18px] h-[18px] relative z-10 ${activeModule === TEAM_MODULE.id ? 'text-sky-300' : ''}`} />
+            <span className="relative z-10">{TEAM_MODULE.label}</span>
+          </button>
+        )}
       </nav>
 
       {/* Session history */}
@@ -116,7 +142,7 @@ export function Sidebar({
           </span>
           <button
             onClick={() => void refresh()}
-            className="text-zinc-600 hover:text-white transition-colors"
+            className="p-2 -m-1 rounded-full text-zinc-600 hover:text-white hover:bg-white/[0.08] transition-colors"
             aria-label="Refresh sessions"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
@@ -151,13 +177,20 @@ export function Sidebar({
                   <span className={`block text-[13px] truncate ${selected ? 'text-white font-medium' : 'text-zinc-400'}`}>
                     {s.title}
                   </span>
-                  <span className="block text-[11px] text-zinc-600 font-mono mt-0.5 tabular">
-                    {new Date(s.time).toLocaleString(undefined, {
-                      month: 'short',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
+                  <span className="flex items-center gap-1.5 mt-0.5">
+                    {user?.role === 'admin' && s.owner_display && (
+                      <span className="text-[9px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-md bg-sky-500/15 text-sky-300">
+                        {s.owner_display}
+                      </span>
+                    )}
+                    <span className="block text-[11px] text-zinc-600 font-mono tabular">
+                      {new Date(s.time).toLocaleString(undefined, {
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </span>
                   </span>
                 </motion.button>
               );

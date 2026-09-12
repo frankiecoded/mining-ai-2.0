@@ -95,7 +95,7 @@ function PreviewModal({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.25 }}
-      className="fixed inset-0 z-[9999] flex items-center justify-center"
+      className="fixed inset-0 z-[9999] flex items-center justify-center p-2 sm:p-4"
     >
       {/* Backdrop */}
       <motion.div
@@ -112,11 +112,11 @@ function PreviewModal({
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.95, y: 10 }}
         transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-        className="relative z-10 w-[92vw] h-[88vh] max-w-[1200px] bg-[#1a1a2e]/95 backdrop-blur-2xl rounded-[24px] border border-white/[0.08] shadow-[0_40px_100px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden"
+        className="relative z-10 w-full max-w-[1200px] h-[calc(92dvh-env(safe-area-inset-top,0px)-env(safe-area-inset-bottom,0px))] max-h-[92dvh] bg-[#1a1a2e]/95 backdrop-blur-2xl rounded-[24px] border border-white/[0.08] shadow-[0_40px_100px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden"
       >
         {/* Top Bar */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.06]">
-          <div className="flex items-center gap-3 min-w-0">
+        <div className="flex items-center justify-between flex-wrap gap-2 px-3 sm:px-6 py-3 sm:py-4 border-b border-white/[0.06]">
+          <div className="flex items-center gap-3 min-w-0 flex-1">
             <div className={`w-10 h-10 rounded-xl inline-flex items-center justify-center shrink-0 border ${fileColor(file.name)}`}>
               {fileIcon(file.name)}
             </div>
@@ -134,23 +134,23 @@ function PreviewModal({
               download
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-faint rounded-xl px-3.5 py-2 text-[12px] font-medium text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors"
+              className="glass-faint rounded-xl px-3 py-2.5 text-[12px] font-medium text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors min-h-[40px]"
             >
               <Download className="w-3.5 h-3.5" />
-              Download
+              <span className="hidden sm:inline">Download</span>
             </a>
             <a
               href={previewUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="glass-faint rounded-xl px-3.5 py-2 text-[12px] font-medium text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors"
+              className="glass-faint rounded-xl px-3 py-2.5 text-[12px] font-medium text-zinc-300 hover:text-white flex items-center gap-1.5 transition-colors min-h-[40px]"
             >
               <ExternalLink className="w-3.5 h-3.5" />
-              Open
+              <span className="hidden sm:inline">Open</span>
             </a>
             <button
               onClick={onClose}
-              className="w-8 h-8 rounded-full bg-white/[0.06] hover:bg-white/[0.12] flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
+              className="w-10 h-10 rounded-full bg-white/[0.06] hover:bg-white/[0.12] flex items-center justify-center text-zinc-400 hover:text-white transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
@@ -286,7 +286,8 @@ export function DocumentBrowser() {
         {pathStack.length > 0 && (
           <button
             onClick={goBack}
-            className="ml-2 glass-faint rounded-lg p-1.5 text-zinc-500 hover:text-white transition-colors"
+            className="ml-2 glass-faint rounded-lg p-2.5 text-zinc-500 hover:text-white transition-colors"
+            aria-label="Go back"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
           </button>

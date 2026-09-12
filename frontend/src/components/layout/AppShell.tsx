@@ -4,15 +4,16 @@ import { X, WifiOff, RefreshCw } from 'lucide-react';
 import { Sidebar } from './Sidebar';
 import { TopBar } from './TopBar';
 import { RightPanel } from './RightPanel';
-import { MobileTabBar } from './MobileTabBar';
 import { ChatView } from '../chat/ChatView';
 import { SplashScreen } from './SplashScreen';
 import { SettingsSheet } from '../settings/SettingsSheet';
+import { ProfileSheet } from './ProfileSheet';
 import { Sheet } from '../ui/Sheet';
 import { IconButton } from '../ui/IconButton';
 import { Button } from '../ui/Button';
 import { Spinner } from '../ui/Spinner';
 import { useTelemetry } from '../../hooks/useTelemetry';
+import { useVisualViewportHeight } from '../../hooks/useVisualViewportHeight';
 import type { ModuleId } from '../../types';
 
 const MiningIntelView = lazy(() =>
@@ -27,6 +28,9 @@ const TaskView = lazy(() =>
 const KnowledgeView = lazy(() =>
   import('../modules/KnowledgeView').then((m) => ({ default: m.KnowledgeView })),
 );
+const TeamView = lazy(() =>
+  import('../modules/TeamView').then((m) => ({ default: m.TeamView })),
+);
 
 const MODULE_TITLES: Record<ModuleId, string> = {
   chat: 'Command',
@@ -34,6 +38,7 @@ const MODULE_TITLES: Record<ModuleId, string> = {
   finance: 'Finance Engine',
   tasks: 'Operations',
   knowledge: 'Knowledge Base',
+  team: 'Team',
 };
 
 const BOOT_URL = import.meta.env.VITE_API_URL || '';
@@ -43,6 +48,7 @@ export function AppShell() {
   const [activeSessionId, setActiveSessionId] = useState<string | null>(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [telemetryOpen, setTelemetryOpen] = useState(false);
   const [sessionRefreshKey, setSessionRefreshKey] = useState(0);
   const [booting, setBooting] = useState(true);
@@ -50,6 +56,9 @@ export function AppShell() {
 
   const { data: telemetry, error: telemetryError, refresh } = useTelemetry(10_000);
   const online = !telemetryError && !!telemetry;
+
+  // Keep bottom-anchored chrome above the iOS virtual keyboard.
+  useVisualViewportHeight();
 
   // Boot gate: wait for a backend health signal (or 2.2s timeout) then fade the splash.
   useEffect(() => {
@@ -78,6 +87,7 @@ export function AppShell() {
   const handleSelectModule = useCallback((m: ModuleId) => {
     setActiveModule(m);
     setNavOpen(false);
+    setProfileOpen(false);
   }, []);
 
   const handleSelectSession = useCallback((id: string) => {
@@ -108,8 +118,22 @@ export function AppShell() {
       {/* Settings */}
       <SettingsSheet open={settingsOpen} onClose={() => setSettingsOpen(false)} />
 
+      {/* Profile */}
+      <Sheet
+        open={profileOpen}
+        onClose={() => setProfileOpen(false)}
+        side="right"
+        width="w-[min(300px,calc(100vw-24px))] sm:w-[320px]"
+      >
+        <ProfileSheet
+          onClose={() => setProfileOpen(false)}
+          onOpenSettings={() => { setSettingsOpen(true); setProfileOpen(false); }}
+          onSelectModule={handleSelectModule}
+        />
+      </Sheet>
+
       {/* Mobile nav (left) */}
-      <Sheet open={navOpen} onClose={() => setNavOpen(false)} side="left" width="w-[320px]">
+      <Sheet open={navOpen} onClose={() => setNavOpen(false)} side="left" width="w-72">
         <Sidebar
           activeModule={activeModule}
           activeSessionId={activeSessionId}
@@ -122,9 +146,9 @@ export function AppShell() {
       </Sheet>
 
       {/* Mobile telemetry (right) */}
-      <Sheet open={telemetryOpen} onClose={() => setTelemetryOpen(false)} side="right" width="w-[340px]">
+      <Sheet open={telemetryOpen} onClose={() => setTelemetryOpen(false)} side="right" width="w-[min(340px,calc(100vw-24px))] sm:w-[340px]">
         <div className="relative h-full">
-          <div className="absolute top-3 right-3 z-10">
+          <div className="absolute top-[max(0.75rem,env(safe-area-inset-top,0px))] right-3 z-10">
             <IconButton label="Close telemetry" onClick={() => setTelemetryOpen(false)}>
               <X className="w-5 h-5" />
             </IconButton>
@@ -146,15 +170,16 @@ export function AppShell() {
         />
       </div>
 
-      {/* Main canvas. pb-24 on mobile reserves room for the floating tab bar so
-          the chat composer and module content never sit underneath it. */}
-      <main className="flex-1 min-w-0 h-full relative z-10 flex flex-col pb-24 md:pb-0">
+      {/* Main canvas — full-bleed so module content owns all vertical space
+          (mobile navigation lives in the hamburger sheet; no bottom bar). */}
+      <main className="flex-1 min-w-0 h-full relative z-10 flex flex-col">
         <TopBar
           title={MODULE_TITLES[activeModule]}
           online={online}
           onToggleNav={() => setNavOpen(true)}
           onToggleTelemetry={() => setTelemetryOpen(true)}
           onOpenSettings={() => setSettingsOpen(true)}
+          onOpenProfile={() => setProfileOpen(true)}
         />
 
         {!online && (
@@ -178,7 +203,7 @@ export function AppShell() {
           </motion.div>
         )}
 
-        <div className="flex-1 min-h-0 relative">
+        <div className="flex-1 min-h-0 min-w-0 relative overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeModule}
@@ -206,6 +231,7 @@ export function AppShell() {
                 {activeModule === 'finance' && <FinanceView />}
                 {activeModule === 'tasks' && <TaskView />}
                 {activeModule === 'knowledge' && <KnowledgeView />}
+                {activeModule === 'team' && <TeamView />}
               </Suspense>
             </motion.div>
           </AnimatePresence>
@@ -213,12 +239,9 @@ export function AppShell() {
       </main>
 
       {/* Desktop telemetry */}
-      <div className="hidden xl:block relative z-10">
+      <div className="hidden 2xl:block relative z-10">
         <RightPanel />
       </div>
-
-      {/* Mobile tab bar */}
-      <MobileTabBar activeModule={activeModule} onSelectModule={handleSelectModule} />
     </div>
   );
 }

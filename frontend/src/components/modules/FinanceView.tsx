@@ -133,7 +133,7 @@ export function FinanceView() {
                   <GlassPanel tone="faint" className="p-4 flex items-center justify-between gap-3">
                     <div className="min-w-0">
                       <div className="text-sm font-medium text-white truncate">{p.item}</div>
-                      <div className="text-[11px] text-zinc-600 font-mono mt-0.5 tabular">
+                      <div className="text-[11px] text-zinc-600 font-mono mt-0.5 tabular break-words">
                         {new Date(p.time).toLocaleString()}
                       </div>
                     </div>

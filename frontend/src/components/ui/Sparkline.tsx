@@ -30,11 +30,11 @@ export function Sparkline({ values, width = 120, height = 36, positive = true }:
   const fill = positive ? 'rgba(52,211,153,0.16)' : 'rgba(251,113,133,0.16)';
 
   if (values.length < 2) {
-    return <div className="flex items-center justify-center text-[10px] text-zinc-600 font-mono" style={{ width, height }}>no trend</div>;
+    return <div className="flex items-center justify-center text-[10px] text-zinc-600 font-mono max-w-full" style={{ maxWidth: width, height }}>no trend</div>;
   }
 
   return (
-    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="overflow-visible">
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} className="max-w-full h-auto overflow-visible" preserveAspectRatio="xMidYMid meet">
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={stroke} stopOpacity="0.28" />
