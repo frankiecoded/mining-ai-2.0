@@ -227,76 +227,78 @@ export function ChatView({ activeSessionId, onSessionCreated, onActivity }: Chat
               transition={{ duration: 0.18, ease: 'easeOut' }}
               className="h-full overflow-y-auto overflow-x-hidden thin-scrollbar snap-top"
             >
-              <div className="min-h-full flex flex-col items-center justify-center px-4 py-8 sm:py-14">
-                <motion.div
-                  initial={{ scale: 0.6, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 0.1, type: 'spring', stiffness: 300, damping: 20 }}
-                  className="relative mb-5 sm:mb-6"
-                >
-                  <motion.div
-                    className="absolute -inset-8 rounded-full bg-sky-500/20 blur-2xl"
-                    animate={{ scale: [1, 1.18, 1], opacity: [0.55, 1, 0.55] }}
-                    transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
-                  />
+              <div className="min-h-full flex flex-col items-center px-4 py-6 sm:py-10 overflow-x-hidden">
+                <div className="w-full flex flex-col items-center my-auto min-w-0">
                   <motion.div
                     initial={{ scale: 0.6, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.15, type: 'spring', stiffness: 300, damping: 18 }}
-                    className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-con-18 sm:rounded-con-20 bg-gradient-to-br from-sky-500 to-violet-600 flex items-center justify-center shadow-[0_16px_40px_rgba(59,110,246,0.5)] border border-white/10"
+                    transition={{ delay: 0.1, type: 'spring', stiffness: 300, damping: 20 }}
+                    className="relative mb-6 sm:mb-7"
                   >
-                    <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-                  </motion.div>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.22 }}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-faint mb-4 sm:mb-5"
-                >
-                  <span className="pulse-dot text-emerald-400" />
-                  <span className="text-[11px] font-semibold text-emerald-200/90">Live · Intelligence Core online</span>
-                </motion.div>
-
-                <div className="text-center">
-                  <h3 className="text-[24px] sm:text-[30px] font-semibold tracking-tight mb-2.5">
-                    <span className="text-gradient">Ask your Intelligence Core</span>
-                  </h3>
-                  <p className="text-[13px] sm:text-[14px] text-zinc-400 max-w-sm mx-auto mb-6 sm:mb-8 leading-relaxed">
-                    Markets, operations, geology, or documents — the core knows it all,{' '}
-                    {user?.display_name ? `ready for ${user.display_name.split(' ')[0]}` : 'ready when you are'}.
-                  </p>
-                </div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3, type: 'spring', stiffness: 260, damping: 24 }}
-                  className="grid grid-cols-2 gap-2.5 w-full max-w-xl sm:gap-3"
-                >
-                  {SUGGESTIONS.map((s, i) => (
-                    <motion.button
-                      key={s.label}
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.34 + i * 0.07 }}
-                      whileHover={{ y: -3 }}
-                      whileTap={{ scale: 0.97 }}
-                      onClick={() => void handleSend(s.prompt)}
-                      className="glass-faint rounded-con-16 sm:rounded-con-20 px-3 sm:px-4 py-3 sm:py-3.5 flex items-center gap-2.5 sm:gap-3 text-left text-[13px] font-medium text-zinc-200 hover:text-white hover:border-sky-400/40 hover:bg-white/[0.06] transition-colors group min-w-0"
+                    <motion.div
+                      className="absolute -inset-4 rounded-full bg-sky-500/25 blur-lg pointer-events-none"
+                      animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.9, 0.5] }}
+                      transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
+                    />
+                    <motion.div
+                      initial={{ scale: 0.6, opacity: 0 }}
+                      animate={{ scale: 1, opacity: 1 }}
+                      transition={{ delay: 0.15, type: 'spring', stiffness: 300, damping: 18 }}
+                      className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-con-18 sm:rounded-con-20 bg-gradient-to-br from-sky-500 to-violet-600 flex items-center justify-center shadow-[0_16px_40px_rgba(59,110,246,0.5)] border border-white/10"
                     >
-                      <span className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-con-10 sm:rounded-con-12 bg-sky-500/15 text-sky-300 flex items-center justify-center">
-                        <s.icon className="w-4 h-4" />
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block truncate font-semibold text-[12px] sm:text-[13px]">{s.label}</span>
-                        <span className="block text-[10px] sm:text-[11px] text-zinc-500 group-hover:text-zinc-400 transition-colors truncate">{s.hint}</span>
-                      </span>
-                      <ArrowUpRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-sky-300 transition-colors ml-auto shrink-0" />
-                    </motion.button>
-                  ))}
-                </motion.div>
+                      <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
+                    </motion.div>
+                  </motion.div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.22 }}
+                    className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-faint mb-5 sm:mb-6"
+                  >
+                    <span className="pulse-dot text-emerald-400" />
+                    <span className="text-[11px] font-semibold text-emerald-200/90">Live · Intelligence Core online</span>
+                  </motion.div>
+
+                  <div className="text-center">
+                    <h3 className="text-[24px] sm:text-[30px] font-semibold tracking-tight mb-2.5">
+                      <span className="text-gradient">Ask your Intelligence Core</span>
+                    </h3>
+                    <p className="text-[13px] sm:text-[14px] text-zinc-400 max-w-sm mx-auto mb-6 sm:mb-8 leading-relaxed">
+                      Markets, operations, geology, or documents — the core knows it all,{' '}
+                      {user?.display_name ? `ready for ${user.display_name.split(' ')[0]}` : 'ready when you are'}.
+                    </p>
+                  </div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 14 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3, type: 'spring', stiffness: 260, damping: 24 }}
+                    className="grid grid-cols-2 gap-2.5 w-full max-w-xl sm:gap-3"
+                  >
+                    {SUGGESTIONS.map((s, i) => (
+                      <motion.button
+                        key={s.label}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.34 + i * 0.07 }}
+                        whileHover={{ y: -3 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => void handleSend(s.prompt)}
+                        className="glass-faint rounded-con-16 sm:rounded-con-20 px-3 sm:px-4 py-3 sm:py-3.5 flex items-center gap-2.5 sm:gap-3 text-left text-[13px] font-medium text-zinc-200 hover:text-white hover:border-sky-400/40 hover:bg-white/[0.06] transition-colors group min-w-0"
+                      >
+                        <span className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-con-10 sm:rounded-con-12 bg-sky-500/15 text-sky-300 flex items-center justify-center">
+                          <s.icon className="w-4 h-4" />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block truncate font-semibold text-[12px] sm:text-[13px]">{s.label}</span>
+                          <span className="block text-[10px] sm:text-[11px] text-zinc-500 group-hover:text-zinc-400 transition-colors truncate">{s.hint}</span>
+                        </span>
+                        <ArrowUpRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-sky-300 transition-colors ml-auto shrink-0" />
+                      </motion.button>
+                    ))}
+                  </motion.div>
+                </div>
               </div>
             </motion.div>
           ) : (
