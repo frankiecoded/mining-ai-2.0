@@ -1,6 +1,6 @@
-import { useState, useRef, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Paperclip, Send, X, Loader2, FileText } from 'lucide-react';
+import { Paperclip, ArrowUp, Loader2, X, FileText } from 'lucide-react';
 import { isImageMime } from './ImageViewer';
 
 interface ComposerProps {
@@ -14,19 +14,30 @@ export function Composer({ disabled, onSend }: ComposerProps) {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [focused, setFocused] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const areaRef = useRef<HTMLTextAreaElement>(null);
 
   const canSend = (text.trim().length > 0 || !!file) && !disabled;
   const isImage = file ? isImageMime(file.type, file.name) : false;
 
+  // Replace the object URL whenever a (different) file is picked, and revoke
+  // the live one when the preview unmounts.
   useEffect(() => {
-    if (!file) {
-      setPreviewUrl(null);
-      return;
-    }
-    const url = URL.createObjectURL(file);
-    setPreviewUrl(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
+    return () => {
+      if (previewUrl) URL.revokeObjectURL(previewUrl);
+    };
+  }, [previewUrl]);
+
+  const resize = () => {
+    const el = areaRef.current;
+    if (!el) return;
+    el.style.height = 'auto';
+    el.style.height = `${Math.min(el.scrollHeight, 128)}px`;
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.target.value);
+    resize();
+  };
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,12 +46,26 @@ export function Composer({ disabled, onSend }: ComposerProps) {
     setText('');
     setFile(null);
     setPreviewUrl(null);
+    if (areaRef.current) areaRef.current.style.height = 'auto';
+  };
+
+  const handleKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      submit(e);
+    }
   };
 
   const removeFile = () => {
     setFile(null);
     setPreviewUrl(null);
     if (fileRef.current) fileRef.current.value = '';
+  };
+
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const f = e.target.files?.[0] ?? null;
+    setFile(f);
+    setPreviewUrl(f ? URL.createObjectURL(f) : null);
   };
 
   return (
@@ -50,15 +75,15 @@ export function Composer({ disabled, onSend }: ComposerProps) {
         ref={fileRef}
         className="hidden"
         accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.geotiff,.tif,.tiff,.shp,.kml,.kmz"
-        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+        onChange={onFileChange}
       />
 
       <motion.form
         onSubmit={submit}
-        animate={{ scale: focused ? 1.005 : 1 }}
-        transition={{ duration: 0.2, ease: 'easeOut' }}
-        className={`glass-strong rounded-con-24 flex items-end gap-1 p-2 pl-3 shadow-float transition-shadow duration-300 ${
-          focused ? 'shadow-[0_0_0_4px_rgba(91,156,255,0.12),0_16px_48px_rgba(3,4,12,0.6)]' : ''
+        animate={{ scale: focused ? 1.004 : 1 }}
+        transition={{ duration: 0.18, ease: 'easeOut' }}
+        className={`glass-strong rounded-con-24 sm:rounded-con-28 flex items-end p-1.5 sm:p-2 pl-2 sm:pl-2.5 shadow-float transition-shadow duration-300 ${
+          focused ? 'shadow-[0_0_0_4px_rgba(91,156,255,0.12),0_20px_56px_rgba(3,4,12,0.65)]' : ''
         }`}
       >
         <button
@@ -77,7 +102,7 @@ export function Composer({ disabled, onSend }: ComposerProps) {
         <div className="flex-1 min-w-0">
           {/* Attachment preview chip */}
           <AnimatePresence>
-            {file && (
+            {file && previewUrl && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
@@ -85,20 +110,20 @@ export function Composer({ disabled, onSend }: ComposerProps) {
                 transition={{ duration: 0.18, ease: 'easeOut' }}
                 className="overflow-hidden"
               >
-                <div className="flex items-center gap-3 px-1.5 pt-2 pb-1.5">
-                  {isImage && previewUrl ? (
+                <div className="flex items-center gap-3 px-1 pt-1.5 pb-1">
+                  {isImage ? (
                     <img
                       src={previewUrl}
                       alt={file.name}
-                      className="w-12 h-12 rounded-con-12 object-cover border border-sky-400/30"
+                      className="w-11 h-11 rounded-con-12 object-cover border border-sky-400/30"
                     />
                   ) : (
-                    <div className="w-12 h-12 rounded-con-12 bg-white/[0.06] border border-white/10 flex items-center justify-center">
+                    <div className="w-11 h-11 rounded-con-12 bg-white/[0.06] border border-white/10 flex items-center justify-center">
                       <FileText className="w-5 h-5 text-zinc-400" />
                     </div>
                   )}
                   <div className="flex flex-col min-w-0">
-                    <span className="text-[12px] font-medium text-zinc-200 truncate max-w-[200px]">{file.name}</span>
+                    <span className="text-[12px] font-medium text-zinc-200 truncate max-w-[180px]">{file.name}</span>
                     <span className="text-[10px] text-zinc-500">
                       {file.size ? `${Math.max(1, Math.round(file.size / 1024))} KB` : 'Ready'}
                     </span>
@@ -116,14 +141,16 @@ export function Composer({ disabled, onSend }: ComposerProps) {
             )}
           </AnimatePresence>
 
-          <input
+          <textarea
+            ref={areaRef}
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={handleChange}
+            onKeyDown={handleKey}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            placeholder={file ? 'Add a message about this file…' : 'Ask your Intelligence Core…'}
-            className="w-full bg-transparent border-none outline-none px-2 py-3 text-[15px] text-white placeholder-zinc-600"
-            autoFocus={false}
+            rows={1}
+            placeholder={file ? 'Add a message about this file…' : 'Message Intelligence Core…'}
+            className="w-full resize-none bg-transparent border-none outline-none px-2 py-[10px] text-base md:text-[15px] leading-[1.45] text-white placeholder:text-zinc-600 max-h-32 thin-scrollbar"
             aria-label="Message"
           />
         </div>
@@ -132,28 +159,33 @@ export function Composer({ disabled, onSend }: ComposerProps) {
           whileTap={canSend ? { scale: 0.9 } : undefined}
           type="submit"
           disabled={!canSend}
-          aria-label="Send message"
-          title="Send"
+          aria-label={disabled ? 'Working…' : 'Send message'}
+          title={disabled ? 'Working…' : 'Send'}
           className={`shrink-0 w-11 h-11 rounded-full inline-flex items-center justify-center transition-all duration-200 ${
-            canSend
-              ? 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-[0_6px_16px_rgba(59,110,246,0.45)] hover:brightness-110 hover:shadow-[0_8px_24px_rgba(59,110,246,0.55)]'
-              : 'bg-white/[0.06] text-zinc-600'
+            disabled
+              ? 'bg-white/[0.07] text-sky-300'
+              : canSend
+                ? 'bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-[0_6px_16px_rgba(59,110,246,0.45)] hover:brightness-110'
+                : 'bg-white/[0.06] text-zinc-600'
           }`}
         >
-          {disabled ? <Loader2 className="w-[18px] h-[18px] animate-spin text-sky-300" /> : <Send className="w-[18px] h-[18px]" />}
+          {disabled ? (
+            <Loader2 className="w-[18px] h-[18px] animate-spin" />
+          ) : (
+            <ArrowUp className="w-[18px] h-[18px]" strokeWidth={2.5} />
+          )}
         </motion.button>
       </motion.form>
 
-      {/* Status caption — reclaimed on phones so the field owns the bottom edge;
-          the send button already signals streaming there. */}
-      <div className="hidden sm:flex items-center justify-between px-2 pt-1.5 text-[10px] font-medium uppercase tracking-[0.16em]">
-        <span className="flex items-center gap-1.5">
+      {/* Foot caption — desktop only; the field owns the mobile bottom edge */}
+      <div className="hidden sm:flex items-center justify-between px-2 pt-2 text-[10px] font-medium uppercase tracking-[0.14em]">
+        <span className="flex items-center gap-2">
           <span className={`w-1.5 h-1.5 rounded-full ${disabled ? 'bg-amber-400' : 'bg-emerald-400'}`} />
-          <span className={disabled ? 'text-amber-300/70' : 'text-zinc-600'}>
-            {disabled ? 'Processing…' : 'AI OS is ready'}
-          </span>
+          <span className={disabled ? 'text-amber-300/70' : 'text-zinc-600'}>Intelligence Core</span>
+          <span className="text-zinc-700">·</span>
+          <span className="text-zinc-600">Medium thinking</span>
         </span>
-        <span className="hidden sm:inline text-zinc-700 tracking-[0.12em]">Enter to send</span>
+        <span className="text-zinc-700">Enter to send</span>
       </div>
     </div>
   );

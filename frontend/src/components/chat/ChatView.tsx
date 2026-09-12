@@ -1,24 +1,18 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, ArrowDown, ArrowUpRight, BarChart3, FolderKanban, BookOpen, Terminal } from 'lucide-react';
+import { ArrowDown, Sparkles } from 'lucide-react';
 import { ChatAPI } from '../../services/api';
 import { MessageBubble } from './MessageBubble';
 import { Composer } from './Composer';
+import { ChatEmptyState } from './ChatEmptyState';
 import { useAuth } from '../../contexts/AuthContext';
 import type { ChatEvent, ChatMessage } from '../../types';
 
 const WELCOME: ChatMessage = {
   id: 'welcome',
   role: 'system',
-  content: 'Welcome back. Your local Intelligence Core is online — ask about mining operations, markets, geology, or upload documents to expand the knowledge base.',
+  content: 'Welcome back. Your Intelligence Core is online — ask about mining operations, markets, geology, or upload documents to expand the knowledge base.',
 };
-
-const SUGGESTIONS: Array<{ icon: typeof BarChart3; label: string; hint: string; prompt: string }> = [
-  { icon: BarChart3, label: 'Market prices', hint: 'Gold, silver & platinum', prompt: 'Give me the latest gold, silver, and platinum market prices.' },
-  { icon: FolderKanban, label: 'Operations', hint: 'Live task breakdown', prompt: 'Summarise the current operations queue.' },
-  { icon: BookOpen, label: 'Knowledge base', hint: 'What’s documented', prompt: 'What documents are in the knowledge base?' },
-  { icon: Terminal, label: 'Field report', hint: 'Write from findings', prompt: 'Help me draft a field report on this week’s site findings.' },
-];
 
 const bucketOf = (role: ChatMessage['role']) => (role === 'user' ? 'user' : role === 'system' ? 'system' : 'assistant');
 
@@ -227,78 +221,8 @@ export function ChatView({ activeSessionId, onSessionCreated, onActivity }: Chat
               transition={{ duration: 0.18, ease: 'easeOut' }}
               className="h-full overflow-y-auto overflow-x-hidden thin-scrollbar snap-top"
             >
-              <div className="min-h-full flex flex-col items-center px-4 py-6 sm:py-10 overflow-x-hidden">
-                <div className="w-full flex flex-col items-center my-auto min-w-0">
-                  <motion.div
-                    initial={{ scale: 0.6, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    transition={{ delay: 0.1, type: 'spring', stiffness: 300, damping: 20 }}
-                    className="relative mb-6 sm:mb-7"
-                  >
-                    <motion.div
-                      className="absolute -inset-4 rounded-full bg-sky-500/25 blur-lg pointer-events-none"
-                      animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.9, 0.5] }}
-                      transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
-                    />
-                    <motion.div
-                      initial={{ scale: 0.6, opacity: 0 }}
-                      animate={{ scale: 1, opacity: 1 }}
-                      transition={{ delay: 0.15, type: 'spring', stiffness: 300, damping: 18 }}
-                      className="relative w-14 h-14 sm:w-16 sm:h-16 rounded-con-18 sm:rounded-con-20 bg-gradient-to-br from-sky-500 to-violet-600 flex items-center justify-center shadow-[0_16px_40px_rgba(59,110,246,0.5)] border border-white/10"
-                    >
-                      <Sparkles className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
-                    </motion.div>
-                  </motion.div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.22 }}
-                    className="flex items-center gap-2 px-3 py-1.5 rounded-full glass-faint mb-5 sm:mb-6"
-                  >
-                    <span className="pulse-dot text-emerald-400" />
-                    <span className="text-[11px] font-semibold text-emerald-200/90">Live · Intelligence Core online</span>
-                  </motion.div>
-
-                  <div className="text-center">
-                    <h3 className="text-[24px] sm:text-[30px] font-semibold tracking-tight mb-2.5">
-                      <span className="text-gradient">Ask your Intelligence Core</span>
-                    </h3>
-                    <p className="text-[13px] sm:text-[14px] text-zinc-400 max-w-sm mx-auto mb-6 sm:mb-8 leading-relaxed">
-                      Markets, operations, geology, or documents — the core knows it all,{' '}
-                      {user?.display_name ? `ready for ${user.display_name.split(' ')[0]}` : 'ready when you are'}.
-                    </p>
-                  </div>
-
-                  <motion.div
-                    initial={{ opacity: 0, y: 14 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3, type: 'spring', stiffness: 260, damping: 24 }}
-                    className="grid grid-cols-2 gap-2.5 w-full max-w-xl sm:gap-3"
-                  >
-                    {SUGGESTIONS.map((s, i) => (
-                      <motion.button
-                        key={s.label}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.34 + i * 0.07 }}
-                        whileHover={{ y: -3 }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => void handleSend(s.prompt)}
-                        className="glass-faint rounded-con-16 sm:rounded-con-20 px-3 sm:px-4 py-3 sm:py-3.5 flex items-center gap-2.5 sm:gap-3 text-left text-[13px] font-medium text-zinc-200 hover:text-white hover:border-sky-400/40 hover:bg-white/[0.06] transition-colors group min-w-0"
-                      >
-                        <span className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-con-10 sm:rounded-con-12 bg-sky-500/15 text-sky-300 flex items-center justify-center">
-                          <s.icon className="w-4 h-4" />
-                        </span>
-                        <span className="min-w-0">
-                          <span className="block truncate font-semibold text-[12px] sm:text-[13px]">{s.label}</span>
-                          <span className="block text-[10px] sm:text-[11px] text-zinc-500 group-hover:text-zinc-400 transition-colors truncate">{s.hint}</span>
-                        </span>
-                        <ArrowUpRight className="w-3.5 h-3.5 text-zinc-600 group-hover:text-sky-300 transition-colors ml-auto shrink-0" />
-                      </motion.button>
-                    ))}
-                  </motion.div>
-                </div>
+              <div className="min-h-full flex flex-col items-center px-3.5 sm:px-6 md:px-8 py-6 sm:py-10">
+                <ChatEmptyState userName={user?.display_name} onPrompt={(prompt) => void handleSend(prompt)} />
               </div>
             </motion.div>
           ) : (
@@ -312,7 +236,7 @@ export function ChatView({ activeSessionId, onSessionCreated, onActivity }: Chat
               transition={{ duration: 0.18, ease: 'easeOut' }}
               className="h-full overflow-y-auto overflow-x-hidden thin-scrollbar snap-top relative z-10"
             >
-              <div className="max-w-3xl mx-auto px-3.5 sm:px-6 md:px-8 pt-5 sm:pt-6 pb-2">
+              <div className="max-w-3xl mx-auto px-2.5 sm:px-6 md:px-8 pt-4 sm:pt-6 pb-3">
                 <div className="flex flex-col">
                   <AnimatePresence initial={false}>
                     {grouped.map(({ m, isFirst, isLast, isStreaming, ts }) => (
@@ -374,7 +298,7 @@ export function ChatView({ activeSessionId, onSessionCreated, onActivity }: Chat
               whileTap={{ scale: 0.94 }}
               onClick={() => scrollToBottom()}
               aria-label="Jump to latest message"
-              className="absolute z-30 right-4 md:right-8 bottom-4 w-11 h-11 rounded-full glass-strong text-sky-300 flex items-center justify-center shadow-float hover:text-white transition-colors"
+              className="absolute z-30 right-2.5 sm:right-6 md:right-8 bottom-4 w-11 h-11 rounded-full glass-strong text-sky-300 flex items-center justify-center shadow-float hover:text-white transition-colors"
             >
               <ArrowDown className="w-[18px] h-[18px]" />
             </motion.button>
@@ -382,8 +306,9 @@ export function ChatView({ activeSessionId, onSessionCreated, onActivity }: Chat
         </AnimatePresence>
       </div>
 
-      {/* Composer dock — in flow, so it never covers the last message */}
-      <div className="relative z-20 px-3.5 sm:px-6 md:px-8 pt-2.5 sm:pt-3 pb-[calc(1rem+env(safe-area-inset-bottom,0px))] sm:pb-5 bg-gradient-to-t from-[#06060c] via-[#06060c]/70 to-transparent">
+      {/* Composer dock — in flow, floating bar with breathing room so messages
+          scroll under it without ever being covered by it. */}
+      <div className="relative z-20 px-2.5 sm:px-6 md:px-8 pt-2 sm:pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom,0px))] sm:pb-6">
         <div className="max-w-3xl mx-auto">
           <Composer disabled={streaming} onSend={(t, f) => void handleSend(t, f)} />
         </div>

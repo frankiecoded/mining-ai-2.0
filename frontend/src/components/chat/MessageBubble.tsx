@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Bot, User, Loader2, FileDown, FileText, ImageIcon, CheckCheck } from 'lucide-react';
+import { Sparkles, Check, Copy, Loader2, FileDown, FileText, ImageIcon } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import type { ChatMessage } from '../../types';
@@ -15,23 +15,28 @@ interface MessageBubbleProps {
   timestamp?: string;
 }
 
+const enter = {
+  initial: { opacity: 0, y: 8 },
+  animate: { opacity: 1, y: 0 },
+  transition: { type: 'spring' as const, stiffness: 420, damping: 34 },
+};
+
 export function MessageBubble({ message, isFirst = true, isLast = true, isStreaming = false, timestamp }: MessageBubbleProps) {
+  const [copied, setCopied] = useState(false);
   const isUser = message.role === 'user';
   const isSystem = message.role === 'system';
 
+  // System messages read as quiet margin notes, not bubbles — they never
+  // compete with the conversation.
   if (isSystem) {
     return (
-      <motion.div
-        initial={{ opacity: 0, y: 6 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full flex justify-center my-2"
-      >
-        <div className="chat-divider w-full max-w-[560px] flex items-center justify-center py-5">
-          <div className="glass-faint rounded-full px-4 py-1.5 relative">
-            <span className="text-[11px] font-medium text-zinc-400 whitespace-pre-line">
-              {message.content}
-            </span>
-          </div>
+      <motion.div {...enter} className="w-full flex justify-center px-6 py-4 sm:py-5">
+        <div className="flex items-start gap-2.5 max-w-[560px]">
+          <span className="flex-1 h-px mt-2 bg-gradient-to-r from-transparent via-white/8 to-white/12" />
+          <span className="text-[11px] sm:text-[12px] leading-relaxed text-zinc-500 text-center whitespace-pre-line">
+            {message.content}
+          </span>
+          <span className="flex-1 h-px mt-2 bg-gradient-to-l from-transparent via-white/8 to-white/12" />
         </div>
       </motion.div>
     );
@@ -60,49 +65,42 @@ export function MessageBubble({ message, isFirst = true, isLast = true, isStream
   ];
 
   const hasText = !!message.content;
-  const hasPack = previewImages.length > 0 || otherAttachments.length > 0;
+  const canCopy = hasText && !isUser && isLast && !isStreaming;
+
+  const copyText = async () => {
+    try {
+      await navigator.clipboard.writeText(message.content);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1400);
+    } catch {
+      /* clipboard unavailable */
+    }
+  };
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10, scale: 0.99 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-      className={`flex w-full gap-2.5 sm:gap-3 ${isUser ? 'justify-end' : 'justify-start'} ${isFirst ? 'mt-6 sm:mt-7' : 'mt-2 sm:mt-2.5'}`}
+      {...enter}
+      className={`flex w-full group ${isUser ? 'justify-end' : 'justify-start'} ${isFirst ? 'mt-5 sm:mt-7' : 'mt-1.5 sm:mt-2'}`}
     >
+      {/* Assistant mark — only at the start of a run so a reply reads as one voice */}
       {!isUser && (
-        <div className="w-7 shrink-0 mt-1.5">
+        <div className="w-6 sm:w-7 shrink-0 mt-1">
           {isFirst ? (
             <motion.div
               initial={{ scale: 0.6, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
-              className="w-7 h-7 rounded-full bg-gradient-to-br from-sky-500 to-violet-600 flex items-center justify-center shadow-[0_4px_12px_rgba(59,110,246,0.4)] border border-white/10"
+              transition={{ type: 'spring', stiffness: 500, damping: 26 }}
+              className="w-6 h-6 sm:w-7 sm:h-7 rounded-con-8 bg-gradient-to-br from-sky-500 to-violet-600 flex items-center justify-center border border-white/10"
             >
-              <Bot className="w-3.5 h-3.5 text-white" />
+              <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-white" />
             </motion.div>
           ) : (
-            <div className="w-7 h-7" />
+            <div className="w-6 h-6 sm:w-7 sm:h-7" />
           )}
         </div>
       )}
 
-      <div className={`flex flex-col gap-1.5 min-w-0 max-w-[85%] md:max-w-[74%] ${isUser ? 'items-end' : 'items-start'}`}>
-        {/* Sender meta row (only at group start so a run reads as one block) */}
-        {isFirst && (
-          <div className={`flex items-center gap-1.5 px-1 text-[10px] font-semibold uppercase tracking-[0.12em] ${
-            isUser ? 'text-sky-300/70 justify-end' : 'text-zinc-500'
-          }`}>
-            {isUser ? (
-              <>
-                <User className="w-3 h-3" /> You
-              </>
-            ) : (
-              <>
-                <Bot className="w-3 h-3" /> AI OS
-              </>
-            )}
-          </div>
-        )}
-
+      <div className={`flex flex-col gap-1.5 min-w-0 max-w-[86%] md:max-w-[72%] ${isUser ? 'items-end' : 'items-start'}`}>
         {/* Image previews (inline, presentation-style) */}
         {previewImages.length > 0 && (
           <div className={`min-w-0 max-w-full ${isUser ? 'self-end' : 'self-start w-full'}`}>
@@ -111,36 +109,21 @@ export function MessageBubble({ message, isFirst = true, isLast = true, isStream
         )}
 
         {hasText && (
-          <div
-            className={`px-3.5 sm:px-4 py-2.5 sm:py-3 text-[14px] leading-relaxed tracking-[-0.01em] break-words ${
-              isUser
-                ? 'rounded-con-22 rounded-br-[6px] bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-[0_8px_20px_rgba(59,110,246,0.35)]'
-                : 'rounded-con-22 rounded-bl-[6px] glass'
-            } ${hasPack ? 'mt-1' : ''}`}
-          >
-            <div className={`ai-markdown ${isUser ? 'text-white [&_strong]:text-white [&_h1]:text-white [&_h2]:text-white [&_h3]:text-white [&_th]:text-white [&_li::marker]:text-sky-300 [&_a]:text-sky-200 [&_code:not(pre_code)]:text-sky-200 [&_blockquote]:text-sky-100/80' : ''}`}>
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                components={{
-                  img: (props) => {
-                    const src = props.src || '';
-                    return (
-                      <span className="inline-block">
-                        <MiniImage src={src} alt={props.alt || 'image'} />
-                      </span>
-                    );
-                  },
-                  table: ({ children }) => (
-                    <div className="w-full overflow-x-auto thin-scrollbar chat-table-scroll">
-                      <table className="w-full border-collapse">{children}</table>
-                    </div>
-                  ),
-                }}
-              >
-                {message.content}
-              </ReactMarkdown>
-            </div>
-            {isStreaming && <span className="chat-caret" />}
+          <div className={isUser ? '' : 'w-full min-w-0'}>
+            {isUser ? (
+              <div className="px-4 py-2.5 rounded-con-20 rounded-br-[6px] bg-white/[0.08] border border-white/[0.06] text-white text-[15px] leading-[1.6] tracking-[-0.01em] break-words shadow-[0_2px_10px_rgba(3,4,12,0.25)]">
+                <div className="ai-markdown text-white [&_strong]:text-white [&_h1]:text-white [&_h2]:text-white [&_h3]:text-white [&_th]:text-white [&_li::marker]:text-sky-300 [&_a]:text-sky-200 [&_code:not(pre_code)]:text-sky-200 [&_blockquote]:text-sky-100/80">
+                  <Markdown content={message.content} />
+                </div>
+              </div>
+            ) : (
+              <div className="text-[15px] sm:text-[15.5px] leading-[1.7] tracking-[-0.01em] text-zinc-200 break-words">
+                <div className="ai-markdown">
+                  <Markdown content={message.content} />
+                </div>
+                {isStreaming && <span className="chat-caret" />}
+              </div>
+            )}
           </div>
         )}
 
@@ -153,16 +136,14 @@ export function MessageBubble({ message, isFirst = true, isLast = true, isStream
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: idx * 0.04 }}
-                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-faint border border-violet-300/10"
+                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass-faint border border-sky-300/10"
               >
                 {isStreaming ? (
-                  <Loader2 className="w-3 h-3 text-violet-300 animate-spin" />
+                  <Loader2 className="w-3 h-3 text-sky-300 animate-spin" />
                 ) : (
-                  <CheckCheck className="w-3 h-3 text-emerald-300" />
+                  <Check className="w-3 h-3 text-emerald-300" />
                 )}
-                <span className="text-[10px] font-semibold text-violet-200 uppercase tracking-wider">
-                  {tool.name}
-                </span>
+                <span className="text-[10px] font-semibold text-sky-200 uppercase tracking-wider">{tool.name}</span>
               </motion.div>
             ))}
           </div>
@@ -174,15 +155,16 @@ export function MessageBubble({ message, isFirst = true, isLast = true, isStream
             {otherAttachments.map((file, idx) => {
               const isPdf = file.mime_type === 'application/pdf' || file.filename.endsWith('.pdf');
               const sizeKb = file.size_bytes ? Math.round(file.size_bytes / 1024) : null;
-              const fullUrl = file.file_url.startsWith('http') || file.file_url.startsWith('data:') || file.file_url.startsWith('blob:')
-                ? file.file_url
-                : `${import.meta.env.VITE_API_URL || ''}${file.file_url}`;
+              const fullUrl =
+                file.file_url.startsWith('http') || file.file_url.startsWith('data:') || file.file_url.startsWith('blob:')
+                  ? file.file_url
+                  : `${import.meta.env.VITE_API_URL || ''}${file.file_url}`;
               return (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="flex items-center gap-3 self-start rounded-con-16 glass-faint px-3.5 sm:px-4 py-2.5 sm:py-3 group w-full sm:w-auto sm:min-w-[280px]"
+                  className="flex items-center gap-3 self-start rounded-con-16 glass-faint px-3.5 sm:px-4 py-2.5 sm:py-3 w-full sm:w-auto sm:min-w-[280px]"
                 >
                   <div className={`w-9 h-9 shrink-0 rounded-con-12 flex items-center justify-center ${isPdf ? 'bg-sky-500/15 text-sky-300' : 'bg-violet-500/15 text-violet-300'}`}>
                     {isPdf ? <FileText className="w-4 h-4" /> : <FileDown className="w-4 h-4" />}
@@ -207,14 +189,50 @@ export function MessageBubble({ message, isFirst = true, isLast = true, isStream
           </div>
         )}
 
-        {/* Timestamp (only closes the group — keeps the stream clean) */}
-        {isLast && (timestamp || isStreaming) && (
-          <span className="px-1 mt-0.5 text-[10px] font-mono text-zinc-600 tabular">
-            {isStreaming ? 'Streaming…' : timestamp}
-          </span>
+        {/* Copy affordance — hover on desktop, hidden on touch where there's no hover */}
+        {canCopy && (
+          <button
+            type="button"
+            onClick={() => void copyText()}
+            className="hidden sm:inline-flex items-center gap-1.5 text-[11px] font-medium text-zinc-500 hover:text-zinc-200 opacity-0 group-hover:opacity-100 transition-opacity px-2 py-1 -ml-1"
+          >
+            {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+            {copied ? 'Copied' : 'Copy'}
+          </button>
+        )}
+
+        {/* Timestamp closes the group — desktop only, keeps the phone thread clean */}
+        {isLast && timestamp && !isStreaming && (
+          <span className="hidden sm:block px-2 mt-0.5 text-[10px] font-mono text-zinc-600 tabular">{timestamp}</span>
         )}
       </div>
     </motion.div>
+  );
+}
+
+/** Markdown render with dark-app refinements. */
+function Markdown({ content }: { content: string }) {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        img: (props) => {
+          const src = props.src || '';
+          return (
+            <span className="inline-block">
+              <MiniImage src={src} alt={props.alt || 'image'} />
+            </span>
+          );
+        },
+        table: ({ children }) => (
+          <div className="w-full overflow-x-auto thin-scrollbar chat-table-scroll">
+            <table className="w-full border-collapse">{children}</table>
+          </div>
+        ),
+      }}
+    >
+      {content}
+    </ReactMarkdown>
   );
 }
 
@@ -225,7 +243,7 @@ function MiniImage({ src, alt }: { src: string; alt: string }) {
     <span className="inline-block">
       <button
         type="button"
-        className="group relative inline-block rounded-lg overflow-hidden align-middle cursor-zoom-in"
+        className="group relative inline-block rounded-con-12 overflow-hidden align-middle cursor-zoom-in"
         onClick={(e) => {
           e.stopPropagation();
           setOpen(true);
@@ -235,9 +253,9 @@ function MiniImage({ src, alt }: { src: string; alt: string }) {
           src={src}
           alt={alt}
           loading="lazy"
-          className="max-h-40 max-w-[220px] object-contain rounded-lg border border-white/[0.08] hover:opacity-90 transition-opacity"
+          className="max-h-40 max-w-[220px] object-contain rounded-con-10 border border-white/[0.08] hover:opacity-90 transition-opacity"
         />
-        <span className="absolute bottom-1 right-1 p-1 rounded-md bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+        <span className="absolute bottom-1.5 right-1.5 p-1 rounded-md bg-black/70 text-white opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
           <ImageIcon className="w-3 h-3" />
         </span>
       </button>
