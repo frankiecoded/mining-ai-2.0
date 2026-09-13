@@ -939,21 +939,17 @@ def vision_talk(req: VisionTalkRequest, auth: AuthPayload = Depends(verify_jwt))
     stream = _vision_talk_stream(llm, persona, req.history or [], user_text)
 
     def _teed() -> Iterator[str]:
-        spoken: List[str] = []
         for line in stream:
-            try:
-                payload = line[len("data: "):]
-                if payload.strip() == "[DONE]":
-                    yield line
-                    continue
-                text = json.loads(payload).get("text", "")
-                if text:
-                    spoken.append(text)
-            except Exception:
-                pass
+            if req.live_session:
+                try:
+                    payload = line[len("data: "):].strip()
+                    if payload.strip() != "[DONE]":
+                        text = json.loads(payload).get("text", "")
+                        if text:
+                            vision_recorder.assistant(req.live_session, text)
+                except Exception:
+                    pass
             yield line
-        if req.live_session and spoken:
-            vision_recorder.assistant(req.live_session, " ".join(spoken).strip())
 
     return StreamingResponse(
         _teed(),

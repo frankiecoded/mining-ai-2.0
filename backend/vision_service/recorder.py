@@ -79,6 +79,7 @@ class VisionLiveRecorder:
                 "finalized": False,
                 "last_frame_ts": 0.0,
                 "last_frame_hash": "",
+                "last_meta_write": 0.0,
             }
             self._sessions[session_id] = sess
             self._write_session_json(sess)
@@ -92,6 +93,16 @@ class VisionLiveRecorder:
             with (sess["root"] / "transcript.jsonl").open("a", encoding="utf-8") as fh:
                 fh.write(json.dumps(line, ensure_ascii=False) + "\n")
             sess["transcript_count"] += 1
+            sess["last_seen"] = time.time()
+            self._maybe_write_meta(sess)
+
+    def _maybe_write_meta(self, sess: dict) -> None:
+        # Persist live counts at most every 5s to keep session.json current
+        # without writing on every single frame.
+        now = time.time()
+        if now - sess.get("last_meta_write", 0.0) >= 5:
+            sess["last_meta_write"] = now
+            self._write_session_json(sess)
 
     def _write_session_json(self, sess: dict) -> None:
         payload = {
@@ -222,6 +233,7 @@ class VisionLiveRecorder:
             sess["last_frame_ts"] = ts
             sess["last_frame_hash"] = digest
             sess["last_seen"] = ts
+            self._maybe_write_meta(sess)
 
     def close(self, session_id: str) -> None:
         if session_id:
