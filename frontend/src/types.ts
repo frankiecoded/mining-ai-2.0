@@ -123,6 +123,7 @@ export interface KnowledgeDocument {
   doc_id: string;
   filename: string;
   original_filename: string;
+  stored_filename?: string;
   file_type: string;
   file_size: number;
   title: string;

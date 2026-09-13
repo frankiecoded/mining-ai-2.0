@@ -626,6 +626,7 @@ class KnowledgeBase:
             {
                 "doc_id": d.doc_id,
                 "filename": d.original_filename,
+                "stored_filename": d.filename,
                 "title": d.title,
                 "file_type": d.file_type,
                 "created_at": d.created_at,
@@ -679,6 +680,7 @@ class KnowledgeBase:
             {
                 "doc_id": d.doc_id,
                 "filename": d.original_filename,
+                "stored_filename": d.filename,
                 "file_type": d.file_type,
                 "category": d.category,
                 "title": d.title,

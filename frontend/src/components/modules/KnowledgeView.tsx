@@ -630,6 +630,17 @@ function SatelliteTab() {
 }
 
 /* ──────────────────────────── Reader Tab ──────────────────────────── */
+function previewableDoc(doc: KnowledgeDocument | null): { kind: 'image' | 'pdf' | null; url: string } {
+  if (!doc) return { kind: null, url: '' };
+  const stored = doc.stored_filename || doc.filename || '';
+  const ext = (doc.file_type || '').toLowerCase() || ((stored.split('.').pop() || '').toLowerCase());
+  const base = import.meta.env.VITE_API_URL || '';
+  const url = stored ? `${base}/files/${encodeURIComponent(stored)}` : '';
+  if (['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'].includes(ext)) return { kind: 'image', url };
+  if (ext === 'pdf') return { kind: 'pdf', url };
+  return { kind: null, url: '' };
+}
+
 function ReaderTab({
   selectedDoc,
   onBack,
@@ -738,6 +749,27 @@ function ReaderTab({
                 <FileText className="w-4 h-4 text-sky-400" />
                 <h3 className="text-sm font-semibold text-white">{readResult.filename}</h3>
               </div>
+
+              {previewableDoc(activeDoc).kind === 'image' && (
+                <div className="rounded-xl overflow-hidden mb-4 bg-[#0d0d1a] border border-white/[0.06]">
+                  <img
+                    src={previewableDoc(activeDoc).url}
+                    alt={activeDoc.filename}
+                    className="w-full max-h-[520px] object-contain"
+                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+                  />
+                </div>
+              )}
+              {previewableDoc(activeDoc).kind === 'pdf' && (
+                <div className="rounded-xl overflow-hidden mb-4 border border-white/[0.06] h-[520px]">
+                  <iframe
+                    src={previewableDoc(activeDoc).url}
+                    title={activeDoc.filename}
+                    className="w-full h-full border-0 bg-[#0d0d1a]"
+                  />
+                </div>
+              )}
+
               <div className="glass-faint rounded-xl p-5 max-h-[500px] overflow-y-auto thin-scrollbar">
                 <pre className="text-[13px] text-zinc-300 whitespace-pre-wrap font-sans leading-relaxed">
                   {readResult.content_text || 'No content available.'}

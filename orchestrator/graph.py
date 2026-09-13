@@ -146,6 +146,7 @@ Expert in regulations, technology scouting, competitive analysis.
 33. **render_satellite** - Render satellite band data (bands: {name: 2D array}; composite: true_color/false_color/mineral/swir/vegetation or {R,G,B} mapping) to a PNG shown inline in the chat. Optional annotations at explicit pixel coords. USE to show satellite imagery as an inline, downloadable photo.
 34. **render_index** - Compute a spectral index (ndvi, ndwi, ndmi, bsi, iron_oxide, ferrous) from provided bands and render it as an inline PNG with a colormap.
 35. **annotate_image** - Burn labels/boxes/arrows/circles onto an existing rendered image (image_file_key) at explicit pixel coordinates and add the annotated copy to the chat.
+36. **show_satellite_imagery** - Share a REAL satellite or site photo already stored in the knowledge base (category "satellite"). Args: region (free-form site name such as "Camp 15", "Kapoeta", or a mine name), optionally image_id. USE when the user asks to SEE satellite/imagery of a named site. Only returns captures that genuinely exist; if none match it says so and lists what is available.
 
 ## Coordinator Behavior (ALWAYS follow)
 
@@ -229,9 +230,11 @@ Expert in regulations, technology scouting, competitive analysis.
 
 ### Visual Sharing (Show, don't just tell)
 - When the user asks about satellite imagery, terrain, spectral data, or any
-  pixel-based mining analysis, USE render_satellite / render_index and present
-  the actual rendered image INLINE in the chat so they can see and download it.
-  Never answer with text alone when an image is clearly valuable.
+  pixel-based mining analysis, first try to share a REAL capture with
+  show_satellite_imagery (region = the named site). If a stored capture exists,
+  show it INLINE in the chat so they can see and download it. Only use
+  render_satellite / render_index when you actually have band arrays. Never
+  answer with text alone when an image is clearly valuable.
 - Unless the user explicitly requests the original GeoTIFF/raw format, deliver
   satellite imagery as a rendered PNG photo (true_color or false_color) via
   render_satellite.
@@ -1085,6 +1088,59 @@ class AIOrchestrator:
                 }
                 result = f"Annotated the image and added it to the chat. Annotated copy URL: {out['file_url']}"
 
+            elif tool_name == "show_satellite_imagery":
+                # Display a REAL stored satellite capture from the knowledge base.
+                # Never fabricates imagery: only photos actually uploaded/shared.
+                region = str(args.get("region", "") or "").strip()
+                image_id = str(args.get("image_id", "") or "").strip()
+                from services.knowledge_base import KnowledgeBase
+                kb = KnowledgeBase()
+                satellite_docs = kb.search_by_category("satellite", tenant_id=None)
+                if not satellite_docs:
+                    result = "No satellite imagery is stored in the knowledge base yet. Upload a capture (or use /api/satellite with real bands) and I'll share it here."
+                else:
+                    selected = None
+                    if image_id:
+                        selected = next((d for d in satellite_docs if d["doc_id"] == image_id), None)
+                    if selected is None and region:
+                        tokens = [t for t in __import__("re").findall(r"[a-z0-9]+", region.lower()) if t]
+                        def _score(doc) -> int:
+                            hay = " ".join([
+                                str(doc.get("title") or "").lower(),
+                                str(doc.get("filename") or "").lower(),
+                                str(doc.get("file_type") or "").lower(),
+                            ])
+                            return sum(1 for t in tokens if t in hay)
+                        if tokens:
+                            scored = sorted(
+                                satellite_docs,
+                                key=lambda d: (_score(d), d.get("created_at") or ""),
+                                reverse=True,
+                            )
+                            if scored and _score(scored[0]) > 0:
+                                selected = scored[0]
+                    if selected is None and not region:
+                        if satellite_docs:
+                            selected = satellite_docs[0]
+                    if selected is None:
+                        available = [str(d.get("filename") or d.get("title") or "untitled") for d in satellite_docs[:6]]
+                        result = f"No stored satellite capture matches '{region or image_id}'. Available: {', '.join(available) or 'none'}."
+                    else:
+                        import urllib.parse
+                        stored = str(selected.get("stored_filename") or selected.get("filename") or "")
+                        display = str(selected.get("filename") or selected.get("title") or "satellite capture")
+                        ext = str(selected.get("file_type") or "png").lower().lstrip(".")
+                        mime_map = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "gif": "image/gif", "webp": "image/webp", "svg": "image/svg+xml"}
+                        mime = mime_map.get(ext, "image/png")
+                        _output_report = {
+                            "filename": display,
+                            "storage_uri": f"local://{stored}",
+                            "mime_type": mime,
+                            "size_bytes": int(selected.get("file_size") or 0),
+                            "image": True,
+                        }
+                        result = f"Found stored satellite capture '{display}' and added it to the chat as an image. URL: /files/{urllib.parse.quote(stored, safe='/')}"
+
             elif tool_name == "generate_report_from_data":
                 report_type_str = args.get("report_type", "production")
                 title = args.get("title", None)
@@ -1516,6 +1572,7 @@ class AIOrchestrator:
             "render_satellite": self.node_coordinator,
             "render_index": self.node_coordinator,
             "annotate_image": self.node_coordinator,
+            "show_satellite_imagery": self.node_coordinator,
         }
 
     def _execute_tool(self, name, tool_call, base_state) -> str:
