@@ -1,4 +1,5 @@
 import os
+import json
 import uuid
 import time
 import hmac
@@ -10,7 +11,7 @@ from typing import Dict, Any, List, Optional
 from collections import defaultdict
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException, Depends, UploadFile, File, Form
-from fastapi.responses import JSONResponse, FileResponse, StreamingResponse
+from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -794,6 +795,161 @@ def vision_status(auth: AuthPayload = Depends(verify_jwt)):
     return {"status": "success", **(provider.status() if provider else {
         "configured": False, "mode": "disabled", "models": {"rock": "", "mineral": "", "ppe": ""},
     })}
+
+
+# ---------- Voice conversation (ChatGPT Advanced-Voice style) ----------
+class VisionTalkRequest(BaseModel):
+    transcript: str = Field(default="", max_length=2000, description="What the user just said")
+    ambient: str = Field(default="", max_length=200, description="Free-form context hint from the user")
+    scene: Dict[str, Any] = Field(default_factory=dict, description="Live-frame detections/stats/notes")
+    history: List[Dict[str, str]] = Field(default_factory=list, description="Last spoken turns [{role, text}]")
+    proactive: bool = Field(default=False, description="True when the AI is initiating — no user input")
+
+
+class VisionTTSRequest(BaseModel):
+    text: str = Field(..., min_length=1, max_length=1200)
+    voice: str = Field(default="en-US-JennyNeural", max_length=64)
+
+
+def _geologist_persona(scene: Dict[str, Any], ambient: str) -> str:
+    """Compose the spoken persona: an expert field geologist standing beside the user."""
+    dets = scene.get("detections") or []
+    det_lines = []
+    for d in dets[:6]:
+        try:
+            det_lines.append(f"{d.get('class', 'object')} {round(float(d.get('confidence', 0)) * 100)}%")
+        except (TypeError, ValueError):
+            continue
+    notes = scene.get("notes") or []
+    notes_lines = []
+    if isinstance(notes, list):
+        for n in notes[-3:]:
+            if isinstance(n, str) and n.strip():
+                notes_lines.append(n.strip()[:200])
+    stats = scene.get("stats") or {}
+    parts = ["You are Frank's on-site geologist companion, standing right beside him and talking to him "
+             "OUT LOUD. You speak warm, easy, natural spoken English — the way a real field geologist "
+             "talks while walking a rock face. Short sentences only. You may use natural filler like "
+             "'you see', 'right', 'yeah', 'take a look'. Keep every answer under 3 short sentences "
+             "because it is being read aloud. Never mention being an AI or a model. Only describe what "
+             "has actually been observed — never invent rocks, minerals, grades or assay values."]
+    if det_lines:
+        parts.append("Live camera object detections: " + ", ".join(det_lines) + ".")
+    if notes_lines:
+        parts.append("Your own recent field observations: " + " ".join(notes_lines))
+    if stats:
+        try:
+            bright = float(stats.get("brightness", -1))
+            green = float(stats.get("green_ratio", -1))
+        except (TypeError, ValueError):
+            bright = green = -1
+        if bright >= 0 or green >= 0:
+            bits = []
+            if bright >= 0:
+                bits.append(("very bright" if bright > 150 else "dim" if bright < 60 else "well lit"))
+            if green >= 0:
+                bits.append(("heavy vegetation" if green > 0.35 else "bare rock" if green < 0.08 else "light vegetation"))
+            parts.append("The scene in front of you looks " + ("; ".join(bits) if bits else "neutral") + ".")
+    if ambient.strip():
+        parts.append(f"Frank's context hint: {ambient.strip()}")
+    return "\n".join(parts)
+
+
+def _vision_talk_stream(
+    llm_model,
+    persona: str,
+    history: List[Dict[str, str]],
+    user_text: str,
+):
+    """Yield SSE text chunks for a spoken reply."""
+    from langchain_core.messages import SystemMessage, HumanMessage
+    msgs = [SystemMessage(content=persona)]
+    for turn in (history or [])[-6:]:
+        role = str(turn.get("role", "")).lower()
+        text = str(turn.get("text", "") or "").strip()
+        if not text:
+            continue
+        if role == "user":
+            msgs.append(HumanMessage(content=text))
+        elif role == "assistant":
+            msgs.append(_ai_msg(text))
+    msgs.append(HumanMessage(content=user_text))
+
+    chunk_buf = ""
+    for chunk, buf in _stream_sentences(llm_model, msgs):
+        if chunk:
+            yield f"data: {json.dumps({'text': chunk})}\n\n"
+    yield "data: [DONE]\n\n"
+
+
+def _ai_msg(text: str):
+    from langchain_core.messages import AIMessage
+    return AIMessage(content=text)
+
+
+def _stream_sentences(llm_model, msgs):
+    """Stream grouped text so the spoken reply flows sentence-by-sentence."""
+    buf = ""
+    for chunk in llm_model.stream(msgs, temperature=0.75, max_tokens=200, tools=[]):
+        text = getattr(chunk, "text", None) or getattr(chunk, "content", None) or ""
+        if not text:
+            continue
+        buf += text
+        while _next_sentence_end(buf) >= 0:
+            idx = _next_sentence_end(buf)
+            yield buf[: idx + 1].strip(), buf[: idx + 1]
+            buf = buf[idx + 1:]
+    if buf.strip():
+        yield buf.strip(), buf
+
+
+def _next_sentence_end(text: str) -> int:
+    """Index of the first sentence boundary (., !, ? followed by space/end, or newline)."""
+    for i, ch in enumerate(text):
+        if ch in ".!?۔" and (i + 1 >= len(text) or text[i + 1] in " \n"):
+            return i
+        if ch == "\n":
+            return i
+    return -1
+
+
+@app.post("/api/vision/talk", tags=["Vision"])
+def vision_talk(req: VisionTalkRequest, auth: AuthPayload = Depends(verify_jwt)):
+    """Stream a natural spoken reply to what Frank just said, grounded in the live scene."""
+    persona = _geologist_persona(req.scene or {}, req.ambient or "")
+    user_text = (req.transcript or "").strip()
+    if req.proactive:
+        user_text = "Look around right now and say one brief, friendly thing about what you can see."
+    if not user_text.strip():
+        user_text = "Go on."
+    stream = _vision_talk_stream(llm, persona, req.history or [], user_text)
+    return StreamingResponse(
+        stream,
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
+
+@app.post("/api/vision/tts", tags=["Vision"])
+async def vision_tts(req: VisionTTSRequest, auth: AuthPayload = Depends(verify_jwt)):
+    """Synthesize a sentence into neural MP3 speech (edge-tts). RFC-close to the
+    browser fallback: the client falls back to web speech if this is unavailable."""
+    try:
+        import edge_tts
+    except Exception:
+        raise HTTPException(status_code=501, detail="Neural TTS unavailable on this server.")
+    try:
+        communicate = edge_tts.Communicate(req.text, req.voice, rate="+6%", pitch="+1Hz")
+        audio = b"".join(
+            c["data"] for c in [x async for x in communicate.stream()]
+            if c.get("type") == "audio" and c.get("data")
+        )
+    except Exception as e:
+        logger.error(f"TTS synthesis failed: {e}")
+        raise HTTPException(status_code=502, detail="TTS synthesis failed.")
+    if not audio:
+        raise HTTPException(status_code=422, detail="No audio produced for that text.")
+    return Response(content=audio, media_type="audio/mpeg", headers={"Cache-Control": "no-store"})
 
 
 # ---------- Shared Document Inbox (team -> Frank) ----------

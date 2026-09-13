@@ -252,6 +252,18 @@ export interface VisionStatus {
   models: { rock: string; mineral: string; ppe: string };
 }
 
+// --- Voice conversation (Advanced-Voice style) ---
+export interface VisionTalkTurn {
+  role: 'user' | 'assistant';
+  text: string;
+}
+
+export interface VisionTalkScene {
+  detections?: VisionDetection[];
+  stats?: { rgb?: number[]; brightness?: number; green_ratio?: number };
+  notes?: string[];
+}
+
 // --- Shared Document Inbox ---
 export interface SharedDocRecord {
   id: number;

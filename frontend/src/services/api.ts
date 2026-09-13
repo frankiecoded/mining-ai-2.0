@@ -16,6 +16,8 @@ import type {
   VisionAnalysisResult,
   VisionFrameResult,
   VisionStatus,
+  VisionTalkTurn,
+  VisionTalkScene,
 } from '../types';
 
 // Singleton API client bound to VITE_API_URL (Cloudflare tunnel or local).
@@ -422,6 +424,69 @@ class ChatAPI {
 
   static fetchVisionStatus(): Promise<VisionStatus> {
     return this.request<VisionStatus>('/api/vision/status', { headers: this.getHeaders() });
+  }
+
+  /**
+   * Stream a natural spoken reply (SSE text chunks), yields sentence fragments.
+   */
+  static async *talkVision(
+    transcript: string,
+    opts: { ambient?: string; scene?: VisionTalkScene; history?: VisionTalkTurn[]; proactive?: boolean } = {},
+  ): AsyncGenerator<string> {
+    const base = import.meta.env.VITE_API_URL || '';
+    const res = await fetch(`${base}/api/vision/talk`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getHeaders(),
+      },
+      body: JSON.stringify({
+        transcript,
+        ambient: opts.ambient ?? '',
+        scene: opts.scene ?? {},
+        history: opts.history ?? [],
+        proactive: opts.proactive ?? false,
+      }),
+    });
+    if (!res.ok || !res.body) {
+      throw new Error(`Talk request failed (${res.status}).`);
+    }
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      let idx;
+      while ((idx = buffer.indexOf('\n\n')) >= 0) {
+        const raw = buffer.slice(0, idx);
+        buffer = buffer.slice(idx + 2);
+        if (!raw.startsWith('data: ')) continue;
+        const payload = raw.slice(6);
+        if (payload.trim() === '[DONE]') return;
+        try {
+          const parsed = JSON.parse(payload) as { text?: string };
+          if (parsed.text) yield parsed.text;
+        } catch {
+          /* skip malformed frame */
+        }
+      }
+    }
+  }
+
+  static async tts(text: string, voice = 'en-US-JennyNeural'): Promise<Blob> {
+    const base = import.meta.env.VITE_API_URL || '';
+    const res = await fetch(`${base}/api/vision/tts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...this.getHeaders(),
+      },
+      body: JSON.stringify({ text, voice }),
+    });
+    if (!res.ok) throw new Error(`TTS failed (${res.status}).`);
+    return res.blob();
   }
 
   // ─── Shared Document Inbox (team → Frank) ───
