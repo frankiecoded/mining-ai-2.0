@@ -5,7 +5,7 @@ import {
   Search, Satellite, Eye, Map, Layers, BookOpen, ChevronRight,
   Hash, Calendar, HardDrive, Tag, Globe, Cpu, Beaker, Mountain, Upload,
   BarChart3, FileImage, FileSpreadsheet, FileCode, RefreshCw, Download,
-  ArrowLeft, Sparkles, Cog, FolderOpen,
+  ArrowLeft, Sparkles, Cog, FolderOpen, Maximize2, ExternalLink,
 } from 'lucide-react';
 import { ChatAPI } from '../../services/api';
 import { SectionLabel } from '../ui/SectionLabel';
@@ -653,6 +653,21 @@ function ReaderTab({
   const [readResult, setReadResult] = useState<DocumentReadResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [loadingDocs, setLoadingDocs] = useState(true);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState('');
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setPreviewOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const openLightbox = (url: string) => {
+    setPreviewUrl(url);
+    setPreviewOpen(true);
+  };
 
   useEffect(() => {
     if (selectedDoc) setActiveDoc(selectedDoc);
@@ -751,17 +766,33 @@ function ReaderTab({
               </div>
 
               {previewableDoc(activeDoc).kind === 'image' && (
-                <div className="rounded-xl overflow-hidden mb-4 bg-[#0d0d1a] border border-white/[0.06]">
+                <div
+                  className="relative rounded-xl overflow-hidden mb-4 bg-[#0d0d1a] border border-white/[0.06] group cursor-zoom-in"
+                  onClick={() => openLightbox(previewableDoc(activeDoc).url)}
+                >
                   <img
                     src={previewableDoc(activeDoc).url}
                     alt={activeDoc.filename}
                     className="w-full max-h-[520px] object-contain"
                     onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
                   />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                    <span className="flex items-center gap-2 text-xs font-medium text-white bg-black/60 border border-white/10 rounded-full px-3 py-1.5 pointer-events-none">
+                      <Maximize2 className="w-3.5 h-3.5" /> View full size
+                    </span>
+                  </div>
                 </div>
               )}
               {previewableDoc(activeDoc).kind === 'pdf' && (
-                <div className="rounded-xl overflow-hidden mb-4 border border-white/[0.06] h-[520px]">
+                <div className="rounded-xl overflow-hidden mb-4 border border-white/[0.06] h-[520px] relative">
+                  <a
+                    href={previewableDoc(activeDoc).url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="absolute top-2 right-2 z-10 flex items-center gap-1.5 text-xs font-medium text-white bg-black/60 border border-white/10 rounded-full px-3 py-1.5 hover:bg-black/80 transition-colors"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" /> Open PDF
+                  </a>
                   <iframe
                     src={previewableDoc(activeDoc).url}
                     title={activeDoc.filename}
@@ -969,6 +1000,47 @@ function ReaderTab({
               </button>
             </motion.div>
           </div>
+        </div>
+      )}
+
+      {previewOpen && previewUrl && (
+        <div className="fixed inset-0 z-[120] flex items-center justify-center p-4 md:p-8 bg-black/85 backdrop-blur-sm" onClick={() => setPreviewOpen(false)}>
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+            <span className="text-xs font-medium text-zinc-300 bg-black/60 border border-white/10 rounded-full px-4 py-2 max-w-[70vw] truncate">
+              {activeDoc?.filename}
+            </span>
+          </div>
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+            <a
+              href={previewUrl}
+              download={activeDoc?.filename}
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-1.5 text-xs font-medium text-white bg-sky-500/90 hover:bg-sky-500 rounded-full px-4 py-2 transition-colors"
+            >
+              <Download className="w-3.5 h-3.5" /> Download
+            </a>
+            <a
+              href={previewUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-1.5 text-xs font-medium text-white bg-black/60 border border-white/10 hover:bg-black/80 rounded-full px-4 py-2 transition-colors"
+            >
+              <ExternalLink className="w-3.5 h-3.5" /> Open
+            </a>
+            <button
+              onClick={(e) => { e.stopPropagation(); setPreviewOpen(false); }}
+              className="flex items-center gap-1.5 text-xs font-medium text-white bg-black/60 border border-white/10 hover:bg-black/80 rounded-full px-4 py-2 transition-colors"
+            >
+              <X className="w-3.5 h-3.5" /> Close
+            </button>
+          </div>
+          <img
+            src={previewUrl}
+            alt={activeDoc?.filename || 'Preview'}
+            className="max-w-full max-h-[82vh] object-contain rounded-xl shadow-2xl border border-white/10"
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
       )}
     </div>
