@@ -421,6 +421,32 @@ function DocumentsTab({
   );
 }
 
+function parseBandInputs(inputs: Record<string, string>): {
+  flat: Record<string, number[]>;
+  grid: Record<string, number[][]>;
+  anyGrid: boolean;
+} {
+  const flat: Record<string, number[]> = {};
+  const grid: Record<string, number[][]> = {};
+  let anyGrid = false;
+  for (const [key, val] of Object.entries(inputs)) {
+    if (!val.trim()) continue;
+    const rows = val
+      .split(';')
+      .map((r) => r.split(',').map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n)))
+      .filter((r) => r.length > 0);
+    if (rows.length === 0) continue;
+    if (rows.length > 1 || rows.some((r) => r.length > 1)) {
+      grid[key] = rows;
+      anyGrid = true;
+    } else {
+      const row = rows[0];
+      if (row.length > 0) flat[key] = row;
+    }
+  }
+  return { flat, grid, anyGrid };
+}
+
 /* ──────────────────────────── Satellite Tab ──────────────────────────── */
 function SatelliteTab() {
   const [bands, setBands] = useState<Record<string, string>>({
@@ -430,18 +456,17 @@ function SatelliteTab() {
   const [running, setRunning] = useState(false);
   const [results, setResults] = useState<Record<string, unknown> | null>(null);
   const [error, setError] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
+  const [previewIndexUrl, setPreviewIndexUrl] = useState('');
 
   const handleAnalyze = async () => {
     setRunning(true);
     setError('');
     setResults(null);
+    setPreviewUrl('');
+    setPreviewIndexUrl('');
     try {
-      const parsedBands: Record<string, number[]> = {};
-      for (const [key, val] of Object.entries(bands)) {
-        if (val.trim()) {
-          parsedBands[key] = val.split(',').map((s) => parseFloat(s.trim())).filter((n) => !isNaN(n));
-        }
-      }
+      const { flat, grid, anyGrid } = parseBandInputs(bands);
       let parsedDem: number[][] | undefined;
       if (demInput.trim()) {
         try {
@@ -452,8 +477,37 @@ function SatelliteTab() {
           return;
         }
       }
-      const res = await ChatAPI.fullSatelliteAnalysis(parsedBands, parsedDem);
+      const res = await ChatAPI.fullSatelliteAnalysis(flat, parsedDem);
       setResults(res.results as Record<string, unknown>);
+
+      if (anyGrid) {
+        const base = import.meta.env.VITE_API_URL || '';
+        const dims = grid.B04 ?? grid.B08 ?? grid.B02 ?? grid.B03;
+        if (grid.B02 && grid.B03 && grid.B04) {
+          try {
+            const c = await ChatAPI.renderComposite(
+              { B02: grid.B02, B03: grid.B03, B04: grid.B04 },
+              'true_color',
+            );
+            setPreviewUrl(`${base}${c.file_url}`);
+          } catch { /* render failures shouldn't block analysis results */ }
+        }
+        if (grid.B04 && grid.B08) {
+          try {
+            const idx = await ChatAPI.renderIndex({ B04: grid.B04, B08: grid.B08 }, 'ndvi');
+            setPreviewIndexUrl(`${base}${idx.file_url}`);
+          } catch { /* render failures shouldn't block analysis results */ }
+        }
+        if (!grid.B02 && !grid.B03 && !grid.B04 && !grid.B08 && dims) {
+          const lastKey = Object.keys(grid)[Object.keys(grid).length - 1];
+          if (lastKey) {
+            try {
+              const gray = await ChatAPI.renderComposite({ gray: grid[lastKey] }, 'true_color');
+              setPreviewUrl(`${base}${gray.file_url}`);
+            } catch { /* ignore */ }
+          }
+        }
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : 'Analysis failed');
     } finally {
@@ -487,7 +541,10 @@ function SatelliteTab() {
       <section className="space-y-4">
         <SectionLabel>Spectral Band Input</SectionLabel>
         <div className="glass rounded-2xl p-5 space-y-4">
-          <p className="text-xs text-zinc-500">Enter comma-separated reflectance values for each Sentinel-2 band.</p>
+          <p className="text-xs text-zinc-500">
+                Enter reflectance values per band. Single pixel: comma-separated (e.g. <code className="text-sky-300/80 font-mono">0.1, 0.2, 0.3</code>).
+                Multiple pixels: separate rows with <code className="text-sky-300/80 font-mono">;</code> to also render an image preview.
+              </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {Object.entries(bandLabels).map(([band, label]) => (
               <div key={band} className="glass-faint rounded-xl p-3">
@@ -497,7 +554,7 @@ function SatelliteTab() {
                   type="text"
                   value={bands[band]}
                   onChange={(e) => setBands((prev) => ({ ...prev, [band]: e.target.value }))}
-                  placeholder="e.g. 0.1, 0.2, 0.3"
+                  placeholder="e.g. 0.10, 0.12, 0.15 ; 0.11, 0.13, 0.16"
                   className="glass-input w-full px-3 py-1.5 rounded-lg text-xs text-white placeholder:text-zinc-700"
                 />
               </div>
@@ -541,6 +598,31 @@ function SatelliteTab() {
       {results && (
         <div className="space-y-4">
           <SectionLabel>Analysis Results</SectionLabel>
+
+          {(previewUrl || previewIndexUrl) && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {previewUrl && (
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-2xl p-5 space-y-2">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <Satellite className="w-4 h-4 text-sky-400" />True Color Preview
+                  </div>
+                  <div className="rounded-xl overflow-hidden bg-[#0d0d1a] border border-white/[0.06]">
+                    <img src={previewUrl} alt="True color composite" className="w-full max-h-[380px] object-contain" />
+                  </div>
+                </motion.div>
+              )}
+              {previewIndexUrl && (
+                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="glass rounded-2xl p-5 space-y-2">
+                  <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                    <Map className="w-4 h-4 text-emerald-400" />NDVI Index Preview
+                  </div>
+                  <div className="rounded-xl overflow-hidden bg-[#0d0d1a] border border-white/[0.06]">
+                    <img src={previewIndexUrl} alt="NDVI index" className="w-full max-h-[380px] object-contain" />
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          )}
 
           {spectralResults && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-2xl p-5 space-y-3">
