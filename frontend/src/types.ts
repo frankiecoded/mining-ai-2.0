@@ -65,7 +65,7 @@ export interface GoldPriceResponse {
 }
 
 export interface Task {
-  id: string;
+  id: number | string;
   description: string;
   assignee?: string | null;
   assigned_to?: string | null;

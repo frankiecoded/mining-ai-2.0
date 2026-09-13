@@ -29,7 +29,7 @@ export function TaskView() {
   const { tasks, loading, error, createTask } = useTasks(10_000);
   const [desc, setDesc] = useState('');
   const [creating, setCreating] = useState(false);
-  const [rerunning, setRerunning] = useState<string | null>(null);
+  const [rerunning, setRerunning] = useState<string | number | null>(null);
   const [filter, setFilter] = useState<'all' | 'pending' | 'running' | 'completed'>('all');
 
   const statusOf = (t: Task) => (t.status || 'pending');
@@ -221,7 +221,7 @@ export function TaskView() {
                         <div className="min-w-0">
                           <div className="text-sm font-medium text-white break-words">{task.description}</div>
                           <div className="flex items-center gap-3 mt-1 text-[11px] text-zinc-600 font-mono">
-                            <span>ID · {task.id.slice(0, 8)}</span>
+                            <span>ID · {String(task.id ?? '').slice(0, 8)}</span>
                             <span className="hidden sm:inline">NODE · {task.assignee ?? task.assigned_to ?? 'Unassigned'}</span>
                             {timeStr(task) && <span className="hidden sm:inline">CREATED · {timeStr(task)}</span>}
                           </div>

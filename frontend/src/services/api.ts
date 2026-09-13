@@ -404,11 +404,11 @@ class ChatAPI {
   }
 
   // ─── Geology Vision (Roboflow / NVIDIA + vision LLM) ───
-  static analyzeVisionFrame(imageBase64: string, ambient = '', llm = false): Promise<VisionFrameResult> {
+  static analyzeVisionFrame(imageBase64: string, ambient = '', llm = false, liveSession = ''): Promise<VisionFrameResult> {
     return this.request<VisionFrameResult>('/api/vision/frame', {
       method: 'POST',
       headers: this.getHeaders(),
-      body: JSON.stringify({ image: imageBase64, ambient, llm }),
+      body: JSON.stringify({ image: imageBase64, ambient, llm, live_session: liveSession }),
     });
   }
 
@@ -431,7 +431,13 @@ class ChatAPI {
    */
   static async *talkVision(
     transcript: string,
-    opts: { ambient?: string; scene?: VisionTalkScene; history?: VisionTalkTurn[]; proactive?: boolean } = {},
+    opts: {
+      ambient?: string;
+      scene?: VisionTalkScene;
+      history?: VisionTalkTurn[];
+      proactive?: boolean;
+      liveSession?: string;
+    } = {},
   ): AsyncGenerator<string> {
     const base = import.meta.env.VITE_API_URL || '';
     const res = await fetch(`${base}/api/vision/talk`, {
@@ -446,6 +452,7 @@ class ChatAPI {
         scene: opts.scene ?? {},
         history: opts.history ?? [],
         proactive: opts.proactive ?? false,
+        live_session: opts.liveSession ?? '',
       }),
     });
     if (!res.ok || !res.body) {

@@ -7,7 +7,7 @@ import logging
 import asyncio
 import numpy as np
 from pathlib import Path
-from typing import Dict, Any, List, Optional
+from typing import Dict, Any, Iterator, List, Optional
 from collections import defaultdict
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException, Depends, UploadFile, File, Form
@@ -53,6 +53,7 @@ from local_model.adapter import LocalLLMAdapter
 from research.service import ResearchService
 from document_service.service import DocumentService
 from vision_service.service import VisionService
+from vision_service.recorder import VisionLiveRecorder
 from voice_service.service import VoiceService
 from mining_engine.service import MiningEngineService
 from finance_engine.service import FinanceEngineService
@@ -166,6 +167,9 @@ llm = LocalLLMAdapter(model_name=settings.LOCAL_LLM_MODEL, api_url=settings.LOCA
 research_service = ResearchService(serper_api_key=settings.SERPER_API_KEY)
 doc_service = DocumentService(minio_client=None)
 vision_service = VisionService()
+vision_recorder = VisionLiveRecorder(
+    base_dir=(Path(__file__).resolve().parent.parent / settings.UPLOAD_DIR) / "vision_videos"
+)
 voice_service = VoiceService()
 mining_engine = MiningEngineService(postgres_client=postgres_client, vector_client=vector_client)
 finance_engine = FinanceEngineService(postgres_client=postgres_client)
@@ -204,6 +208,7 @@ async def lifespan(app: FastAPI):
         logger.warning(f"Dataset ingestion skipped: {e}")
     yield
     scheduler.shutdown()
+    vision_recorder.close_all()
 
 app = FastAPI(
     title="AI Mining Operating System",
@@ -754,6 +759,7 @@ class VisionFrameRequest(BaseModel):
     image: str = Field(..., min_length=16, max_length=15_000_000, description="Base64-encoded JPEG frame")
     ambient: str = Field(default="", max_length=200, description="Optional free-form live context hint")
     llm: bool = Field(default=False, description="Allow the vision-LLM narration path for this frame")
+    live_session: str = Field(default="", max_length=64, description="Id of the running live tour, when present")
 
 
 @app.post("/api/vision/frame", tags=["Vision"])
@@ -767,6 +773,9 @@ def vision_analyze_frame(req: VisionFrameRequest, auth: AuthPayload = Depends(ve
         raise HTTPException(status_code=400, detail="Invalid image frame.")
     if not raw or len(raw) < 32:
         raise HTTPException(status_code=400, detail="Frame is empty or too small.")
+    if req.live_session:
+        vision_recorder.start(req.live_session, req.ambient)
+        vision_recorder.frame(req.live_session, raw)
     try:
         result = vision_service.live_frame(raw, include_llm=req.llm, ambient=req.ambient)
     except Exception as e:
@@ -804,6 +813,7 @@ class VisionTalkRequest(BaseModel):
     scene: Dict[str, Any] = Field(default_factory=dict, description="Live-frame detections/stats/notes")
     history: List[Dict[str, str]] = Field(default_factory=list, description="Last spoken turns [{role, text}]")
     proactive: bool = Field(default=False, description="True when the AI is initiating — no user input")
+    live_session: str = Field(default="", max_length=64, description="Id of the running live tour, when present")
 
 
 class VisionTTSRequest(BaseModel):
@@ -916,6 +926,10 @@ def _next_sentence_end(text: str) -> int:
 @app.post("/api/vision/talk", tags=["Vision"])
 def vision_talk(req: VisionTalkRequest, auth: AuthPayload = Depends(verify_jwt)):
     """Stream a natural spoken reply to what Frank just said, grounded in the live scene."""
+    if req.live_session:
+        vision_recorder.start(req.live_session, req.ambient)
+        if not req.proactive:
+            vision_recorder.user(req.live_session, (req.transcript or "").strip())
     persona = _geologist_persona(req.scene or {}, req.ambient or "")
     user_text = (req.transcript or "").strip()
     if req.proactive:
@@ -923,8 +937,26 @@ def vision_talk(req: VisionTalkRequest, auth: AuthPayload = Depends(verify_jwt))
     if not user_text.strip():
         user_text = "Go on."
     stream = _vision_talk_stream(llm, persona, req.history or [], user_text)
+
+    def _teed() -> Iterator[str]:
+        spoken: List[str] = []
+        for line in stream:
+            try:
+                payload = line[len("data: "):]
+                if payload.strip() == "[DONE]":
+                    yield line
+                    continue
+                text = json.loads(payload).get("text", "")
+                if text:
+                    spoken.append(text)
+            except Exception:
+                pass
+            yield line
+        if req.live_session and spoken:
+            vision_recorder.assistant(req.live_session, " ".join(spoken).strip())
+
     return StreamingResponse(
-        stream,
+        _teed(),
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
     )

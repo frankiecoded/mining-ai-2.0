@@ -11,6 +11,7 @@ import {
   AlertTriangle,
   Type,
   Sparkles,
+  Minimize2,
 } from 'lucide-react';
 import { ChatAPI } from '../../services/api';
 import { SectionLabel } from '../ui/SectionLabel';
@@ -113,6 +114,7 @@ export function GeologyVisionView() {
   const [tab, setTab] = useState<Tab>('live');
   const [mode, setMode] = useState<LiveMode>('idle');
   const [muted, setMuted] = useState(false);
+  const [isFs, setIsFs] = useState(false);
   const [cameraError, setCameraError] = useState<string | null>(null);
   const [ambient, setAmbient] = useState('');
   const [showAmbient, setShowAmbient] = useState(false);
@@ -158,6 +160,7 @@ export function GeologyVisionView() {
   const sttMarkRef = useRef(0);
   const recognitionRef = useRef<SpeechRecog | null>(null);
   const replyingRef = useRef(false);
+  const liveSessionRef = useRef('');
 
   useEffect(() => {
     ambRef.current = ambient.trim();
@@ -187,7 +190,7 @@ export function GeologyVisionView() {
     const b64 = await captureFrameBytes();
     if (!b64) return;
     try {
-      const res = await ChatAPI.analyzeVisionFrame(b64, ambRef.current, false);
+      const res = await ChatAPI.analyzeVisionFrame(b64, ambRef.current, false, liveSessionRef.current);
       const dets = (res.detections ?? []).filter((d) => (d.confidence ?? 0) >= 0.3);
       sceneDetectionsRef.current = dets;
       sceneStatsRef.current = res.stats ?? {};
@@ -220,6 +223,38 @@ export function GeologyVisionView() {
       audioElRef.current = null;
     }
   }, []);
+
+  // ── Fullscreen helpers (webkit + iOS video fullscreen aware) ──────────
+  const isFullscreenNow = useCallback(() => {
+    if (typeof document === 'undefined') return false;
+    const d = document as Document & { webkitFullscreenElement?: Element };
+    return Boolean(d.fullscreenElement || d.webkitFullscreenElement);
+  }, []);
+
+  const exitFullscreen = useCallback(() => {
+    if (typeof document === 'undefined') return;
+    const d = document as Document & {
+      webkitExitFullscreen?: () => void;
+    };
+    try {
+      if (!isFullscreenNow()) return;
+      if (d.exitFullscreen) void d.exitFullscreen().catch(() => undefined);
+      else if (d.webkitExitFullscreen) d.webkitExitFullscreen();
+    } catch {
+      /* ignore */
+    }
+  }, [isFullscreenNow]);
+
+  useEffect(() => {
+    const sync = () => setIsFs(isFullscreenNow());
+    if (typeof document === 'undefined') return undefined;
+    document.addEventListener('fullscreenchange', sync);
+    document.addEventListener('webkitfullscreenchange' as 'fullscreenchange', sync);
+    return () => {
+      document.removeEventListener('fullscreenchange', sync);
+      document.removeEventListener('webkitfullscreenchange' as 'fullscreenchange', sync);
+    };
+  }, [isFullscreenNow]);
 
   useEffect(() => {
     mutedRef.current = muted;
@@ -255,10 +290,11 @@ export function GeologyVisionView() {
     analyserRef.current = null;
     audioElRef.current = null;
     stopCurrentSpeech();
+    exitFullscreen();
     setUserTalking(false);
     setMicLevel(0);
     setMode('idle');
-  }, [stopCurrentSpeech]);
+  }, [exitFullscreen, stopCurrentSpeech]);
 
   useEffect(() => () => stopAll(), [stopAll]);
 
@@ -320,6 +356,7 @@ export function GeologyVisionView() {
               scene: scenePayload,
               history: historyRef.current,
               proactive: false,
+              liveSession: liveSessionRef.current,
             })) {
               if (gen !== speechGenRef.current) return;
               buf += chunk;
@@ -367,6 +404,7 @@ export function GeologyVisionView() {
             scene: { detections: sceneDetectionsRef.current, stats: sceneStatsRef.current, notes: sceneNotesRef.current },
             history: historyRef.current,
             proactive: true,
+            liveSession: liveSessionRef.current,
           })) {
             if (gen !== speechGenRef.current) return;
             buf += chunk;
@@ -513,6 +551,7 @@ export function GeologyVisionView() {
   const startLive = useCallback(async () => {
     setMode('starting');
     setCameraError(null);
+    liveSessionRef.current = (crypto.randomUUID?.() ?? `live-${Date.now()}`);
     let stream: MediaStream;
     try {
       stream = await navigator.mediaDevices.getUserMedia({
@@ -574,9 +613,22 @@ export function GeologyVisionView() {
       if (!userTurnRef.current && !replyingRef.current) void refreshScene();
     }, 5000);
 
-    // Fullscreen attempt (mobile feels truly immersive)
-    if (containerRef.current?.requestFullscreen) {
-      containerRef.current.requestFullscreen().catch(() => undefined);
+    // Fullscreen attempt (mobile feels truly immersive). Handles the
+    // standard API, the webkit prefix, and iOS video-element fullscreen.
+    const el = containerRef.current as
+      | (HTMLDivElement & { webkitRequestFullscreen?: () => void })
+      | null;
+    try {
+      if (el?.requestFullscreen) {
+        void el.requestFullscreen().catch(() => undefined);
+      } else if (el?.webkitRequestFullscreen) {
+        el.webkitRequestFullscreen();
+      } else {
+        const v = videoRef.current as (HTMLVideoElement & { webkitEnterFullscreen?: () => void }) | null;
+        if (v?.webkitEnterFullscreen) v.webkitEnterFullscreen();
+      }
+    } catch {
+      /* fullscreen is best-effort — the layer already covers the viewport */
     }
 
     // Speech-to-text (Chrome/Safari).
@@ -592,12 +644,6 @@ export function GeologyVisionView() {
       void respond('', { proactive: true });
     }, 4500);
   }, [playSentence, refreshScene, respond, startSTT, startVAD]);
-
-  const exitFullscreen = useCallback(() => {
-    if (typeof document !== 'undefined' && document.fullscreenElement) {
-      document.exitFullscreen().catch(() => undefined);
-    }
-  }, []);
 
   const toggleMuted = useCallback(() => {
     setMuted((m) => {
@@ -763,6 +809,14 @@ export function GeologyVisionView() {
                   <span className="mt-3 text-[11px] font-medium text-zinc-300 bg-black/45 rounded-full px-3 py-1">
                     {userTalking ? 'You are talking…' : muted ? 'Voice muted' : 'Tap to interject — just start talking'}
                   </span>
+                  {isFs && (
+                    <button
+                      onClick={exitFullscreen}
+                      className="mt-6 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[13px] font-semibold text-white bg-white/15 backdrop-blur border border-white/25 hover:bg-white/25 transition-colors"
+                    >
+                      <Minimize2 className="w-3.5 h-3.5" /> Exit full screen
+                    </button>
+                  )}
                 </div>
 
                 {/* Listener equalizer cue */}
