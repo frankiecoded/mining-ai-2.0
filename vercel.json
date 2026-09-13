@@ -18,6 +18,10 @@
   ],
   "rewrites": [
     {
+      "source": "/tasks",
+      "destination": "https://aios-vps.tail59eb2d.ts.net/tasks"
+    },
+    {
       "source": "/api/:path*",
       "destination": "https://aios-vps.tail59eb2d.ts.net/api/:path*"
     },
