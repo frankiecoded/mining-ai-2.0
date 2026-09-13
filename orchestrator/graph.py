@@ -1095,51 +1095,60 @@ class AIOrchestrator:
                 image_id = str(args.get("image_id", "") or "").strip()
                 from services.knowledge_base import KnowledgeBase
                 kb = KnowledgeBase()
-                satellite_docs = kb.search_by_category("satellite", tenant_id=None)
-                if not satellite_docs:
+                sat_docs = [d for d in kb.documents.values() if d.category.lower() == "satellite"]
+                if not sat_docs:
                     result = "No satellite imagery is stored in the knowledge base yet. Upload a capture (or use /api/satellite with real bands) and I'll share it here."
                 else:
                     selected = None
+                    matched = False
                     if image_id:
-                        selected = next((d for d in satellite_docs if d["doc_id"] == image_id), None)
-                    if selected is None and region:
-                        tokens = [t for t in __import__("re").findall(r"[a-z0-9]+", region.lower()) if t]
-                        def _score(doc) -> int:
+                        selected = next((d for d in sat_docs if d.doc_id == image_id), None)
+                        matched = selected is not None
+                    tokens = re.findall(r"[a-z0-9]+", region.lower()) if region else []
+                    if selected is None and tokens:
+                        best, best_score = None, 0
+                        for d in sat_docs:
                             hay = " ".join([
-                                str(doc.get("title") or "").lower(),
-                                str(doc.get("filename") or "").lower(),
-                                str(doc.get("file_type") or "").lower(),
+                                (d.title or "").lower(),
+                                (d.original_filename or "").lower(),
+                                (d.filename or "").lower(),
+                                (d.description or "").lower(),
+                                " ".join(d.tags or []).lower(),
+                                (d.content_summary or "").lower(),
+                                (d.content_text or "")[:2000].lower(),
                             ])
-                            return sum(1 for t in tokens if t in hay)
-                        if tokens:
-                            scored = sorted(
-                                satellite_docs,
-                                key=lambda d: (_score(d), d.get("created_at") or ""),
-                                reverse=True,
-                            )
-                            if scored and _score(scored[0]) > 0:
-                                selected = scored[0]
-                    if selected is None and not region:
-                        if satellite_docs:
-                            selected = satellite_docs[0]
+                            score = sum(1 for t in tokens if t in hay)
+                            if score > best_score:
+                                best, best_score = d, score
+                        if best and best_score > 0:
+                            selected, matched = best, True
                     if selected is None:
-                        available = [str(d.get("filename") or d.get("title") or "untitled") for d in satellite_docs[:6]]
-                        result = f"No stored satellite capture matches '{region or image_id}'. Available: {', '.join(available) or 'none'}."
+                        # Surface the most recent real capture rather than nothing,
+                        # and label it honestly so the user can confirm.
+                        sat_docs = sorted(sat_docs, key=lambda d: d.created_at or "", reverse=True)
+                        if sat_docs:
+                            selected = sat_docs[0]
+                    if selected is None:
+                        result = "No satellite imagery is stored in the knowledge base yet. Upload a capture (or use /api/satellite with real bands) and I'll share it here."
                     else:
                         import urllib.parse
-                        stored = str(selected.get("stored_filename") or selected.get("filename") or "")
-                        display = str(selected.get("filename") or selected.get("title") or "satellite capture")
-                        ext = str(selected.get("file_type") or "png").lower().lstrip(".")
+                        stored = str(selected.filename or "")
+                        display = str(selected.original_filename or selected.title or "satellite capture")
+                        ext = str(selected.file_type or "png").lower().lstrip(".")
                         mime_map = {"jpg": "image/jpeg", "jpeg": "image/jpeg", "png": "image/png", "gif": "image/gif", "webp": "image/webp", "svg": "image/svg+xml"}
                         mime = mime_map.get(ext, "image/png")
                         _output_report = {
                             "filename": display,
                             "storage_uri": f"local://{stored}",
                             "mime_type": mime,
-                            "size_bytes": int(selected.get("file_size") or 0),
+                            "size_bytes": int(selected.file_size or 0),
                             "image": True,
                         }
-                        result = f"Found stored satellite capture '{display}' and added it to the chat as an image. URL: /files/{urllib.parse.quote(stored, safe='/')}"
+                        if matched:
+                            result = f"Found stored satellite capture '{display}' ({selected.created_at}) matching '{region or image_id}' and added it to the chat as an image."
+                        else:
+                            result = f"Added the most recent stored satellite capture '{display}' ({selected.created_at}) to the chat as an image. It's the latest upload in the knowledge base."
+                        result += f" Image URL: /files/{urllib.parse.quote(stored, safe='/')}"
 
             elif tool_name == "generate_report_from_data":
                 report_type_str = args.get("report_type", "production")
