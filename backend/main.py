@@ -748,6 +748,272 @@ def save_session_to_knowledge(req: SaveSessionRequest, auth: AuthPayload = Depen
         "messages_saved": len(parts),
     }
 
+# ---------- Geology Vision (Roboflow / NVIDIA + vision LLM) ----------
+class VisionFrameRequest(BaseModel):
+    image: str = Field(..., min_length=16, max_length=15_000_000, description="Base64-encoded JPEG frame")
+    ambient: str = Field(default="", max_length=200, description="Optional free-form live context hint")
+    llm: bool = Field(default=False, description="Allow the vision-LLM narration path for this frame")
+
+
+@app.post("/api/vision/frame", tags=["Vision"])
+def vision_analyze_frame(req: VisionFrameRequest, auth: AuthPayload = Depends(verify_jwt)):
+    """Live-geology frame analysis (Gemini-Live style). Returns a spoken narration
+    plus structured CV detections for a single camera frame."""
+    import base64 as _b64
+    try:
+        raw = _b64.b64decode(req.image)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid image frame.")
+    if not raw or len(raw) < 32:
+        raise HTTPException(status_code=400, detail="Frame is empty or too small.")
+    try:
+        result = vision_service.live_frame(raw, include_llm=req.llm, ambient=req.ambient)
+    except Exception as e:
+        logger.error(f"Vision frame analysis failed: {e}")
+        raise HTTPException(status_code=500, detail="Vision analysis failed.")
+    return {"status": "success", **result}
+
+
+@app.post("/api/vision/analyze", tags=["Vision"])
+async def vision_analyze_image(file: UploadFile = File(...), auth: AuthPayload = Depends(verify_jwt)):
+    """Full single-image geological assessment (upload)."""
+    raw = await file.read()
+    if not raw:
+        raise HTTPException(status_code=400, detail="Image is empty.")
+    try:
+        result = vision_service.geology_report(raw, file.filename or "sample")
+    except Exception as e:
+        logger.error(f"Vision analyze failed: {e}")
+        raise HTTPException(status_code=500, detail="Vision analysis failed.")
+    return {"status": "success", **result}
+
+
+@app.get("/api/vision/status", tags=["Vision"])
+def vision_status(auth: AuthPayload = Depends(verify_jwt)):
+    provider = vision_service._roboflow()
+    return {"status": "success", **(provider.status() if provider else {
+        "configured": False, "mode": "disabled", "models": {"rock": "", "mineral": "", "ppe": ""},
+    })}
+
+
+# ---------- Shared Document Inbox (team -> Frank) ----------
+class SharedDocNote(BaseModel):
+    note: str = Field(default="", max_length=500)
+
+
+def _shared_docs_dir() -> Path:
+    base = _uploads_dir() / "shared"
+    base.mkdir(parents=True, exist_ok=True)
+    return base
+
+
+def _mime_for(name: str, fallback: str = "application/octet-stream") -> str:
+    low = name.lower()
+    if low.endswith(".pdf"):
+        return "application/pdf"
+    if low.endswith((".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".tif", ".tiff")):
+        return "image/" + low.rsplit(".", 1)[-1]
+    if low.endswith(".txt") or low.endswith(".md"):
+        return "text/plain"
+    if low.endswith(".docx"):
+        return "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    if low.endswith(".xlsx"):
+        return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    return fallback
+
+
+@app.post("/api/shared-docs/upload", tags=["Documents"])
+async def upload_shared_document(
+    file: UploadFile = File(...),
+    note: str = Form(default=""),
+    auth: AuthPayload = Depends(verify_jwt),
+):
+    """Any team member shares a document into Frank's inbox for review + commit."""
+    filename = (file.filename or "attachment").strip()
+    if not filename or "\\" in filename or "/" in filename:
+        raise HTTPException(status_code=400, detail="Invalid filename.")
+    raw = await file.read()
+    if not raw:
+        raise HTTPException(status_code=400, detail="Uploaded file is empty.")
+
+    file_id = uuid.uuid4().hex[:12]
+    stored = f"{file_id}_{filename}"
+    path = _shared_docs_dir() / stored
+    path.write_bytes(raw)
+
+    low = filename.lower()
+    ftype = "pdf" if low.endswith(".pdf") else (
+        "image" if low.rsplit(".", 1)[-1] in ("png", "jpg", "jpeg", "gif", "webp", "bmp") else (
+        "sheet" if low.endswith((".xls", ".xlsx", ".csv")) else (
+        "text" if low.endswith((".txt", ".md")) else "other")))
+    sharer = USERS.get(auth.username)
+    sharer_name = sharer.display_name if sharer else auth.username
+
+    doc_db_id = postgres_client.create_shared_document(
+        original_filename=filename,
+        stored_filename=stored,
+        file_type=ftype,
+        mime_type=_mime_for(filename, file.content_type or "application/octet-stream"),
+        size_bytes=len(raw),
+        sharer_username=auth.username,
+        sharer_display=sharer_name,
+        tenant_id=auth.tenant_id,
+        note=(note or "").strip()[:500],
+    )
+    if doc_db_id < 0:
+        raise HTTPException(status_code=500, detail="Could not record the shared document.")
+    logger.info(f"Shared doc uploaded: {filename} by {auth.username} (id={doc_db_id})")
+    return {"status": "success", "id": doc_db_id, "filename": filename, "shared_at": None}
+
+
+@app.get("/api/shared-docs", tags=["Documents"])
+def list_shared_documents(auth: AuthPayload = Depends(verify_jwt)):
+    """Admin (Frank) sees every sharer's docs; users only see their own."""
+    if auth.role == "admin":
+        rows = postgres_client.list_shared_documents()
+    else:
+        rows = postgres_client.list_shared_documents(tenant_id=auth.tenant_id)
+    for r in rows:
+        if isinstance(r.get("shared_at"), str):
+            r["shared_at"] = r["shared_at"]
+    return {"status": "success", "records": rows or []}
+
+
+@app.post("/api/shared-docs/{doc_db_id}/commit", tags=["Documents"])
+def commit_shared_document(doc_db_id: int, auth: AuthPayload = Depends(verify_jwt)):
+    """Frank-only: index a shared document into the knowledge base, per file."""
+    if auth.role != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required.")
+    import re as _re
+    import time as _time
+
+    row = postgres_client.get_shared_document(doc_db_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Shared document not found.")
+    if row.get("status") == "committed":
+        return {"status": "already_committed", "id": doc_db_id, "doc_id": row.get("doc_id", "")}
+
+    stored = row.get("stored_filename", "")
+    path = _shared_docs_dir() / stored
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Stored file is missing.")
+
+    raw = path.read_bytes()
+    filename = row.get("original_filename", stored)
+
+    # Real content: OCR images, extract text elsewhere. Never fabricated.
+    content = ""
+    low = filename.lower()
+    is_image = _mime_for(filename).startswith("image/")
+    if is_image:
+        ocr = vision_service.run_ocr(raw, filename).strip()
+        content = f"[Image: {filename}]"
+        content += f"\n\nRendered OCR text:\n{ocr}\n" if ocr else "\n(no readable text extracted)\n"
+    else:
+        content = extract_text(filename, raw)
+    if not content.strip():
+        content = f"[{filename}] — no extractable text (reports, spreadsheets and images are kept as-is)."
+    body = f"[Shared by {row.get('sharer_display') or row.get('sharer_username')} — {filename}]\n\n{content}"
+
+    chunks = []
+    chunk_count = 0
+    kb_doc = None
+    try:
+        from ingestion.embeddings import chunk_text
+        from ingestion.loader import index_documents_to_vector_db
+        import hashlib
+        chunks = chunk_text(body, max_chunk_size=1000, overlap=150)
+        docs_to_index = []
+        for idx, chunk in enumerate(chunks):
+            doc_id = hashlib.md5(f"{auth.tenant_id}_shared_{filename}_{idx}_{doc_db_id}".encode()).hexdigest()
+            docs_to_index.append({
+                "id": doc_id,
+                "text": chunk,
+                "payload": {
+                    "source": "shared_by_team",
+                    "filename": filename,
+                    "chunk_index": idx,
+                    "tenant_id": auth.tenant_id,
+                    "content_preview": chunk[:500],
+                    "title": f"Shared · {filename}",
+                    "sharer": row.get("sharer_display") or row.get("sharer_username"),
+                },
+            })
+        chunk_count = index_documents_to_vector_db(vector_client, docs_to_index, collection_name=f"company_knowledge_{auth.tenant_id}")
+        try:
+            kb = get_knowledge_base()
+            kb_doc = kb.add_document(str(path), filename, {
+                "source": "shared_by_team",
+                "mime_type": row.get("mime_type", "application/octet-stream"),
+                "tenant_id": auth.tenant_id,
+                "title": f"Shared · {filename}",
+                "sharer": row.get("sharer_display") or row.get("sharer_username"),
+            })
+        except Exception as kb_err:
+            logger.warning(f"Shared doc KB registration skipped: {kb_err}")
+    except Exception as e:
+        logger.error(f"Indexing shared document {doc_db_id} failed: {e}")
+        chunk_count = 0
+
+    kb_doc_id = getattr(kb_doc, "doc_id", "") or ""
+    committed_at = _time.strftime("%Y-%m-%d %H:%M:%S")
+    postgres_client.update_shared_document_status(doc_db_id, "committed",
+                                                  committed_at=committed_at, kb_doc_id=kb_doc_id)
+    logger.info(f"Shared doc committed to KB: {filename} (id={doc_db_id}, chunks={chunk_count})")
+    return {
+        "status": "success",
+        "id": doc_db_id,
+        "doc_id": kb_doc_id,
+        "chunks_indexed": chunk_count,
+    }
+
+
+@app.post("/api/shared-docs/{doc_db_id}/reject", tags=["Documents"])
+def reject_shared_document(doc_db_id: int, auth: AuthPayload = Depends(verify_jwt)):
+    if auth.role != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required.")
+    row = postgres_client.get_shared_document(doc_db_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Shared document not found.")
+    postgres_client.update_shared_document_status(doc_db_id, "rejected")
+    return {"status": "success", "id": doc_db_id, "state": "rejected"}
+
+
+@app.delete("/api/shared-docs/{doc_db_id}", tags=["Documents"])
+def delete_shared_document(doc_db_id: int, auth: AuthPayload = Depends(verify_jwt)):
+    row = postgres_client.get_shared_document(doc_db_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Shared document not found.")
+    if auth.role != "admin" and row.get("tenant_id") != auth.tenant_id:
+        raise HTTPException(status_code=403, detail="You can only remove your own shared documents.")
+    if row.get("status") == "committed":
+        raise HTTPException(status_code=400, detail="Committed documents stay in the knowledge base.")
+    stored = row.get("stored_filename", "")
+    try:
+        (Path(_shared_docs_dir()) / stored).unlink(missing_ok=True)
+    except Exception:
+        pass
+    postgres_client.delete_shared_document(doc_db_id)
+    return {"status": "success", "id": doc_db_id}
+
+
+@app.get("/api/shared-docs/{doc_db_id}/preview", tags=["Documents"])
+def preview_shared_document(doc_db_id: int, auth: AuthPayload = Depends(verify_jwt)):
+    row = postgres_client.get_shared_document(doc_db_id)
+    if not row:
+        raise HTTPException(status_code=404, detail="Shared document not found.")
+    if auth.role != "admin" and row.get("tenant_id") != auth.tenant_id:
+        raise HTTPException(status_code=403, detail="Preview not allowed for this document.")
+    path = _shared_docs_dir() / row.get("stored_filename", "")
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Stored file is missing.")
+    return FileResponse(
+        path=str(path),
+        media_type=row.get("mime_type") or _mime_for(row.get("original_filename", "")),
+        filename=row.get("original_filename", ""),
+        headers={"Cache-Control": "no-store"},
+    )
+
 @app.get("/api/system/telemetry", tags=["UI Integration"], dependencies=[Depends(verify_api_key)])
 def get_telemetry():
     cpu_percent = 45.2

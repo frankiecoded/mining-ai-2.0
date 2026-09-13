@@ -32,6 +32,12 @@ const KnowledgeView = lazy(() =>
 const TeamView = lazy(() =>
   import('../modules/TeamView').then((m) => ({ default: m.TeamView })),
 );
+const GeologyVisionView = lazy(() =>
+  import('../modules/GeologyVisionView').then((m) => ({ default: m.GeologyVisionView })),
+);
+const SharedDocsView = lazy(() =>
+  import('../modules/SharedDocsView').then((m) => ({ default: m.SharedDocsView })),
+);
 
 const MODULE_TITLES: Record<ModuleId, string> = {
   chat: 'Command',
@@ -40,6 +46,8 @@ const MODULE_TITLES: Record<ModuleId, string> = {
   tasks: 'Operations',
   knowledge: 'Knowledge Base',
   team: 'Team',
+  vision: 'Geology Vision',
+  shared: 'Documents',
 };
 
 const BOOT_URL = import.meta.env.VITE_API_URL || '';
@@ -234,6 +242,8 @@ export function AppShell() {
                   {activeModule === 'tasks' && <TaskView />}
                   {activeModule === 'knowledge' && <KnowledgeView />}
                   {activeModule === 'team' && <TeamView />}
+                  {activeModule === 'vision' && <GeologyVisionView />}
+                  {activeModule === 'shared' && <SharedDocsView />}
                 </Suspense>
               </ErrorBoundary>
             </motion.div>

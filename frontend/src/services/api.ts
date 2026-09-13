@@ -9,9 +9,13 @@ import type {
   MarketPricesResponse,
   ProcurementsResponse,
   SessionsResponse,
+  SharedDocsResponse,
   Task,
   TasksResponse,
   UploadResponse,
+  VisionAnalysisResult,
+  VisionFrameResult,
+  VisionStatus,
 } from '../types';
 
 // Singleton API client bound to VITE_API_URL (Cloudflare tunnel or local).
@@ -395,6 +399,71 @@ class ChatAPI {
       headers: this.getHeaders(false),
       body: formData,
     });
+  }
+
+  // ─── Geology Vision (Roboflow / NVIDIA + vision LLM) ───
+  static analyzeVisionFrame(imageBase64: string, ambient = '', llm = false): Promise<VisionFrameResult> {
+    return this.request<VisionFrameResult>('/api/vision/frame', {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ image: imageBase64, ambient, llm }),
+    });
+  }
+
+  static analyzeVisionImage(file: File): Promise<VisionAnalysisResult> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.request<VisionAnalysisResult>('/api/vision/analyze', {
+      method: 'POST',
+      headers: this.getHeaders(false),
+      body: formData,
+    });
+  }
+
+  static fetchVisionStatus(): Promise<VisionStatus> {
+    return this.request<VisionStatus>('/api/vision/status', { headers: this.getHeaders() });
+  }
+
+  // ─── Shared Document Inbox (team → Frank) ───
+  static uploadSharedDocument(file: File, note = ''): Promise<{ status: string; id: number; filename: string }> {
+    const formData = new FormData();
+    formData.append('file', file);
+    if (note) formData.append('note', note);
+    return this.request('/api/shared-docs/upload', {
+      method: 'POST',
+      headers: this.getHeaders(false),
+      body: formData,
+    });
+  }
+
+  static fetchSharedDocuments(): Promise<SharedDocsResponse> {
+    return this.request<SharedDocsResponse>('/api/shared-docs', { headers: this.getHeaders() });
+  }
+
+  static commitSharedDocument(id: number): Promise<{ status: string; id: number; doc_id?: string; chunks_indexed?: number }> {
+    return this.request(`/api/shared-docs/${id}/commit`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+    });
+  }
+
+  static rejectSharedDocument(id: number): Promise<{ status: string; id: number; state: string }> {
+    return this.request(`/api/shared-docs/${id}/reject`, {
+      method: 'POST',
+      headers: this.getHeaders(),
+    });
+  }
+
+  static deleteSharedDocument(id: number): Promise<{ status: string; id: number }> {
+    return this.request(`/api/shared-docs/${id}`, {
+      method: 'DELETE',
+      headers: this.getHeaders(),
+    });
+  }
+
+  static getSharedDocPreviewUrl(id: number): string {
+    const base = import.meta.env.VITE_API_URL || '';
+    return `${base}/api/shared-docs/${id}/preview`;
   }
 }
 

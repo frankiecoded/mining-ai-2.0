@@ -18,6 +18,8 @@ import {
   Bookmark,
   BookmarkCheck,
   Loader2,
+  Camera,
+  FolderUp,
 } from 'lucide-react';
 import { useSessions } from '../../hooks/useSessions';
 import { useAuth } from '../../contexts/AuthContext';
@@ -32,6 +34,8 @@ const MODULES: Array<{ id: ModuleId; label: string; icon: ComponentType<{ classN
   { id: 'finance', label: 'Finance', icon: Landmark },
   { id: 'tasks', label: 'Operations', icon: FolderKanban },
   { id: 'knowledge', label: 'Knowledge', icon: Database },
+  { id: 'vision', label: 'Geology Vision', icon: Camera },
+  { id: 'shared', label: 'Documents', icon: FolderUp },
 ];
 
 const TEAM_MODULE: { id: ModuleId; label: string; icon: ComponentType<{ className?: string }> } = {

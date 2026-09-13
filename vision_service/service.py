@@ -121,6 +121,204 @@ class VisionService:
                        "image metadata is reported; no content was assumed.",
         }
 
+    # ─────────────────────────────────────────────────────────────────────
+    # Geology vision: Roboflow/NVIDIA CV + multimodal LLM narration.
+    # ─────────────────────────────────────────────────────────────────────
+
+    def _roboflow(self):
+        """Lazily build the Roboflow/edge CV client from configured settings."""
+        try:
+            from vision_service.roboflow import RoboflowVision
+            from backend.config import settings
+            return RoboflowVision(
+                api_key=settings.ROBOFLOW_API_KEY,
+                inference_url=settings.ROBOFLOW_INFERENCE_URL,
+                rock_detector=settings.ROBOFLOW_ROCK_DETECTOR,
+                mineral_detector=settings.ROBOFLOW_MINERAL_DETECTOR,
+                ppe_detector=settings.ROBOFLOW_PPE_DETECTOR,
+            )
+        except Exception as e:
+            logger.warning(f"Roboflow client unavailable: {e}")
+            return None
+
+    def _image_stats(self, image_bytes: bytes) -> Dict[str, Any]:
+        """Cheap colour/structure statistics used for live-frame narration when
+        no CV model is configured. Real pixels only."""
+        try:
+            from PIL import Image
+            import numpy as np
+            import io as _io
+            with Image.open(_io.BytesIO(image_bytes)).convert("RGB") as img:
+                if img.width * img.height > 64_000:
+                    img.thumbnail((256, 256), Image.Resampling.LANCZOS)
+                arr = np.asarray(img).astype(float)
+                r, g, b = arr[..., 0].mean(), arr[..., 1].mean(), arr[..., 2].mean()
+                brightness = (r * 0.299 + g * 0.587 + b * 0.114)
+                # Simple green-ratio proxy for vegetation cover.
+                denom = (r + g + b + 1e-6)
+                green_ratio = g / denom
+                return {
+                    "rgb": [round(float(r)), round(float(g)), round(float(b))],
+                    "brightness": round(float(brightness)),
+                    "green_ratio": round(float(green_ratio), 3),
+                }
+        except Exception:
+            return {}
+
+    def analyze_scene_detections(self, image_bytes: bytes) -> Dict[str, Any]:
+        """Run all configured CV models (rock / mineral / safety)."""
+        rf = self._roboflow()
+        if not rf or not rf.configured:
+            return {"provider": "disabled", "configured": False, "detections": []}
+        try:
+            return rf.analyze_scene(image_bytes)
+        except Exception as e:
+            logger.warning(f"CV scene analysis failed: {e}")
+            return {"provider": "disabled", "configured": False, "detections": []}
+
+    def _rock_lexicon(self) -> Dict[str, str]:
+        """Default geological reading for common rock/ore classes seen in CV
+        models. Mapped from real class labels when the detection is authoritative."""
+        return {
+            "granite": "light, coarse-grained intrusive rock rich in quartz and feldspar",
+            "basalt": "dark, fine-grained volcanic rock of mafic composition",
+            "sandstone": "clastic sedimentary rock with visible sand-grade grains",
+            "quartz": "silica-rich rock, often a mineralisation host",
+            "quartz_vein": "silica-filled fracture typical of gold-bearing vein systems",
+            "limestone": "carbonate sedimentary rock",
+            "schist": "metamorphic foliated rock with aligned minerals",
+            "gneiss": "high-grade metamorphic banded rock",
+            "conglomerate": "sedimentary rock with rounded clasts in a matrix",
+            "laterite": "iron-rich weathered zone, common in tropical regolith",
+            "ore": "economic mineralisation",
+            "pyrite": "iron sulphide, commonly associated with gold mineralisation",
+            "chalcopyrite": "copper-iron sulphide — a primary copper ore",
+            "bornite": "copper sulphide with a distinctive blue-purple tarnish",
+            "galena": "lead sulphide with metallic lustre",
+            "hematite": "iron oxide, common in banded iron formations",
+            "hematite_rock": "iron oxide rock",
+            "magnetite": "strongly magnetic iron oxide ore",
+            "gold": "visible gold mineralisation",
+            "malachite": "green copper carbonate, a strong copper surface indicator",
+            "azurite": "blue copper carbonate, a copper oxide indicator",
+            "manganese": "dark manganese oxide staining",
+            "cassiterite": "tin oxide ore",
+            "bauxite": "aluminium ore formed in tropical weathering",
+            "soil": "surface regolith and soil cover",
+            "rock_face": "exposed rock outcrop",
+            "outcrop": "exposed bedrock at surface",
+            "drill_core": "drill core sample material",
+            "sample_bag": "collected rock sample bag",
+        }
+
+    def _normalize_detections(self, detections: list, image_bytes: bytes) -> list:
+        """Convert pixel box coords to 0..1 view-space (the downscaled image the
+        CV model actually saw), so the client can draw boxes over any display size."""
+        ow, oh = 1280, 1280
+        try:
+            from PIL import Image
+            import io as _io
+            with Image.open(_io.BytesIO(image_bytes)) as img:
+                w, h = img.size
+                scale = min(1280.0 / max(w, h), 1.0)
+                ow, oh = round(w * scale), round(h * scale)
+        except Exception:
+            pass
+        out = []
+        for d in detections:
+            try:
+                x = float(d.get("x", 0)) / ow
+                y = float(d.get("y", 0)) / oh
+                w = float(d.get("width", 0)) / ow
+                h = float(d.get("height", 0)) / oh
+            except (TypeError, ValueError):
+                x, y, w, h = 0, 0, 0, 0
+            out.append({**d, "x": round(max(0, min(1, x)), 4),
+                        "y": round(max(0, min(1, y)), 4),
+                        "width": round(max(0, min(1, w)), 4),
+                        "height": round(max(0, min(1, h)), 4)})
+        return out
+
+    def _rule_narration(self, detections: list, stats: dict) -> List[str]:
+        """Build a short, factual narration sentence set from detections + pixel
+        statistics. Used live when the LLM path is throttled."""
+        sentences: List[str] = []
+        if stats.get("green_ratio", 0) > 0.42:
+            sentences.append("Heavy vegetation cover is limiting rock exposure right now.")
+        lexicon = self._rock_lexicon()
+        for d in detections[:4]:
+            cls = str(d.get("class", "rock")).lower()
+            conf = d.get("confidence", 0)
+            reading = lexicon.get(cls)
+            if reading:
+                sentences.append(f"{cls} detected with {round(float(conf or 0) * 100)}% confidence — {reading}.")
+        if not sentences:
+            sentences.append("Scene is reading as mostly unclassified ground cover and sky.")
+        return sentences
+
+    def live_frame(self, image_bytes: bytes, include_llm: bool = True,
+                   ambient: str = "") -> Dict[str, Any]:
+        """Analyse a live camera frame for the geology feed.
+
+        Returns narration-ready text (spoken aloud by the client) plus structured
+        detections. Narration is REAL: either CV detections or this scene's
+        actual pixels via the vision LLM.
+        """
+        detections_result = self.analyze_scene_detections(image_bytes)
+        detections = self._normalize_detections(detections_result.get("detections", []), image_bytes)
+        stats = self._image_stats(image_bytes)
+
+        narration = ""
+        if detections:
+            narration = "\n".join(self._rule_narration(detections, stats))
+        elif include_llm:
+            context = f" Live-context hint: {ambient}" if ambient else ""
+            narration = self.analyze_multimodal(
+                image_bytes,
+                "You are a field geologist narrating live in first person. In one or two "
+                "short, spoken sentences, describe what is geologically visible: rock type, "
+                "weathering, structure, veining, or mineralisation. Only state what you can "
+                "actually see. If nothing geological is visible, say so plainly. Do not repeat "
+                "the prompt." + context,
+                file_name="live_frame",
+            )
+        if not narration:
+            narration = "Still analysing this scene before I can comment on the geology."
+
+        return {
+            "provider": detections_result.get("provider", "llm"),
+            "detections": detections,
+            "stats": stats,
+            "narration": narration,
+            "speakable": narration,
+        }
+
+    def geology_report(self, image_bytes: bytes, name: str = "sample") -> Dict[str, Any]:
+        """Full single-image geological report combining CV + vision-LLM read."""
+        detections_result = self.analyze_scene_detections(image_bytes)
+        detections = self._normalize_detections(detections_result.get("detections", []), image_bytes)
+        stats = self._image_stats(image_bytes)
+
+        llm = self.analyze_multimodal(
+            image_bytes,
+            "Act as a senior exploration geologist. Produce a concise, factual field "
+            "assessment of this geological image. Cover: (1) rock type and lithology, "
+            "(2) structural features, (3) visible alteration or mineralisation, (4) "
+            "weathering and terrain, (5) recommended field test (e.g. magnetic sus, "
+            "acid test, panning). Only describe what is actually visible; never invent "
+            "assay values. Keep it under 180 words as spoken prose.",
+            file_name=name,
+        )
+
+        return {
+            "provider": detections_result.get("provider", "llm"),
+            "configured": detections_result.get("configured", False),
+            "detections": detections,
+            "stats": stats,
+            "assessment": llm,
+            "filename": name,
+        }
+
     def _downscale_image(self, image_bytes: bytes, max_size: int = 768) -> bytes:
         """Downscale + re-encode an image to bound upload size and vision tokens.
 

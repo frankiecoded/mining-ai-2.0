@@ -113,6 +113,24 @@ class PostgresClient:
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE (question)
             );
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS shared_documents (
+                id SERIAL PRIMARY KEY,
+                original_filename VARCHAR(255) NOT NULL,
+                stored_filename VARCHAR(500) NOT NULL,
+                file_type VARCHAR(50) DEFAULT 'other',
+                mime_type VARCHAR(100) DEFAULT 'application/octet-stream',
+                size_bytes BIGINT DEFAULT 0,
+                sharer_username VARCHAR(100) NOT NULL,
+                sharer_display VARCHAR(160) DEFAULT '',
+                tenant_id VARCHAR(100) DEFAULT '',
+                note TEXT DEFAULT '',
+                status VARCHAR(30) DEFAULT 'pending',
+                doc_id VARCHAR(120) DEFAULT '',
+                shared_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                committed_at TIMESTAMP
+            );
             """
         ]
         alter_queries = [
@@ -129,6 +147,8 @@ class PostgresClient:
             "CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);",
             "CREATE INDEX IF NOT EXISTS idx_knowledge_base_topic ON knowledge_base(topic);",
             "CREATE INDEX IF NOT EXISTS idx_knowledge_base_document_type ON knowledge_base(document_type);",
+            "CREATE INDEX IF NOT EXISTS idx_shared_docs_tenant ON shared_documents(tenant_id);",
+            "CREATE INDEX IF NOT EXISTS idx_shared_docs_status ON shared_documents(status);",
             "CREATE EXTENSION IF NOT EXISTS pg_trgm;",
             "CREATE INDEX IF NOT EXISTS idx_kb_question_trgm ON knowledge_base USING gin(question gin_trgm_ops);",
         ]
@@ -198,6 +218,24 @@ class PostgresClient:
                 created_at TEXT DEFAULT CURRENT_TIMESTAMP,
                 UNIQUE (question)
             );
+            """,
+            """
+            CREATE TABLE IF NOT EXISTS shared_documents (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                original_filename TEXT NOT NULL,
+                stored_filename TEXT NOT NULL,
+                file_type TEXT DEFAULT 'other',
+                mime_type TEXT DEFAULT 'application/octet-stream',
+                size_bytes INTEGER DEFAULT 0,
+                sharer_username TEXT NOT NULL,
+                sharer_display TEXT DEFAULT '',
+                tenant_id TEXT DEFAULT '',
+                note TEXT DEFAULT '',
+                status TEXT DEFAULT 'pending',
+                doc_id TEXT DEFAULT '',
+                shared_at TEXT DEFAULT CURRENT_TIMESTAMP,
+                committed_at TEXT
+            );
             """
         ]
         alter_queries = [
@@ -214,6 +252,8 @@ class PostgresClient:
             "CREATE INDEX IF NOT EXISTS idx_audit_logs_action ON audit_logs(action);",
             "CREATE INDEX IF NOT EXISTS idx_knowledge_base_topic ON knowledge_base(topic);",
             "CREATE INDEX IF NOT EXISTS idx_knowledge_base_document_type ON knowledge_base(document_type);",
+            "CREATE INDEX IF NOT EXISTS idx_shared_docs_tenant ON shared_documents(tenant_id);",
+            "CREATE INDEX IF NOT EXISTS idx_shared_docs_status ON shared_documents(status);",
         ]
         fts_queries = [
             """
@@ -437,6 +477,50 @@ class PostgresClient:
     def list_tasks(self) -> List[Dict[str, Any]]:
         sql = "SELECT * FROM tasks ORDER BY created_at DESC;"
         return self._execute(sql, (), fetch="all") or []
+
+    # Shared document inbox
+    def create_shared_document(self, original_filename: str, stored_filename: str, file_type: str,
+                               mime_type: str, size_bytes: int, sharer_username: str, sharer_display: str,
+                               tenant_id: str, note: str = "") -> int:
+        sql = """INSERT INTO shared_documents
+            (original_filename, stored_filename, file_type, mime_type, size_bytes,
+             sharer_username, sharer_display, tenant_id, note)
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s) RETURNING id;"""
+        return self._execute(sql, (original_filename, stored_filename, file_type, mime_type, size_bytes,
+                                   sharer_username, sharer_display, tenant_id, note)) or -1
+
+    def list_shared_documents(self, tenant_id: Optional[str] = None) -> List[Dict[str, Any]]:
+        if tenant_id:
+            sql = "SELECT * FROM shared_documents WHERE tenant_id=%s ORDER BY shared_at DESC;"
+            rows = self._execute(sql, (tenant_id,), fetch="all") or []
+        else:
+            sql = "SELECT * FROM shared_documents ORDER BY shared_at DESC;"
+            rows = self._execute(sql, (), fetch="all") or []
+        # Ensure dict shape on SQLite (it returns sqlite3.Row)
+        out = []
+        for r in rows:
+            d = dict(r) if not isinstance(r, dict) else r
+            out.append(d)
+        return out
+
+    def get_shared_document(self, doc_db_id: int) -> Optional[Dict[str, Any]]:
+        sql = "SELECT * FROM shared_documents WHERE id=%s;"
+        r = self._execute(sql, (doc_db_id,), fetch="one")
+        return dict(r) if r and not isinstance(r, dict) else r
+
+    def update_shared_document_status(self, doc_db_id: int, status: str,
+                                      committed_at: Optional[str] = None,
+                                      kb_doc_id: str = "") -> None:
+        if committed_at:
+            sql = "UPDATE shared_documents SET status=%s, doc_id=%s, committed_at=%s WHERE id=%s;"
+            self._execute(sql, (status, kb_doc_id, committed_at, doc_db_id))
+        else:
+            sql = "UPDATE shared_documents SET status=%s WHERE id=%s;"
+            self._execute(sql, (status, doc_db_id))
+
+    def delete_shared_document(self, doc_db_id: int) -> None:
+        sql = "DELETE FROM shared_documents WHERE id=%s;"
+        self._execute(sql, (doc_db_id,))
 
     # Audit Logs
     def log_audit(self, phone_number: Optional[str], action: str, details: Dict[str, Any]):

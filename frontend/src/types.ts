@@ -108,7 +108,7 @@ export interface UploadResponse {
   chunks_indexed: number;
 }
 
-export type ModuleId = 'chat' | 'intel' | 'finance' | 'tasks' | 'knowledge' | 'team';
+export type ModuleId = 'chat' | 'intel' | 'finance' | 'tasks' | 'knowledge' | 'team' | 'vision' | 'shared';
 
 export interface MemoryFact {
   title: string;
@@ -213,4 +213,64 @@ export interface SatelliteAnnotation {
 export interface AnnotationCollection {
   type: 'FeatureCollection';
   features: SatelliteAnnotation[];
+}
+
+// --- Geology Vision (Roboflow / NVIDIA + vision LLM) ---
+export interface VisionDetection {
+  task: 'rock' | 'mineral' | 'ppe' | string;
+  class: string;
+  confidence: number;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+}
+
+export interface VisionFrameResult {
+  status?: string;
+  provider: string;
+  detections: VisionDetection[];
+  stats: { rgb?: number[]; brightness?: number; green_ratio?: number };
+  narration: string;
+  speakable: string;
+}
+
+export interface VisionAnalysisResult {
+  status?: string;
+  provider: string;
+  configured: boolean;
+  detections: VisionDetection[];
+  stats: { rgb?: number[]; brightness?: number; green_ratio?: number };
+  assessment: string;
+  filename?: string;
+}
+
+export interface VisionStatus {
+  status: string;
+  configured: boolean;
+  mode: 'hosted' | 'edge' | 'disabled';
+  models: { rock: string; mineral: string; ppe: string };
+}
+
+// --- Shared Document Inbox ---
+export interface SharedDocRecord {
+  id: number;
+  original_filename: string;
+  stored_filename: string;
+  file_type: string;
+  mime_type: string;
+  size_bytes: number;
+  sharer_username: string;
+  sharer_display: string;
+  tenant_id: string;
+  note: string;
+  status: 'pending' | 'committed' | 'rejected' | string;
+  doc_id: string;
+  shared_at: string;
+  committed_at: string | null;
+}
+
+export interface SharedDocsResponse {
+  status: string;
+  records: SharedDocRecord[];
 }

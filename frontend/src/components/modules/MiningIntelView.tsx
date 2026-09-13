@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { Map, AlertTriangle, Coins } from 'lucide-react';
+import { Map, AlertTriangle, Coins, Database, RefreshCcw, Layers } from 'lucide-react';
 import { useMarketPrices } from '../../hooks/useMarketPrices';
+import { ChatAPI } from '../../services/api';
 import { SectionLabel } from '../ui/SectionLabel';
 import { Sparkline } from '../ui/Sparkline';
 import { Badge } from '../ui/Badge';
@@ -8,7 +9,8 @@ import { EmptyState } from '../ui/EmptyState';
 import { Spinner } from '../ui/Spinner';
 import { SpotlightCard } from '../ui/SpotlightCard';
 import { AnimatedNumber } from '../ui/AnimatedNumber';
-import type { MetalPrice } from '../../types';
+import { useEffect, useState } from 'react';
+import type { KnowledgeSummary, MetalPrice } from '../../types';
 
 const METALS: Array<{ key: string; name: string; unit: string }> = [
   { key: 'gold', name: 'Gold', unit: 'oz' },
@@ -38,10 +40,24 @@ function trendSeries(m: MetalPrice | undefined): number[] {
 
 export function MiningIntelView() {
   const { data, error, loading } = useMarketPrices(60_000);
+  const [kb, setKb] = useState<KnowledgeSummary | null>(null);
+  useEffect(() => {
+    let active = true;
+    void ChatAPI.fetchKnowledgeSummary()
+      .then((r) => { if (active) setKb(r.summary ?? null); })
+      .catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+
   const metals = data?.summary?.metals ?? {};
   const gemstones = data?.summary?.gemstones ?? {};
   const ratio = data?.summary?.gold_silver_ratio;
   const alerts = data?.summary?.alerts ?? [];
+
+  const tsRaw = data?.summary?.timestamp || '';
+  const ts = tsRaw ? new Date(tsRaw) : null;
+  const fresh = ts && Number.isFinite(ts.getTime()) && Date.now() - ts.getTime() < 24 * 3600 * 1000;
+  const stale = !!ts && !fresh;
 
   return (
     <div className="h-full overflow-y-auto thin-scrollbar px-4 md:px-8 py-6">
@@ -60,6 +76,21 @@ export function MiningIntelView() {
             <p className="text-[13px] text-zinc-500">Live commodity markets and geological data</p>
           </div>
         </motion.header>
+
+        {stale && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="flex items-start gap-2.5 rounded-xl border border-amber-400/20 bg-amber-400/[0.07] p-3.5 text-[13px] text-amber-200"
+          >
+            <RefreshCcw className="w-4 h-4 mt-0.5 shrink-0" />
+            <span>
+              Market refresh is stale — last update{' '}
+              <span className="font-mono">{ts ? ts.toLocaleString() : 'not recorded'}</span>. Ask Frank to refresh the
+              market scraper so prices here are live.
+            </span>
+          </motion.div>
+        )}
 
         {loading && !data ? (
           <div className="flex justify-center py-16 text-sky-300"><Spinner className="w-6 h-6" /></div>
@@ -167,6 +198,63 @@ export function MiningIntelView() {
             )}
           </>
         )}
+
+        {/* Knowledge snapshot — the intel the models reason over */}
+        <section className="space-y-4">
+          <SectionLabel>Operation Snapshot</SectionLabel>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-3.5">
+            <SpotlightCard className="glass-faint rounded-2xl">
+              <div className="p-4 flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-sky-400/10 text-sky-300 inline-flex items-center justify-center shrink-0">
+                  <Database className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium">KB Documents</div>
+                  <div className="text-lg font-semibold text-white tabular">
+                    {kb ? <AnimatedNumber value={kb.total_documents} /> : '—'}
+                  </div>
+                </div>
+              </div>
+            </SpotlightCard>
+            <SpotlightCard className="glass-faint rounded-2xl">
+              <div className="p-4 flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-violet-400/10 text-violet-300 inline-flex items-center justify-center shrink-0">
+                  <Layers className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium">Words Indexed</div>
+                  <div className="text-lg font-semibold text-white tabular">
+                    {kb ? <AnimatedNumber value={kb.total_words} /> : '—'}
+                  </div>
+                </div>
+              </div>
+            </SpotlightCard>
+            <SpotlightCard className="glass-faint rounded-2xl">
+              <div className="p-4 flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-emerald-400/10 text-emerald-300 inline-flex items-center justify-center shrink-0">
+                  <Coins className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium">Gold / Silver</div>
+                  <div className="text-lg font-semibold text-white tabular">{ratio ?? '—'}</div>
+                </div>
+              </div>
+            </SpotlightCard>
+            <SpotlightCard className="glass-faint rounded-2xl">
+              <div className="p-4 flex items-center gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-amber-400/10 text-amber-300 inline-flex items-center justify-center shrink-0">
+                  <Map className="w-5 h-5" />
+                </div>
+                <div>
+                  <div className="text-[11px] uppercase tracking-wider text-zinc-500 font-medium">Market Feed</div>
+                  <div className="text-[13px] font-semibold text-white tabular">
+                    {fresh ? 'Live' : ts ? 'Stale' : 'Unavailable'}
+                  </div>
+                </div>
+              </div>
+            </SpotlightCard>
+          </div>
+        </section>
       </div>
     </div>
   );

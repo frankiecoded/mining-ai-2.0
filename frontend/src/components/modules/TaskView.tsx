@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FolderKanban, Plus, Loader2, Play, CheckCircle2, Clock, AlertTriangle, RefreshCw } from 'lucide-react';
+import { FolderKanban, Plus, Loader2, Play, CheckCircle2, Clock, AlertTriangle, RefreshCw, Cpu } from 'lucide-react';
 import { useTasks } from '../../hooks/useTasks';
 import { GlassPanel } from '../ui/GlassPanel';
 import { SectionLabel } from '../ui/SectionLabel';
@@ -8,6 +8,7 @@ import { Badge } from '../ui/Badge';
 import { EmptyState } from '../ui/EmptyState';
 import { Spinner } from '../ui/Spinner';
 import { StatCard } from '../ui/StatCard';
+import { SpotlightCard } from '../ui/SpotlightCard';
 import type { Task } from '../../types';
 
 const statusTone: Record<string, 'emerald' | 'sky' | 'amber' | 'rose'> = {
@@ -29,6 +30,7 @@ export function TaskView() {
   const [desc, setDesc] = useState('');
   const [creating, setCreating] = useState(false);
   const [rerunning, setRerunning] = useState<string | null>(null);
+  const [filter, setFilter] = useState<'all' | 'pending' | 'running' | 'completed'>('all');
 
   const statusOf = (t: Task) => (t.status || 'pending');
   const counts = {
@@ -37,6 +39,31 @@ export function TaskView() {
     completed: tasks.filter((t) => statusOf(t) === 'completed').length,
     pending: tasks.filter((t) => statusOf(t) === 'pending').length,
   };
+
+  const filtered = useMemo(
+    () => (filter === 'all' ? tasks : tasks.filter((t) => statusOf(t) === filter)),
+    [tasks, filter],
+  );
+
+  const roster = useMemo(() => {
+    const map = new Map<string, { total: number; busy: number; done: number }>();
+    for (const t of tasks) {
+      const who = t.assignee ?? t.assigned_to ?? 'Unassigned';
+      const cur = map.get(who) ?? { total: 0, busy: 0, done: 0 };
+      cur.total += 1;
+      if (statusOf(t) === 'running') cur.busy += 1;
+      if (statusOf(t) === 'completed') cur.done += 1;
+      map.set(who, cur);
+    }
+    return [...map.entries()].sort((a, b) => b[1].total - a[1].total);
+  }, [tasks]);
+
+  const FILTERS: Array<{ id: typeof filter; label: string }> = [
+    { id: 'all', label: `All (${counts.total})` },
+    { id: 'running', label: `Running (${counts.running})` },
+    { id: 'completed', label: `Done (${counts.completed})` },
+    { id: 'pending', label: `Pending (${counts.pending})` },
+  ];
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -92,6 +119,33 @@ export function TaskView() {
         </section>
 
         <section className="space-y-4">
+          <SectionLabel>Agent Roster</SectionLabel>
+          <div className="flex flex-wrap gap-2.5">
+            {roster.length === 0 ? (
+              <span className="text-[12.5px] text-zinc-600">No work assigned yet — workers appear here once objectives land.</span>
+            ) : (
+              roster.map(([who, stats]) => (
+                <SpotlightCard key={who} className="glass-faint rounded-2xl">
+                  <div className="px-3.5 py-2.5 flex items-center gap-2.5">
+                    <span className={`w-8 h-8 rounded-lg inline-flex items-center justify-center shrink-0 ${
+                      stats.busy > 0 ? 'bg-sky-400/15 text-sky-300' : 'bg-white/[0.06] text-zinc-400'
+                    }`}>
+                      <Cpu className="w-4 h-4" />
+                    </span>
+                    <div className="min-w-0">
+                      <div className="text-[12.5px] font-medium text-white truncate">{who}</div>
+                      <div className="text-[10.5px] font-mono text-zinc-500 tabular">
+                        {stats.busy} busy · {stats.done} done · {stats.total} total
+                      </div>
+                    </div>
+                  </div>
+                </SpotlightCard>
+              ))
+            )}
+          </div>
+        </section>
+
+        <section className="space-y-4">
           <SectionLabel>New Objective</SectionLabel>
           <form onSubmit={submit} className="flex flex-col sm:flex-row gap-3">
             <input
@@ -112,7 +166,22 @@ export function TaskView() {
         </section>
 
         <section className="space-y-4">
-          <SectionLabel>Queue</SectionLabel>
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <SectionLabel>Queue</SectionLabel>
+            <div className="flex items-center gap-1.5 p-1 rounded-full glass-faint">
+              {FILTERS.map((f) => (
+                <button
+                  key={f.id}
+                  onClick={() => setFilter(f.id)}
+                  className={`px-3 py-1 rounded-full text-[12px] font-medium transition-colors ${
+                    filter === f.id ? 'bg-white/[0.12] text-white' : 'text-zinc-500 hover:text-white'
+                  }`}
+                >
+                  {f.label}
+                </button>
+              ))}
+            </div>
+          </div>
 
           {error && (
             <div className="flex items-start gap-2.5 rounded-xl p-3.5 text-[13px] bg-amber-400/10 text-amber-200">
@@ -123,18 +192,22 @@ export function TaskView() {
 
           {loading && tasks.length === 0 ? (
             <div className="flex justify-center py-12 text-sky-300"><Spinner className="w-6 h-6" /></div>
-          ) : tasks.length === 0 ? (
+          ) : filtered.length === 0 ? (
             <GlassPanel tone="faint">
               <EmptyState
                 icon={<FolderKanban className="w-6 h-6" />}
-                title="Queue is clear"
-                description="New objectives will appear here as they are assigned."
+                title={tasks.length === 0 ? 'Queue is clear' : 'No tasks in this state'}
+                description={
+                  tasks.length === 0
+                    ? 'New objectives will appear here as they are assigned.'
+                    : 'Try a different filter to see the rest of the queue.'
+                }
               />
             </GlassPanel>
           ) : (
             <div className="space-y-2.5">
               <AnimatePresence initial={false}>
-                {tasks.map((task, i) => (
+                {filtered.map((task, i) => (
                   <motion.div
                     key={task.id}
                     initial={{ opacity: 0, y: 10 }}

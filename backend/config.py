@@ -26,6 +26,18 @@ class Settings(BaseSettings):
     VISION_LLM_MODEL: str = Field(default="Qwen/Qwen3-VL-30B-A3B-Instruct:deepinfra", description="HF model id used for image/multimodal analysis (a vision-language model)")
     VISION_LLM_URL: str = Field(default="https://router.huggingface.co/v1", description="OpenAI-compatible base URL used for the vision model")
 
+    # --- Computer Vision (Roboflow / NVIDIA) ---
+    # Hosted Roboflow API key. When set, object-detection models below run via
+    # Roboflow's hosted inference (or a local NVIDIA/edge inference server).
+    ROBOFLOW_API_KEY: str = Field(default="", description="Roboflow API key for hosted + edge computer-vision inference")
+    # Optional NVIDIA/edge inference server (Roboflow Inference on Jetson/GPU with
+    # TensorRT). Uses the same REST contract, just served from the edge box.
+    ROBOFLOW_INFERENCE_URL: str = Field(default="", description="Local Roboflow Inference server URL (NVIDIA Jetson/GPU edge). Empty = use hosted API.")
+    # Model ids: "<project>/<version>" as shown in Roboflow (e.g. "rock-lithology/3").
+    ROBOFLOW_ROCK_DETECTOR: str = Field(default="", description="Roboflow model id for rock type / lithology object detection")
+    ROBOFLOW_MINERAL_DETECTOR: str = Field(default="", description="Roboflow model id for ore / mineral detection")
+    ROBOFLOW_PPE_DETECTOR: str = Field(default="", description="Roboflow model id for safety / PPE detection")
+
     # --- Embedding ---
     EMBEDDING_MODEL: str = "all-MiniLM-L6-v2"
     EMBEDDING_DIMENSIONS: int = 384
