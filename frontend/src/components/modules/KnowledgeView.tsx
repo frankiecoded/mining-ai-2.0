@@ -28,6 +28,40 @@ function formatBytes(bytes: number): string {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
 }
 
+function storedFileUrl(doc: KnowledgeDocument): string {
+  const stored = doc.stored_filename || doc.filename || '';
+  if (!stored) return '';
+  const base = import.meta.env.VITE_API_URL || '';
+  return `${base}/files/${encodeURIComponent(stored)}`;
+}
+
+/** Small live thumbnail for image documents; graceful icon fallback otherwise. */
+function DocThumb({ doc, size = 'md' }: { doc: KnowledgeDocument; size?: 'md' | 'lg' }) {
+  const ext = (doc.file_type || '').toLowerCase() || (doc.filename.split('.').pop() || '').toLowerCase();
+  const isImage = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'tif', 'tiff', 'geotiff'].includes(ext);
+  const url = storedFileUrl(doc);
+  const cls = size === 'md' ? 'w-10 h-10 rounded-lg' : 'w-11 h-11 rounded-xl';
+  if (isImage && url) {
+    return (
+      <div className={`${cls} overflow-hidden shrink-0 bg-[#0d0d1a] border border-white/[0.08] inline-flex items-center justify-center`}>
+        <img
+          src={url}
+          alt={doc.filename}
+          loading="lazy"
+          decoding="async"
+          className="w-full h-full object-cover"
+          onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+        />
+      </div>
+    );
+  }
+  return (
+    <div className={`${cls} inline-flex items-center justify-center shrink-0 ${fileTypeColor(doc.file_type)}`}>
+      {fileTypeIcon(doc.file_type)}
+    </div>
+  );
+}
+
 function fileTypeIcon(type: string) {
   const t = type.toLowerCase();
   if (t.includes('pdf')) return <FileText className="w-5 h-5 text-rose-400" />;
@@ -334,9 +368,7 @@ function DocumentsTab({
                 className="glass-faint rounded-xl p-3.5 flex items-center gap-3 cursor-pointer hover:bg-white/[0.04] transition-colors"
                 onClick={() => onSelectDocument(doc)}
               >
-                <div className={`w-10 h-10 rounded-lg inline-flex items-center justify-center shrink-0 ${fileTypeColor(doc.file_type)}`}>
-                  {fileTypeIcon(doc.file_type)}
-                </div>
+                <DocThumb doc={doc} />
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium text-white truncate">{doc.filename}</div>
                   <div className="text-[11px] text-zinc-500 flex items-center gap-2 mt-0.5">
@@ -383,9 +415,7 @@ function DocumentsTab({
                   onClick={() => onSelectDocument(doc)}
                 >
                   <div className="flex items-start gap-3">
-                    <div className={`w-11 h-11 rounded-xl inline-flex items-center justify-center shrink-0 ${fileTypeColor(doc.file_type)}`}>
-                      {fileTypeIcon(doc.file_type)}
-                    </div>
+                    <DocThumb doc={doc} size="lg" />
                     <div className="flex-1 min-w-0">
                       <div className="text-sm font-medium text-white truncate group-hover:text-sky-200 transition-colors">
                         {doc.filename}
@@ -542,8 +572,8 @@ function SatelliteTab() {
         <SectionLabel>Spectral Band Input</SectionLabel>
         <div className="glass rounded-2xl p-5 space-y-4">
           <p className="text-xs text-zinc-500">
-                Enter reflectance values per band. Single pixel: comma-separated (e.g. <code className="text-sky-300/80 font-mono">0.1, 0.2, 0.3</code>).
-                Multiple pixels: separate rows with <code className="text-sky-300/80 font-mono">;</code> to also render an image preview.
+                Enter reflectance values per band. Single pixel: comma-separated (e.g. <span className="text-sky-300/80">0.1, 0.2, 0.3</span>).
+                Multiple pixels: separate rows with <span className="text-sky-300/80">;</span> to also render an image preview.
               </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {Object.entries(bandLabels).map(([band, label]) => (
@@ -710,7 +740,7 @@ function SatelliteTab() {
                 <Sparkles className="w-4 h-4 text-amber-400" />Exploration Report
               </div>
               <pre className="glass-faint rounded-xl p-4 text-[12px] text-zinc-300 overflow-x-auto font-sans whitespace-pre-wrap max-h-96 overflow-y-auto thin-scrollbar leading-relaxed">
-                {typeof reportText === 'string' ? reportText : JSON.stringify(reportText, null, 2)}
+                {typeof reportText === 'string' ? reportText : toReadable(reportText)}
               </pre>
             </motion.div>
           )}
@@ -720,9 +750,7 @@ function SatelliteTab() {
               <div className="flex items-center gap-2 text-sm font-semibold text-white">
                 <Layers className="w-4 h-4 text-amber-400" />Auto-Generated Annotations
               </div>
-              <pre className="glass-faint rounded-xl p-4 text-[11px] text-zinc-400 overflow-x-auto font-mono max-h-64 overflow-y-auto thin-scrollbar">
-                {JSON.stringify(annotationsResults, null, 2)}
-              </pre>
+              <AnnotationSummary annotations={annotationsResults} />
             </motion.div>
           )}
         </div>
@@ -732,6 +760,48 @@ function SatelliteTab() {
 }
 
 /* ──────────────────────────── Reader Tab ──────────────────────────── */
+function toReadable(v: unknown, depth = 0): string {
+  if (v === null || v === undefined) return '';
+  if (typeof v === 'string') return v;
+  if (typeof v === 'number' || typeof v === 'boolean') return String(v);
+  if (Array.isArray(v)) {
+    if (v.length === 0) return '';
+    if (v.length === 2 && v.every((x) => typeof x === 'number')) return `(${v.join(', ')})`;
+    return v.map((x) => toReadable(x, depth + 1)).filter(Boolean).join(' · ');
+  }
+  if (typeof v === 'object') {
+    const entries = Object.entries(v as Record<string, unknown>);
+    if (entries.length === 0) return '';
+    return entries
+      .map(([k, val]) => `${k}: ${toReadable(val, depth + 1)}`)
+      .filter((s) => !s.endsWith(': '))
+      .join(', ');
+  }
+  return String(v);
+}
+
+/** Renders an annotation layer as readable lines — never dumps raw JSON. */
+function AnnotationSummary({ annotations }: { annotations: Record<string, unknown> }) {
+  const items: unknown[] = Array.isArray(annotations) ? (annotations as unknown[]) : [annotations];
+  const lines = items.map((it) => toReadable(it)).filter(Boolean);
+  if (lines.length === 0) {
+    return <p className="text-xs text-zinc-500">No annotations were generated for this frame.</p>;
+  }
+  return (
+    <div className="space-y-1.5">
+      {lines.slice(0, 40).map((line, i) => (
+        <div key={i} className="flex items-start gap-2 rounded-lg px-3 py-2 glass-faint text-[12px] text-zinc-300 leading-relaxed break-words">
+          <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-amber-400/70 shrink-0" />
+          <span>{line}</span>
+        </div>
+      ))}
+      {lines.length > 40 && (
+        <p className="text-[11px] text-zinc-600">+ {lines.length - 40} more annotations…</p>
+      )}
+    </div>
+  );
+}
+
 function previewableDoc(doc: KnowledgeDocument | null): { kind: 'image' | 'pdf' | null; url: string } {
   if (!doc) return { kind: null, url: '' };
   const stored = doc.stored_filename || doc.filename || '';
@@ -887,6 +957,59 @@ function ReaderTab({
         </select>
       </div>
 
+      {/* Instant preview — rendered the moment a document is chosen, without
+          waiting for the AI read/analysis round-trip. */}
+      {activeDoc && (previewableDoc(activeDoc).kind === 'image' || previewableDoc(activeDoc).kind === 'pdf') && (
+        <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass rounded-2xl p-5">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2 text-sm font-semibold text-white">
+              {previewableDoc(activeDoc).kind === 'image' ? (
+                <FileImage className="w-4 h-4 text-violet-400" />
+              ) : (
+                <FileText className="w-4 h-4 text-rose-400" />
+              )}
+              Preview · {activeDoc.filename}
+            </div>
+          </div>
+          {previewableDoc(activeDoc).kind === 'image' ? (
+            <div
+              className="relative rounded-xl overflow-hidden bg-[#0d0d1a] border border-white/[0.06] group cursor-zoom-in"
+              onClick={() => openLightbox(previewableDoc(activeDoc).url)}
+            >
+              <img
+                src={previewableDoc(activeDoc).url}
+                alt={activeDoc.filename}
+                loading="lazy"
+                decoding="async"
+                className="w-full max-h-[520px] object-contain"
+                onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
+              />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
+                <span className="flex items-center gap-2 text-xs font-medium text-white bg-black/60 border border-white/10 rounded-full px-3 py-1.5 pointer-events-none">
+                  <Maximize2 className="w-3.5 h-3.5" /> View full size
+                </span>
+              </div>
+            </div>
+          ) : (
+            <div className="rounded-xl overflow-hidden border border-white/[0.06] h-[520px] relative">
+              <a
+                href={previewableDoc(activeDoc).url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="absolute top-2 right-2 z-10 flex items-center gap-1.5 text-xs font-medium text-white bg-black/60 border border-white/10 rounded-full px-3 py-1.5 hover:bg-black/80 transition-colors"
+              >
+                <ExternalLink className="w-3.5 h-3.5" /> Open PDF
+              </a>
+              <iframe
+                src={previewableDoc(activeDoc).url}
+                title={activeDoc.filename}
+                className="w-full h-full border-0 bg-[#0d0d1a]"
+              />
+            </div>
+          )}
+        </motion.div>
+      )}
+
       {!activeDoc && (
         <div className="glass rounded-2xl p-16 text-center">
           <BookOpen className="w-12 h-12 text-zinc-600 mx-auto mb-3" />
@@ -910,42 +1033,6 @@ function ReaderTab({
                 <FileText className="w-4 h-4 text-sky-400" />
                 <h3 className="text-sm font-semibold text-white">{readResult.filename}</h3>
               </div>
-
-              {previewableDoc(activeDoc).kind === 'image' && (
-                <div
-                  className="relative rounded-xl overflow-hidden mb-4 bg-[#0d0d1a] border border-white/[0.06] group cursor-zoom-in"
-                  onClick={() => openLightbox(previewableDoc(activeDoc).url)}
-                >
-                  <img
-                    src={previewableDoc(activeDoc).url}
-                    alt={activeDoc.filename}
-                    className="w-full max-h-[520px] object-contain"
-                    onError={(e) => { (e.currentTarget as HTMLImageElement).style.display = 'none'; }}
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center opacity-0 group-hover:opacity-100">
-                    <span className="flex items-center gap-2 text-xs font-medium text-white bg-black/60 border border-white/10 rounded-full px-3 py-1.5 pointer-events-none">
-                      <Maximize2 className="w-3.5 h-3.5" /> View full size
-                    </span>
-                  </div>
-                </div>
-              )}
-              {previewableDoc(activeDoc).kind === 'pdf' && (
-                <div className="rounded-xl overflow-hidden mb-4 border border-white/[0.06] h-[520px] relative">
-                  <a
-                    href={previewableDoc(activeDoc).url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="absolute top-2 right-2 z-10 flex items-center gap-1.5 text-xs font-medium text-white bg-black/60 border border-white/10 rounded-full px-3 py-1.5 hover:bg-black/80 transition-colors"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" /> Open PDF
-                  </a>
-                  <iframe
-                    src={previewableDoc(activeDoc).url}
-                    title={activeDoc.filename}
-                    className="w-full h-full border-0 bg-[#0d0d1a]"
-                  />
-                </div>
-              )}
 
               <div className="glass-faint rounded-xl p-5 max-h-[500px] overflow-y-auto thin-scrollbar">
                 <pre className="text-[13px] text-zinc-300 whitespace-pre-wrap font-sans leading-relaxed">

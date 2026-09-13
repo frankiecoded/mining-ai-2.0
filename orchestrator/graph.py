@@ -35,6 +35,76 @@ from services.report_generator import ReportGenerator, ReportData, ReportType
 
 logger = logging.getLogger("ai_os.orchestrator")
 
+
+class _CodeFenceFilter:
+    """Incrementally removes fenced markdown code blocks (```...```) from a
+    token stream as it arrives, so generated code never reaches the chat UI.
+
+    Ordinary prose flows straight through with zero added latency. Content
+    inside an open fence is buffered silently and dropped; the fence markers
+    are consumed so nothing stray is emitted. Trailing backticks at the end of
+    a chunk are held so a fence split across chunks is still detected.
+    """
+
+    def __init__(self) -> None:
+        self._buf = ""
+        self._inside = False
+
+    def push(self, chunk: str) -> str:
+        if not chunk:
+            return ""
+        self._buf += chunk
+        out: List[str] = []
+        i = 0
+        n = len(self._buf)
+        while i < n:
+            c = self._buf[i]
+            if c != "`":
+                if not self._inside:
+                    out.append(c)
+                i += 1
+                continue
+            # Backtick: count the run to decide if it is a fence marker.
+            j = i
+            while j < n and self._buf[j] == "`":
+                j += 1
+            run = j - i
+            if run >= 3:
+                self._inside = not self._inside
+                if self._inside:
+                    # Opened: drop the opener line (incl. any language tag); the
+                    # block body is silently dropped until a closing fence.
+                    nl = self._buf.find("\n", j)
+                    if nl == -1:
+                        i = n
+                    else:
+                        i = nl + 1
+                else:
+                    i = j
+                continue
+            if j == n and run > 0:
+                # Partial trailing run could complete a fence across chunks —
+                # hold it until we know: reprocessed on the next push.
+                break
+            # Benign single/double backtick: prose outside a block, or dropped
+            # in-block content that is not part of a closing fence.
+            if not self._inside and run <= 2:
+                out.append(self._buf[i:j])
+            i = j
+        kept = i
+        self._buf = self._buf[kept:]
+        return "".join(out)
+
+    def flush(self) -> str:
+        """Emit any held tail (e.g. a trailing backtick run) once the stream ends."""
+        if self._inside:
+            self._buf = ""
+            self._inside = False
+            return ""
+        out = self._buf
+        self._buf = ""
+        return out
+
 #: Domain keywords that force a real (tool-backed) answer even for short
 #: casual-looking messages — mirrors the mock router so lite-mode never breaks
 #: genuinely actionable questions like "list tasks".
@@ -114,7 +184,7 @@ Expert in regulations, technology scouting, competitive analysis.
 1. **query_mining_database** - Production logs, SOPs, equipment status, geological data
 2. **query_finance_database** - Budgets, payroll, procurement, cost analysis
 3. **search_knowledge_base** - Regulations, equipment manuals, company policies
-4. **generate_report** - Create PDF/DOCX/XLSX reports
+4. **generate_report** - Produce a concise text/markdown report presented directly in the chat (never as a PDF — reports are delivered as plain text or markdown, not files)
 5. **analyze_image** - OCR, visual analysis of photos, maps, invoices
 6. **search_internet** - Real-time market prices, regulations, mining news
 7. **retrieve_user_memory** - User profile and conversation history
@@ -142,7 +212,7 @@ Expert in regulations, technology scouting, competitive analysis.
 29. **check_alerts** - Check active alerts and notifications with escalation
 30. **analyze_document** - AI-powered document analysis, extraction, and compliance checking
 31. **get_audit_log** - Query complete audit trail of all system activity and AI decisions
-32. **generate_report_from_data** - Generate comprehensive PDF/DOCX reports from mine data
+32. **generate_report_from_data** - Generate a comprehensive text/markdown report from mine data (delivered inline in the chat, never as a PDF or attachment)
 33. **render_satellite** - Render satellite band data (bands: {name: 2D array}; composite: true_color/false_color/mineral/swir/vegetation or {R,G,B} mapping) to a PNG shown inline in the chat. Optional annotations at explicit pixel coords. USE to show satellite imagery as an inline, downloadable photo.
 34. **render_index** - Compute a spectral index (ndvi, ndwi, ndmi, bsi, iron_oxide, ferrous) from provided bands and render it as an inline PNG with a colormap.
 35. **annotate_image** - Burn labels/boxes/arrows/circles onto an existing rendered image (image_file_key) at explicit pixel coordinates and add the annotated copy to the chat.
@@ -168,7 +238,7 @@ Expert in regulations, technology scouting, competitive analysis.
 - Use search_internet for real-time prices when discussing value
 - Use query_mining_database for operational data
 - Use search_knowledge_base for standards and procedures
-- Generate reports for complex multi-domain analyses
+- Synthesize complex multi-domain analyses directly into the reply (text/markdown only — never PDF)
 
 ### Safety First
 - Safety concerns ALWAYS override other analysis
@@ -201,6 +271,18 @@ Expert in regulations, technology scouting, competitive analysis.
 3. **Provide supporting data** (specific numbers, dates, thresholds)
 4. **Recommend actions** (what to do next)
 5. **Cite sources** (which tools provided the data)
+
+### Output Rules (ALWAYS follow)
+- **Never write code.** Never output code blocks, code fences, JSON dumps,
+  raw tool output, regexes, or programming syntax of any kind.
+- **Results, not code.** Present findings as plain words and numbers. If you
+  want to share an artifact, do it like ChatGPT would: briefly report the
+  outcome and, if useful, name the file/report — never paste its raw source.
+- **No PDF generation.** Reports, analyses, and summaries are delivered as
+  text or markdown right in the chat. Never create or attach PDF files.
+- If the user explicitly asks for a document they can save, offer to save the
+  answer as a summary instead of generating a file — and just continue in
+  chat with the full content.
 
 ### Memory Integration
 - Store important findings for future reference
@@ -1222,19 +1304,19 @@ class AIOrchestrator:
         tool_call = tool_calls[0]
         title = tool_call["args"].get("title", "Report")
         content = tool_call["args"].get("content", "")
-        file_type = tool_call["args"].get("file_type", "pdf")
+        file_type = tool_call["args"].get("file_type", "md")
         try:
             report_meta = self.doc_service.process_and_store_report(
-                filename=f"Report_{state['session_id']}.pdf",
+                filename=f"Report_{state['session_id']}.md",
                 content=content,
                 file_type=file_type
             )
-            result = f"Report generated successfully. Link: {report_meta['storage_uri']}"
+            result = f"Report prepared. Review it below — see {report_meta['storage_uri']}"
             # Store the report content into the tenant's knowledge base so it
             # becomes retrievable later (REAL content only).
             tenant = str(state.get("phone_number", "") or "").split(":", 1)[0]
             if tenant and content.strip():
-                self._index_into_tenant_kb(tenant, content, "report", f"Report_{state['session_id']}.pdf")
+                self._index_into_tenant_kb(tenant, content, "report", f"Report_{state['session_id']}.md")
             return {"messages": [ToolMessage(content=result, tool_call_id=tool_call["id"])], "output_report": report_meta}
         except Exception as e:
             logger.error(f"Document generation failed: {e}")
@@ -1703,6 +1785,9 @@ class AIOrchestrator:
         tools = None
         if self._env_int("TOKEN_LITE_TOOLS", 1) and self._is_casual_message(text_message):
             tools = []
+        # Strips fenced code blocks from the token stream so generated code can
+        # no longer surface in chat (results and filenames only).
+        code_filter = _CodeFenceFilter()
         while rounds < max_rounds:
             rounds += 1
             pending_tool_calls = {}
@@ -1710,8 +1795,10 @@ class AIOrchestrator:
                 for chunk in self.llm.stream(full_messages, tools=tools):
                     delta = getattr(chunk, "content", "") or ""
                     if delta:
-                        full_content += delta
-                        yield {"type": "content", "content": delta}
+                        delta = code_filter.push(delta)
+                        if delta:
+                            full_content += delta
+                            yield {"type": "content", "content": delta}
                     calls = getattr(chunk, "tool_calls", None) or []
                     for tc in calls:
                         tc_id = tc.get("id", f"call_{tc.get('name','')}_{rounds}")
@@ -1754,6 +1841,11 @@ class AIOrchestrator:
                         "size_bytes": report.get("size_bytes", 0),
                     }
                     base_state["output_report"] = None
+
+        tail = code_filter.flush()
+        if tail:
+            full_content += tail
+            yield {"type": "content", "content": tail}
 
         self._auto_store_memory(text_message, full_content, session_id)
 

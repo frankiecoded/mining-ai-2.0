@@ -193,11 +193,11 @@ Lead with the current price and daily change. Explain what's driving the move. R
 
 ## Document Generation Protocol
 1. Understand the target audience (executive, technical, regulatory)
-2. Select appropriate format (PDF, DOCX, XLSX)
-3. Structure content logically
-4. Include relevant data and charts
-5. Add executive summary for complex reports
-6. Ensure compliance with reporting standards
+2. Structure content logically (markdown/text only — no PDF files)
+3. Include relevant data and charts
+4. Add executive summary for complex reports
+5. Ensure compliance with reporting standards
+6. Deliver the full report content in the chat as text — never as a downloaded file
 
 ## Response Style
 Be concise and structured. Use clear headings and sections. Include key data points. Always provide a summary.""",

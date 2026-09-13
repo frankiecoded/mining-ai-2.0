@@ -147,17 +147,24 @@ class DocumentService:
             logger.error(f"Error extracting PDF text: {e}")
             return ""
 
-    def process_and_store_report(self, filename: str, content: str, file_type: str = "pdf", table_data: Optional[List[List[Any]]] = None) -> Dict[str, Any]:
+    def process_and_store_report(self, filename: str, content: str, file_type: str = "md", table_data: Optional[List[List[Any]]] = None) -> Dict[str, Any]:
         """
         Converts text content into requested report format, uploads to storage, and returns metadata.
+        Reports default to plain-text / markdown — no PDF generation.
         """
         file_type = file_type.lower()
-        if file_type == "pdf":
-            file_bytes = self.create_pdf_from_content(filename.replace(".pdf", ""), content, table_data)
-            mime_type = "application/pdf"
+        if file_type == "md" or file_type == "txt":
+            file_bytes = self.create_txt_from_content(filename.replace(".md", "").replace(".txt", ""), content)
+            mime_type = "text/plain"
+            if filename.endswith(".md"):
+                mime_type = "text/markdown; charset=utf-8"
         elif file_type == "docx":
             file_bytes = self.create_docx_from_content(filename.replace(".docx", ""), content)
             mime_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+        elif file_type == "pdf":
+            # Kept only for backwards-compatibility; new reports default to md.
+            file_bytes = self.create_pdf_from_content(filename.replace(".pdf", ""), content, table_data)
+            mime_type = "application/pdf"
         else:
             file_bytes = self.create_txt_from_content(filename, content)
             mime_type = "text/plain"

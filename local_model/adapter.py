@@ -101,7 +101,7 @@ TOOL_DEFINITIONS = [
         "type": "function",
         "function": {
             "name": "generate_report",
-            "description": "Generate a PDF, DOCX, or XLSX report document. Use this when the user asks for a report, document, summary document, or any file output. The report will be saved and a download link provided.",
+            "description": "Generate a plain-text or markdown report presented directly in the chat. Use this when the user asks for a report, summary, or any written analysis. Deliver the content inline — no PDF or DOCX file is produced.",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -111,12 +111,12 @@ TOOL_DEFINITIONS = [
                     },
                     "content": {
                         "type": "string",
-                        "description": "Full content/text of the report in plain text format"
+                        "description": "Full content/text of the report in plain text or markdown format"
                     },
                     "file_type": {
                         "type": "string",
-                        "enum": ["pdf", "docx", "xlsx"],
-                        "description": "Output format. Default is pdf."
+                        "enum": ["md", "txt"],
+                        "description": "Output format. Always md or txt (never pdf)."
                     }
                 },
                 "required": ["title", "content"]
@@ -637,7 +637,7 @@ TOOL_DEFINITIONS = [
         "type": "function",
         "function": {
             "name": "generate_report_from_data",
-            "description": "Generate a comprehensive report from current mine data using automated report generator.",
+            "description": "Generate a comprehensive text/markdown report from current mine data, presented inline in the chat (no PDF attachment).",
             "parameters": {
                 "type": "object",
                 "properties": {

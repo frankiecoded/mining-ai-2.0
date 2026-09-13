@@ -452,7 +452,11 @@ def get_stored_file(file_path: str, auth: Optional[AuthPayload] = Depends(option
             break
     if full_path is None:
         raise HTTPException(status_code=404, detail="File not found")
-    return FileResponse(full_path, filename=os.path.basename(full_path))
+    return FileResponse(
+        full_path,
+        filename=os.path.basename(full_path),
+        headers={"Cache-Control": "public, max-age=86400, stale-while-revalidate=259200"},
+    )
 
 # ---------- Tasks & Procurement ----------
 @app.post("/tasks", tags=["Management"], dependencies=[Depends(verify_api_key), Depends(check_rate_limit)])
@@ -467,6 +471,38 @@ def list_tasks():
 @app.post("/procurement", tags=["Management"], dependencies=[Depends(verify_api_key), Depends(check_rate_limit)])
 def create_procurement(req: ProcurementRequest):
     return finance_engine.submit_procurement_request("authenticated_user", req.item, req.cost)
+
+
+@app.get("/procurement", tags=["Management"], dependencies=[Depends(verify_api_key)])
+def list_procurement_requests():
+    """Persistent procurement ledger — real records submitted through the Finance Engine."""
+    try:
+        tasks = postgres_client.list_tasks() or []
+    except Exception as e:
+        logger.error(f"Failed to load procurement ledger: {e}")
+        raise HTTPException(status_code=500, detail="Could not load procurement records.")
+
+    import re as _re
+    pattern = _re.compile(r"^Procurement Request: (.+?) \(\$([\d.,]+)\) - (.+)$")
+    records: list[dict[str, Any]] = []
+    for t in tasks:
+        desc = t.get("description", "") or ""
+        m = pattern.match(desc)
+        if not m:
+            continue
+        cost = float(m.group(2).replace(",", ""))
+        created = t.get("created_at")
+        created_iso = created.isoformat() if hasattr(created, "isoformat") else str(created or "")
+        records.append({
+            "id": str(t.get("id", "")),
+            "item": m.group(1),
+            "cost": cost,
+            "requested_by": m.group(3),
+            "status": "pending_approval" if cost > 10000.0 else "approved",
+            "time": created_iso,
+        })
+    records.sort(key=lambda r: r["time"], reverse=True)
+    return {"status": "success", "records": records}
 
 # ---------- Streaming Chat ----------
 def _normalize_session_id(auth: AuthPayload, raw: str) -> str:
@@ -628,6 +664,87 @@ def get_chat_history(session_id: str, auth: AuthPayload = Depends(verify_jwt)):
     for i, msg in enumerate(messages):
         msg.setdefault("id", f"{session_id}_{i}")
     return {"messages": messages}
+
+
+class SaveSessionRequest(BaseModel):
+    session_id: str = Field(..., min_length=3, max_length=200, description="Conversation session id to commit to the knowledge base")
+
+
+@app.post("/api/knowledge/save-session", tags=["UI Integration"])
+def save_session_to_knowledge(req: SaveSessionRequest, auth: AuthPayload = Depends(verify_jwt)):
+    """Frank-only: commit a chosen conversation into the knowledge base so it
+    becomes retrievable by RAG. Conversations are NEVER auto-saved — this is the
+    explicit opt-in path."""
+    if auth.role != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required.")
+    session_id = _normalize_session_id(auth, req.session_id)
+    messages = postgres_client.get_conversation(session_id) or []
+    if not messages:
+        raise HTTPException(status_code=404, detail="Conversation not found.")
+
+    parts = []
+    for m in messages:
+        role = (m.get("role") or "note").upper()
+        content = (m.get("content") or "").strip()
+        if not content:
+            continue
+        parts.append(f"{role}: {content}")
+    body = "\n\n".join(parts).strip()
+    if len(body) < 40:
+        raise HTTPException(status_code=400, detail="Conversation too short to save.")
+
+    import re
+    safe = re.sub(r"[^A-Za-z0-9_-]+", "_", session_id)
+    filename = f"chat_{safe}.md"
+    save_path = _uploads_dir() / filename
+    save_path.write_bytes(body.encode("utf-8"))
+
+    # 1) Index into the vector KB (chunked for RAG retrieval).
+    from ingestion.embeddings import chunk_text
+    from ingestion.loader import index_documents_to_vector_db
+    import hashlib
+    chunks = chunk_text(body, max_chunk_size=1000, overlap=150)
+    docs_to_index = []
+    for idx, chunk in enumerate(chunks):
+        doc_id = hashlib.md5(f"{auth.tenant_id}_conversation_{filename}_{idx}".encode()).hexdigest()
+        docs_to_index.append({
+            "id": doc_id,
+            "text": chunk,
+            "payload": {
+                "source": "conversation",
+                "filename": filename,
+                "chunk_index": idx,
+                "tenant_id": auth.tenant_id,
+                "content_preview": chunk[:500],
+                "title": f"Chat · {req.session_id}",
+            },
+        })
+    collection_name = f"company_knowledge_{auth.tenant_id}"
+    count = 0
+    try:
+        count = index_documents_to_vector_db(vector_client, docs_to_index, collection_name=collection_name)
+    except Exception as e:
+        logger.warning(f"Conversation vector indexing failed: {e}")
+
+    # 2) Also register in the Knowledge module so it shows under Documents.
+    kb_doc = None
+    try:
+        kb = get_knowledge_base()
+        kb_doc = kb.add_document(
+            str(save_path),
+            filename,
+            {"source": "conversation", "tenant_id": auth.tenant_id, "title": f"Chat · {req.session_id}"},
+        )
+    except Exception as e:
+        logger.warning(f"Knowledge module registration failed: {e}")
+
+    return {
+        "status": "success",
+        "filename": filename,
+        "chunks_indexed": count,
+        "doc_id": getattr(kb_doc, "doc_id", None),
+        "messages_saved": len(parts),
+    }
 
 @app.get("/api/system/telemetry", tags=["UI Integration"], dependencies=[Depends(verify_api_key)])
 def get_telemetry():
@@ -2300,6 +2417,7 @@ async def preview_document(
         path=str(full_path),
         media_type=ALLOWED_PREVIEW_EXTENSIONS[ext],
         filename=full_path.name,
+        headers={"Cache-Control": "public, max-age=86400, stale-while-revalidate=259200"},
     )
 
 

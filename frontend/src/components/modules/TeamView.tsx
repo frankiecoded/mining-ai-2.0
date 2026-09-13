@@ -23,6 +23,21 @@ import { IconButton } from '../ui/IconButton';
 
 const OWNER_USERNAME = 'frank';
 
+/** Render a stored memory value as readable prose — never raw JSON/code. */
+function memoryValue(v: unknown): string {
+  if (v === null || v === undefined) return '—';
+  if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') return String(v);
+  if (Array.isArray(v)) return v.map((item) => memoryValue(item)).filter(Boolean).join(', ');
+  if (typeof v === 'object') {
+    const parts = Object.entries(v as Record<string, unknown>).map(([k, val]) => {
+      const s = memoryValue(val);
+      return s ? `${k.replace(/_/g, ' ')}: ${s}` : '';
+    });
+    return parts.filter(Boolean).join(', ');
+  }
+  return String(v);
+}
+
 function initialsOf(name: string): string {
   return name
     .trim()
@@ -260,9 +275,7 @@ function MemberDetail({
                           {k.replace(/_/g, ' ')}
                         </span>
                         <span className="text-zinc-200/90 break-words">
-                          {typeof v === 'object' && v !== null
-                            ? JSON.stringify(v)
-                            : String(v)}
+                          {memoryValue(v)}
                         </span>
                       </div>
                     ))}
@@ -459,7 +472,7 @@ export function TeamView() {
                             {k.replace(/_/g, ' ')}
                           </span>
                           <span className="text-zinc-200/90 break-words">
-                            {typeof v === 'object' && v !== null ? JSON.stringify(v) : String(v)}
+                            {memoryValue(v)}
                           </span>
                         </div>
                       ))}

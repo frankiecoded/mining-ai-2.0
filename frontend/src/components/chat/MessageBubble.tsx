@@ -112,7 +112,7 @@ export function MessageBubble({ message, isFirst = true, isLast = true, isStream
           <div className={isUser ? '' : 'w-full min-w-0'}>
             {isUser ? (
               <div className="px-4 py-2.5 rounded-con-20 rounded-br-[6px] bg-white/[0.08] border border-white/[0.06] text-white text-[15px] leading-[1.6] tracking-[-0.01em] break-words shadow-[0_2px_10px_rgba(3,4,12,0.25)]">
-                <div className="ai-markdown text-white [&_strong]:text-white [&_h1]:text-white [&_h2]:text-white [&_h3]:text-white [&_th]:text-white [&_li::marker]:text-sky-300 [&_a]:text-sky-200 [&_code:not(pre_code)]:text-sky-200 [&_blockquote]:text-sky-100/80">
+                <div className="ai-markdown text-white [&_strong]:text-white [&_h1]:text-white [&_h2]:text-white [&_h3]:text-white [&_th]:text-white [&_li::marker]:text-sky-300 [&_a]:text-sky-200 [&_blockquote]:text-sky-100/80">
                   <Markdown content={message.content} />
                 </div>
               </div>
@@ -210,12 +210,16 @@ export function MessageBubble({ message, isFirst = true, isLast = true, isStream
   );
 }
 
-/** Markdown render with dark-app refinements. */
+/** Markdown render with dark-app refinements. Code blocks are deliberately
+ *  neutralised: the platform never displays raw code — content inside code
+ *  fences renders as plain, flowing text like ChatGPT (results, not syntax). */
 function Markdown({ content }: { content: string }) {
   return (
     <ReactMarkdown
       remarkPlugins={[remarkGfm]}
       components={{
+        code: ({ children }) => <>{children}</>,
+        pre: ({ children }) => <div className="mb-2 last:mb-0">{children}</div>,
         img: (props) => {
           const src = props.src || '';
           return (

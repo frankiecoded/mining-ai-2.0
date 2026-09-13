@@ -7,6 +7,7 @@ import type {
   KnowledgeStats,
   KnowledgeSummary,
   MarketPricesResponse,
+  ProcurementsResponse,
   SessionsResponse,
   Task,
   TasksResponse,
@@ -198,6 +199,24 @@ class ChatAPI {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({ item, cost }),
+    });
+  }
+
+  static fetchProcurements(): Promise<ProcurementsResponse> {
+    return this.request<ProcurementsResponse>('/procurement', { headers: this.getHeaders() });
+  }
+
+  static saveSessionToKnowledge(sessionId: string): Promise<{
+    status: string;
+    filename?: string;
+    chunks_indexed?: number;
+    doc_id?: string | null;
+    messages_saved?: number;
+  }> {
+    return this.request('/api/knowledge/save-session', {
+      method: 'POST',
+      headers: this.getHeaders(),
+      body: JSON.stringify({ session_id: sessionId }),
     });
   }
 

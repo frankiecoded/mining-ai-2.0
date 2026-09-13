@@ -1,44 +1,56 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Landmark, Plus, Loader2, CheckCircle2, AlertCircle } from 'lucide-react';
+import {
+  Landmark, Plus, Loader2, CheckCircle2, AlertCircle, Wallet, Hourglass,
+  RefreshCw, CircleDollarSign,
+} from 'lucide-react';
 import { ChatAPI } from '../../services/api';
 import { GlassPanel } from '../ui/GlassPanel';
 import { SectionLabel } from '../ui/SectionLabel';
 import { Badge } from '../ui/Badge';
 import { EmptyState } from '../ui/EmptyState';
+import { StatCard } from '../ui/StatCard';
+import type { ProcurementRecord } from '../../types';
 
-interface ProcurementItem {
-  id: string;
-  item: string;
-  cost: number;
-  time: string;
-}
+const currency = (n: number) =>
+  n.toLocaleString(undefined, { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });
 
 export function FinanceView() {
   const [item, setItem] = useState('');
   const [cost, setCost] = useState('');
-  const [items, setItems] = useState<ProcurementItem[]>([]);
+  const [records, setRecords] = useState<ProcurementRecord[]>([]);
+  const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
 
+  const loadLedger = useCallback(async () => {
+    try {
+      const res = await ChatAPI.fetchProcurements();
+      setRecords(res.records || []);
+    } catch {
+      // silent — ledger stays empty; the form still works
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => { void loadLedger(); }, [loadLedger]);
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     const value = Number(cost);
-    if (!item.trim() || !(value > 0)) return;
+    if (!item.trim() || !(value > 0) || submitting) return;
 
     setSubmitting(true);
     setStatus('idle');
     try {
       await ChatAPI.submitProcurement(item.trim(), value);
-      setItems((prev) => [
-        { id: crypto.randomUUID(), item: item.trim(), cost: value, time: new Date().toISOString() },
-        ...prev,
-      ]);
       setItem('');
       setCost('');
       setStatus('success');
-      setMessage('Procurement request submitted to the Finance Engine.');
+      setMessage('Procurement request logged with the Finance Engine.');
+      await loadLedger();
     } catch (err) {
       setStatus('error');
       setMessage(err instanceof Error ? err.message : 'Failed to submit procurement.');
@@ -46,6 +58,11 @@ export function FinanceView() {
       setSubmitting(false);
     }
   };
+
+  const totalRequested = records.reduce((sum, r) => sum + (Number(r.cost) || 0), 0);
+  const pendingCount = records.filter((r) => r.status === 'pending_approval').length;
+  const approvedCount = records.filter((r) => r.status === 'approved').length;
+  const statusOf = (r: ProcurementRecord) => (r.status === 'approved' ? 'Approved' : 'Pending Approval');
 
   return (
     <div className="h-full overflow-y-auto thin-scrollbar px-4 md:px-8 py-6">
@@ -56,9 +73,17 @@ export function FinanceView() {
           </div>
           <div>
             <h2 className="text-xl font-semibold text-white tracking-tight">Finance Engine</h2>
-            <p className="text-[13px] text-zinc-500">Procurement and resource allocation</p>
+            <p className="text-[13px] text-zinc-500">Procurement ledger and resource allocation</p>
           </div>
         </header>
+
+        {/* Budget summary — live from the persistent ledger */}
+        <section className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <StatCard icon={<Wallet className="w-4 h-4" />} label="Total Requested" value={currency(totalRequested)} tone="sky" />
+          <StatCard icon={<CircleDollarSign className="w-4 h-4" />} label="Requests" value={String(records.length)} tone="zinc" animate={records.length} />
+          <StatCard icon={<Hourglass className="w-4 h-4" />} label="Pending Approval" value={String(pendingCount)} tone="zinc" animate={pendingCount} />
+          <StatCard icon={<CheckCircle2 className="w-4 h-4" />} label="Approved" value={String(approvedCount)} tone="emerald" animate={approvedCount} />
+        </section>
 
         <section className="space-y-4">
           <SectionLabel>Procurement Request</SectionLabel>
@@ -113,39 +138,53 @@ export function FinanceView() {
         </section>
 
         <section className="space-y-4">
-          <SectionLabel>Request Log</SectionLabel>
-          {items.length === 0 ? (
+          <div className="flex items-center justify-between">
+            <SectionLabel>Ledger</SectionLabel>
+            <button
+              onClick={() => void loadLedger()}
+              className="p-2 -m-1 rounded-full text-zinc-600 hover:text-white hover:bg-white/[0.08] transition-colors"
+              title="Refresh ledger"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
+            </button>
+          </div>
+
+          {loading && records.length === 0 ? (
+            <div className="flex justify-center py-12 text-sky-300"><Loader2 className="w-6 h-6 animate-spin" /></div>
+          ) : records.length === 0 ? (
             <GlassPanel tone="faint">
               <EmptyState
                 icon={<Landmark className="w-6 h-6" />}
-                title="No requests submitted"
-                description="Submit a procurement request and it will appear here."
+                title="No procurement entries"
+                description="Submit a procurement request and it will be logged here permanently."
               />
             </GlassPanel>
           ) : (
             <div className="space-y-2.5">
-              {items.map((p) => (
-                <motion.div
-                  key={p.id}
-                  initial={{ opacity: 0, y: 8 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <GlassPanel tone="faint" className="p-4 flex items-center justify-between gap-3">
-                    <div className="min-w-0">
-                      <div className="text-sm font-medium text-white truncate">{p.item}</div>
-                      <div className="text-[11px] text-zinc-600 font-mono mt-0.5 tabular break-words">
-                        {new Date(p.time).toLocaleString()}
+              <AnimatePresence initial={false}>
+                {records.map((p, i) => (
+                  <motion.div
+                    key={p.id}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: Math.min(i * 0.04, 0.3) }}
+                  >
+                    <GlassPanel tone="faint" className="p-4 flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <div className="text-sm font-medium text-white truncate">{p.item}</div>
+                        <div className="text-[11px] text-zinc-600 font-mono mt-0.5 tabular break-words">
+                          {new Date(p.time).toLocaleString()}
+                          {p.requested_by && p.requested_by !== 'authenticated_user' ? ` · ${p.requested_by}` : ''}
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0">
-                      <span className="text-[15px] font-semibold text-white tabular">
-                        ${p.cost.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                      </span>
-                      <Badge tone="sky">Submitted</Badge>
-                    </div>
-                  </GlassPanel>
-                </motion.div>
-              ))}
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className="text-[15px] font-semibold text-white tabular">{currency(Number(p.cost))}</span>
+                        <Badge tone={p.status === 'approved' ? 'emerald' : 'amber'}>{statusOf(p)}</Badge>
+                      </div>
+                    </GlassPanel>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           )}
         </section>

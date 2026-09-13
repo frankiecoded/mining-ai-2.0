@@ -68,12 +68,27 @@ export interface Task {
   id: string;
   description: string;
   assignee?: string | null;
+  assigned_to?: string | null;
   status: 'pending' | 'running' | 'completed' | string;
   created_at?: string;
 }
 
 export interface TasksResponse {
   tasks: Task[];
+}
+
+export interface ProcurementRecord {
+  id: string;
+  item: string;
+  cost: number;
+  requested_by?: string;
+  status: 'pending_approval' | 'approved' | string;
+  time: string;
+}
+
+export interface ProcurementsResponse {
+  status: string;
+  records: ProcurementRecord[];
 }
 
 export interface SessionsResponse {

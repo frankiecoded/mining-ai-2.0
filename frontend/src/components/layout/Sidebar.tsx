@@ -1,4 +1,5 @@
 import type { ComponentType } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   MessageSquare,
@@ -14,9 +15,13 @@ import {
   Shield,
   User,
   Users,
+  Bookmark,
+  BookmarkCheck,
+  Loader2,
 } from 'lucide-react';
 import { useSessions } from '../../hooks/useSessions';
 import { useAuth } from '../../contexts/AuthContext';
+import { ChatAPI } from '../../services/api';
 import { StatusDot } from '../ui/StatusDot';
 import { Skeleton } from '../ui/Skeleton';
 import type { ModuleId } from '../../types';
@@ -56,6 +61,24 @@ export function Sidebar({
 }: SidebarProps) {
   const { sessions, loading, refresh } = useSessions(sessionRefreshKey);
   const { user, logout } = useAuth();
+  // Frank-only: manually commit a chosen conversation to the knowledge base.
+  const [savingId, setSavingId] = useState<string | null>(null);
+  const [savedId, setSavedId] = useState<string | null>(null);
+
+  const commitToKnowledge = async (sessionId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (savingId) return;
+    setSavingId(sessionId);
+    try {
+      await ChatAPI.saveSessionToKnowledge(sessionId);
+      setSavedId(sessionId);
+      window.setTimeout(() => setSavedId(null), 2600);
+    } catch {
+      setSavedId(null);
+    } finally {
+      setSavingId(null);
+    }
+  };
 
   return (
     <aside className="w-72 h-full flex flex-col border-r border-white/[0.07] bg-white/[0.02] backdrop-blur-2xl">
@@ -162,7 +185,7 @@ export function Sidebar({
             sessions.map((s) => {
               const selected = activeSessionId === s.id && activeModule === 'chat';
               return (
-                <motion.button
+                <motion.div
                   key={s.id}
                   initial={{ opacity: 0, x: -8 }}
                   animate={{ opacity: 1, x: 0 }}
@@ -170,13 +193,37 @@ export function Sidebar({
                     onSelectModule('chat');
                     onSelectSession(s.id);
                   }}
-                  className={`w-full text-left px-3 py-2.5 rounded-xl transition-colors duration-200 ${
+                  className={`w-full text-left px-3 py-2.5 rounded-xl cursor-pointer transition-colors duration-200 ${
                     selected ? 'bg-white/[0.08]' : 'hover:bg-white/[0.05]'
                   }`}
                 >
-                  <span className={`block text-[13px] truncate ${selected ? 'text-white font-medium' : 'text-zinc-400'}`}>
-                    {s.title}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className={`flex-1 min-w-0 text-[13px] truncate ${selected ? 'text-white font-medium' : 'text-zinc-400'}`}>
+                      {s.title}
+                    </span>
+                    {user?.role === 'admin' && (
+                      <button
+                        type="button"
+                        onClick={(e) => void commitToKnowledge(s.id, e)}
+                        disabled={savingId === s.id}
+                        title="Save this conversation to the knowledge base"
+                        aria-label="Save conversation to knowledge base"
+                        className={`p-1 -mr-1 rounded-md transition-colors shrink-0 ${
+                          savedId === s.id
+                            ? 'text-emerald-400'
+                            : 'text-zinc-600 hover:text-sky-300 hover:bg-white/[0.08]'
+                        }`}
+                      >
+                        {savingId === s.id ? (
+                          <Loader2 className="w-3.5 h-3.5 animate-spin text-sky-300" />
+                        ) : savedId === s.id ? (
+                          <BookmarkCheck className="w-3.5 h-3.5" />
+                        ) : (
+                          <Bookmark className="w-3.5 h-3.5" />
+                        )}
+                      </button>
+                    )}
+                  </div>
                   <span className="flex items-center gap-1.5 mt-0.5">
                     {user?.role === 'admin' && s.owner_display && (
                       <span className="text-[9px] font-semibold uppercase tracking-wide px-1.5 py-0.5 rounded-md bg-sky-500/15 text-sky-300">
@@ -192,7 +239,7 @@ export function Sidebar({
                       })}
                     </span>
                   </span>
-                </motion.button>
+                </motion.div>
               );
             })
           )}
