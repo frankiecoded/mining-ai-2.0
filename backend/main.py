@@ -940,10 +940,21 @@ async def vision_tts(req: VisionTTSRequest, auth: AuthPayload = Depends(verify_j
         raise HTTPException(status_code=501, detail="Neural TTS unavailable on this server.")
     try:
         communicate = edge_tts.Communicate(req.text, req.voice, rate="+6%", pitch="+1Hz")
-        audio = b"".join(
-            c["data"] for c in [x async for x in communicate.stream()]
-            if c.get("type") == "audio" and c.get("data")
-        )
+        audio: bytes = b""
+        for attempt in range(2):
+            try:
+                audio = b"".join(
+                    c["data"] for c in [x async for x in communicate.stream()]
+                    if c.get("type") == "audio" and c.get("data")
+                )
+                break
+            except Exception:
+                if attempt == 0:
+                    await asyncio.sleep(0.4)
+                else:
+                    raise
+    except asyncio.CancelledError:
+        raise
     except Exception as e:
         logger.error(f"TTS synthesis failed: {e}")
         raise HTTPException(status_code=502, detail="TTS synthesis failed.")
