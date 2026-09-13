@@ -2011,7 +2011,22 @@ async def search_knowledge(request: Request, auth: AuthPayload = Depends(verify_
         docs = kb.search_by_category(category, tenant_id=auth.tenant_id)
         results = [{"document": d, "score": 1.0} for d in docs if query.lower() in d.get("filename", "").lower() or query.lower() in d.get("content_text", "").lower()[:500]]
     else:
-        results = kb.search(query, tenant_id=auth.tenant_id)
+        raw = kb.search(query, tenant_id=auth.tenant_id)
+        results = []
+        for r in raw:
+            doc = {
+                "doc_id": r.get("doc_id", ""),
+                "filename": r.get("filename", ""),
+                "stored_filename": r.get("stored_filename", ""),
+                "title": r.get("title", ""),
+                "category": r.get("category", ""),
+                "file_type": r.get("file_type", ""),
+                "content_summary": r.get("snippet", ""),
+                "relevance_score": r.get("relevance_score", 0),
+                "created_at": r.get("created_at", ""),
+                "file_size": r.get("file_size", 0),
+            }
+            results.append({"document": doc, "score": doc["relevance_score"]})
     return {"status": "success", "results": results}
 
 

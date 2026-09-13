@@ -607,11 +607,14 @@ class KnowledgeBase:
                 results.append({
                     "doc_id": doc.doc_id,
                     "filename": doc.original_filename,
+                    "stored_filename": doc.filename,
                     "title": doc.title,
                     "category": doc.category,
                     "file_type": doc.file_type,
                     "relevance_score": round(min(score, 1.0), 4),
                     "snippet": doc.content_summary[:200],
+                    "created_at": doc.created_at,
+                    "file_size": doc.file_size,
                 })
 
         results.sort(key=lambda r: -r["relevance_score"])
@@ -628,9 +631,13 @@ class KnowledgeBase:
                 "filename": d.original_filename,
                 "stored_filename": d.filename,
                 "title": d.title,
+                "description": d.description,
+                "content_summary": d.content_summary,
                 "file_type": d.file_type,
                 "created_at": d.created_at,
                 "file_size": d.file_size,
+                "category": d.category,
+                "word_count": len((d.content_text or "").split()),
             }
             for d in docs
             if d.category.lower() == cat_lower
@@ -684,9 +691,12 @@ class KnowledgeBase:
                 "file_type": d.file_type,
                 "category": d.category,
                 "title": d.title,
+                "description": d.description,
+                "content_summary": d.content_summary,
                 "created_at": d.created_at,
                 "file_size": d.file_size,
                 "indexing_status": d.indexing_status,
+                "word_count": len((d.content_text or "").split()),
             }
             for d in docs
         ]

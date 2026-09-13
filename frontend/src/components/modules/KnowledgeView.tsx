@@ -467,10 +467,19 @@ function SatelliteTab() {
     B11: 'SWIR 1 (1610nm)', B12: 'SWIR 2 (1930nm)',
   };
 
-  const spectralResults = results && typeof results === 'object' ? (results as Record<string, unknown>).spectral_assessment as Record<string, unknown> | undefined : undefined;
-  const terrainResults = results && typeof results === 'object' ? (results as Record<string, unknown>).terrain_analysis as Record<string, unknown> | undefined : undefined;
-  const featureResults = results && typeof results === 'object' ? (results as Record<string, unknown>).feature_extraction as Record<string, unknown> | undefined : undefined;
-  const annotationsResults = results && typeof results === 'object' ? (results as Record<string, unknown>).annotations as Record<string, unknown> | undefined : undefined;
+  const r = results && typeof results === 'object' ? (results as Record<string, unknown>) : undefined;
+  const pickSection = (keys: string[]): Record<string, unknown> | undefined => {
+    for (const k of keys) {
+      const v = r?.[k];
+      if (v && typeof v === 'object') return v as Record<string, unknown>;
+    }
+    return undefined;
+  };
+  const spectralResults = pickSection(['spectral', 'spectral_assessment']);
+  const terrainResults = pickSection(['terrain', 'terrain_analysis']);
+  const featureResults = pickSection(['features', 'feature_extraction']);
+  const annotationsResults = pickSection(['annotations']);
+  const reportText = r?.report as string | Record<string, unknown> | undefined;
 
   return (
     <div className="space-y-6">
@@ -613,6 +622,17 @@ function SatelliteTab() {
             </motion.div>
           )}
 
+          {reportText && (
+            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="glass rounded-2xl p-5 space-y-3">
+              <div className="flex items-center gap-2 text-sm font-semibold text-white">
+                <Sparkles className="w-4 h-4 text-amber-400" />Exploration Report
+              </div>
+              <pre className="glass-faint rounded-xl p-4 text-[12px] text-zinc-300 overflow-x-auto font-sans whitespace-pre-wrap max-h-96 overflow-y-auto thin-scrollbar leading-relaxed">
+                {typeof reportText === 'string' ? reportText : JSON.stringify(reportText, null, 2)}
+              </pre>
+            </motion.div>
+          )}
+
           {annotationsResults && (
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="glass rounded-2xl p-5 space-y-3">
               <div className="flex items-center gap-2 text-sm font-semibold text-white">
@@ -704,6 +724,50 @@ function ReaderTab({
     } finally {
       setLoading(false);
     }
+  };
+
+  const exportSummary = (doc: KnowledgeDocument, res: DocumentReadResult) => {
+    const lines: string[] = [];
+    lines.push(`# ${res.filename || doc.filename || 'Document Summary'}`);
+    lines.push('');
+    lines.push(`- Category: ${doc.category || 'Other'}`);
+    lines.push(`- Type: ${res.file_type || doc.file_type || 'unknown'}`);
+    lines.push(`- Words: ${res.word_count?.toLocaleString() ?? 0} | Pages: ${res.page_count || '—'} | Mining relevance: ${(res.mining_relevance * 100).toFixed(0)}%`);
+    lines.push(`- Uploaded: ${doc.created_at ? new Date(doc.created_at).toDateString() : '—'}`);
+    lines.push('');
+    if (res.summary) { lines.push('## Summary'); lines.push(res.summary); lines.push(''); }
+    if (res.key_findings?.length) {
+      lines.push('## Key Findings');
+      res.key_findings.forEach((f, i) => lines.push(`${i + 1}. ${f}`));
+      lines.push('');
+    }
+    if (res.entities) {
+      const hasEntities = Object.values(res.entities).some((arr) => arr.length > 0);
+      if (hasEntities) {
+        lines.push('## Extracted Entities');
+        if (res.entities.minerals?.length) lines.push(`- Minerals: ${res.entities.minerals.join(', ')}`);
+        if (res.entities.equipment?.length) lines.push(`- Equipment: ${res.entities.equipment.join(', ')}`);
+        if (res.entities.locations?.length) lines.push(`- Locations: ${res.entities.locations.join(', ')}`);
+        if (res.entities.chemicals?.length) lines.push(`- Chemicals: ${res.entities.chemicals.join(', ')}`);
+        if (res.entities.processes?.length) lines.push(`- Processes: ${res.entities.processes.join(', ')}`);
+        lines.push('');
+      }
+    }
+    if (res.key_terms?.length) { lines.push('## Key Terms'); lines.push(res.key_terms.join(', ')); lines.push(''); }
+    if (res.sections?.length) {
+      lines.push('## Sections');
+      res.sections.forEach((s) => lines.push(`${'#'.repeat(Math.max(1, s.level || 2))} ${s.heading}\n${s.content}`));
+      lines.push('');
+    }
+    const blob = new Blob([lines.join('\n')], { type: 'text/markdown;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${(doc.filename || 'document').replace(/[\\/:*?"<>|]+/g, '_')}_summary.md`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 200);
   };
 
   useEffect(() => {
@@ -995,7 +1059,10 @@ function ReaderTab({
               >
                 <Sparkles className="w-4 h-4" />Deep Understand
               </button>
-              <button className="w-full glass-faint rounded-xl py-2.5 text-sm font-medium text-zinc-300 flex items-center justify-center gap-2 hover:text-white transition-colors">
+              <button
+                onClick={() => { if (activeDoc && readResult) exportSummary(activeDoc, readResult); }}
+                className="w-full glass-faint rounded-xl py-2.5 text-sm font-medium text-zinc-300 flex items-center justify-center gap-2 hover:text-white transition-colors"
+              >
                 <Download className="w-4 h-4" />Export Summary
               </button>
             </motion.div>
