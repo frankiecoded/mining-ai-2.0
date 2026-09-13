@@ -468,11 +468,13 @@ def create_task(req: TaskRequest):
 def list_tasks():
     return {"tasks": postgres_client.list_tasks()}
 
+@app.post("/api/procurement", tags=["Task Management"], dependencies=[Depends(verify_api_key), Depends(check_rate_limit)])
 @app.post("/procurement", tags=["Management"], dependencies=[Depends(verify_api_key), Depends(check_rate_limit)])
 def create_procurement(req: ProcurementRequest):
     return finance_engine.submit_procurement_request("authenticated_user", req.item, req.cost)
 
 
+@app.get("/api/procurement", tags=["Task Management"], dependencies=[Depends(verify_api_key)])
 @app.get("/procurement", tags=["Management"], dependencies=[Depends(verify_api_key)])
 def list_procurement_requests():
     """Persistent procurement ledger — real records submitted through the Finance Engine."""

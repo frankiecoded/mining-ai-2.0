@@ -195,7 +195,7 @@ class ChatAPI {
   }
 
   static submitProcurement(item: string, cost: number): Promise<Record<string, unknown>> {
-    return this.request<Record<string, unknown>>('/procurement', {
+    return this.request<Record<string, unknown>>('/api/procurement', {
       method: 'POST',
       headers: this.getHeaders(),
       body: JSON.stringify({ item, cost }),
@@ -203,7 +203,7 @@ class ChatAPI {
   }
 
   static fetchProcurements(): Promise<ProcurementsResponse> {
-    return this.request<ProcurementsResponse>('/procurement', { headers: this.getHeaders() });
+    return this.request<ProcurementsResponse>('/api/procurement', { headers: this.getHeaders() });
   }
 
   static saveSessionToKnowledge(sessionId: string): Promise<{
