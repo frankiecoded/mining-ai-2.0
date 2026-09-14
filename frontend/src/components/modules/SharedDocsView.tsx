@@ -87,8 +87,8 @@ export function SharedDocsView() {
       setUploadOk(true);
       window.setTimeout(() => setUploadOk(false), 2400);
       await load();
-    } catch {
-      setError('Upload failed.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Upload failed.');
     } finally {
       setUploading(false);
     }

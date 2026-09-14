@@ -57,6 +57,12 @@ class Settings(BaseSettings):
     STORAGE_LOCAL_DIR: str = Field(default="", description="Local storage directory (auto-detected if empty)")
     UPLOAD_DIR: str = Field(default="data/uploads", description="Directory for uploaded files (relative to project root)")
 
+    # --- Cloudflare R2 (large shared-document uploads) ---
+    R2_ACCOUNT_ID: str = Field(default="", description="Cloudflare R2 account id (prefix of the r2.cloudflarestorage.com endpoint)")
+    R2_ACCESS_KEY_ID: str = Field(default="", description="Cloudflare R2 Access Key ID (scoped to the uploads bucket, object read & write)")
+    R2_SECRET_ACCESS_KEY: str = Field(default="", description="Cloudflare R2 Secret Access Key")
+    R2_BUCKET_NAME: str = Field(default="ophirbot-uploads", description="R2 bucket used for shared document uploads")
+
     # --- Finance/Mining Thresholds ---
     CURRENCY_SYMBOL: str = "$"
     CURRENCY_CODE: str = "USD"

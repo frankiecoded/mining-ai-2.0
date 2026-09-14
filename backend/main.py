@@ -11,7 +11,7 @@ from typing import Dict, Any, Iterator, List, Optional
 from collections import defaultdict
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, HTTPException, Depends, UploadFile, File, Form
-from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Response
+from fastapi.responses import JSONResponse, FileResponse, StreamingResponse, Response, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -1012,9 +1012,163 @@ def _mime_for(name: str, fallback: str = "application/octet-stream") -> str:
         return "text/plain"
     if low.endswith(".docx"):
         return "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-    if low.endswith(".xlsx"):
-        return "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    if low.endswith((".doc", ".odt")):
+        return "application/msword" if low.endswith(".doc") else "application/vnd.oasis.opendocument.text"
+    if low.endswith((".xlsx", ".xls", ".ods", ".csv")):
+        return {
+            ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            ".xls": "application/vnd.ms-excel",
+            ".ods": "application/vnd.oasis.opendocument.spreadsheet",
+            ".csv": "text/csv",
+        }[low.rsplit(".", 1)[-1].lower()]
+    if low.endswith(".pptx"):
+        return "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+    if low.endswith((".ppt", ".odp")):
+        return "application/vnd.ms-powerpoint" if low.endswith(".ppt") else "application/vnd.oasis.opendocument.presentation"
+    if low.endswith(".zip"):
+        return "application/zip"
+    if low.endswith((".tar", ".gz", ".tgz")):
+        return "application/gzip"
     return fallback
+
+
+# --- Cloudflare R2 object storage (large shared-document uploads) ---
+
+_R2_CLIENT = None
+
+
+def _r2_endpoint() -> str:
+    return f"https://{settings.R2_ACCOUNT_ID}.r2.cloudflarestorage.com" if settings.R2_ACCOUNT_ID else ""
+
+
+def r2_client() -> Optional[Any]:
+    """Lazy boto3 S3 client for Cloudflare R2, or None when not configured."""
+    global _R2_CLIENT
+    if _R2_CLIENT is not None:
+        return _R2_CLIENT
+    if not (settings.R2_ACCOUNT_ID and settings.R2_ACCESS_KEY_ID and settings.R2_SECRET_ACCESS_KEY):
+        logger.warning("R2 object storage is not configured (need R2_ACCOUNT_ID, R2_ACCESS_KEY_ID, R2_SECRET_ACCESS_KEY).")
+        return None
+    import boto3
+    from botocore.client import Config
+    _R2_CLIENT = boto3.client(
+        "s3",
+        endpoint_url=_r2_endpoint(),
+        aws_access_key_id=settings.R2_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.R2_SECRET_ACCESS_KEY,
+        config=Config(signature_version="s3v4"),
+        region_name="auto",
+    )
+    logger.info("Connected to Cloudflare R2 object storage.")
+    return _R2_CLIENT
+
+
+def _stored_key(stored_filename: str) -> Optional[str]:
+    """Return the R2 object key for an r2:// stored_filename, else None (local file)."""
+    if stored_filename.startswith("r2://"):
+        return stored_filename[len("r2://"):]
+    return None
+
+
+def _shared_doc_bytes(row: dict) -> bytes:
+    """Read a shared document's bytes from R2 (r2:// key) or from local disk."""
+    key = _stored_key(row.get("stored_filename", ""))
+    if key:
+        client = r2_client()
+        if not client:
+            raise HTTPException(status_code=503, detail="Object storage is not configured.")
+        try:
+            return client.get_object(Bucket=settings.R2_BUCKET_NAME, Key=key)["Body"].read()
+        except Exception as e:
+            logger.error(f"R2 get_object failed for {key}: {e}")
+            raise HTTPException(status_code=502, detail="Could not read the stored file.")
+    path = _shared_docs_dir() / row.get("stored_filename", "")
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Stored file is missing.")
+    return path.read_bytes()
+
+
+class SharedDocPresignRequest(BaseModel):
+    filename: str = Field(..., min_length=1, max_length=255)
+    size_bytes: int = Field(..., gt=0, lt=300 * 1024 * 1024)
+    note: str = Field(default="", max_length=500)
+
+
+class SharedDocConfirmRequest(BaseModel):
+    key: str = Field(..., min_length=1, max_length=512)
+    size_bytes: int = Field(..., gt=0, lt=300 * 1024 * 1024)
+    note: str = Field(default="", max_length=500)
+
+
+@app.post("/api/shared-docs/presign", tags=["Documents"])
+def presign_shared_document(body: SharedDocPresignRequest, auth: AuthPayload = Depends(verify_jwt)):
+    """Issue a short-lived presigned PUT so the browser uploads large files directly to R2."""
+    client = r2_client()
+    if not client:
+        raise HTTPException(status_code=503, detail="Object storage is not configured yet.")
+    filename = body.filename.strip()
+    if not filename or "\\" in filename or "/" in filename:
+        raise HTTPException(status_code=400, detail="Invalid filename.")
+    content_type = _mime_for(filename)
+    key = f"shared/{uuid.uuid4().hex[:12]}_{filename}"
+    try:
+        upload_url = client.generate_presigned_url(
+            "put_object",
+            Params={"Bucket": settings.R2_BUCKET_NAME, "Key": key, "ContentType": content_type},
+            ExpiresIn=15 * 60,
+        )
+    except Exception as e:
+        logger.error(f"Failed to presign R2 upload for {key}: {e}")
+        raise HTTPException(status_code=502, detail="Could not prepare the upload.")
+    return {
+        "status": "success",
+        "id": key,
+        "key": key,
+        "upload_url": upload_url,
+        "content_type": content_type,
+        "expires_in": 900,
+    }
+
+
+@app.post("/api/shared-docs/confirm", tags=["Documents"])
+def confirm_shared_document(body: SharedDocConfirmRequest, auth: AuthPayload = Depends(verify_jwt)):
+    """Verify the object landed in R2, then record it in Frank's shared-doc inbox."""
+    client = r2_client()
+    if not client:
+        raise HTTPException(status_code=503, detail="Object storage is not configured yet.")
+    key = body.key
+    if not key.startswith("shared/") or "\\" in key or ".." in key:
+        raise HTTPException(status_code=400, detail="Invalid object key.")
+    try:
+        head = client.head_object(Bucket=settings.R2_BUCKET_NAME, Key=key)
+    except Exception as e:
+        logger.warning(f"R2 head_object failed for {key}: {e}")
+        raise HTTPException(status_code=404, detail="Uploaded file was not found in storage.")
+    if int(head.get("ContentLength", -1)) != body.size_bytes:
+        raise HTTPException(status_code=400, detail="Uploaded file size does not match.")
+    filename = key.split("_", 1)[1] if "_" in key else key
+    low = filename.lower()
+    ftype = "pdf" if low.endswith(".pdf") else (
+        "image" if low.rsplit(".", 1)[-1] in ("png", "jpg", "jpeg", "gif", "webp", "bmp") else (
+        "sheet" if low.endswith((".xls", ".xlsx", ".csv")) else (
+        "text" if low.endswith((".txt", ".md")) else "other")))
+    sharer = USERS.get(auth.username)
+    sharer_name = sharer.display_name if sharer else auth.username
+    doc_db_id = postgres_client.create_shared_document(
+        original_filename=filename,
+        stored_filename=f"r2://{key}",
+        file_type=ftype,
+        mime_type=head.get("ContentType") or _mime_for(filename),
+        size_bytes=int(head.get("ContentLength", body.size_bytes)),
+        sharer_username=auth.username,
+        sharer_display=sharer_name,
+        tenant_id=auth.tenant_id,
+        note=(body.note or "").strip()[:500],
+    )
+    if doc_db_id < 0:
+        raise HTTPException(status_code=500, detail="Could not record the shared document.")
+    logger.info(f"Shared doc confirmed (R2): {filename} by {auth.username} (id={doc_db_id})")
+    return {"status": "success", "id": doc_db_id, "filename": filename, "shared_at": None}
 
 
 @app.post("/api/shared-docs/upload", tags=["Documents"])
@@ -1089,11 +1243,7 @@ def commit_shared_document(doc_db_id: int, auth: AuthPayload = Depends(verify_jw
         return {"status": "already_committed", "id": doc_db_id, "doc_id": row.get("doc_id", "")}
 
     stored = row.get("stored_filename", "")
-    path = _shared_docs_dir() / stored
-    if not path.exists():
-        raise HTTPException(status_code=404, detail="Stored file is missing.")
-
-    raw = path.read_bytes()
+    raw = _shared_doc_bytes(row)
     filename = row.get("original_filename", stored)
 
     # Real content: OCR images, extract text elsewhere. Never fabricated.
@@ -1137,7 +1287,7 @@ def commit_shared_document(doc_db_id: int, auth: AuthPayload = Depends(verify_jw
         chunk_count = index_documents_to_vector_db(vector_client, docs_to_index, collection_name=f"company_knowledge_{auth.tenant_id}")
         try:
             kb = get_knowledge_base()
-            kb_doc = kb.add_document(str(path), filename, {
+            kb_doc = kb.add_document(stored, filename, {
                 "source": "shared_by_team",
                 "mime_type": row.get("mime_type", "application/octet-stream"),
                 "tenant_id": auth.tenant_id,
@@ -1184,10 +1334,19 @@ def delete_shared_document(doc_db_id: int, auth: AuthPayload = Depends(verify_jw
     if row.get("status") == "committed":
         raise HTTPException(status_code=400, detail="Committed documents stay in the knowledge base.")
     stored = row.get("stored_filename", "")
-    try:
-        (Path(_shared_docs_dir()) / stored).unlink(missing_ok=True)
-    except Exception:
-        pass
+    key = _stored_key(stored)
+    if key:
+        client = r2_client()
+        if client:
+            try:
+                client.delete_object(Bucket=settings.R2_BUCKET_NAME, Key=key)
+            except Exception as e:
+                logger.warning(f"Failed to delete R2 object {key}: {e}")
+    else:
+        try:
+            (Path(_shared_docs_dir()) / stored).unlink(missing_ok=True)
+        except Exception:
+            pass
     postgres_client.delete_shared_document(doc_db_id)
     return {"status": "success", "id": doc_db_id}
 
@@ -1199,6 +1358,21 @@ def preview_shared_document(doc_db_id: int, auth: AuthPayload = Depends(verify_j
         raise HTTPException(status_code=404, detail="Shared document not found.")
     if auth.role != "admin" and row.get("tenant_id") != auth.tenant_id:
         raise HTTPException(status_code=403, detail="Preview not allowed for this document.")
+    key = _stored_key(row.get("stored_filename", ""))
+    if key:
+        client = r2_client()
+        if not client:
+            raise HTTPException(status_code=503, detail="Object storage is not configured.")
+        try:
+            url = client.generate_presigned_url(
+                "get_object",
+                Params={"Bucket": settings.R2_BUCKET_NAME, "Key": key},
+                ExpiresIn=60 * 60,
+            )
+        except Exception as e:
+            logger.error(f"Failed to presign R2 download for {key}: {e}")
+            raise HTTPException(status_code=502, detail="Could not prepare the preview.")
+        return RedirectResponse(url=url, status_code=307, headers={"Cache-Control": "no-store"})
     path = _shared_docs_dir() / row.get("stored_filename", "")
     if not path.exists():
         raise HTTPException(status_code=404, detail="Stored file is missing.")

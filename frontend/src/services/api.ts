@@ -497,15 +497,47 @@ class ChatAPI {
   }
 
   // ─── Shared Document Inbox (team → Frank) ───
-  static uploadSharedDocument(file: File, note = ''): Promise<{ status: string; id: number; filename: string }> {
-    const formData = new FormData();
-    formData.append('file', file);
-    if (note) formData.append('note', note);
-    return this.request('/api/shared-docs/upload', {
-      method: 'POST',
-      headers: this.getHeaders(false),
-      body: formData,
-    });
+  static async uploadSharedDocument(file: File, note = ''): Promise<{ status: string; id: number; filename: string }> {
+    const noteTrim = note.trim();
+    try {
+      const presign = await this.request<{
+        status: string;
+        key: string;
+        upload_url: string;
+        content_type: string;
+        expires_in: number;
+      }>('/api/shared-docs/presign', {
+        method: 'POST',
+        headers: this.getHeaders(),
+        body: JSON.stringify({ filename: file.name, size_bytes: file.size, note: noteTrim }),
+      });
+      const putRes = await fetch(presign.upload_url, {
+        method: 'PUT',
+        headers: { 'Content-Type': presign.content_type },
+        body: file,
+      });
+      if (!putRes.ok) {
+        throw new Error(`Storage upload failed (${putRes.status})`);
+      }
+      return this.request<{ status: string; id: number; filename: string }>('/api/shared-docs/confirm', {
+        method: 'POST',
+        headers: this.getHeaders(),
+        body: JSON.stringify({ key: presign.key, size_bytes: file.size, note: noteTrim }),
+      });
+    } catch (err) {
+      // Object storage not configured yet — fall back to the direct multipart upload.
+      if (err instanceof Error && /object storage is not configured/i.test(err.message)) {
+        const formData = new FormData();
+        formData.append('file', file);
+        if (noteTrim) formData.append('note', noteTrim);
+        return this.request('/api/shared-docs/upload', {
+          method: 'POST',
+          headers: this.getHeaders(false),
+          body: formData,
+        });
+      }
+      throw err;
+    }
   }
 
   static fetchSharedDocuments(): Promise<SharedDocsResponse> {
