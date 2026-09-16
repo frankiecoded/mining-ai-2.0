@@ -1006,7 +1006,16 @@ def _mime_for(name: str, fallback: str = "application/octet-stream") -> str:
     low = name.lower()
     if low.endswith(".pdf"):
         return "application/pdf"
-    if low.endswith((".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".tif", ".tiff")):
+    if low.endswith((".png", ".jpg", ".jpeg", ".gif", ".webp", ".bmp", ".tif", ".tiff",
+                     ".heic", ".heif", ".avif", ".jfif", ".svg")):
+        if low.endswith(".svg"):
+            return "image/svg+xml"
+        if low.endswith(".heic"):
+            return "image/heic"
+        if low.endswith(".heif"):
+            return "image/heif"
+        if low.endswith(".avif"):
+            return "image/avif"
         return "image/" + low.rsplit(".", 1)[-1]
     if low.endswith(".txt") or low.endswith(".md"):
         return "text/plain"
@@ -1016,10 +1025,10 @@ def _mime_for(name: str, fallback: str = "application/octet-stream") -> str:
         return "application/msword" if low.endswith(".doc") else "application/vnd.oasis.opendocument.text"
     if low.endswith((".xlsx", ".xls", ".ods", ".csv")):
         return {
-            ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            ".xls": "application/vnd.ms-excel",
-            ".ods": "application/vnd.oasis.opendocument.spreadsheet",
-            ".csv": "text/csv",
+            "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "xls": "application/vnd.ms-excel",
+            "ods": "application/vnd.oasis.opendocument.spreadsheet",
+            "csv": "text/csv",
         }[low.rsplit(".", 1)[-1].lower()]
     if low.endswith(".pptx"):
         return "application/vnd.openxmlformats-officedocument.presentationml.presentation"
@@ -1149,7 +1158,7 @@ def confirm_shared_document(body: SharedDocConfirmRequest, auth: AuthPayload = D
     filename = key.split("_", 1)[1] if "_" in key else key
     low = filename.lower()
     ftype = "pdf" if low.endswith(".pdf") else (
-        "image" if low.rsplit(".", 1)[-1] in ("png", "jpg", "jpeg", "gif", "webp", "bmp") else (
+        "image" if low.rsplit(".", 1)[-1] in ("png", "jpg", "jpeg", "gif", "webp", "bmp", "heic", "heif", "avif", "tif", "tiff") else (
         "sheet" if low.endswith((".xls", ".xlsx", ".csv")) else (
         "text" if low.endswith((".txt", ".md")) else "other")))
     sharer = USERS.get(auth.username)
@@ -1192,7 +1201,7 @@ async def upload_shared_document(
 
     low = filename.lower()
     ftype = "pdf" if low.endswith(".pdf") else (
-        "image" if low.rsplit(".", 1)[-1] in ("png", "jpg", "jpeg", "gif", "webp", "bmp") else (
+        "image" if low.rsplit(".", 1)[-1] in ("png", "jpg", "jpeg", "gif", "webp", "bmp", "heic", "heif", "avif", "tif", "tiff") else (
         "sheet" if low.endswith((".xls", ".xlsx", ".csv")) else (
         "text" if low.endswith((".txt", ".md")) else "other")))
     sharer = USERS.get(auth.username)
